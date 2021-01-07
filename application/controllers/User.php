@@ -10,13 +10,13 @@ class User extends CI_Controller {
 	
 	public function login(){
 		$this->load->helper(array('form', 'url'));
-		$this->load->library('form_validation');
+		/*$this->load->library('form_validation');
 		if ($this->form_validation->run() == FALSE){
 			$this->load->view('common/header');
 			$this->load->view('login');
 			$this->load->view('common/footer');
 		}else{
 			echo 'Success';
-		}
+		}*/
 	}
 }
