@@ -1,0 +1,88 @@
+/*********************************************************************************/
+/* Full Page                                                                     */
+/*********************************************************************************/
+body {
+    margin: 0px;
+    padding: 0px;
+    background: #f3f2ed;
+    font-family: 'Lato', sans-serif;
+    font-size: 12pt;
+    font-weight: 300;
+    color: #8A8A8A;
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+}
+
+/*********************************************************************************/
+/* Header                                                                        */
+/*********************************************************************************/
+#header {
+    position: relative;
+    text-align: center;
+	display: flex;
+}
+
+#logo {
+    margin-bottom: 3em;
+}
+
+#logo h1 a {
+    display: block;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 1.2em;
+    font-weight: 900;
+    color: #323338;
+}
+
+#logo span {
+    display: block;
+    padding-top: 0em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 0.5em;
+    color: #8e8588;
+}
+
+#nav > ul > li {
+    display: inline-block;
+}
+
+#nav > ul > li > a, #nav > ul > li > span {
+    display: block;
+    padding: 1em 1.5em;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 200;
+    font-size: 1em;
+    outline: 0;
+    color: #323338;
+}
+
+#nav li.active a, #nav > ul > li > a:hover, #nav > ul > li > span:hover {
+    background: #323338;
+    border-radius: 4px;
+    color: #FFF;
+}
+
+/*********************************************************************************/
+/* Footer                                                                        */
+/*********************************************************************************/
+#copyright .container {
+    padding: 3em 0em;
+    border-top: 1px solid;
+    border-color: rgba(0,0,0,.1);
+}
+
+/*********************************************************************************/
+/* Page specific                                                                        */
+/*********************************************************************************/
+.login-page {
+    padding: 5em 0em;
+}
