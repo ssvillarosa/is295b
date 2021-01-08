@@ -1,5 +1,5 @@
 /*********************************************************************************/
-/* Full Page                                                                     */
+/* All Page                                                                     */
 /*********************************************************************************/
 body {
     margin: 0px;
@@ -17,6 +17,28 @@ body {
     max-width: 1200px;
 }
 
+.blue-button {
+    position: relative;
+    display: inline-block;
+    padding: .5em 1em;
+    background: #0d447d;
+    border-radius: 4px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    color: #FFF;
+    -moz-transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
+    -webkit-transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
+    -o-transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
+    -ms-transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
+    transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: #FFF;
+}
+
 /*********************************************************************************/
 /* Header                                                                        */
 /*********************************************************************************/
@@ -27,7 +49,7 @@ body {
 }
 
 #logo {
-    margin-bottom: 3em;
+    margin-bottom: 1em;
 }
 
 #logo h1 a {
@@ -62,27 +84,56 @@ body {
     font-weight: 200;
     font-size: 1em;
     outline: 0;
-    color: #323338;
+    color: #1d83f5;
 }
 
-#nav li.active a, #nav > ul > li > a:hover, #nav > ul > li > span:hover {
-    background: #323338;
+#nav li.active a{
     border-radius: 4px;
     color: #FFF;
+    background: #0d447d;
 }
+
+ #nav > ul > li.active > a:hover, #nav > ul > li.active > span:hover {
+    border-radius: 4px;
+    color: #FFF;
+    background: #e93232;
+ }
+ 
+ #nav > ul > li > a:hover, #nav > ul > li > span:hover {
+    border-radius: 4px;
+    color: #FFF;
+    background: #0d447d;
+ }
 
 /*********************************************************************************/
 /* Footer                                                                        */
 /*********************************************************************************/
-#copyright .container {
+#footer .container {
     padding: 3em 0em;
     border-top: 1px solid;
     border-color: rgba(0,0,0,.1);
+    margin-top: 1rem;
 }
 
 /*********************************************************************************/
-/* Page specific                                                                        */
+/* Page specific                                                                 */
 /*********************************************************************************/
-.login-page {
-    padding: 5em 0em;
-}
+
+    /* Login page */
+    .login-page {
+        padding: 5em 0em;
+    }
+    /* Userlist page */
+    .table_toolbar {
+        background: #0d447d;
+        padding: 0.4em;
+        border-radius: 4px 4px 0px 0px;
+    }
+    .table_toolbar > a.btn {
+        padding: .3rem .5rem;
+    }
+    .user-table{
+        border: 1px solid #ccc;
+        border-radius: 0px 0px 4px 4px;
+        min-height: 300px;
+    }
