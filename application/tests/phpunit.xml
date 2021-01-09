@@ -4,6 +4,8 @@
 	colors="true">
 	<testsuites>
 		<testsuite name="CodeIgniter Application Test Suite">
+			<!--<directory suffix="_test.php">./</directory>-->
+			<!--Uncomment below to use seeded testing-->
 			<directory suffix="test.php">./</directory>
 			<exclude>./_ci_phpunit_test/</exclude>
 		</testsuite>

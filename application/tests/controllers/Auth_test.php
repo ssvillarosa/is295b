@@ -1,19 +1,11 @@
 <?php
-/**
- * Part of ci-phpunit-test
- *
- * @author     Kenji Suzuki <https://github.com/kenjis>
- * @license    MIT License
- * @copyright  2015 Kenji Suzuki
- * @link       https://github.com/kenjis/ci-phpunit-test
- */
 
-class Welcome_test extends TestCase
+class Auth_test extends TestCase
 {
 	public function test_index()
 	{
-		$output = $this->request('GET', 'welcome/index');
-		$this->assertContains('<title>Welcome to CodeIgniter</title>', $output);
+		$output = $this->request('GET', 'auth/login');
+		//$this->assertContains('<title>Welcome to CodeIgniter</title>', $output);
 	}
 
 	public function test_method_404()
