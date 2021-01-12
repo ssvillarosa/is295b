@@ -6,11 +6,17 @@ Class UserModel extends CI_Model{
         $this->load->database();
     }
     
-    public function login($username,$password){
+    public function getUserByCred($username,$password){
         $this->db->where("username", $username);
         $this->db->where("password", $password);
-        $query = $this->db->get("users");
-        return $query->row_array();
+        $query = $this->db->get("user");
+        return $query->row();
+    }
+    
+    public function getUserByUsername($username){
+        $this->db->where("username", $username);
+        $query = $this->db->get("user");
+        return $query->row();
     }
     
     public function getUsers($limit=100,$offset=0){
@@ -21,7 +27,7 @@ Class UserModel extends CI_Model{
     public function getUser($userId){
         $this->db->where("id", $userId);
         $query = $this->db->get("user");
-        return $query->row_array();
+        return $query->row();
     }
 }
 
