@@ -89,3 +89,5 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 define('USER_STATUS_ACTIVE',0);
 define('USER_STATUS_BLOCKED',1);
 define('USER_STATUS_DELETED',2);
+
+define('MAX_LOGIN_ATTEMPT',5);
