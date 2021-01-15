@@ -23,16 +23,39 @@ class Auth extends CI_Controller {
     * Initializes the login page and validates username and password.
     */
     public function login(){
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|max_length[50]');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('username', 'Username',
+                'trim|required|max_length[50]');
+        $this->form_validation->set_rules('password', 'Password',
+                'trim|required|max_length[50]');
         if ($this->form_validation->run() == FALSE){
             $this->displayLoginForm();
         }else{
             $username = $this->input->post('username');
             $password = $this->input->post('password');
             if(!$this->isLoginValid($username,$password)) return;
+            $loginReferrer = $this->input->post('referrer');
+            if($loginReferrer){
+                redirect($loginReferrer);
+                return;              
+            }
             redirect('user/userList');
         }
+    }
+    
+    /**
+    * Destroys session and redirects user to login page.
+    */
+    public function logout(){
+        $sessionData = array(
+            SESS_USER_ID,
+            SESS_USERNAME,
+            SESS_USER_ROLE,
+            SESS_USER_EMAIL,
+            SESS_USER_FULL_NAME,
+            SESS_IS_LOGGED_IN
+        );
+        $this->session->unset_userdata($sessionData);
+        redirect('auth/login');
     }
     
     /**
@@ -69,16 +92,35 @@ class Auth extends CI_Controller {
                 return false;
             }
             $rem_attemp = MAX_LOGIN_ATTEMPT - $user->failed_login - 1;
-            $this->displayLoginForm("Invalid username/password.<br/> $rem_attemp Remaining attempt/s.");
+            $this->displayLoginForm("Invalid username/password.<br/> $rem_attemp"
+                    . " Remaining attempt/s.");
             return false;
         }
         // Log user successful login.
         $this->ActivityModel->saveUserActivity($user2->id,"Login Success");
         // Reset invalid login attempt.
         $this->UserModel->resetLoginFailed($user->id);
-        // Create session
-        
+        // Create user session
+        $this->createSession($user);
         return true;
+    }
+    
+     /**
+    * Creates user session.
+    *
+    * @param    string  $user   User object.
+    */
+    private function createSession($user){
+        $sessionData = array(
+            SESS_USER_ID        => $user->id,
+            SESS_USERNAME       => $user->username,
+            SESS_USER_ROLE      => $user->role,
+            SESS_USER_EMAIL     => $user->email,
+            SESS_USER_FULL_NAME => $user->name,
+            SESS_IS_LOGGED_IN   => TRUE
+        );
+        $this->session->set_userdata($sessionData);
+        // TODO: Store session ID in cookie to resume later.
     }
     
     /**
@@ -88,11 +130,15 @@ class Auth extends CI_Controller {
     */
     private function displayLoginForm($error_message=NULL){
         $this->load->view('common/header');
+        $referrer = $this->input->get_post('referrer');
+        $data = array();
         if($error_message){
-            $this->load->view('login',array('error_message'=>$error_message));
-        }else{
-            $this->load->view('login');            
+            $data["error_message"]=$error_message;
         }
+        if($referrer){
+            $data["login_referrer"]=$referrer;
+        }
+        $this->load->view('login',$data);
         $this->load->view('common/footer');
     }
 }

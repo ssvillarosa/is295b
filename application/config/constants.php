@@ -91,3 +91,10 @@ define('USER_STATUS_BLOCKED',1);
 define('USER_STATUS_DELETED',2);
 
 define('MAX_LOGIN_ATTEMPT',5);
+
+define('SESS_USER_ID','user_id');
+define('SESS_USERNAME','username');
+define('SESS_USER_ROLE','user_role');
+define('SESS_USER_EMAIL','user_email');
+define('SESS_USER_FULL_NAME','user_full_name');
+define('SESS_IS_LOGGED_IN','is_logged_in');

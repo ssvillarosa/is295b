@@ -19,7 +19,10 @@
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" maxLength="50" required>
                             <?php echo form_error('password'); ?>
-                        </div>
+                        </div>                    
+                        <?php if(isset($login_referrer)): ?>
+                            <input type="hidden" id="referrer" name="referrer" value="<?php echo $login_referrer; ?>">
+                        <?php endif; ?>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary">Login</button>
                         </div>
