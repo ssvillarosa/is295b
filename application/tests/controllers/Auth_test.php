@@ -2,10 +2,10 @@
 
 class Auth_test extends TestCase
 {
-	public function test_index()
+	public function test_login()
 	{
 		$output = $this->request('GET', 'auth/login');
-		//$this->assertContains('<title>Welcome to CodeIgniter</title>', $output);
+//		$this->assertContains('<title>Welcome to CodeIgniter</title>', $output);
 	}
 
 	public function test_method_404()

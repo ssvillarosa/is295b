@@ -90,6 +90,9 @@ define('USER_STATUS_ACTIVE',0);
 define('USER_STATUS_BLOCKED',1);
 define('USER_STATUS_DELETED',2);
 
+define('USER_ROLE_ADMIN',0);
+define('USER_ROLE_RECRUITER',1);
+
 define('MAX_LOGIN_ATTEMPT',5);
 
 define('SESS_USER_ID','user_id');

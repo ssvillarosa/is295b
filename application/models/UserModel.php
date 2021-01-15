@@ -77,6 +77,16 @@ Class UserModel extends CI_Model{
     }
     
     /**
+    * Sets the user status to USER_STATUS_BLOCKED(1).
+    *
+    * @param    int     $userId
+    */
+    public function activateUser($userId){
+        $this->db->where("id", $userId);
+        $this->db->update('user', array('status' => USER_STATUS_ACTIVE));
+    }
+    
+    /**
     * Increments failed_login count.
     *
     * @param    int     $userId

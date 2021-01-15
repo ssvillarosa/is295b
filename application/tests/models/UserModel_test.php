@@ -1,30 +1,20 @@
 <?php
 
-class UserModel_test extends UnitTestCase {
-    private $_mock_values;
-    private $_mock_db;
+class UserModel_seedtest extends UnitTestCase {
     
+    public static function setUpBeforeClass(){
+        parent::setUpBeforeClass();
+
+        $CI =& get_instance();
+        $CI->load->library('Seeder');
+        $CI->seeder->call('UserSeeder');
+    }
+        
     public function setUp(){
         $this->obj = $this->newModel('UserModel');
-        $this->_mock_values = [
-            0 => (object) ['id' => '1', 'username' => 'admin', 'password' => 'adminpw'],
-            1 => (object) ['id' => '2', 'username' => 'steven', 'password' => 'stevenpw'],
-            2 => (object) ['id' => '3', 'username' => 'guest', 'password' => 'guestpw'],
-        ];
-        $db_result = $this->getMockBuilder('CI_DB_pdo_result')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $db_result->method('result')->willReturn($this->_mock_values);
-        $this->_mock_db = $this->getMockBuilder('CI_DB_pdo_sqlite_driver')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_mock_db->method('get')->willReturn($db_result);
     }
 
     public function test_getUsers(){
-        // Replace property db with mock object
-        $this->obj->db = $this->_mock_db;
-
         $expected = [
             1 => 'admin',
             2 => 'steven',
@@ -32,19 +22,49 @@ class UserModel_test extends UnitTestCase {
         ];
         $users = $this->obj->getUsers();
         foreach ($users as $user) {
-            $this->assertEquals($expected[$user->id], $user->username);
+                $this->assertEquals($expected[$user->id], $user->username);
         }
     }
-    
-    public function test_getUser(){
-        $actual = $this->obj->getUser(1);
+
+    public function test_getUserById(){
+        $actual = $this->obj->getUserById(1);
         $expected = 'admin';
         $this->assertEquals($expected, $actual->username);
     }
     
-    public function test_login(){
-        $actual = $this->obj->login('admin','adminpw');
+    public function test_getUserByCred(){
+        $actual = $this->obj->getUserByCred('admin','adminpw');
         $expected = 1;
         $this->assertEquals($expected, $actual->id);        
+    }
+    
+    public function test_getUserByUsername(){
+        $actual = $this->obj->getUserByUsername('admin');
+        $expected = 1;
+        $this->assertEquals($expected, $actual->id);        
+    }
+    
+    public function test_blockUser(){
+        $this->obj->blockUser(1);
+        $user  = $this->obj->getUserById(1);
+        $this->assertEquals(USER_STATUS_BLOCKED, $user->status);        
+    }
+    
+    public function test_activateUser(){
+        $this->obj->activateUser(1);
+        $user  = $this->obj->getUserById(1);
+        $this->assertEquals(USER_STATUS_ACTIVE, $user->status);        
+    }
+    
+    public function test_addLoginFailed(){
+        $this->obj->addLoginFailed(1);
+        $user  = $this->obj->getUserById(1);
+        $this->assertEquals(1, $user->failed_login);        
+    }
+    
+    public function test_resetLoginFailed(){
+        $this->obj->resetLoginFailed(1);
+        $user  = $this->obj->getUserById(1);
+        $this->assertEquals(0, $user->failed_login);       
     }
 }
