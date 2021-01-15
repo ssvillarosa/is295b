@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="CodeIgniter Application Test Suite" tests="6" assertions="7" failures="0" errors="0" time="0.103443">
-    <testsuite name="Auth_test" file="C:\xampp\htdocs\is295b\application\tests\controllers\Auth_test.php" tests="3" assertions="2" failures="0" errors="0" time="0.027996">
-      <testcase name="test_index" class="Auth_test" file="C:\xampp\htdocs\is295b\application\tests\controllers\Auth_test.php" line="5" assertions="0" time="0.016111"/>
-      <testcase name="test_method_404" class="Auth_test" file="C:\xampp\htdocs\is295b\application\tests\controllers\Auth_test.php" line="11" assertions="1" time="0.010452"/>
-      <testcase name="test_APPPATH" class="Auth_test" file="C:\xampp\htdocs\is295b\application\tests\controllers\Auth_test.php" line="17" assertions="1" time="0.001433"/>
+  <testsuite name="CodeIgniter Application Test Suite" tests="9" assertions="12" failures="0" errors="0" time="0.170021">
+    <testsuite name="Auth_test" file="C:\xampp\htdocs\is295b\application\tests\controllers\Auth_test.php" tests="3" assertions="2" failures="0" errors="0" time="0.020304">
+      <testcase name="test_index" class="Auth_test" file="C:\xampp\htdocs\is295b\application\tests\controllers\Auth_test.php" line="5" assertions="0" time="0.012162"/>
+      <testcase name="test_method_404" class="Auth_test" file="C:\xampp\htdocs\is295b\application\tests\controllers\Auth_test.php" line="11" assertions="1" time="0.007075"/>
+      <testcase name="test_APPPATH" class="Auth_test" file="C:\xampp\htdocs\is295b\application\tests\controllers\Auth_test.php" line="17" assertions="1" time="0.001067"/>
     </testsuite>
-    <testsuite name="UserModel_test" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_test.php" tests="3" assertions="5" failures="0" errors="0" time="0.075447">
-      <testcase name="test_getUsers" class="UserModel_test" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_test.php" line="24" assertions="3" time="0.051403"/>
-      <testcase name="test_getUserById" class="UserModel_test" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_test.php" line="39" assertions="1" time="0.012839"/>
-      <testcase name="test_getUserByCred" class="UserModel_test" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_test.php" line="45" assertions="1" time="0.011205"/>
+    <testsuite name="UserModel_seedtest" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_seedtest.php" tests="3" assertions="5" failures="0" errors="0" time="0.065812">
+      <testcase name="test_getUsers" class="UserModel_seedtest" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_seedtest.php" line="17" assertions="3" time="0.037457">
+        <system-out>&#13;
+</system-out>
+      </testcase>
+      <testcase name="test_getUser" class="UserModel_seedtest" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_seedtest.php" line="29" assertions="1" time="0.016083"/>
+      <testcase name="test_login" class="UserModel_seedtest" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_seedtest.php" line="35" assertions="1" time="0.012272"/>
+    </testsuite>
+    <testsuite name="UserModel_test" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_test.php" tests="3" assertions="5" failures="0" errors="0" time="0.083905">
+      <testcase name="test_getUsers" class="UserModel_test" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_test.php" line="24" assertions="3" time="0.058599"/>
+      <testcase name="test_getUser" class="UserModel_test" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_test.php" line="39" assertions="1" time="0.011991"/>
+      <testcase name="test_login" class="UserModel_test" file="C:\xampp\htdocs\is295b\application\tests\models\UserModel_test.php" line="45" assertions="1" time="0.013315"/>
     </testsuite>
   </testsuite>
 </testsuites>
