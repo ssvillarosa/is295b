@@ -137,3 +137,37 @@ body {
         border-radius: 0px 0px 4px 4px;
         min-height: 300px;
     }
+    .user-table tr{
+        cursor: pointer;
+    }
+    
+    .user-table .btn{
+        width: 80px;
+        padding: .1rem;
+    }
+    
+    .btn-status-1:hover span {
+        display:none
+    }
+    
+    .btn-status-1:hover:before{
+        content: "Activate";
+    }
+    
+    .btn-status-1:hover{
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+    
+    .btn-status-0:hover span {
+        display:none
+    }
+    
+    .btn-status-0:hover:before{
+        content: "Block";
+    }
+    
+    .btn-status-0:hover{
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }

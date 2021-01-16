@@ -47,4 +47,12 @@ class User extends CI_Controller {
         $data['user'] = $user;
         $this->load->view('user/detailsView',$data);
     }
+    
+    
+    /**
+    * Update user details.
+    */
+    public function update(){
+        echo 'Update user.';
+    }
 }

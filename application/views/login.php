@@ -1,8 +1,7 @@
 <div id="login-page" class="login-page">
     <div class="container">
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
                 <section id="content" >
                     <?php if(isset($error_message)): ?>
                         <div class="alert alert-danger" role="alert">
@@ -29,7 +28,6 @@
                     </form>
                 </section>
             </div>
-            <div class="col-md-4"></div>
         </div>
     </div>
 </div>

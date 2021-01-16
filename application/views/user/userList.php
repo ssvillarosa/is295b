@@ -42,7 +42,11 @@
                                         <?php echo $user->name; ?>
                                     </td>
                                     <td class="text-left usr-rank" onClick="viewUser(<?php echo $user->id; ?>)">
-                                        <?php echo getStatusDictionary($user->status); ?>
+                                        <?php echo form_open('user/update'); ?>
+                                            <button type="submit" class="btn btn-secondary btn-status-<?php echo $user->status; ?>">
+                                                <span><?php echo getStatusDictionary($user->status); ?></span>                                         
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
