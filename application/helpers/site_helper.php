@@ -8,7 +8,7 @@ if(!function_exists('checkUserLogin')){
     function checkUserLogin(){
         $ci = &get_instance();
         if(!$ci->session->has_userdata(SESS_IS_LOGGED_IN)){
-            $referrer_value = uri_string().'?'.$_SERVER['QUERY_STRING'];
+            $referrer_value = uri_string().'?'.http_build_query($ci->input->get());
             redirect('auth/login?referrer='.$referrer_value);
         }
     }

@@ -1,7 +1,15 @@
 <?php
 
-class Auth_test extends TestCase
-{
+class Auth_test extends TestCase{
+    
+    public static function setUpBeforeClass(){
+        parent::setUpBeforeClass();
+
+        $CI =& get_instance();
+        $CI->load->library('Seeder');
+        $CI->seeder->call('UserSeeder');
+    }
+    
     public function test_login(){
         $output = $this->request(
             'POST',
