@@ -56,5 +56,20 @@ class UserSeeder extends Seeder {
             'birthday' => '1992-10-03',
         ];
         $this->db->insert($this->table, $data);
+        
+        $data = [
+            'id' => 4,
+            'username' => 'dummy',
+            'password' => 'dummypw',
+            'role' => USER_ROLE_RECRUITER,
+            'status' => USER_STATUS_DELETED,
+            'failed_login' => 0,
+            'email' => 'dummy@test.com',
+            'contact_number' => '321',
+            'name' => 'Dummy user',
+            'address' => 'Nowhere',
+            'birthday' => '1993-07-08',
+        ];
+        $this->db->insert($this->table, $data);
     }
 }

@@ -26,6 +26,7 @@ Class UserModel extends CI_Model{
     public function getUserByCred($username,$password){
         $this->db->where("username", $username);
         $this->db->where("password", $password);
+        $this->db->where("status !=", USER_STATUS_DELETED);
         $query = $this->db->get("user");
         return $query->row();
     }
@@ -38,6 +39,7 @@ Class UserModel extends CI_Model{
     */
     public function getUserByUsername($username){
         $this->db->where("username", $username);
+        $this->db->where("status !=", USER_STATUS_DELETED);
         $query = $this->db->get("user");
         return $query->row();
     }
@@ -50,6 +52,7 @@ Class UserModel extends CI_Model{
     * @return   array of user objects
     */
     public function getUsers($limit=100,$offset=0){
+        $this->db->where("status !=", USER_STATUS_DELETED);
         $query = $this->db->get('user',$limit,$offset);
         return $query->result();
     }
@@ -62,6 +65,7 @@ Class UserModel extends CI_Model{
     */
     public function getUserById($userId){
         $this->db->where("id", $userId);
+        $this->db->where("status !=", USER_STATUS_DELETED);
         $query = $this->db->get("user");
         return $query->row();
     }

@@ -14,3 +14,33 @@ if(!function_exists('checkUserLogin')){
     }
 }
 
+if(!function_exists('getRoleDictionary')){
+    /**
+    * Returns the equivalent text of a role.
+     * 
+    * @param    int     $role   Role integer.
+    * @return   string
+    */
+    function getRoleDictionary($role){
+        switch($role){
+            case USER_ROLE_ADMIN: return "Admin";
+            case USER_ROLE_RECRUITER: return "Recruiter";
+        }
+    }
+}
+
+if(!function_exists('getStatusDictionary')){
+    /**
+    * Returns the equivalent text of a status.
+     * 
+    * @param    int     $status   Status integer.
+    * @return   string
+    */
+    function getStatusDictionary($status){
+        switch($status){
+            case USER_STATUS_ACTIVE: return "Active";
+            case USER_STATUS_BLOCKED: return "Blocked";
+            case USER_STATUS_DELETED: return "Deleted";
+        }
+    }
+}
