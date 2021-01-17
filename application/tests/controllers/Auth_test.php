@@ -11,7 +11,8 @@ class Auth_test extends TestCase{
     }
     
     public function test_login(){
-        $output = $this->request(
+        // Login as admin
+        $this->request(
             'POST',
             'auth/login',
             [
@@ -19,7 +20,27 @@ class Auth_test extends TestCase{
                 'password' => 'adminpw',
             ]
         );
-        $this->assertRedirect('user/userList', 302);
+        
+        // Check if admin successfully logged in.
+        $this->assertRedirect('dashboard/overview', 302);
+        
+        // Check if admin can access user module.
+        $adminPage = $this->request('GET', 'user/userList');
+        $this->assertContains('admin-only', $adminPage);
+        $this->request('GET','auth/logout');
+        
+        // Login as recruiter
+        $this->request(
+            'POST',
+            'auth/login',
+            [
+                'username' => 'steven',
+                'password' => 'stevenpw',
+            ]
+        );
+        $this->assertRedirect('dashboard/overview', 302);
+        $recruiterPage = $this->request('GET', 'user/userList');
+        $this->assertNotContains('admin-only', $recruiterPage);
     }
     
     public function test_invalidLoginCred(){
@@ -36,8 +57,8 @@ class Auth_test extends TestCase{
     
     public function test_blockedUser(){
         $data = array(
-            'username' => 'admin',
-            'password' => 'admin',
+            'username' => 'guest',
+            'password' => 'guest',
         );
         for ($ctr = 0; $ctr <= 5; $ctr++) {
             $output = $this->request(
@@ -81,9 +102,22 @@ class Auth_test extends TestCase{
                 'password' => 'stevenpw',
             ]
         );
-        $this->assertRedirect('user/userList', 302);
+        $this->assertRedirect('dashboard/overview', 302);
         $this->request('GET','auth/logout');
         $this->assertRedirect('auth/login', 302);
+    }
+    
+    public function test_redirectToReferrer(){
+        $this->request(
+            'POST',
+            'auth/login',
+            [
+                'username' => 'admin',
+                'password' => 'adminpw',
+                'referrer' => 'user/userList',
+            ]
+        );
+        $this->assertRedirect('user/userList', 302);
     }
 
     public function test_method_404(){

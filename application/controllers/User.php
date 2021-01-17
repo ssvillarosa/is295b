@@ -23,6 +23,10 @@ class User extends CI_Controller {
     * Display list of users.
     */
     public function userList(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
         $this->load->view('common/header');
         $this->load->view('common/nav');
         
@@ -38,6 +42,10 @@ class User extends CI_Controller {
     * Display user details.
     */
     public function view(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
         $this->load->view('common/header');
         $this->load->view('common/nav');
         $userId = $this->input->get('id');
@@ -48,11 +56,25 @@ class User extends CI_Controller {
         $this->load->view('user/detailsView',$data);
     }
     
-    
     /**
     * Update user details.
     */
     public function update(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
         echo 'Update user.';
+    }
+    
+    /**
+    * Delete user.
+    */
+    public function delete(){
+        if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
+        echo 'Delete user.';
     }
 }
