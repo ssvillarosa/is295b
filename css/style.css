@@ -42,32 +42,37 @@ body {
 /*********************************************************************************/
 /* Header                                                                        */
 /*********************************************************************************/
-#header {
+#nav-header {
     position: relative;
     text-align: center;
-	display: flex;
+    display: flex;
 }
 
-#logo {
-    margin-bottom: 1em;
+#header #logo {
+    text-align: left;
+    display: inline-block;
 }
 
-#logo h1 a {
+#header #logo h1{
+    margin-bottom: 0;
+}
+
+#header #logo h1 a {
     display: block;
     letter-spacing: 1px;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: 1.2em;
+    font-size: 0.8em;
     font-weight: 900;
     color: #323338;
 }
 
-#logo span {
+#header #logo span {
     display: block;
     padding-top: 0em;
     letter-spacing: 1px;
     text-transform: uppercase;
-    font-size: 0.5em;
+    font-size: 0.28em;
     color: #8e8588;
 }
 
@@ -104,6 +109,22 @@ body {
     color: #FFF;
     background: #0d447d;
  }
+ 
+.usr-icon {
+    position: relative;
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    padding: 12px 16px;
+    z-index: 1;
+    margin-left: -120px;
+}
 
 /*********************************************************************************/
 /* Footer                                                                        */
@@ -123,15 +144,47 @@ body {
     .login-page {
         padding: 5em 0em;
     }
+    
+    #login-header {
+        position: relative;
+        text-align: center;
+        display: flex;
+    }    
+
+    #login-header #logo {
+        margin-bottom: 1em;
+    }
+
+    #login-header #logo h1 a {
+        display: block;
+        letter-spacing: 1px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 1.2em;
+        font-weight: 900;
+        color: #323338;
+    }
+
+    #login-header #logo span {
+        display: block;
+        padding-top: 0em;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 0.5em;
+        color: #8e8588;
+    }
+
     /* Userlist page */
     .table_toolbar {
         background: #0d447d;
         padding: 0.4em;
         border-radius: 4px 4px 0px 0px;
     }
+    
     .table_toolbar > a.btn {
         padding: .3rem .5rem;
     }
+    
     .user-table{
         border: 1px solid #ccc;
         border-radius: 0px 0px 4px 4px;

@@ -12,13 +12,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div id="wrapper">			
 			<!-- Header -->
 			<div id="header">
-				<div class="container"> 
+				<div class="container d-flex justify-content-between bd-highlight mb-3"> 
 					
 					<!-- Logo -->
 					<div id="logo">
 						<h1><a href="#">M2MJ</a></h1>
 						<span>Human Resources Consulting</span>
 					</div>
+                        
+                                        <div class="usr-icon" onclick="$('.dropdown-content').toggle();">
+                                            <a class="btn btn-secondary dropdown-toggle btn-sm" href="#">
+                                                <?php echo $this->session->userdata(SESS_USERNAME); ?>
+                                            </a>
+                                            <div class="dropdown-content dropdown-menu">
+                                                <a class="dropdown-item" href="#">Profile</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Change Password</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="<?php echo site_url('auth/logout') ?>">Logout</a>
+                                            </div>
+                                        </div>
 				</div>
 			</div>
 			<!-- /Header -->

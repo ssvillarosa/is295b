@@ -132,7 +132,7 @@ class Auth extends CI_Controller {
     * @param    string  $error_message   Error messages.
     */
     private function displayLoginForm($error_message=NULL){
-        $this->load->view('common/header');
+        $this->load->view('auth/header');
         // On the first load, referrer url will be read from GET request.
         // Referrer value will be embedded into hidden field.
         // This will include the referrer url to a form for POST request.
@@ -144,7 +144,7 @@ class Auth extends CI_Controller {
         if($referrer){
             $data["login_referrer"]=$referrer;
         }
-        $this->load->view('login',$data);
+        $this->load->view('auth/login',$data);
         $this->load->view('common/footer');
     }
 }

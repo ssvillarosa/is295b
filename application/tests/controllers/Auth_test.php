@@ -71,6 +71,20 @@ class Auth_test extends TestCase{
         );
         $this->assertContains('The Username field is required.', $output);
     }
+    
+    public function test_logout(){
+        $this->request(
+            'POST',
+            'auth/login',
+            [
+                'username' => 'steven',
+                'password' => 'stevenpw',
+            ]
+        );
+        $this->assertRedirect('user/userList', 302);
+        $this->request('GET','auth/logout');
+        $this->assertRedirect('auth/login', 302);
+    }
 
     public function test_method_404(){
         $this->request('GET', 'welcome/method_not_exist');

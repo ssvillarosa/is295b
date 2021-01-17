@@ -1,5 +1,5 @@
 <!-- Nav -->
-<div id="header">
+<div id="nav-header">
     <div class="container">
         <nav id="nav">
             <ul>
