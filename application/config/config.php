@@ -35,7 +35,7 @@ $config['base_url'] = 'https://m2mj.m2mjhrconsulting.com/steven/is295b';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = 'index.php';
+$config['index_page'] = '';
 
 /*
 |--------------------------------------------------------------------------
