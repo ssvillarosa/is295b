@@ -32,20 +32,20 @@
                     <?php echo form_open('user/add'); ?>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" value="<?php echo $user->username; ?>" class="form-control" id="username" name="username" maxLength="255">
+                                <label for="username" class="form-label required">Username</label>
+                                <input type="text" value="<?php echo $user->username; ?>" class="form-control" id="username" name="username" maxLength="255" required>
                                 <?php echo form_error('username'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" value="<?php echo $user->password; ?>" class="form-control" id="password" name="password" maxLength="255">
+                                <label for="password" class="form-label required">Password</label>
+                                <input type="password" value="<?php echo $user->password; ?>" class="form-control" id="password" name="password" maxLength="255" required>
                                 <?php echo form_error('password'); ?>
                             </div>
                             <div class="col-md-6 mb-1">
-                                <label for="confirm_password" class="form-label">Confirm Password</label>
-                                <input type="password" value="<?php echo $user->confirm_password; ?>" class="form-control" id="confirm_password" name="confirm_password" maxLength="255">
+                                <label for="confirm_password" class="form-label required" required>Confirm Password</label>
+                                <input type="password" value="<?php echo $user->confirm_password; ?>" class="form-control" id="confirm_password" name="confirm_password" maxLength="255" required>
                                 <?php echo form_error('confirm_password'); ?>
                             </div>
                         </div>
@@ -59,8 +59,8 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
-                                <label for="role">Role</label>
-                                <select name="role" id="role" class="custom-select">
+                                <label for="role" class="required">Role</label>
+                                <select name="role" id="role" class="custom-select" required>
                                     <option value="">SELECT ROLE</option>
                                     <option value="<?php echo USER_ROLE_ADMIN; ?>" <?php if($user->role===strval(USER_ROLE_ADMIN)) echo "selected"; ?> >Admin</option>
                                     <option value="<?php echo USER_ROLE_RECRUITER; ?>" <?php if($user->role==USER_ROLE_RECRUITER) echo "selected";  ?> >Recruiter</option>
@@ -68,7 +68,7 @@
                                 <?php echo form_error('role'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="status">Status</label>
+                                <label for="status" class="required">Status</label>
                                 <select name="status" id="status" class="custom-select">
                                     <option value="<?php echo USER_STATUS_ACTIVE; ?>" <?php if($user->status==USER_STATUS_ACTIVE) echo "selected"; ?> >Active</option>
                                     <option value="<?php echo USER_STATUS_BLOCKED; ?>" <?php if($user->status==USER_STATUS_BLOCKED) echo "selected"; ?>>Blocked</option>
@@ -78,13 +78,13 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
-                                <label for="name" class="form-label">Full Name</label>
-                                <input type="text" value="<?php echo $user->name; ?>" class="form-control" id="name" name="name" maxLength="255">
+                                <label for="name" class="form-label required">Full Name</label>
+                                <input type="text" value="<?php echo $user->name; ?>" class="form-control" id="name" name="name" maxLength="255" required>
                                 <?php echo form_error('name'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" value="<?php echo $user->email; ?>" class="form-control" id="email" name="email" maxLength="50">
+                                <label for="email" class="form-label required">Email</label>
+                                <input type="email" value="<?php echo $user->email; ?>" class="form-control" id="email" name="email" maxLength="50" required>
                                 <?php echo form_error('email'); ?>
                             </div>
                         </div>

@@ -145,6 +145,7 @@ class User extends CI_Controller {
         $this->form_validation->set_rules('confirm_password', 
                 'Password Confirmation', 'required|matches[password]');
         $this->form_validation->set_rules('role','Role','required');
+        $this->form_validation->set_rules('status','Status','required');
         $this->form_validation->set_rules('name', 'Name',
                 'trim|required|max_length[255]');
         $this->form_validation->set_rules('email', 'Email', 

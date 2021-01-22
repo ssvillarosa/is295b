@@ -67,4 +67,23 @@ class UserModel_seedtest extends UnitTestCase {
         $user  = $this->obj->getUserById(1);
         $this->assertEquals(0, $user->failed_login);       
     }
+    
+    public function test_addUser(){
+        $user = (object)[
+            'username' => 'user4',
+            'password' => 'user4pw',
+            'role' => USER_ROLE_ADMIN,
+            'status' => USER_STATUS_ACTIVE,
+            'failed_login' => 0,
+            'email' => 'user4@test.com',
+            'contact_number' => '999999',
+            'name' => 'User 4',
+            'address' => 'Here',
+            'birthday' => '1999-03-05',
+
+        ];
+        $inserted_id = $this->obj->addUser($user);
+        $newUser  = $this->obj->getUserById($inserted_id);
+        $this->assertEquals($newUser->username, $user->username);       
+    }
 }

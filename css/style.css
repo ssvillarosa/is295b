@@ -8,7 +8,7 @@ body {
     font-family: 'Lato', sans-serif;
     font-size: 12pt;
     font-weight: 300;
-    color: #8A8A8A;
+    /*color: #8A8A8A;*/
 }
 
 .container {
@@ -37,6 +37,11 @@ body {
 
 .button:hover {
     color: #FFF;
+}
+
+.required:after {
+    content:" *";
+    color: red;
 }
 
 /*********************************************************************************/

@@ -34,4 +34,93 @@ class User_test extends TestCase{
         $output = $this->request('GET','user/view?id=1');
         $this->assertContains('<h5 class="mb-3">Username: admin</h5>', $output);
     }
+    
+    public function test_addValidations(){
+        // Check validations.
+        $validationCheck = $this->request(
+            'POST',
+            'user/add',
+            [
+                'username' => '',
+                'password' => '',
+                'confirm_password' => '',
+                'role' => '',
+                'status' => '',
+                'email' => '',
+                'contact_number' => '',
+                'name' => '',
+                'address' => '',
+                'birthday' => '',
+            ]
+        );
+        $this->assertContains('The Username field is required.', $validationCheck);
+        $this->assertContains('The Password field is required.', $validationCheck);
+        $this->assertContains('The Password Confirmation field is required.', $validationCheck);
+        $this->assertContains('The Role field is required.', $validationCheck);
+        $this->assertContains('The Name field is required.', $validationCheck);
+        $this->assertContains('The Email field is required.', $validationCheck);
+    }
+    
+    public function test_addUserExist(){
+        // Add existing username.
+        $usernameExist = $this->request(
+            'POST',
+            'user/add',
+            [
+                'username' => 'admin',
+                'password' => 'adminpw',
+                'confirm_password' => 'adminpw',
+                'role' => USER_ROLE_ADMIN,
+                'status' => USER_STATUS_ACTIVE,
+                'email' => 'user4@test.com',
+                'contact_number' => '999999',
+                'name' => 'User 4',
+                'address' => 'Here',
+                'birthday' => '1999-03-05',
+            ]
+        );
+        $this->assertContains('Username already exist.', $usernameExist);
+    }
+    
+    public function test_addPasswordMismatch(){
+        // Check password mismatch validation
+        $passwordMismatch = $this->request(
+            'POST',
+            'user/add',
+            [
+                'username' => 'admin2',
+                'password' => 'admin2pw',
+                'confirm_password' => '0000',
+                'role' => USER_ROLE_ADMIN,
+                'status' => USER_STATUS_ACTIVE,
+                'email' => 'user4@test.com',
+                'contact_number' => '999999',
+                'name' => 'User 4',
+                'address' => 'Here',
+                'birthday' => '1999-03-05',
+            ]
+        );
+        $this->assertContains('The Password Confirmation field does not match the Password field.', $passwordMismatch);
+    }
+    
+    public function test_addSuccess(){
+        // Add user success.
+        $success = $this->request(
+            'POST',
+            'user/add',
+            [
+                'username' => 'admin2',
+                'password' => 'admin2pw',
+                'confirm_password' => 'admin2pw',
+                'role' => USER_ROLE_ADMIN,
+                'status' => USER_STATUS_ACTIVE,
+                'email' => 'user4@test.com',
+                'contact_number' => '999999',
+                'name' => 'User 4',
+                'address' => 'Here',
+                'birthday' => '1999-03-05',
+            ]
+        );
+        $this->assertContains('User successfully added!', $success);
+    }
 }

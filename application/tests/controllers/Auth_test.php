@@ -10,7 +10,7 @@ class Auth_test extends TestCase{
         $CI->seeder->call('UserSeeder');
     }
     
-    public function test_login(){
+    public function test_loginAsAdmin(){
         // Login as admin
         $this->request(
             'POST',
@@ -27,8 +27,10 @@ class Auth_test extends TestCase{
         // Check if admin can access user module.
         $adminPage = $this->request('GET', 'user/userList');
         $this->assertContains('admin-only', $adminPage);
-        $this->request('GET','auth/logout');
-        
+        $this->request('GET','auth/logout');    
+    }
+    
+    public function test_loginAsRecruiter(){
         // Login as recruiter
         $this->request(
             'POST',
