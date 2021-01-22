@@ -14,7 +14,7 @@ class UserSeeder extends Seeder {
         $data = [
             'id' => 1,
             'username' => 'admin',
-            'password' => 'adminpw',
+            'password' => password_hash('adminpw', PASSWORD_DEFAULT),
             'role' => USER_ROLE_ADMIN,
             'status' => USER_STATUS_ACTIVE,
             'failed_login' => 0,
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder {
         $data = [
             'id' => 2,
             'username' => 'steven',
-            'password' => 'stevenpw',
+            'password' => hashThis('stevenpw'),
             'role' => USER_ROLE_RECRUITER,
             'status' => USER_STATUS_ACTIVE,
             'failed_login' => 0,
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder {
         $data = [
             'id' => 3,
             'username' => 'guest',
-            'password' => 'guestpw',
+            'password' => hashThis('guestpw'),
             'role' => USER_ROLE_RECRUITER,
             'status' => USER_STATUS_ACTIVE,
             'failed_login' => 0,
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder {
         $data = [
             'id' => 4,
             'username' => 'dummy',
-            'password' => 'dummypw',
+            'password' => hashThis('dummypw'),
             'role' => USER_ROLE_RECRUITER,
             'status' => USER_STATUS_DELETED,
             'failed_login' => 0,

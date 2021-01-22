@@ -81,9 +81,8 @@ class Auth extends CI_Controller {
             echo "User is blocked. Please contact the administrator.";
             return false;
         }
-        // Check if the credentials are valid
-        $user2 = $this->UserModel->getUserByCred($username,$password);
-        if(!$user2){
+        // Check if password is correct
+        if(!password_verify($password,$user->password)){
             // Increment login_failed.
             $this->UserModel->addLoginFailed($user->id);
             // Log user's invalid attempt.
@@ -100,7 +99,7 @@ class Auth extends CI_Controller {
             return false;
         }
         // Log user successful login.
-        $this->ActivityModel->saveUserActivity($user2->id,"Login Success");
+        $this->ActivityModel->saveUserActivity($user->id,"Login Success");
         // Reset invalid login attempt.
         $this->UserModel->resetLoginFailed($user->id);
         // Create user session

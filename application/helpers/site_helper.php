@@ -44,3 +44,15 @@ if(!function_exists('getStatusDictionary')){
         }
     }
 }
+
+if(!function_exists('hashThis')){
+    /**
+    * Returns the hashed value of the string using default algorithm.
+     * 
+    * @param    string     $text    String to be encrypted.
+    * @return   string
+    */
+    function hashThis($text){
+        return password_hash($text, PASSWORD_DEFAULT);
+    }
+}

@@ -15,21 +15,6 @@ Class UserModel extends CI_Model{
     public function __construct() {
         $this->load->database();
     }
-
-    /**
-    * Returns user object if username and password exist in the database.
-    *
-    * @param    string  $username   Username string
-    * @param    string  $password   Password string
-    * @return   user object
-    */
-    public function getUserByCred($username,$password){
-        $this->db->where("username", $username);
-        $this->db->where("password", $password);
-        $this->db->where("status !=", USER_STATUS_DELETED);
-        $query = $this->db->get("user");
-        return $query->row();
-    }
     
     /**
     * Returns user object if username exist in the database.
@@ -119,6 +104,8 @@ Class UserModel extends CI_Model{
     * @return   id of the new user.
     */
     public function addUser($user){
+        //Encrypt user password
+        $user->password = hashThis($user->password);
         $this->db->insert('user', $user);
         $insert_id = $this->db->insert_id();
         log_message('info', "Test. Query: {$this->db->last_query()}");

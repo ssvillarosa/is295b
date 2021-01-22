@@ -32,12 +32,6 @@ class UserModel_seedtest extends UnitTestCase {
         $this->assertEquals($expected, $actual->username);
     }
     
-    public function test_getUserByCred(){
-        $actual = $this->obj->getUserByCred('admin','adminpw');
-        $expected = 1;
-        $this->assertEquals($expected, $actual->id);        
-    }
-    
     public function test_getUserByUsername(){
         $actual = $this->obj->getUserByUsername('admin');
         $expected = 1;
