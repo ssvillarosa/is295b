@@ -14,7 +14,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="role">Role</label>
                                 <select name="role" id="role" class="custom-select">
-                                    <option value="<?php echo USER_ROLE_ADMIN; ?>" <?php if($user->role==USER_ROLE_ADMIN) echo "selected"; ?> >Admin</option>
+                                    <option value="<?php echo USER_ROLE_ADMIN; ?>" <?php if($user->role===strval(USER_ROLE_ADMIN)) echo "selected"; ?> >Admin</option>
                                     <option value="<?php echo USER_ROLE_RECRUITER; ?>" <?php if($user->role==USER_ROLE_RECRUITER) echo "selected";  ?> >Recruiter</option>
                                 </select>
                                 <?php echo form_error('role'); ?>
@@ -22,7 +22,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="custom-select">
-                                    <option value="<?php echo USER_STATUS_ACTIVE; ?>" <?php if($user->status==USER_STATUS_ACTIVE) echo "selected"; ?> >Active</option>
+                                    <option value="<?php echo USER_STATUS_ACTIVE; ?>" <?php if($user->status===strval(USER_STATUS_ACTIVE)) echo "selected"; ?> >Active</option>
                                     <option value="<?php echo USER_STATUS_BLOCKED; ?>" <?php if($user->status==USER_STATUS_BLOCKED) echo "selected"; ?>>Blocked</option>
                                 </select>
                                 <?php echo form_error('status'); ?>

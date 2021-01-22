@@ -111,6 +111,23 @@ Class UserModel extends CI_Model{
         $this->db->set('failed_login', 0);
         $this->db->update('user');
     }
+    
+    /**
+    * Adds user to the database.
+    *
+    * @param    user object     $user
+    * @return   id of the new user.
+    */
+    public function addUser($user){
+        $this->db->insert('user', $user);
+        $insert_id = $this->db->insert_id();
+        log_message('info', "Test. Query: {$this->db->last_query()}");
+        if ($insert_id === -1){
+            log_message('error', "Failed to insert user. Query: "
+                    . "${$this->db->last_query()}");
+        }
+        return $insert_id;
+    }
 }
 
 ?>

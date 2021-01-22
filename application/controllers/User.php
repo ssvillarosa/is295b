@@ -16,6 +16,7 @@ class User extends CI_Controller {
     */
     function __construct() {
         parent::__construct();
+        $this->load->model('UserModel');
         checkUserLogin();
     }
   
@@ -30,7 +31,6 @@ class User extends CI_Controller {
         $this->load->view('common/header');
         $this->load->view('common/nav');
         
-        $this->load->model('UserModel');
         $users=$this->UserModel->getUsers();
         $data['users'] = $users;
         $this->load->view('user/userList',$data);
@@ -50,7 +50,6 @@ class User extends CI_Controller {
         $this->load->view('common/nav');
         $userId = $this->input->get('id');
         
-        $this->load->model('UserModel');
         $user=$this->UserModel->getUserById($userId);
         $data['user'] = $user;
         $this->load->view('user/detailsView',$data);
@@ -76,5 +75,96 @@ class User extends CI_Controller {
             return;
         }
         echo 'Delete user.';
+    }
+        
+    /**
+    * Add user.
+    */
+    public function add(){
+        $this->setValidationRules();
+        $user = $this->createUserObject(true);
+        if ($this->form_validation->run() == FALSE){
+            $data["user"] = $user;
+            $this->displayAddForm($data);
+            return;
+        }
+        // Remove the confirm_password before sending to the model.
+        unset($user->confirm_password);
+        $this->UserModel->addUser($user);
+        // Display Success Message and display form.
+        $data["success_message"] = "User successfully added!";
+        // Create empty user object.
+        $data["user"] = $this->createUserObject(false);
+        $this->displayAddForm($data);
+    }
+    
+    /**
+    * Creates user object.
+    * 
+    * @param    boolean  $post          If true, it will create object from post data. Otherwise, it will create object with properties but values are blank.
+    * @param    boolean  $addConfirm    If true, it will include the confirm_password to the object.
+    * @return   user object
+    */
+    private function createUserObject($post){
+        $user = (object)[
+            'username' => $post ? $this->input->post('username'): '',
+            'password' => $post ? $this->input->post('password'): '',
+            'confirm_password' => $post ? $this->input->post('confirm_password'): '',
+            'role' => $post ? $this->input->post('role'): '',
+            'status' => $post ? $this->input->post('status'): '',
+            'email' => $post ? $this->input->post('email'): '',
+            'contact_number' => $post ? $this->input->post('contact_number'): '',
+            'name' => $post ? $this->input->post('name'): '',
+            'address' => $post ? $this->input->post('address'): '',
+            'birthday' => $post ? $this->input->post('birthday'): '',
+        ];
+        return $user;
+    }
+    
+    /**
+    * Displays add form.
+    */
+    private function displayAddForm($data){
+        $this->load->view('common/header');
+        $this->load->view('common/nav');
+        $this->load->view('user/add', $data);
+        $this->load->view('common/footer');        
+    }
+
+
+    /**
+    * Apply validation rules.
+    */
+    private function setValidationRules(){
+        $this->form_validation->set_error_delimiters(
+                '<div class="alert alert-danger">', '</div>'); 
+        $this->form_validation->set_rules('username', 'Username',
+                'trim|required|max_length[50]|callback_isUsernameUnique');
+        $this->form_validation->set_rules('password', 'Password',
+                'trim|required|max_length[50]');
+        $this->form_validation->set_rules('confirm_password', 
+                'Password Confirmation', 'required|matches[password]');
+        $this->form_validation->set_rules('role','Role','required');
+        $this->form_validation->set_rules('name', 'Name',
+                'trim|required|max_length[255]');
+        $this->form_validation->set_rules('email', 'Email', 
+                'required|valid_email');
+    }
+        
+    /**
+    * Returns true if the username does not exist in the database.
+    *
+    * @param    string  $username   Username string
+    * @return   boolean
+    */
+    public function isUsernameUnique($username){
+        $user = $this->UserModel->getUserByUsername($username);
+        // Check if the username is valid.
+        if($user){
+            $this->form_validation->set_message('isUsernameUnique', 
+                    'Username already exist.');
+            return false;
+        }
+        return true;
     }
 }

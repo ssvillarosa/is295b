@@ -8,7 +8,7 @@
         <div class="row justify-content-center">
             <div class="col-md-9">
                 <div class="table_toolbar">
-                    <a href="#" class="btn btn-primary">New</a>
+                    <a href="<?php echo site_url('user/add') ?>" class="btn btn-primary">New</a>
                     <a href="#" class="btn btn-secondary">Delete</a>
                 </div>
                 <div class="table-responsive user-table">
