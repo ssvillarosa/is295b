@@ -38,6 +38,10 @@ class User extends CI_Controller {
     * Display user details.
     */
     public function view(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
         $userId = $this->input->get('id');
         $user=$this->UserModel->getUserById($userId);
         $data['user'] = $user;
@@ -48,6 +52,10 @@ class User extends CI_Controller {
     * Update user details.
     */
     public function updateDetails(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
         $this->setValidationDetails();
         $this->form_validation->set_rules('userId','User ID','required|integer');
         $user = $this->createUserObject(true);
@@ -80,6 +88,10 @@ class User extends CI_Controller {
     * Add user.
     */
     public function add(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
         $this->setValidationCredentials();
         $user = $this->createUserObject(true);
         if ($this->form_validation->run() == FALSE){
@@ -206,9 +218,8 @@ class User extends CI_Controller {
             // Set success message.
             $data["success_message"] = "Profile successfully updated!";
         }
-        // Display empty form.
+        // Display form.
         $data["user"] = $user;
-        $user->id = $this->input->post('username');
         $this->displayForm($data,'user/profile');
     }
 }
