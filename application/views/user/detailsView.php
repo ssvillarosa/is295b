@@ -16,6 +16,7 @@
                     <?php endif; ?>
                     <?php echo form_open('user/updateDetails'); ?>
                         <input type="hidden" value="<?php echo $user->id; ?>" id="userId" name="userId">
+                        <input type="hidden" value="<?php echo $user->username; ?>" id="username" name="username">
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="role">Role</label>

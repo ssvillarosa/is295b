@@ -66,6 +66,7 @@ class User extends CI_Controller {
         }
         // Display empty form.
         $data["user"] = $user;
+        $user->id = $this->input->post('username');
         $this->displayForm($data,'user/detailsView');
     }
     

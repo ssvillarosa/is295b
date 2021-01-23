@@ -123,4 +123,29 @@ class User_test extends TestCase{
         );
         $this->assertContains('User successfully added!', $success);
     }
+    
+    public function test_updateDetails(){
+        $postData = [
+            'userId' => '3',
+            'role' => USER_ROLE_ADMIN,
+            'status' => USER_STATUS_ACTIVE,
+            'email' => 'hello@test.com',
+            'contact_number' => '1010101',
+            'name' => 'New Year New Mi',
+            'address' => 'This is my now',
+            'birthday' => '1992-09-23',
+        ];
+        // Add user success.
+        $success = $this->request(
+            'POST',
+            'user/updateDetails',
+            $postData
+        );
+        $this->assertContains('User successfully updated!', $success);
+        $this->assertContains($postData['email'], $success);
+        $this->assertContains($postData['contact_number'], $success);
+        $this->assertContains($postData['name'], $success);
+        $this->assertContains($postData['address'], $success);
+        $this->assertContains($postData['birthday'], $success);
+    }
 }
