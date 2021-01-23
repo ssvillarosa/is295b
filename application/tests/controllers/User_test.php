@@ -148,4 +148,61 @@ class User_test extends TestCase{
         $this->assertContains($postData['address'], $success);
         $this->assertContains($postData['birthday'], $success);
     }
+    
+    public function test_profile(){   
+        // Login as admin.
+        $this->request(
+            'POST',
+            'auth/login',
+            [
+                'username' => 'admin',
+                'password' => 'adminpw',
+            ]
+        );
+        // Check user profile.
+        $output = $this->request(
+            'GET',
+            'user/profile'
+        );
+        $this->assertContains('Super Admin', $output);
+        $this->assertContains('admin@test.com', $output);
+        $this->assertContains('999999', $output);
+        $this->assertContains('1990-01-01', $output);
+        $this->assertContains('CPU', $output);
+    }
+    
+    public function test_profileUpdate(){   
+        // Login as Guest.
+        $this->request(
+            'POST',
+            'auth/login',
+            [
+                'username' => 'guest',
+                'password' => 'guestpw',
+            ]
+        );
+        // Update profile.
+        $this->request(
+            'POST',
+            'user/profileUpdate',
+            [
+                'name' => 'Profile Update Guest',
+                'email' => 'updatedguest@test.com',
+                'contact_number' => '321',
+                'birthday' => '1993-10-03',
+                'address' => 'CRN',
+            ]
+        );
+        
+        // Check user profile.
+        $output = $this->request(
+            'GET',
+            'user/profile'
+        );
+        $this->assertContains('Profile Update Guest', $output);
+        $this->assertContains('updatedguest@test.com', $output);
+        $this->assertContains('321', $output);
+        $this->assertContains('1993-10-03', $output);
+        $this->assertContains('CRN', $output);
+    }
 }

@@ -98,8 +98,8 @@ class UserModel_seedtest extends UnitTestCase {
         
         // Update the added user.
         $newUserProps = (object)[
-            'username' => 'ashketchup',
-            'password' => 'ashketchup',
+            'username' => 'ashketchup2',
+            'password' => 'ashketchup2',
             'role' => USER_ROLE_RECRUITER,
             'status' => USER_STATUS_BLOCKED,
             'email' => 'updated@test.com',
@@ -110,6 +110,10 @@ class UserModel_seedtest extends UnitTestCase {
         ];
         $this->obj->updateUserDetails($newUserProps,$inserted_id);
         $updatedUser  = $this->obj->getUserById($inserted_id);
+        // Username and password should not change.
+        $this->assertNotEquals($updatedUser->username, $newUserProps->username);
+        $this->assertNotTrue(password_verify($newUserProps->password,$updatedUser->password));
+        // Other details should change
         $this->assertEquals($updatedUser->role, $newUserProps->role);
         $this->assertEquals($updatedUser->status, $newUserProps->status);
         $this->assertEquals($updatedUser->email, $newUserProps->email);
@@ -117,5 +121,48 @@ class UserModel_seedtest extends UnitTestCase {
         $this->assertEquals($updatedUser->name, $newUserProps->name);
         $this->assertEquals($updatedUser->address, $newUserProps->address);
         $this->assertEquals($updatedUser->birthday, $newUserProps->birthday);
+    }
+    
+    public function test_updateUserProfile(){
+        // Add user.
+        $user = (object)[
+            'username' => 'test_updateUserProfile',
+            'password' => 'testing',
+            'role' => USER_ROLE_RECRUITER,
+            'status' => USER_STATUS_ACTIVE,
+            'failed_login' => 0,
+            'email' => 'testing@test.com',
+            'contact_number' => '11111',
+            'name' => 'Test Update Profile',
+            'address' => 'My Profile',
+            'birthday' => '1990-09-09',
+        ];
+        $inserted_id = $this->obj->addUser($user);
+        
+        // Update the user profile.
+        $newUserProps = (object)[
+            'username' => 'new_profile',
+            'password' => 'newProfilePw',
+            'role' => USER_ROLE_ADMIN,
+            'status' => USER_STATUS_BLOCKED,
+            'email' => 'updatedtest@test.com',
+            'contact_number' => '55555',
+            'name' => 'Profile Updated',
+            'address' => 'I am nowwhere',
+            'birthday' => '2002-02-02',
+        ];
+        $this->obj->updateUserProfile($newUserProps,$inserted_id);
+        $updatedProfile  = $this->obj->getUserById($inserted_id);
+        // Username, password, role, and status should not change.
+        $this->assertNotEquals($updatedProfile->username, $newUserProps->username);
+        $this->assertNotTrue(password_verify($newUserProps->password,$updatedProfile->password));
+        $this->assertNotEquals($updatedProfile->role, $newUserProps->role);
+        $this->assertNotEquals($updatedProfile->status, $newUserProps->status);
+        //Other details should change.
+        $this->assertEquals($updatedProfile->email, $newUserProps->email);
+        $this->assertEquals($updatedProfile->contact_number, $newUserProps->contact_number);
+        $this->assertEquals($updatedProfile->name, $newUserProps->name);
+        $this->assertEquals($updatedProfile->address, $newUserProps->address);
+        $this->assertEquals($updatedProfile->birthday, $newUserProps->birthday);
     }
 }

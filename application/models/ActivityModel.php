@@ -26,7 +26,7 @@ Class ActivityModel extends CI_Model{
         $this->db->set('timestamp', 'NOW()', FALSE);
         $this->db->set('user_id', $userId);
         $this->db->set('activity', $activity);
-        $this->db->insert('activity');
+        return $this->db->insert('activity');
     }
 }
 ?>
