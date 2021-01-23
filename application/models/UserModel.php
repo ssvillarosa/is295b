@@ -137,6 +137,28 @@ Class UserModel extends CI_Model{
     }
     
     /**
+    * Updates user profile details.
+    *
+    * @param    user object     $user
+    */
+    public function updateUserProfile($user,$userId){
+        $userObj = $this->createUserObject($user);
+        unset($userObj->username);
+        unset($userObj->password);
+        unset($userObj->role);
+        unset($userObj->status);
+        unset($userObj->id);
+        $this->db->where("id", $userId);
+        $success = $this->db->update('user', $userObj);
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return true;
+    }
+    
+    /**
     * Creates user object to make sure that object properties are correct.
     * 
     * @return   user object

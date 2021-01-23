@@ -38,10 +38,6 @@ class User extends CI_Controller {
     * Display user details.
     */
     public function view(){
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            echo 'Invalid access.';
-            return;
-        }
         $userId = $this->input->get('id');
         $user=$this->UserModel->getUserById($userId);
         $data['user'] = $user;
@@ -51,7 +47,7 @@ class User extends CI_Controller {
     /**
     * Update user details.
     */
-    public function updateDetails(){        
+    public function updateDetails(){
         $this->setValidationDetails();
         $this->form_validation->set_rules('userId','User ID','required|integer');
         $user = $this->createUserObject(true);
@@ -64,9 +60,8 @@ class User extends CI_Controller {
             // Set success message.
             $data["success_message"] = "User successfully updated!";
         }
-        // Display empty form.
+        // Display form.
         $data["user"] = $user;
-        $user->id = $this->input->post('username');
         $this->displayForm($data,'user/detailsView');
     }
     
@@ -181,5 +176,39 @@ class User extends CI_Controller {
             return false;
         }
         return true;
+    }
+    
+    /**
+    * Display user profile.
+    */
+    public function profile(){
+        $userId = $this->session->userdata(SESS_USER_ID);
+        $user=$this->UserModel->getUserById($userId);
+        $data['user'] = $user;
+        $this->displayForm($data,'user/profile');
+    }
+    
+    /**
+    * Update user profile.
+    */
+    public function profileUpdate(){
+        $this->form_validation->set_rules('name', 'Name',
+                'trim|required|max_length[255]');
+        $this->form_validation->set_rules('email', 'Email',
+                'required|valid_email|max_length[255]');
+        $user = $this->createUserObject(true);
+        $userId = $this->session->userdata(SESS_USER_ID);
+        $success = $this->UserModel->updateUserProfile($user,$userId);
+        if(!$success){
+            // Set error message.
+            $data["error_message"] = "Error occured.";        
+        }else{
+            // Set success message.
+            $data["success_message"] = "Profile successfully updated!";
+        }
+        // Display empty form.
+        $data["user"] = $user;
+        $user->id = $this->input->post('username');
+        $this->displayForm($data,'user/profile');
     }
 }

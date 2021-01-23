@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <?php echo $this->session->userdata(SESS_USERNAME); ?>
                                             </a>
                                             <div class="dropdown-content dropdown-menu">
-                                                <a class="dropdown-item" href="#">Profile</a>
+                                                <a class="dropdown-item" href="<?php echo site_url('user/profile') ?>">Profile</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="#">Change Password</a>
                                                 <div class="dropdown-divider"></div>

@@ -229,3 +229,10 @@ body {
         background-color: #dc3545;
         border-color: #dc3545;
     }
+    
+    /* Userlist page */
+    .profile-form{
+        border: 1px solid #cecece;
+        padding: 20px;
+        border-radius: 5px;
+    }
