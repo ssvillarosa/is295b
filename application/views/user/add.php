@@ -29,6 +29,11 @@
                             <?php echo $success_message; ?>
                         </div>
                     <?php endif; ?>
+                    <?php if(isset($error_message)): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $error_message; ?>
+                        </div>
+                    <?php endif; ?>
                     <?php echo form_open('user/add'); ?>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">

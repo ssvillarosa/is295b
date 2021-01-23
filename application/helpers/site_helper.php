@@ -56,3 +56,17 @@ if(!function_exists('hashThis')){
         return password_hash($text, PASSWORD_DEFAULT);
     }
 }
+
+if(!function_exists('logArray')){
+    /**
+    * Print array contents into the log file.
+    * 
+    * @param    string     $level   error, debug, or info
+    * @param    string     $array   Array of strings
+    */
+    function logArray($level,$array){
+        foreach($array as $key => $value) {
+            log_message($level, "$key : $value");
+        }
+    }
+}

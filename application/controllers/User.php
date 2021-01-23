@@ -28,14 +28,10 @@ class User extends CI_Controller {
             echo 'Invalid access.';
             return;
         }
-        $this->load->view('common/header');
-        $this->load->view('common/nav');
         
         $users=$this->UserModel->getUsers();
         $data['users'] = $users;
-        $this->load->view('user/userList',$data);
-        
-        $this->load->view('common/footer');		
+        $this->displayForm($data,'user/userList');	
     }
     
     /**
@@ -46,24 +42,31 @@ class User extends CI_Controller {
             echo 'Invalid access.';
             return;
         }
-        $this->load->view('common/header');
-        $this->load->view('common/nav');
         $userId = $this->input->get('id');
-        
         $user=$this->UserModel->getUserById($userId);
         $data['user'] = $user;
-        $this->load->view('user/detailsView',$data);
+        $this->displayForm($data,'user/detailsView');
     }
     
     /**
     * Update user details.
     */
-    public function update(){
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            echo 'Invalid access.';
-            return;
+    public function updateDetails(){        
+        $this->setValidationDetails();
+        $this->form_validation->set_rules('userId','User ID','required|integer');
+        $user = $this->createUserObject(true);
+        $user->id = $this->input->post('userId');
+        $success = $this->UserModel->updateUserDetails($user,$user->id);
+        if(!$success){
+            // Set error message.
+            $data["error_message"] = "Error occured.";        
+        }else{
+            // Set success message.
+            $data["success_message"] = "User successfully updated!";
         }
-        echo 'Update user.';
+        // Display empty form.
+        $data["user"] = $user;
+        $this->displayForm($data,'user/detailsView');
     }
     
     /**
@@ -81,21 +84,24 @@ class User extends CI_Controller {
     * Add user.
     */
     public function add(){
-        $this->setValidationRules();
+        $this->setValidationCredentials();
         $user = $this->createUserObject(true);
         if ($this->form_validation->run() == FALSE){
             $data["user"] = $user;
-            $this->displayAddForm($data);
+            $this->displayForm($data,'user/add');
             return;
         }
-        // Remove the confirm_password before sending to the model.
-        unset($user->confirm_password);
-        $this->UserModel->addUser($user);
-        // Display Success Message and display form.
-        $data["success_message"] = "User successfully added!";
-        // Create empty user object.
+        $insert_id = $this->UserModel->addUser($user);
+        if($insert_id == -1){
+            // Set error message.
+            $data["error_message"] = "Error occured.";        
+        }else{
+            // Set success message.
+            $data["success_message"] = "User successfully added!";
+        }
+        // Display empty form.
         $data["user"] = $this->createUserObject(false);
-        $this->displayAddForm($data);
+        $this->displayForm($data,'user/add');
     }
     
     /**
@@ -124,18 +130,17 @@ class User extends CI_Controller {
     /**
     * Displays add form.
     */
-    private function displayAddForm($data){
+    private function displayForm($data,$form){
         $this->load->view('common/header');
         $this->load->view('common/nav');
-        $this->load->view('user/add', $data);
+        $this->load->view($form, $data);
         $this->load->view('common/footer');        
     }
 
-
     /**
-    * Apply validation rules.
+    * Apply validation rules for username and password.
     */
-    private function setValidationRules(){
+    private function setValidationCredentials(){
         $this->form_validation->set_error_delimiters(
                 '<div class="alert alert-danger">', '</div>'); 
         $this->form_validation->set_rules('username', 'Username',
@@ -144,14 +149,22 @@ class User extends CI_Controller {
                 'trim|required|max_length[50]');
         $this->form_validation->set_rules('confirm_password', 
                 'Password Confirmation', 'required|matches[password]');
+        $this->setValidationDetails();
+    }
+    
+    /**
+    * Apply validation rules for other details to be used in update form.
+    */
+    private function setValidationDetails(){
         $this->form_validation->set_rules('role','Role','required');
         $this->form_validation->set_rules('status','Status','required');
         $this->form_validation->set_rules('name', 'Name',
                 'trim|required|max_length[255]');
         $this->form_validation->set_rules('email', 'Email', 
-                'required|valid_email');
+                'required|valid_email|max_length[255]');        
     }
-        
+
+
     /**
     * Returns true if the username does not exist in the database.
     *

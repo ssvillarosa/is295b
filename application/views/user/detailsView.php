@@ -4,12 +4,18 @@
             <div class="col-md-8">
                 <section id="content" >
                     <h5 class="mb-3">Username: <?php echo $user->username; ?></h5>
+                    <?php if(isset($success_message)): ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo $success_message; ?>
+                        </div>
+                    <?php endif; ?>
                     <?php if(isset($error_message)): ?>
                         <div class="alert alert-danger" role="alert">
                             <?php echo $error_message; ?>
                         </div>
                     <?php endif; ?>
-                    <?php echo form_open('user/update'); ?>
+                    <?php echo form_open('user/updateDetails'); ?>
+                        <input type="hidden" value="<?php echo $user->id; ?>" id="userId" name="userId">
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="role">Role</label>
@@ -43,7 +49,7 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="contact" class="form-label">Contact No.</label>
-                                <input type="text" value="<?php echo $user->contact_number; ?>" class="form-control" id="contact" name="contact" maxLength="50">
+                                <input type="text" value="<?php echo $user->contact_number; ?>" class="form-control" id="contact_number" name="contact_number" maxLength="50">
                                 <?php echo form_error('contact'); ?>
                             </div>
                             <div class="col-md-6 mb-3">

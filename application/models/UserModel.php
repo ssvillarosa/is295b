@@ -104,16 +104,59 @@ Class UserModel extends CI_Model{
     * @return   id of the new user.
     */
     public function addUser($user){
+        $userObj = $this->createUserObject($user);
         //Encrypt user password
-        $user->password = hashThis($user->password);
-        $this->db->insert('user', $user);
-        $insert_id = $this->db->insert_id();
-        log_message('info', "Test. Query: {$this->db->last_query()}");
-        if ($insert_id === -1){
-            log_message('error', "Failed to insert user. Query: "
-                    . "${$this->db->last_query()}");
+        $userObj->password = hashThis($user->password);
+        $success = $this->db->insert('user', $userObj);
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return -1;
         }
-        return $insert_id;
+        return $this->db->insert_id();
+    }
+    
+    /**
+    * Updates user details
+    *
+    * @param    user object     $user
+    */
+    public function updateUserDetails($user,$userId){
+        $userObj = $this->createUserObject($user);
+        unset($userObj->username);
+        unset($userObj->password);
+        unset($userObj->id);
+        $this->db->where("id", $userId);
+        $success = $this->db->update('user', $userObj);
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+    * Creates user object to make sure that object properties are correct.
+    * 
+    * @return   user object
+    */
+    private function createUserObject($user,$userId=null){
+        $userObj = (object)[
+            'username' => $user->username,
+            'password' => $user->password,
+            'role' => $user->role,
+            'status' => $user->status,
+            'email' => $user->email,
+            'contact_number' => $user->contact_number,
+            'name' => $user->name,
+            'address' => $user->address,
+            'birthday' => $user->birthday,
+        ];
+        if($userId){
+            $userObj->id = $userId;
+        }
+        return $userObj;
     }
 }
 

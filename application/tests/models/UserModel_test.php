@@ -74,7 +74,6 @@ class UserModel_seedtest extends UnitTestCase {
             'name' => 'User 4',
             'address' => 'Here',
             'birthday' => '1999-03-05',
-
         ];
         $inserted_id = $this->obj->addUser($user);
         $newUser  = $this->obj->getUserById($inserted_id);
