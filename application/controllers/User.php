@@ -222,4 +222,24 @@ class User extends CI_Controller {
         $data["user"] = $user;
         $this->displayForm($data,'user/profile');
     }
+    
+    public function block(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
+        $userId = $this->input->post('userId');
+        $success = $this->UserModel->blockUser($userId);
+        echo $success ? 'Success':'Error';
+    }
+    
+    public function activate(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
+        $userId = $this->input->post('userId');
+        $success = $this->UserModel->activateUser($userId);
+        echo $success ? 'Success':'Error';
+    }
 }

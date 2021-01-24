@@ -1,6 +1,66 @@
 <script>
+    $(document).ready(function() {
+        // Create a post request to toggle user status.
+        $("#statusForm").submit(function(e){
+            e.preventDefault();
+            var api = '<?php echo site_url('user') ?>/'+$("#action").val();
+            $.post(api, 
+            $(this).serialize(),
+            function(data) {
+                hideDialog();
+                if(data.trim() === "Error"){
+                    showToast("Error occurred.",3000);
+                    return;
+                }
+                var rowButton = "#statusUser"+$("#userId").val(); 
+                var done;
+                var newStatus;
+                if($("#action").val() === "activate"){
+                    done = "activated";
+                    newStatus = "Active";
+                    $(rowButton).removeClass('btn-status-1');
+                    $(rowButton).addClass('btn-status-0');
+                }else{
+                    done = "blocked";
+                    newStatus = "Blocked";
+                    $(rowButton).removeClass('btn-status-0');
+                    $(rowButton).addClass('btn-status-1');
+                }
+                var message = "User "+$("#username").val()
+                        +" successfully "+done+".";
+                $(rowButton+" span").text(newStatus);
+                showToast(message,3000);
+            }).fail(function() {
+                showToast("Error occurred.",3000);
+            });
+        });
+    });
+    
+    // Redirect user to details view.
     function viewUser(id){
         window.location.href = './view?id='+id;
+    }
+    
+    // Displays the dialog to toggle user status.
+    function toggleUserStatus(userId,username){
+        var action;
+        var status = $("#statusUser"+userId+" span").text() != "Active";
+        $("#userId").val(userId);
+        if(status){
+            action = "activate";
+            $("#modal-action").addClass("btn-warning");
+            $("#modal-action").removeClass("btn-danger");
+        }else{
+            action = "block";
+            $("#modal-action").addClass("btn-danger");
+            $("#modal-action").removeClass("btn-warning");
+        }        
+        var message = "Do you want to "+action+" "+username+"?";
+        $("#modal-action").html(action);
+        $("#action").val(action);
+        $("#username").val(username);
+        $(".modal-text").html(message);
+        $(".m2mj-dialog").fadeIn();
     }
 </script>
 <div id="user-page" class="user-page">
@@ -32,21 +92,22 @@
                                     <td class="text-left usr-username" onClick="viewUser(<?php echo $user->id; ?>)">
                                         <?php echo $user->username; ?>
                                     </td>
-                                    <td class="text-left usr-desc" onClick="viewUser(<?php echo $user->id; ?>)">
+                                    <td class="text-left" onClick="viewUser(<?php echo $user->id; ?>)">
                                         <?php echo getRoleDictionary($user->role); ?>
                                     </td>
-                                    <td class="text-left usr-rank" onClick="viewUser(<?php echo $user->id; ?>)">
+                                    <td class="text-left" onClick="viewUser(<?php echo $user->id; ?>)">
                                         <?php echo $user->email; ?>
                                     </td>
-                                    <td class="text-left usr-desc" onClick="viewUser(<?php echo $user->id; ?>)">
+                                    <td class="text-left" onClick="viewUser(<?php echo $user->id; ?>)">
                                         <?php echo $user->name; ?>
                                     </td>
-                                    <td class="text-left usr-rank" onClick="viewUser(<?php echo $user->id; ?>)">
-                                        <?php echo form_open('user/update'); ?>
-                                            <button type="submit" class="btn btn-secondary btn-status-<?php echo $user->status; ?>">
-                                                <span><?php echo getStatusDictionary($user->status); ?></span>                                         
-                                            </button>
-                                        </form>
+                                    <td class="text-left">
+                                        <button type="button"
+                                                id="statusUser<?php echo $user->id; ?>"
+                                                onclick="toggleUserStatus(<?php echo $user->id; ?>,'<?php echo $user->username; ?>')"
+                                                class="btn btn-secondary btn-status-<?php echo $user->status; ?>">
+                                            <span><?php echo getStatusDictionary($user->status); ?></span>                                         
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -56,4 +117,22 @@
             </div>
         </div>
     </div>	
+</div>
+
+<div class="m2mj-dialog" id="status_dialog">
+    <div class="dialog-background"></div>
+    <div class="m2mj-modal-content">
+        <?php echo form_open('user/block','id="statusForm"'); ?>
+            <input type="hidden" name="userId" id="userId"/>
+            <input type="hidden" name="username" id="username"/>
+            <input type="hidden" name="action" id="action"/>
+            <div class="modal-body">
+                <strong class="modal-text"></strong>
+            </div>
+            <div class="modal-footer p-2">
+              <button type="button" class="btn btn-secondary m2mj-dialog-close">Close</button>
+              <button type="submit" class="btn btn-primary" id="modal-action">Save</button>
+            </div>
+        </form>
+    </div>
 </div>

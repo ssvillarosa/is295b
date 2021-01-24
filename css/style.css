@@ -44,6 +44,59 @@ body {
     color: red;
 }
 
+.m2mj-dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+}
+
+.m2mj-dialog .m2mj-modal-content{
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 300px;    
+    position: relative;
+    margin: auto;    
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.m2mj-dialog #modal-action{
+    text-transform: capitalize;
+}
+
+.dialog-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    opacity: .5;
+}
+
+#toast{
+    display: none;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+}
 /*********************************************************************************/
 /* Header                                                                        */
 /*********************************************************************************/

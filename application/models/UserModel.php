@@ -62,7 +62,13 @@ Class UserModel extends CI_Model{
     */
     public function blockUser($userId){
         $this->db->where("id", $userId);
-        $this->db->update('user', array('status' => USER_STATUS_BLOCKED));
+        $success = $this->db->update('user', array('status' => USER_STATUS_BLOCKED));
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return true;
     }
     
     /**
@@ -72,7 +78,13 @@ Class UserModel extends CI_Model{
     */
     public function activateUser($userId){
         $this->db->where("id", $userId);
-        $this->db->update('user', array('status' => USER_STATUS_ACTIVE));
+        $success = $this->db->update('user', array('status' => USER_STATUS_ACTIVE));
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return true;
     }
     
     /**
