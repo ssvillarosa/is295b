@@ -248,4 +248,41 @@ class User extends CI_Controller {
         $success = $this->UserModel->activateUser($userId);
         echo $success ? 'Success':'Error';
     }
+    
+    public function changePassword(){
+        $this->form_validation->set_rules('password', 'Password',
+                'trim|required|max_length[50]');
+        $this->form_validation->set_rules('new_password', 'Password',
+                'trim|required|max_length[50]');
+        $this->form_validation->set_rules('confirm_password', 
+                'Password Confirmation', 'required|matches[new_password]');
+        $password = $this->input->post('password');
+        $new_password = $this->input->post('new_password');
+        $confirm_password = $this->input->post('confirm_password');
+        $data["password"] = $password;
+        $data["new_password"] = $new_password;
+        $data["confirm_password"] = $confirm_password;
+        if (!$this->form_validation->run()){
+            $this->displayForm($data,'user/updatePassword');
+            return;
+        }
+        
+        $userId = $this->session->userdata(SESS_USER_ID);
+        // Check if current password is correct.
+        $user = $this->UserModel->getUserById($userId);
+        if(!password_verify($password,$user->password)){
+            $data["error_message"] = "Incorrect password.";
+            $this->displayForm($data,'user/updatePassword');
+            return;            
+        }
+        
+        // Update user password.
+        $success = $this->UserModel->updateUserPassword($userId,$new_password);
+        if(!$success){
+            $data["error_message"] = "Error occured";
+        }else{
+            $data["success_message"] = "Password successfully changed.";
+        }
+        $this->displayForm($data,'user/updatePassword');        
+    }
 }

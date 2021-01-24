@@ -192,6 +192,24 @@ Class UserModel extends CI_Model{
         }
         return $userObj;
     }
+    
+    /**
+    * Updates user password.
+    *
+    * @param    string      $password
+    */
+    public function updateUserPassword($userId,$password){
+        $this->db->where("id", $userId);
+        $hashedPw = hashThis($password);
+        $this->db->set('password', $hashedPw);
+        $success = $this->db->update('user');
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return true;
+    }
 }
 
 ?>

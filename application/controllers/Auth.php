@@ -143,6 +143,8 @@ class Auth extends CI_Controller {
         if($referrer){
             $data["login_referrer"]=$referrer;
         }
+        $data["username"] = $this->input->get_post('username');
+        $data["password"] = $this->input->get_post('password');
         $this->load->view('auth/login',$data);
         $this->load->view('common/footer');
     }
