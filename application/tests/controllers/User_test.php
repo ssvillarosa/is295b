@@ -205,4 +205,28 @@ class User_test extends TestCase{
         $this->assertContains('1993-10-03', $output);
         $this->assertContains('CRN', $output);
     }
+    
+    public function test_block(){   
+        // Login as Guest.
+        $output = $this->request(
+            'POST',
+            'user/block',
+            [
+                'userId' => 3,
+            ]
+        );
+        $this->assertContains('Success', $output);
+    }
+    
+    public function test_activates(){   
+        // Login as Guest.
+        $output = $this->request(
+            'POST',
+            'user/activate',
+            [
+                'userId' => 3,
+            ]
+        );
+        $this->assertContains('Success', $output);
+    }
 }

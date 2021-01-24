@@ -222,7 +222,10 @@ class User extends CI_Controller {
         $data["user"] = $user;
         $this->displayForm($data,'user/profile');
     }
-    
+        
+    /**
+    * Blocks user account.
+    */
     public function block(){
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
             echo 'Invalid access.';
@@ -232,7 +235,10 @@ class User extends CI_Controller {
         $success = $this->UserModel->blockUser($userId);
         echo $success ? 'Success':'Error';
     }
-    
+        
+    /**
+    * Activates user account.
+    */
     public function activate(){
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
             echo 'Invalid access.';
