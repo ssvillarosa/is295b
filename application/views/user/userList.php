@@ -142,11 +142,19 @@
                                     </li>
                                     <?php for($page=$currentPage-1;$page<$currentPage+2;$page++): ?>
                                         <?php if ($page < 1 || $page > $totalPage){ continue; } ?>
-                                        <li class="page-item <?php echo strval($currentPage) === strval($page) ? 'active' : ''; ?>">
-                                            <a class="page-link" href="<?php echo site_url("user/userList?currentPage=$page") ?>">
-                                                <?php echo $page; ?>
-                                            </a>
-                                        </li>
+                                        <?php if (strval($currentPage) === strval($page)): ?>                                            
+                                            <li class="page-item active">
+                                                <a class="page-link" href="#">
+                                                    <?php echo $page; ?>
+                                                </a>
+                                            </li>
+                                        <?php else: ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="<?php echo site_url("user/userList?currentPage=$page") ?>">
+                                                    <?php echo $page; ?>
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
                                     <?php endfor;?>
                                     <li class="page-item <?php echo strval($currentPage) === strval($totalPage) ? 'disabled' : ''; ?>">
                                         <a class="page-link" href="<?php echo site_url('user/userList?currentPage=').($currentPage < $totalPage ? $currentPage + 1 : $totalPage); ?>">&#62;</a>

@@ -229,4 +229,10 @@ class User_test extends TestCase{
         );
         $this->assertContains('Success', $output);
     }
+    
+    public function test_userListPagination(){
+        $page1 = $this->request('GET','user/userList?rowsPerPage=3');
+        $rowCount = substr_count($page1,'user-row-item');
+        $this->assertEquals(3, $rowCount);
+    }
 }

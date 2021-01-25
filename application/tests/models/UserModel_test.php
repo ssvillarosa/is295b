@@ -165,4 +165,23 @@ class UserModel_seedtest extends UnitTestCase {
         $this->assertEquals($updatedProfile->address, $newUserProps->address);
         $this->assertEquals($updatedProfile->birthday, $newUserProps->birthday);
     }
+    
+    public function test_getUserCount(){
+        $count = $this->obj->getUserCount();
+        $user = (object)[
+            'username' => 'test_getUCount',
+            'password' => 'getUserCount',
+            'role' => USER_ROLE_ADMIN,
+            'status' => USER_STATUS_ACTIVE,
+            'failed_login' => 0,
+            'email' => 'getUserCount@test.com',
+            'contact_number' => '002943',
+            'name' => 'Test GetUserCount',
+            'address' => 'Test Address',
+            'birthday' => '1989-03-02',
+        ];
+        $this->obj->addUser($user);
+        $newCount  = $this->obj->getUserCount();
+        $this->assertEquals($count+1, $newCount);       
+    }
 }
