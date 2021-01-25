@@ -184,6 +184,19 @@ body {
     margin-left: -120px;
 }
 
+#user_rows_dropdown{
+    margin-top: -155px;
+    margin-left: 0;
+    min-width: 50px;
+    width: 60px;
+    padding: 0;
+}
+
+#user_rows_dropdown a{
+    padding: .5rem 1rem;
+    text-align: center;
+}
+
 /*********************************************************************************/
 /* Footer                                                                        */
 /*********************************************************************************/
@@ -239,8 +252,14 @@ body {
         border-radius: 4px 4px 0px 0px;
     }
     
-    .table_toolbar > a.btn {
+    .table_toolbar > .btn {
         padding: .3rem .5rem;
+    }
+    .table_footer{
+        background: #0d447d;
+        padding: 0.1em 0.4em;
+        border-radius: 0px 0px 4px 4px;
+        color: #ccc;
     }
     
     .user-table{

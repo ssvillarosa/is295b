@@ -28,10 +28,32 @@ class User extends CI_Controller {
             echo 'Invalid access.';
             return;
         }
-        
-        $users=$this->UserModel->getUsers();
+        // Default rows per page(25) is set if rowsPerPage is not changed.
+        $rowsPerPage = $this->input->cookie(COOKIE_USER_ROWS_PER_PAGE)?
+                $this->input->cookie(COOKIE_USER_ROWS_PER_PAGE) : 25;
+        // If user changes the number of rows per page, store it into cookie
+        if($this->input->get('rowsPerPage')){
+            set_cookie(COOKIE_USER_ROWS_PER_PAGE, $this->input->get('rowsPerPage'),
+                    COOKIE_EXPIRATION);
+            $rowsPerPage = $this->input->get('rowsPerPage');
+        }
+        $totalCount = $this->UserModel->getUserCount();
+        $totalPage = floor($totalCount/$rowsPerPage);
+        if($this->UserModel->getUserCount()%$rowsPerPage != 0){
+            $totalPage++;
+        }
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $offset = ($currentPage - 1) * $rowsPerPage;
+        $users=$this->UserModel->getUsers($rowsPerPage,$offset);
         $data['users'] = $users;
-        $this->displayForm($data,'user/userList');	
+        $data['totalPage'] = $totalPage;
+        $data['rowsPerPage'] = $rowsPerPage;
+        $data['currentPage'] = $currentPage;
+        $data['totalCount'] = $totalCount;
+        $data['offset'] = $offset;
+        $this->displayForm($data,'user/userList');
     }
     
     /**
@@ -77,7 +99,7 @@ class User extends CI_Controller {
     * Delete user.
     */
     public function delete(){
-        if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
             echo 'Invalid access.';
             return;
         }

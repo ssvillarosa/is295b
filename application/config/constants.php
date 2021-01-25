@@ -85,6 +85,7 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 /* User-defined constants */
+define('COOKIE_EXPIRATION',86500);
 
 define('USER_STATUS_ACTIVE',0);
 define('USER_STATUS_BLOCKED',1);
@@ -101,3 +102,5 @@ define('SESS_USER_ROLE','user_role');
 define('SESS_USER_EMAIL','user_email');
 define('SESS_USER_FULL_NAME','user_full_name');
 define('SESS_IS_LOGGED_IN','is_logged_in');
+
+define('COOKIE_USER_ROWS_PER_PAGE','user_rows_per_page');

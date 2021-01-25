@@ -36,7 +36,7 @@ Class UserModel extends CI_Model{
     * @param    int     $offset Offset value
     * @return   array of user objects
     */
-    public function getUsers($limit=100,$offset=0){
+    public function getUsers($limit=25,$offset=0){
         $this->db->where("status !=", USER_STATUS_DELETED);
         $query = $this->db->get('user',$limit,$offset);
         return $query->result();
@@ -210,7 +210,10 @@ Class UserModel extends CI_Model{
         }
         return true;
     }
+    
+    public function getUserCount(){
+        $this->db->where("status !=", USER_STATUS_DELETED);
+        $this->db->from('user');
+        return $this->db->count_all_results(); 
+    }
 }
-
-?>
-

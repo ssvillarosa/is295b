@@ -60,7 +60,7 @@
         $("#action").val(action);
         $("#username").val(username);
         $(".modal-text").html(message);
-        $(".m2mj-dialog").fadeIn();
+        $("#status_dialog").fadeIn();
     }
 </script>
 <div id="user-page" class="user-page">
@@ -69,7 +69,7 @@
             <div class="col-md-9">
                 <div class="table_toolbar">
                     <a href="<?php echo site_url('user/add') ?>" class="btn btn-primary">New</a>
-                    <a href="#" class="btn btn-secondary">Delete</a>
+                    <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
                 </div>
                 <div class="table-responsive user-table">
                     <table class="table table-hover">
@@ -113,6 +113,55 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                </div>
+                
+                <div class="table_footer d-flex justify-content-between align-items-center">
+                    <div class="row-per-page">
+                        <div class="usr-icon" onclick="$('#user_rows_dropdown').toggle();">
+                            <a class="btn btn-secondary dropdown-toggle btn-sm" href="#">
+                                <?php echo $rowsPerPage; ?>
+                            </a> Items per page
+                            <div id="user_rows_dropdown" class="dropdown-content dropdown-menu">
+                                <a class="dropdown-item" href="<?php echo site_url('user/userList?rowsPerPage=25') ?>">25</a>
+                                <a class="dropdown-item" href="<?php echo site_url('user/userList?rowsPerPage=50') ?>">50</a>
+                                <a class="dropdown-item" href="<?php echo site_url('user/userList?rowsPerPage=100') ?>">100</a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if ($totalPage > 1): ?>
+                        <div class="pagination">
+                            <nav>
+                                <ul class="pagination justify-content-center mb-0 font-weight-bold">
+                                    <li class="page-item <?php echo strval($currentPage) === "1" ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="<?php echo site_url('user/userList?currentPage=1'); ?>">&#60;&#60;</a>
+                                    </li>
+                                    <li class="page-item <?php echo strval($currentPage) === "1" ? 'disabled' : ''; ?>">
+                                        <a class="page-link" 
+                                           href="<?php echo site_url('user/userList?currentPage=').($currentPage > 1 ? $currentPage - 1 : 1); ?>"
+                                           >&#60;</a>
+                                    </li>
+                                    <?php for($page=$currentPage-1;$page<$currentPage+2;$page++): ?>
+                                        <?php if ($page < 1 || $page > $totalPage){ continue; } ?>
+                                        <li class="page-item <?php echo strval($currentPage) === strval($page) ? 'active' : ''; ?>">
+                                            <a class="page-link" href="<?php echo site_url("user/userList?currentPage=$page") ?>">
+                                                <?php echo $page; ?>
+                                            </a>
+                                        </li>
+                                    <?php endfor;?>
+                                    <li class="page-item <?php echo strval($currentPage) === strval($totalPage) ? 'disabled' : ''; ?>">
+                                        <a class="page-link" href="<?php echo site_url('user/userList?currentPage=').($currentPage < $totalPage ? $currentPage + 1 : $totalPage); ?>">&#62;</a>
+                                    </li>                            
+                                    <li class="page-item <?php echo strval($currentPage) === strval($totalPage) ? 'disabled' : ''; ?>">
+                                        <a class="page-link" 
+                                           href="<?php echo site_url("user/userList?currentPage=$totalPage") ?>">&#62;&#62;</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    <?php endif; ?>
+                    <div class="row-statistics">
+                        Showing <?php echo ($offset+1) ?>-<?php echo ($rowsPerPage*$currentPage < $totalCount) ? ($rowsPerPage*$currentPage): $totalCount; ?> out of <?php echo $totalCount; ?>
+                    </div>
                 </div>
             </div>
         </div>

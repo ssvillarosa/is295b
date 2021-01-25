@@ -21,11 +21,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<span>Human Resources Consulting</span>
 					</div>
                         
-                                        <div class="usr-icon" onclick="$('.dropdown-content').toggle();">
+                                        <div class="usr-icon" onclick="$('#user_profile_dropdown').toggle();">
                                             <a class="btn btn-secondary dropdown-toggle btn-sm" href="#">
                                                 <?php echo $this->session->userdata(SESS_USERNAME); ?>
                                             </a>
-                                            <div class="dropdown-content dropdown-menu">
+                                            <div id="user_profile_dropdown" class="dropdown-content dropdown-menu">
                                                 <a class="dropdown-item" href="<?php echo site_url('user/profile') ?>">Profile</a>
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="<?php echo site_url('user/changePassword') ?>">Change Password</a>
