@@ -182,6 +182,25 @@ class UserModel_seedtest extends UnitTestCase {
         ];
         $this->obj->addUser($user);
         $newCount  = $this->obj->getUserCount();
-        $this->assertEquals($count+1, $newCount);       
+        $this->assertEquals($count+1, $newCount);
+    }
+    
+    public function test_deleteUser(){        
+        $user = (object)[
+            'username' => 'deletedUsr',
+            'password' => 'deletedUsr',
+            'role' => USER_ROLE_RECRUITER,
+            'status' => USER_STATUS_ACTIVE,
+            'failed_login' => 0,
+            'email' => 'user4@test.com',
+            'contact_number' => '999999',
+            'name' => 'User 4',
+            'address' => 'Here',
+            'birthday' => '1999-03-05',
+        ];
+        $inserted_id = $this->obj->addUser($user);
+        $success  = $this->obj->deleteUser($inserted_id);
+        $this->assertTrue($success);
+        $deletedUser  = $this->obj->getUserById($inserted_id);
     }
 }

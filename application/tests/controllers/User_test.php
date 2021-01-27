@@ -235,4 +235,8 @@ class User_test extends TestCase{
         $rowCount = substr_count($page1,'user-row-item');
         $this->assertEquals(3, $rowCount);
     }
+    
+    public function test_delete(){
+        // TODO: Write test case with search functionality.
+    }
 }
