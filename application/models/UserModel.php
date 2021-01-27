@@ -56,9 +56,10 @@ Class UserModel extends CI_Model{
     }
     
     /**
-    * Sets the user status to USER_STATUS_BLOCKED(1).
+    * Sets the user status to USER_STATUS_BLOCKED(1) and returns true if success.
     *
     * @param    int     $userId
+    * @return   boolean
     */
     public function blockUser($userId){
         $this->db->where("id", $userId);
@@ -72,9 +73,10 @@ Class UserModel extends CI_Model{
     }
     
     /**
-    * Sets the user status to USER_STATUS_BLOCKED(1).
+    * Sets the user status to USER_STATUS_BLOCKED(1) and returns true if success.
     *
     * @param    int     $userId
+    * @return   boolean
     */
     public function activateUser($userId){
         $this->db->where("id", $userId);
@@ -129,9 +131,10 @@ Class UserModel extends CI_Model{
     }
     
     /**
-    * Updates user details
+    * Updates user details. Returns true if successful.
     *
     * @param    user object     $user
+    * @return   boolean
     */
     public function updateUserDetails($user,$userId){
         $userObj = $this->createUserObject($user);
@@ -149,9 +152,10 @@ Class UserModel extends CI_Model{
     }
     
     /**
-    * Updates user profile details.
+    * Updates user profile details. Returns true if successful.
     *
     * @param    user object     $user
+    * @return   boolean
     */
     public function updateUserProfile($user,$userId){
         $userObj = $this->createUserObject($user);
@@ -194,9 +198,10 @@ Class UserModel extends CI_Model{
     }
     
     /**
-    * Updates user password.
+    * Updates user password. Returns true if success.
     *
     * @param    string      $password
+    * @return   boolean
     */
     public function updateUserPassword($userId,$password){
         $this->db->where("id", $userId);
@@ -210,10 +215,32 @@ Class UserModel extends CI_Model{
         }
         return true;
     }
-    
+        
+    /**
+    * Returns the total count of users that are not deleted.
+    *
+    * @param    int     $userId
+    */
     public function getUserCount(){
         $this->db->where("status !=", USER_STATUS_DELETED);
         $this->db->from('user');
         return $this->db->count_all_results(); 
+    }
+    
+    /**
+    * Sets the user status to USER_STATUS_DELETED(2). Returns true if successful.
+    *
+    * @param    int[]     $userIds      array of user IDs.
+    * @return   boolean
+    */
+    public function deleteUser($userIds){
+        $this->db->where_in('id', $userIds);
+        $success = $this->db->update('user', array('status' => USER_STATUS_DELETED));
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return true;
     }
 }

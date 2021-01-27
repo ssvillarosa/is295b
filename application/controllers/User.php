@@ -103,7 +103,13 @@ class User extends CI_Controller {
             echo 'Invalid access.';
             return;
         }
-        echo 'Delete user.';
+        if(!$this->input->post('delUserIds')){
+            echo 'Invalid User ID';
+            return;
+        }
+        $userIds = explode(",", $this->input->post('delUserIds'));
+        $success = $this->UserModel->deleteUser($userIds);
+        echo ($success ? 'Success' : 'Error');
     }
         
     /**

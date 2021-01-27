@@ -29,5 +29,4 @@ Class ActivityModel extends CI_Model{
         return $this->db->insert('activity');
     }
 }
-?>
 
