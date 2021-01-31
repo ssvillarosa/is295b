@@ -1,3 +1,8 @@
+<script>
+    function viewUser(id){
+        window.location.href = './view?id='+id;
+    }
+</script>
 <div id="user_serch_result_page" class="user-search-result-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -24,7 +29,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($users as $user): ?>
-                                    <tr class="user-row-item">
+                                    <tr class="user-row-item" onClick="viewUser(<?php echo $user["id"]; ?>)">
                                         <?php foreach ($shownFields as $field): ?>
                                             <td>
                                                 <?php 

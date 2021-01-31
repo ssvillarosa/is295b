@@ -256,7 +256,7 @@ Class UserModel extends CI_Model{
             log_message('error', "searchUser: No columns to display");
             return false;
         }
-        $this->db->select(implode(",", $columns));
+        $this->db->select("id,".implode(",", $columns));
         $this->setWhereParams($searchParams);
         $query = $this->db->get('user',$limit,$offset);
         if(!$query){
