@@ -141,6 +141,8 @@ class User extends CI_Controller {
         $data['users'] = $users;
         $data['shownFields'] = $shownFields;
         $data['columnHeaders'] = $columnHeaders;
+        $data['removedRowsPerPage'] = site_url('user/searchResult').'?'.getQueryParams(["rowsPerPage"]);
+        $data['removedCurrentPage'] = site_url('user/searchResult').'?'.getQueryParams(["currentPage"]);
         $this->displayView($data,'user/searchResult');
     }
     

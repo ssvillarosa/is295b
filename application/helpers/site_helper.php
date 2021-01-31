@@ -26,6 +26,22 @@ if(!function_exists('getFullUrl')){
     }
 }
 
+if(!function_exists('getQueryParams')){
+    /**
+    * Returns query parameters of the current URL.
+     * 
+    * @return   string
+    */
+    function getQueryParams($excludedParams=[]){
+        $ci = &get_instance();
+        $params = $ci->input->get();
+        foreach ($excludedParams as $removeParamKey){
+            unset($params[$removeParamKey]);
+        }
+        return http_build_query($params);
+    }
+}
+
 if(!function_exists('getRoleDictionary')){
     /**
     * Returns the equivalent text of a role.
