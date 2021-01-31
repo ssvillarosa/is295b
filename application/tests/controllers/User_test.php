@@ -237,6 +237,40 @@ class User_test extends TestCase{
     }
     
     public function test_delete(){
-        // TODO: Write test case with search functionality.
+        // Add user.
+        $success = $this->request(
+            'POST',
+            'user/add',
+            [
+                'username' => 'deletedUser',
+                'password' => 'admin2pw',
+                'confirm_password' => 'admin2pw',
+                'role' => USER_ROLE_ADMIN,
+                'status' => USER_STATUS_ACTIVE,
+                'email' => 'user4@test.com',
+                'contact_number' => '999999',
+                'name' => 'User 4',
+                'address' => 'Here',
+                'birthday' => '1999-03-05',
+            ]
+        );
+        $this->assertContains('User successfully added!', $success);
+        $output = $this->request('GET','user/searchResult?condition_username=E&value_username=deletedUser&display_username=on');
+        $this->assertContains('deletedUser', $output);
+        // Delete user.
+        $this->request(
+            'POST',
+            'user/delete',
+            [
+                'delUserIds' => 6,
+            ]
+        );
+        $searchResult = $this->request('GET','user/searchResult?condition_username=E&value_username=deletedUser&display_username=on');
+        $this->assertNotContains('deletedUser', $searchResult);
+    }
+    
+    public function test_userSearchResult(){
+        $output = $this->request('GET','user/searchResult?condition_username=E&value_username=admin&display_username=on');
+        $this->assertContains('admin', $output);
     }
 }

@@ -202,5 +202,32 @@ class UserModel_seedtest extends UnitTestCase {
         $success  = $this->obj->deleteUser($inserted_id);
         $this->assertTrue($success);
         $deletedUser  = $this->obj->getUserById($inserted_id);
+        $this->assertNotTrue($deletedUser);
+    }
+    
+    public function test_searchUser(){
+        $searchParam = [
+            (object)[
+                "field" => "username",
+                "condition" => "E",
+                "value" => "admin",
+                "show" => 1,
+            ]
+        ];
+        $user  = $this->obj->searchUser($searchParam,["username"]);
+        $this->assertEquals($user[0]["username"], "admin");
+    }
+    
+    public function test_searchUserCount(){
+        $searchParam = [
+            (object)[
+                "field" => "username",
+                "condition" => "E",
+                "value" => "admin",
+                "show" => 1,
+            ]
+        ];
+        $user  = $this->obj->searchUserCount($searchParam);
+        $this->assertEquals(count($user), 1);
     }
 }
