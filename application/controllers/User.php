@@ -28,6 +28,24 @@ class User extends CI_Controller {
             echo 'Invalid access.';
             return;
         }
+        $rowsPerPage = $this->getRowsPerPage();
+        $totalCount = $this->UserModel->getUserCount();
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = $this->setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $users = $this->UserModel->getUsers($rowsPerPage,$data['offset']);
+        $data['users'] = $users;
+        $data['current_uri'] = 'user/userList';
+        $this->displayView($data,'user/userList');
+    }
+  
+    /**
+    * Returns the value of rows per page.
+    * 
+    * @return   int value
+    */
+    private function getRowsPerPage(){        
         // Default rows per page(25) is set if rowsPerPage is not changed.
         $rowsPerPage = $this->input->cookie(COOKIE_USER_ROWS_PER_PAGE)?
                 $this->input->cookie(COOKIE_USER_ROWS_PER_PAGE) : 25;
@@ -37,25 +55,134 @@ class User extends CI_Controller {
                     COOKIE_EXPIRATION);
             $rowsPerPage = $this->input->get('rowsPerPage');
         }
-        $totalCount = $this->UserModel->getUserCount();
+        return $rowsPerPage;
+    }
+    
+    /**
+    * Creates pagination data.
+    * 
+    * @param    int  $totalCount    The total number of users in the database.   
+    * @param    int  $rowsPerPage   The number of users per page.
+    * @param    int  $currentPage   The active page.
+    * @return   object(field,condition,value[,value_2])
+    */
+    private function setPaginationData($totalCount,$rowsPerPage,$currentPage){        
         $totalPage = floor($totalCount/$rowsPerPage);
-        if($this->UserModel->getUserCount()%$rowsPerPage != 0){
+        if($totalCount%$rowsPerPage != 0){
             $totalPage++;
         }
-        // Current page is set to 1 if currentPage is not in URL.
-        $currentPage = $this->input->get('currentPage') 
-                ? $this->input->get('currentPage') : 1;
         $offset = ($currentPage - 1) * $rowsPerPage;
-        $users=$this->UserModel->getUsers($rowsPerPage,$offset);
-        $data['users'] = $users;
         $data['totalPage'] = $totalPage;
         $data['rowsPerPage'] = $rowsPerPage;
         $data['currentPage'] = $currentPage;
         $data['totalCount'] = $totalCount;
         $data['offset'] = $offset;
-        $this->displayForm($data,'user/userList');
+        return $data;
+    }
+        
+    /**
+    * Search page.
+    */
+    public function search(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
+        $this->displayView(null,'user/search');        
     }
     
+    /**
+    * Search results page.
+    */
+    public function searchResult(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
+        // Create search parameters for each field.
+        $searchParams = [];
+        $fields = [
+            "username",
+            "role",
+            "status",
+            "name",
+            "email",
+            "contact_number",
+            "birthday",
+            "address"];
+        foreach ($fields as $field){
+            $param = $this->getSearchParam($field);
+            $param ? array_push($searchParams, $param):'';            
+        }
+        
+        // Create array to store fields to be shown
+        $shownFields = [];
+        // Create column header for the table.
+        $columnHeaders = [];
+        foreach ($searchParams as $param){
+            if($param->show){
+                array_push($shownFields, $param->field);   
+                array_push($columnHeaders, ucwords(str_replace("_", " ", $param->field)));   
+            }
+        }
+        if(!$shownFields){
+            $data['error_message'] = "Select at least one field to be displayed.";
+            $this->displayView($data,'user/searchResult');
+            return;
+        }
+        
+        $rowsPerPage = $this->getRowsPerPage();
+        $totalCount = $this->UserModel->searchUserCount($searchParams);
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = $this->setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $users = $this->UserModel->searchUser($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+        $data['users'] = $users;
+        $data['shownFields'] = $shownFields;
+        $data['columnHeaders'] = $columnHeaders;
+        $this->displayView($data,'user/searchResult');
+    }
+    
+    /**
+    * Creates searchParameter object out of get input.
+    * 
+    * @param    string  $field  The field to create the search param.           
+    * @return   object(field,condition,value[,value_2])
+    */
+    private function getSearchParam($field){
+        if($this->input->get("condition_$field") && 
+                $this->input->get("value_$field")){
+            $condition = strval($this->input->get("condition_$field"));
+            $value = strval($this->input->get("value_$field"));
+            $value2 = strval($this->input->get("value_{$field}_2"));
+            $show = $this->input->get("display_$field")? true: false;
+            // For date fields with F condition.
+            if($value2){
+                return (object) [
+                    'field' => $field,
+                    'condition' => $condition,
+                    'value' => $value,
+                    'value_2' => $value2,
+                    'show' => $show,
+                  ];                
+            }
+            return (object) [
+                'field' => $field,
+                'condition' => $condition,
+                'value' => $value,
+                'show' => $show,
+              ];
+        }
+        if($this->input->get("display_$field")){
+            $show = $this->input->get("display_$field")? true: false;
+            return (object) [
+                'field' => $field,
+                'show' => $show,
+              ];
+        }
+    }
+
     /**
     * Display user details.
     */
@@ -67,7 +194,7 @@ class User extends CI_Controller {
         $userId = $this->input->get('id');
         $user=$this->UserModel->getUserById($userId);
         $data['user'] = $user;
-        $this->displayForm($data,'user/detailsView');
+        $this->displayView($data,'user/detailsView');
     }
     
     /**
@@ -92,7 +219,7 @@ class User extends CI_Controller {
         }
         // Display form.
         $data["user"] = $user;
-        $this->displayForm($data,'user/detailsView');
+        $this->displayView($data,'user/detailsView');
     }
     
     /**
@@ -124,7 +251,7 @@ class User extends CI_Controller {
         $user = $this->createUserObject(true);
         if ($this->form_validation->run() == FALSE){
             $data["user"] = $user;
-            $this->displayForm($data,'user/add');
+            $this->displayView($data,'user/add');
             return;
         }
         $insert_id = $this->UserModel->addUser($user);
@@ -137,7 +264,7 @@ class User extends CI_Controller {
         }
         // Display empty form.
         $data["user"] = $this->createUserObject(false);
-        $this->displayForm($data,'user/add');
+        $this->displayView($data,'user/add');
     }
     
     /**
@@ -166,7 +293,7 @@ class User extends CI_Controller {
     /**
     * Displays add form.
     */
-    private function displayForm($data,$form){
+    private function displayView($data,$form){
         $this->load->view('common/header');
         $this->load->view('common/nav');
         $this->load->view($form, $data);
@@ -225,7 +352,7 @@ class User extends CI_Controller {
         $userId = $this->session->userdata(SESS_USER_ID);
         $user=$this->UserModel->getUserById($userId);
         $data['user'] = $user;
-        $this->displayForm($data,'user/profile');
+        $this->displayView($data,'user/profile');
     }
     
     /**
@@ -248,7 +375,7 @@ class User extends CI_Controller {
         }
         // Display form.
         $data["user"] = $user;
-        $this->displayForm($data,'user/profile');
+        $this->displayView($data,'user/profile');
     }
         
     /**
@@ -276,7 +403,10 @@ class User extends CI_Controller {
         $success = $this->UserModel->activateUser($userId);
         echo $success ? 'Success':'Error';
     }
-    
+     
+    /**
+    * Changes user password.
+    */
     public function changePassword(){
         $this->form_validation->set_rules('password', 'Password',
                 'trim|required|max_length[50]');
@@ -291,7 +421,7 @@ class User extends CI_Controller {
         $data["new_password"] = $new_password;
         $data["confirm_password"] = $confirm_password;
         if (!$this->form_validation->run()){
-            $this->displayForm($data,'user/updatePassword');
+            $this->displayView($data,'user/updatePassword');
             return;
         }
         
@@ -300,7 +430,7 @@ class User extends CI_Controller {
         $user = $this->UserModel->getUserById($userId);
         if(!password_verify($password,$user->password)){
             $data["error_message"] = "Incorrect password.";
-            $this->displayForm($data,'user/updatePassword');
+            $this->displayView($data,'user/updatePassword');
             return;            
         }
         
@@ -311,6 +441,6 @@ class User extends CI_Controller {
         }else{
             $data["success_message"] = "Password successfully changed.";
         }
-        $this->displayForm($data,'user/updatePassword');        
+        $this->displayView($data,'user/updatePassword');        
     }
 }

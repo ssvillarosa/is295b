@@ -19,13 +19,13 @@
                 if($("#action").val() === "activate"){
                     done = "activated";
                     newStatus = "Active";
-                    $(rowButton).removeClass('btn-status-1');
-                    $(rowButton).addClass('btn-status-0');
+                    $(rowButton).removeClass('btn-status-'+USER_STATUS_BLOCKED);
+                    $(rowButton).addClass('btn-status-'+USER_STATUS_ACTIVE);
                 }else{
                     done = "blocked";
                     newStatus = "Blocked";
-                    $(rowButton).removeClass('btn-status-0');
-                    $(rowButton).addClass('btn-status-1');
+                    $(rowButton).removeClass('btn-status-'+USER_STATUS_ACTIVE);
+                    $(rowButton).addClass('btn-status-'+USER_STATUS_BLOCKED);
                 }
                 var message = "User "+$("#username").val()
                         +" successfully "+done+".";
@@ -105,6 +105,7 @@
                 <div class="table_toolbar">
                     <a href="<?php echo site_url('user/add') ?>" class="btn btn-primary">New</a>
                     <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
+                    <a href="<?php echo site_url('user/search') ?>" class="btn btn-success">Search</a>
                 </div>
                 <div class="table-responsive user-table">
                     <table class="table table-hover" id="user_table">
@@ -122,7 +123,7 @@
                             <?php foreach ($users as $user): ?>
                                 <tr id="user-<?php echo $user->id; ?>" class="user-row-item">
                                     <td class="text-left usr-chk">
-                                        <input type="checkbox" class="chk" name="vehicle1" value="<?php echo $user->id; ?>">
+                                        <input type="checkbox" class="chk" value="<?php echo $user->id; ?>">
                                     </td>
                                     <td class="text-left usr-username" onClick="viewUser(<?php echo $user->id; ?>)">
                                         <?php echo $user->username; ?>
@@ -153,9 +154,9 @@
                 <div class="table_footer d-flex justify-content-between align-items-center">
                     <div class="row-per-page">
                         <div class="usr-icon" onclick="$('#user_rows_dropdown').toggle();">
-                            <a class="btn btn-secondary dropdown-toggle btn-sm" href="#">
+                            <button class="btn btn-secondary dropdown-toggle btn-sm" href="#">
                                 <?php echo $rowsPerPage; ?>
-                            </a> Items per page
+                            </button> Items per page
                             <div id="user_rows_dropdown" class="dropdown-content dropdown-menu">
                                 <a class="dropdown-item" href="<?php echo site_url('user/userList?rowsPerPage=25') ?>">25</a>
                                 <a class="dropdown-item" href="<?php echo site_url('user/userList?rowsPerPage=50') ?>">50</a>
