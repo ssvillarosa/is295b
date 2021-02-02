@@ -242,21 +242,21 @@ class User_test extends TestCase{
             'POST',
             'user/add',
             [
-                'username' => 'deletedUser',
+                'username' => 'delUser',
                 'password' => 'admin2pw',
                 'confirm_password' => 'admin2pw',
                 'role' => USER_ROLE_ADMIN,
                 'status' => USER_STATUS_ACTIVE,
-                'email' => 'user4@test.com',
+                'email' => 'delUser@test.com',
                 'contact_number' => '999999',
-                'name' => 'User 4',
-                'address' => 'Here',
-                'birthday' => '1999-03-05',
+                'name' => 'delUser',
+                'address' => 'delUser',
+                'birthday' => '2001-01-08',
             ]
         );
         $this->assertContains('User successfully added!', $success);
-        $output = $this->request('GET','user/searchResult?condition_username=E&value_username=deletedUser&display_username=on');
-        $this->assertContains('deletedUser', $output);
+        $output = $this->request('GET','user/searchResult?condition_username=E&value_username=delUser&display_username=on');
+        $this->assertContains('delUser', $output);
         // Delete user.
         $this->request(
             'POST',
@@ -265,8 +265,8 @@ class User_test extends TestCase{
                 'delUserIds' => 6,
             ]
         );
-        $searchResult = $this->request('GET','user/searchResult?condition_username=E&value_username=deletedUser&display_username=on');
-        $this->assertNotContains('deletedUser', $searchResult);
+        $searchResult = $this->request('GET','user/searchResult?condition_username=E&value_username=delUser&display_username=on');
+        $this->assertNotContains('viewUser(6)', $searchResult);
     }
     
     public function test_userSearchResult(){
