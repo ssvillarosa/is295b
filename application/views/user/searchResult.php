@@ -7,9 +7,16 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9">
+                <?php if(isset($filters) && count($filters)): ?>
+                    <div class="alert alert-primary mb-2 p-1">
+                        <span class="font-weight-bold">Filters : </span>
+                        <?php foreach ($filters as $filter): ?>
+                            <span class="badge badge-primary"><?php echo $filter; ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
                 <div class="table_toolbar">
-                    <a href="<?php echo site_url('user/add') ?>" class="btn btn-primary">New</a>
-                    <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
+                    <a href="<?php echo site_url('user/searchResult').'?'.getQueryParams(); ?>&exportResult=user" class="btn btn-primary">Export</a>
                     <a href="<?php echo site_url('user/search') ?>" class="btn btn-success">Search</a>
                 </div>
                 <?php if(isset($error_message)): ?>
@@ -32,19 +39,7 @@
                                     <tr class="user-row-item" onClick="viewUser(<?php echo $user["id"]; ?>)">
                                         <?php foreach ($shownFields as $field): ?>
                                             <td>
-                                                <?php 
-                                                switch($field){
-                                                    case "status":
-                                                        echo getStatusDictionary($user[$field]);
-                                                        break;
-                                                    case "role":
-                                                        echo getRoleDictionary($user[$field]);
-                                                        break;
-                                                    default:
-                                                        echo $user[$field];
-                                                        break;
-                                                }
-                                                ?>
+                                                <?php echo $user[$field]; ?>
                                             </td>
                                         <?php endforeach; ?>
                                     </tr>

@@ -51,8 +51,8 @@ if(!function_exists('getRoleDictionary')){
     */
     function getRoleDictionary($role){
         switch($role){
-            case USER_ROLE_ADMIN: return "Admin";
-            case USER_ROLE_RECRUITER: return "Recruiter";
+            case USER_ROLE_ADMIN: return USER_ROLE_ADMIN_TEXT;
+            case USER_ROLE_RECRUITER: return USER_ROLE_RECRUITER_TEXT;
         }
     }
 }
@@ -115,11 +115,11 @@ if(!function_exists('createTextFilter')){
                     <div class='col-sm-3'>
                         <select name='condition_$id' id='condition_$id' class='custom-select'>
                             <option value=''>Select Condition</option>
-                            <option value='".CONDITION_EQUALS."'>Equals</option>
-                            <option value='".CONDITION_NOT_EQUAL."'>Not Equal</option>
-                            <option value='".CONDITION_STARTS_WITH."'>Starts With</option>
-                            <option value='".CONDITION_ENDS_WITH."'>Ends With</option>
-                            <option value='".CONDITION_CONTAINS."'>Contains</option>
+                            <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_NOT_EQUAL."'>".getConditionDictionary(CONDITION_NOT_EQUAL)."</option>
+                            <option value='".CONDITION_STARTS_WITH."'>".getConditionDictionary(CONDITION_STARTS_WITH)."</option>
+                            <option value='".CONDITION_ENDS_WITH."'>".getConditionDictionary(CONDITION_ENDS_WITH)."</option>
+                            <option value='".CONDITION_CONTAINS."'>".getConditionDictionary(CONDITION_CONTAINS)."</option>
                         </select>
                     </div>
                     <div class='col-sm-3'>
@@ -152,8 +152,8 @@ if(!function_exists('createSelectionFilter')){
                     <div class='col-sm-3'>
                         <select name='condition_$id' id='condition_$id' class='custom-select'>
                             <option value=''>Select Condition</option>
-                            <option value='".CONDITION_EQUALS."'>Equals</option>
-                            <option value='".CONDITION_NOT_EQUAL."'>Not Equal</option>
+                            <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_NOT_EQUAL."'>".getConditionDictionary(CONDITION_NOT_EQUAL)."</option>
                         </select>
                     </div>
                     <div class='col-sm-3'>
@@ -180,10 +180,10 @@ if(!function_exists('createDateCondition')){
                     <div class='col-sm-3'>
                         <select name='condition_$id' id='condition_$id' class='custom-select date-field-select'>
                             <option value=''>Select Condition</option>
-                            <option value='".CONDITION_EQUALS."'>On</option>
-                            <option value='".CONDITION_BEFORE."'>Before</option>
-                            <option value='".CONDITION_AFTER."'>After</option>
-                            <option value='".CONDITION_FROM."'>From</option>
+                            <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_BEFORE."'>".getConditionDictionary(CONDITION_BEFORE)."</option>
+                            <option value='".CONDITION_AFTER."'>".getConditionDictionary(CONDITION_AFTER)."</option>
+                            <option value='".CONDITION_FROM."'>".getConditionDictionary(CONDITION_FROM)."</option>
                         </select>
                     </div>
                     <div class='col-sm-3'>
@@ -191,5 +191,62 @@ if(!function_exists('createDateCondition')){
                     </div>
                     <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."'>
                 </div>";
+    }
+}
+
+if(!function_exists('getConditionDictionary')){
+    /**
+    * Returns the equivalent text of a condition.
+     * 
+    * @param    int     $condition   Condition integer.
+    * @return   string
+    */
+    function getConditionDictionary($condition){
+        switch ($condition){
+            case CONDITION_EQUALS:
+                return "Equals";
+            case CONDITION_NOT_EQUAL:
+                return "Not Equal";
+            case CONDITION_STARTS_WITH:
+                return "Starts With";
+            case CONDITION_ENDS_WITH:
+                return "Ends With";
+            case CONDITION_CONTAINS:
+                return "Contains";
+            case CONDITION_BEFORE:
+                return "Before";
+            case CONDITION_AFTER:
+                return "After";
+            case CONDITION_FROM:
+                return "From";
+        }
+    }
+}
+
+if(!function_exists('generateTextForFilters')){
+    /**
+    * Generates text for filters.
+     * 
+    * @param    search params object    $searchParams
+    * @return   string
+    */
+    function generateTextForFilters($searchParams){
+        $textFilters = [];
+        foreach ($searchParams as $param){
+            if(empty($param->value) || empty($param->condition)){
+                continue;
+            }
+            $field = ucwords(str_replace("_", " ", $param->field));
+            $condition = getConditionDictionary(strval($param->condition));
+            if(strval($param->condition) == CONDITION_FROM){
+                $textFilter = "$field $condition ".
+                        $param->value." TO ".$param->value_2;
+                array_push($textFilters, $textFilter);
+                continue;
+            }
+            $textFilter = "$field $condition ".$param->value;
+            array_push($textFilters, $textFilter);   
+        }
+        return $textFilters;
     }
 }

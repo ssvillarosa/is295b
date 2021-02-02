@@ -90,9 +90,14 @@ define('COOKIE_EXPIRATION',86500);
 define('USER_STATUS_ACTIVE',1);
 define('USER_STATUS_BLOCKED',2);
 define('USER_STATUS_DELETED',3);
+define('USER_STATUS_ACTIVE_TEXT','Active');
+define('USER_STATUS_BLOCKED_TEXT','Blocked');
+define('USER_STATUS_DELETED_TEXT','Deleted');
 
 define('USER_ROLE_ADMIN',1);
 define('USER_ROLE_RECRUITER',2);
+define('USER_ROLE_ADMIN_TEXT','Admin');
+define('USER_ROLE_RECRUITER_TEXT','Recruiter');
 
 define('MAX_LOGIN_ATTEMPT',5);
 

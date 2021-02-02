@@ -256,9 +256,18 @@ Class UserModel extends CI_Model{
             log_message('error', "searchUser: No columns to display");
             return false;
         }
-        $this->db->select("id,".implode(",", $columns));
+        // Set select columns
+        $this->db->select("id");
+        foreach ($columns as &$column) {
+            $this->db->select($column);
+        }
+        // Set where conditions
         $this->setWhereParams($searchParams);
-        $query = $this->db->get('user',$limit,$offset);
+        if($limit === 0){
+            $query = $this->db->get('user_search_table');            
+        }else{
+            $query = $this->db->get('user_search_table',$limit,$offset);            
+        }
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
@@ -274,7 +283,7 @@ Class UserModel extends CI_Model{
     */
     public function searchUserCount($searchParams){
         $this->setWhereParams($searchParams);
-        $this->db->from('user');
+        $this->db->from('user_search_table');
         $count = $this->db->count_all_results();
         return $count;
     }
@@ -302,10 +311,10 @@ Class UserModel extends CI_Model{
                     $this->db->like($param->field, $param->value, 'after');
                     break;
                 case CONDITION_ENDS_WITH:
-                    $this->db->where($param->field, $param->value, 'before');
+                    $this->db->like($param->field, $param->value, 'before');
                     break;
                 case CONDITION_CONTAINS:
-                    $this->db->where($param->field, $param->value);
+                    $this->db->like($param->field, $param->value);
                     break;
                 case CONDITION_BEFORE:
                     $this->db->where($param->field." <", $param->value);

@@ -137,13 +137,44 @@ class User extends CI_Controller {
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
         $data = $this->setPaginationData($totalCount,$rowsPerPage,$currentPage);
-        $users = $this->UserModel->searchUser($searchParams,$shownFields,$rowsPerPage,$data['offset']);
-        $data['users'] = $users;
         $data['shownFields'] = $shownFields;
         $data['columnHeaders'] = $columnHeaders;
+        $data['searcParams'] = $searchParams;
+        $data['filters'] = generateTextForFilters($searchParams);
         $data['removedRowsPerPage'] = site_url('user/searchResult').'?'.getQueryParams(["rowsPerPage"]);
         $data['removedCurrentPage'] = site_url('user/searchResult').'?'.getQueryParams(["currentPage"]);
+        
+        if($this->input->get("exportResult")){
+            $users = $this->UserModel->searchUser($searchParams,$shownFields,0);
+            $this->exportCSV($this->input->get("exportResult"),$users,$shownFields);
+        }else{
+            $users = $this->UserModel->searchUser($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+        }
+        $data['users'] = $users;
         $this->displayView($data,'user/searchResult');
+    }
+    
+    /**
+    * Export search result to CSV file.
+    */
+   private function exportCSV($filename,$data,$header){ 
+        // file name 
+        $filename = $filename.'.csv'; 
+        header("Content-Description: File Transfer"); 
+        header("Content-Disposition: attachment; filename=$filename"); 
+        header("Content-Type: application/csv; ");
+
+        // file creation 
+        $file = fopen('php://output', 'w');
+
+        fputcsv($file, $header);
+        foreach ($data as $key=>$line){
+            // Remove ID
+            unset($line['id']);
+            fputcsv($file,$line); 
+        }
+        fclose($file); 
+        exit; 
     }
     
     /**
@@ -160,12 +191,12 @@ class User extends CI_Controller {
             $value2 = strval($this->input->get("value_{$field}_2"));
             $show = $this->input->get("display_$field")? true: false;
             // For date fields with F condition.
-            if($value2){
+            if($condition == CONDITION_FROM){
                 return (object) [
                     'field' => $field,
                     'condition' => $condition,
                     'value' => $value,
-                    'value_2' => $value2,
+                    'value_2' => $value2 ? $value2 : date('Y-m-d'),
                     'show' => $show,
                   ];                
             }

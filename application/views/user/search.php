@@ -21,14 +21,14 @@
                         <?php createSelectionFilter('Role',
                                 array(
                                     ''=>'Select Role',
-                                    USER_ROLE_ADMIN =>'Admin',
-                                    USER_ROLE_RECRUITER =>'Recruiter'
+                                    USER_ROLE_ADMIN_TEXT =>USER_ROLE_ADMIN_TEXT,
+                                    USER_ROLE_RECRUITER =>USER_ROLE_RECRUITER_TEXT
                                     )); ?>
                         <?php createSelectionFilter('Status',
                                 array(
                                     ''=>'Select Status',
-                                    USER_STATUS_ACTIVE =>'Active',
-                                    USER_STATUS_BLOCKED =>'Blocked'
+                                    USER_STATUS_ACTIVE_TEXT =>USER_STATUS_ACTIVE_TEXT,
+                                    USER_STATUS_BLOCKED_TEXT =>USER_STATUS_BLOCKED_TEXT
                                     )); ?>
                         <?php createTextFilter("Name") ?>
                         <?php createTextFilter("Email") ?>
