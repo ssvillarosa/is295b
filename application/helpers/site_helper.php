@@ -125,7 +125,7 @@ if(!function_exists('createTextFilter')){
                     <div class='col-sm-3'>
                         <input type='text' class='form-control' id='value_$id' name='value_$id' maxLength='255'>
                     </div>
-                    <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."'>
+                    <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."' checked>
                 </div>";
     }
 }
@@ -159,7 +159,7 @@ if(!function_exists('createSelectionFilter')){
                     <div class='col-sm-3'>
                         {$selection}
                     </div>
-                    <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."'>
+                    <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."' checked>
                 </div>";
     }
 }
@@ -189,7 +189,7 @@ if(!function_exists('createDateCondition')){
                     <div class='col-sm-3'>
                         <input type='date' class='form-control' id='value_$id' name='value_$id' maxLength='50'>
                     </div>
-                    <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."'>
+                    <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."' checked>
                 </div>";
     }
 }

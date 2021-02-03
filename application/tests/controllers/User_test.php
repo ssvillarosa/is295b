@@ -273,4 +273,9 @@ class User_test extends TestCase{
         $output = $this->request('GET','user/searchResult?condition_username=E&value_username=admin&display_username=on');
         $this->assertContains('admin', $output);
     }
+    
+    public function test_log(){
+        $output = $this->request('GET','user/log?userId=1');
+        $this->assertContains('Login Success', $output);
+    }
 }

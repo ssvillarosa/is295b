@@ -30,6 +30,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="<?php echo site_url('user/changePassword') ?>">Change Password</a>
                                                 <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="<?php echo site_url('user/log') ?>">Activity Log</a>
+                                                <div class="dropdown-divider"></div>
                                                 <a class="dropdown-item" href="<?php echo site_url('auth/logout') ?>">Logout</a>
                                             </div>
                                         </div>

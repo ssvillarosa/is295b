@@ -250,6 +250,7 @@ body {
         background: #0d447d;
         padding: 0.4em;
         border-radius: 4px 4px 0px 0px;
+        min-height: 50px;
     }
     
     .table_toolbar > .btn {

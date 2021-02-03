@@ -18,4 +18,9 @@ class ActivityModel_seedtest extends UnitTestCase {
         $success = $this->obj->saveUserActivity(1,'test');
         $this->assertTrue($success);
     }
+    
+    public function test_getUserActivities(){
+        $activities = $this->obj->getUserActivities(1);
+        $this->assertEquals($activities[0]->activity,'test');
+    }
 }

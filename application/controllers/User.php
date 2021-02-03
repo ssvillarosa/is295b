@@ -28,7 +28,7 @@ class User extends CI_Controller {
             echo 'Invalid access.';
             return;
         }
-        $rowsPerPage = $this->getRowsPerPage();
+        $rowsPerPage = $this->getRowsPerPage(COOKIE_USER_ROWS_PER_PAGE);
         $totalCount = $this->UserModel->getUserCount();
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
@@ -45,13 +45,13 @@ class User extends CI_Controller {
     * 
     * @return   int value
     */
-    private function getRowsPerPage(){        
+    private function  getRowsPerPage($module){        
         // Default rows per page(25) is set if rowsPerPage is not changed.
-        $rowsPerPage = $this->input->cookie(COOKIE_USER_ROWS_PER_PAGE)?
-                $this->input->cookie(COOKIE_USER_ROWS_PER_PAGE) : 25;
+        $rowsPerPage = $this->input->cookie($module)?
+                $this->input->cookie($module) : 25;
         // If user changes the number of rows per page, store it into cookie
         if($this->input->get('rowsPerPage')){
-            set_cookie(COOKIE_USER_ROWS_PER_PAGE, $this->input->get('rowsPerPage'),
+            set_cookie($module, $this->input->get('rowsPerPage'),
                     COOKIE_EXPIRATION);
             $rowsPerPage = $this->input->get('rowsPerPage');
         }
@@ -131,7 +131,7 @@ class User extends CI_Controller {
             return;
         }
         
-        $rowsPerPage = $this->getRowsPerPage();
+        $rowsPerPage = $this->getRowsPerPage(COOKIE_USER_SEARCH_ROWS_PER_PAGE);
         $totalCount = $this->UserModel->searchUserCount($searchParams);
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
@@ -253,6 +253,10 @@ class User extends CI_Controller {
         // Display form.
         $data["user"] = $user;
         $this->displayView($data,'user/detailsView');
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Updated user ".$user->username." details.");
     }
     
     /**
@@ -269,7 +273,15 @@ class User extends CI_Controller {
         }
         $userIds = explode(",", $this->input->post('delUserIds'));
         $success = $this->UserModel->deleteUser($userIds);
-        echo ($success ? 'Success' : 'Error');
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Deleted user.");
+        echo 'Success';
     }
         
     /**
@@ -298,6 +310,10 @@ class User extends CI_Controller {
         // Display empty form.
         $data["user"] = $this->createUserObject(false);
         $this->displayView($data,'user/add');
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Created user ".$user->username.".");
     }
     
     /**
@@ -405,6 +421,9 @@ class User extends CI_Controller {
         }else{
             // Set success message.
             $data["success_message"] = "Profile successfully updated!";
+            // Log user activity.
+            $this->ActivityModel->saveUserActivity(
+                    $userId, "Updated profile.");
         }
         // Display form.
         $data["user"] = $user;
@@ -421,7 +440,15 @@ class User extends CI_Controller {
         }
         $userId = $this->input->post('userId');
         $success = $this->UserModel->blockUser($userId);
-        echo $success ? 'Success':'Error';
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Blocked user.");
+        echo 'Success';
     }
         
     /**
@@ -434,7 +461,15 @@ class User extends CI_Controller {
         }
         $userId = $this->input->post('userId');
         $success = $this->UserModel->activateUser($userId);
-        echo $success ? 'Success':'Error';
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Activated user.");
+        echo 'Success';
     }
      
     /**
@@ -473,7 +508,37 @@ class User extends CI_Controller {
             $data["error_message"] = "Error occured";
         }else{
             $data["success_message"] = "Password successfully changed.";
+            // Log user activity.
+            $this->ActivityModel->saveUserActivity(
+                    $userId, "Changed password.");
         }
         $this->displayView($data,'user/updatePassword');        
+    }
+    
+    /**
+    * Display user logs.
+    */
+    public function log(){
+        $userId = $this->input->get("userId") ? $this->input->get("userId") : 
+            $this->session->userdata(SESS_USER_ID);
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN && 
+                $userId != $this->session->userdata(SESS_USER_ID)){
+            echo 'Invalid access.';
+            return;
+        }
+        $rowsPerPage = $this->getRowsPerPage(COOKIE_ACTIVITY_ROWS_PER_PAGE);
+        $totalCount = $this->ActivityModel->getUserActivityCount($userId);
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = $this->setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $activities = $this->ActivityModel->getUserActivities($userId,
+                $rowsPerPage,$data['offset']);
+        if($activities === -1){
+            $data["error_message"] = "Error occured";
+            return;
+        }
+        $data["activities"] = $activities;
+        $this->displayView($data,'user/log');
     }
 }

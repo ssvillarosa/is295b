@@ -96,7 +96,7 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
-                                <a href="<?php echo site_url('user/userList') ?>" class="btn btn-success">View Logs</a>
+                                <a href="<?php echo site_url('user/log?userId='.$user->id) ?>" class="btn btn-success">View Logs</a>
                                 <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
                             </div>
                             <div class="text-right">
