@@ -49,6 +49,8 @@ class Auth extends CI_Controller {
     * Destroys session and redirects user to login page.
     */
     public function logout(){
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),"Logged out.");
         $sessionData = array(
             SESS_USER_ID,
             SESS_USERNAME,
@@ -81,13 +83,12 @@ class Auth extends CI_Controller {
             echo "User is blocked. Please contact the administrator.";
             return false;
         }
-        // Check if the credentials are valid
-        $user2 = $this->UserModel->getUserByCred($username,$password);
-        if(!$user2){
+        // Check if password is correct
+        if(!password_verify($password,$user->password)){
             // Increment login_failed.
             $this->UserModel->addLoginFailed($user->id);
             // Log user's invalid attempt.
-            $this->ActivityModel->saveUserActivity($user->id,"Login Failed");
+            $this->ActivityModel->saveUserActivity($user->id,"Login Failed.");
             if($user->failed_login >= MAX_LOGIN_ATTEMPT - 1){
                 // Block User if failed login attempt is reached.
                 $this->UserModel->blockUser($user->id);
@@ -100,7 +101,7 @@ class Auth extends CI_Controller {
             return false;
         }
         // Log user successful login.
-        $this->ActivityModel->saveUserActivity($user2->id,"Login Success");
+        $this->ActivityModel->saveUserActivity($user->id,"Login Success.");
         // Reset invalid login attempt.
         $this->UserModel->resetLoginFailed($user->id);
         // Create user session
@@ -144,6 +145,8 @@ class Auth extends CI_Controller {
         if($referrer){
             $data["login_referrer"]=$referrer;
         }
+        $data["username"] = $this->input->get_post('username');
+        $data["password"] = $this->input->get_post('password');
         $this->load->view('auth/login',$data);
         $this->load->view('common/footer');
     }

@@ -11,12 +11,12 @@
                     <?php echo form_open(); ?>
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" maxLength="50" required>
+                            <input type="text" class="form-control" id="username" name="username" value="<?php echo $username; ?>"maxLength="50" required>
                             <?php echo form_error('username'); ?>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" maxLength="50" required>
+                            <input type="password" class="form-control" id="password" name="password" value="<?php echo $password; ?>" maxLength="50" required>
                             <?php echo form_error('password'); ?>
                         </div>                    
                         <?php if(isset($login_referrer)): ?>

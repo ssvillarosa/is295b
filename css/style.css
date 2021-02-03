@@ -8,7 +8,7 @@ body {
     font-family: 'Lato', sans-serif;
     font-size: 12pt;
     font-weight: 300;
-    color: #8A8A8A;
+    /*color: #8A8A8A;*/
 }
 
 .container {
@@ -39,6 +39,64 @@ body {
     color: #FFF;
 }
 
+.required:after {
+    content:" *";
+    color: red;
+}
+
+.m2mj-dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+}
+
+.m2mj-dialog .m2mj-modal-content{
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: .3rem;
+    outline: 0;
+    width: 300px;    
+    position: relative;
+    margin: auto;    
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.m2mj-dialog #modal-action{
+    text-transform: capitalize;
+}
+
+.dialog-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    opacity: .5;
+}
+
+#toast{
+    display: none;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+}
 /*********************************************************************************/
 /* Header                                                                        */
 /*********************************************************************************/
@@ -126,6 +184,19 @@ body {
     margin-left: -120px;
 }
 
+#user_rows_dropdown{
+    margin-top: -155px;
+    margin-left: 0;
+    min-width: 50px;
+    width: 60px;
+    padding: 0;
+}
+
+#user_rows_dropdown a{
+    padding: .5rem 1rem;
+    text-align: center;
+}
+
 /*********************************************************************************/
 /* Footer                                                                        */
 /*********************************************************************************/
@@ -179,10 +250,17 @@ body {
         background: #0d447d;
         padding: 0.4em;
         border-radius: 4px 4px 0px 0px;
+        min-height: 50px;
     }
     
-    .table_toolbar > a.btn {
+    .table_toolbar > .btn {
         padding: .3rem .5rem;
+    }
+    .table_footer{
+        background: #0d447d;
+        padding: 0.1em 0.4em;
+        border-radius: 0px 0px 4px 4px;
+        color: #ccc;
     }
     
     .user-table{
@@ -199,28 +277,35 @@ body {
         padding: .1rem;
     }
     
+    .btn-status-2:hover span {
+        display:none
+    }
+    
+    .btn-status-2:hover:before{
+        content: "Activate";
+    }
+    
+    .btn-status-2:hover{
+        background-color: #ffc107;
+        border-color: #ffc107;
+    }
+    
     .btn-status-1:hover span {
         display:none
     }
     
     .btn-status-1:hover:before{
-        content: "Activate";
-    }
-    
-    .btn-status-1:hover{
-        background-color: #ffc107;
-        border-color: #ffc107;
-    }
-    
-    .btn-status-0:hover span {
-        display:none
-    }
-    
-    .btn-status-0:hover:before{
         content: "Block";
     }
     
-    .btn-status-0:hover{
+    .btn-status-1:hover{
         background-color: #dc3545;
         border-color: #dc3545;
+    }
+    
+    /* Userlist page */
+    .profile-form{
+        border: 1px solid #cecece;
+        padding: 20px;
+        border-radius: 5px;
     }

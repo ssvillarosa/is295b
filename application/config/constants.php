@@ -85,13 +85,19 @@ defined('EXIT__AUTO_MIN')      OR define('EXIT__AUTO_MIN', 9); // lowest automat
 defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
 /* User-defined constants */
+define('COOKIE_EXPIRATION',86500);
 
-define('USER_STATUS_ACTIVE',0);
-define('USER_STATUS_BLOCKED',1);
-define('USER_STATUS_DELETED',2);
+define('USER_STATUS_ACTIVE',1);
+define('USER_STATUS_BLOCKED',2);
+define('USER_STATUS_DELETED',3);
+define('USER_STATUS_ACTIVE_TEXT','Active');
+define('USER_STATUS_BLOCKED_TEXT','Blocked');
+define('USER_STATUS_DELETED_TEXT','Deleted');
 
-define('USER_ROLE_ADMIN',0);
-define('USER_ROLE_RECRUITER',1);
+define('USER_ROLE_ADMIN',1);
+define('USER_ROLE_RECRUITER',2);
+define('USER_ROLE_ADMIN_TEXT','Admin');
+define('USER_ROLE_RECRUITER_TEXT','Recruiter');
 
 define('MAX_LOGIN_ATTEMPT',5);
 
@@ -101,3 +107,16 @@ define('SESS_USER_ROLE','user_role');
 define('SESS_USER_EMAIL','user_email');
 define('SESS_USER_FULL_NAME','user_full_name');
 define('SESS_IS_LOGGED_IN','is_logged_in');
+
+define('COOKIE_USER_ROWS_PER_PAGE','user_rows_per_page');
+define('COOKIE_USER_SEARCH_ROWS_PER_PAGE','user_search_rows_per_page');
+define('COOKIE_ACTIVITY_ROWS_PER_PAGE','activity_rows_per_page');
+
+define('CONDITION_EQUALS','E');
+define('CONDITION_NOT_EQUAL','NE');
+define('CONDITION_STARTS_WITH','SW');
+define('CONDITION_ENDS_WITH','EW');
+define('CONDITION_CONTAINS','C');
+define('CONDITION_BEFORE','B');
+define('CONDITION_AFTER','A');
+define('CONDITION_FROM','F');
