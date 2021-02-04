@@ -146,7 +146,7 @@ class User extends CI_Controller {
         
         if($this->input->get("exportResult")){
             $users = $this->UserModel->searchUser($searchParams,$shownFields,0);
-            $this->exportCSV($this->input->get("exportResult"),$users,$shownFields);
+            $this->exportCSV($this->input->get("exportResult"),$users,$columnHeaders);
         }else{
             $users = $this->UserModel->searchUser($searchParams,$shownFields,$rowsPerPage,$data['offset']);
         }
