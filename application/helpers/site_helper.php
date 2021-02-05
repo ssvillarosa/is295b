@@ -294,3 +294,20 @@ if(!function_exists('setPaginationData')){
         return $data;
     }
 }
+
+
+if(!function_exists('renderPage')){
+    /**
+    * Renders page.
+    * 
+    * @param    int  $ctx    The context of the page.   
+    * @param    int  $data   The data bind to the page.
+    * @param    int  $page   The active page.
+    */
+    function renderPage($ctx,$data,$page){
+        $ctx->load->view('common/header');
+        $ctx->load->view('common/nav');
+        $ctx->load->view($page, $data);
+        $ctx->load->view('common/footer');        
+    }
+}
