@@ -28,7 +28,7 @@ class User extends CI_Controller {
             echo 'Invalid access.';
             return;
         }
-        $rowsPerPage = $this->getRowsPerPage(COOKIE_USER_ROWS_PER_PAGE);
+        $rowsPerPage = getRowsPerPage($this,COOKIE_USER_ROWS_PER_PAGE);
         $totalCount = $this->UserModel->getUserCount();
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
@@ -38,24 +38,6 @@ class User extends CI_Controller {
         $data['users'] = $users;
         $data['current_uri'] = 'user/userList';
         $this->displayView($data,'user/userList');
-    }
-  
-    /**
-    * Returns the value of rows per page.
-    * 
-    * @return   int value
-    */
-    private function  getRowsPerPage($module){        
-        // Default rows per page(25) is set if rowsPerPage is not changed.
-        $rowsPerPage = $this->input->cookie($module)?
-                $this->input->cookie($module) : 25;
-        // If user changes the number of rows per page, store it into cookie
-        if($this->input->get('rowsPerPage')){
-            set_cookie($module, $this->input->get('rowsPerPage'),
-                    COOKIE_EXPIRATION);
-            $rowsPerPage = $this->input->get('rowsPerPage');
-        }
-        return $rowsPerPage;
     }
     
     /**
@@ -131,7 +113,7 @@ class User extends CI_Controller {
             return;
         }
         
-        $rowsPerPage = $this->getRowsPerPage(COOKIE_USER_SEARCH_ROWS_PER_PAGE);
+        $rowsPerPage = getRowsPerPage($this,COOKIE_USER_SEARCH_ROWS_PER_PAGE);
         $totalCount = $this->UserModel->searchUserCount($searchParams);
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
@@ -526,7 +508,7 @@ class User extends CI_Controller {
             echo 'Invalid access.';
             return;
         }
-        $rowsPerPage = $this->getRowsPerPage(COOKIE_ACTIVITY_ROWS_PER_PAGE);
+        $rowsPerPage = getRowsPerPage($this,COOKIE_ACTIVITY_ROWS_PER_PAGE);
         $totalCount = $this->ActivityModel->getUserActivityCount($userId);
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 

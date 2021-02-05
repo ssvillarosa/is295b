@@ -250,3 +250,23 @@ if(!function_exists('generateTextForFilters')){
         return $textFilters;
     }
 }
+
+if(!function_exists('getRowsPerPage')){
+    /**
+    * Returns the value of rows per page.
+    * 
+    * @return   int value
+    */
+    function getRowsPerPage($ctx,$module){        
+        // Default rows per page(25) is set if rowsPerPage is not changed.
+        $rowsPerPage = $ctx->input->cookie($module)?
+                $ctx->input->cookie($module) : 25;
+        // If user changes the number of rows per page, store it into cookie
+        if($ctx->input->get('rowsPerPage')){
+            set_cookie($module, $ctx->input->get('rowsPerPage'),
+                    COOKIE_EXPIRATION);
+            $rowsPerPage = $ctx->input->get('rowsPerPage');
+        }
+        return $rowsPerPage;
+    }
+}
