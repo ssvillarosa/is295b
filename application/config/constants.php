@@ -116,6 +116,7 @@ define('SESS_IS_LOGGED_IN','is_logged_in');
 define('COOKIE_USER_ROWS_PER_PAGE','user_rows_per_page');
 define('COOKIE_USER_SEARCH_ROWS_PER_PAGE','user_search_rows_per_page');
 define('COOKIE_ACTIVITY_ROWS_PER_PAGE','activity_rows_per_page');
+define('COOKIE_COMPANY_ROWS_PER_PAGE','company_rows_per_page');
 
 define('CONDITION_EQUALS','E');
 define('CONDITION_NOT_EQUAL','NE');
