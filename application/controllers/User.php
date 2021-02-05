@@ -33,33 +33,11 @@ class User extends CI_Controller {
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
-        $data = $this->setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
         $users = $this->UserModel->getUsers($rowsPerPage,$data['offset']);
         $data['users'] = $users;
         $data['current_uri'] = 'user/userList';
         $this->displayView($data,'user/userList');
-    }
-    
-    /**
-    * Creates pagination data.
-    * 
-    * @param    int  $totalCount    The total number of users in the database.   
-    * @param    int  $rowsPerPage   The number of users per page.
-    * @param    int  $currentPage   The active page.
-    * @return   object(field,condition,value[,value_2])
-    */
-    private function setPaginationData($totalCount,$rowsPerPage,$currentPage){        
-        $totalPage = floor($totalCount/$rowsPerPage);
-        if($totalCount%$rowsPerPage != 0){
-            $totalPage++;
-        }
-        $offset = ($currentPage - 1) * $rowsPerPage;
-        $data['totalPage'] = $totalPage;
-        $data['rowsPerPage'] = $rowsPerPage;
-        $data['currentPage'] = $currentPage;
-        $data['totalCount'] = $totalCount;
-        $data['offset'] = $offset;
-        return $data;
     }
         
     /**
@@ -118,7 +96,7 @@ class User extends CI_Controller {
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
-        $data = $this->setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
         $data['shownFields'] = $shownFields;
         $data['columnHeaders'] = $columnHeaders;
         $data['searcParams'] = $searchParams;
@@ -513,7 +491,7 @@ class User extends CI_Controller {
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
-        $data = $this->setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
         $activities = $this->ActivityModel->getUserActivities($userId,
                 $rowsPerPage,$data['offset']);
         if($activities === -1){

@@ -270,3 +270,27 @@ if(!function_exists('getRowsPerPage')){
         return $rowsPerPage;
     }
 }
+
+if(!function_exists('setPaginationData')){
+    /**
+    * Creates pagination data.
+    * 
+    * @param    int  $totalCount    The total number of users in the database.   
+    * @param    int  $rowsPerPage   The number of users per page.
+    * @param    int  $currentPage   The active page.
+    * @return   object(field,condition,value[,value_2])
+    */
+    function setPaginationData($totalCount,$rowsPerPage,$currentPage){        
+        $totalPage = floor($totalCount/$rowsPerPage);
+        if($totalCount%$rowsPerPage != 0){
+            $totalPage++;
+        }
+        $offset = ($currentPage - 1) * $rowsPerPage;
+        $data['totalPage'] = $totalPage;
+        $data['rowsPerPage'] = $rowsPerPage;
+        $data['currentPage'] = $currentPage;
+        $data['totalCount'] = $totalCount;
+        $data['offset'] = $offset;
+        return $data;
+    }
+}
