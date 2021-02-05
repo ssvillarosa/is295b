@@ -87,6 +87,9 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 /* User-defined constants */
 define('COOKIE_EXPIRATION',86500);
 
+define('ERROR_CODE',-1);
+define('SUCCESS_CODE',1);
+
 define('USER_STATUS_ACTIVE',1);
 define('USER_STATUS_BLOCKED',2);
 define('USER_STATUS_DELETED',3);
@@ -100,6 +103,8 @@ define('USER_ROLE_ADMIN_TEXT','Admin');
 define('USER_ROLE_RECRUITER_TEXT','Recruiter');
 
 define('MAX_LOGIN_ATTEMPT',5);
+
+define('COMPANY_IS_DELETED_TRUE','1');
 
 define('SESS_USER_ID','user_id');
 define('SESS_USERNAME','username');
