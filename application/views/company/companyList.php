@@ -18,9 +18,9 @@
                             <tr>
                                 <th class="text-left"></th>
                                 <th class="text-left">Company Name</th>
-                                <th class="text-left">Active Jobs</th>
-                                <th class="text-left">Completed Jobs</th>
-                                <th class="text-left">Total Jobs</th>
+                                <th class="text-center">Active Jobs</th>
+                                <th class="text-center">Completed Jobs</th>
+                                <th class="text-center">Total Jobs</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,13 +32,13 @@
                                     <td class="text-left comp-name" onClick="viewUser(<?php echo $company->id; ?>)">
                                         <?php echo $company->name; ?>
                                     </td>
-                                    <td class="text-left" onClick="viewUser(<?php echo $company->id; ?>)">
+                                    <td class="text-center" onClick="viewUser(<?php echo $company->id; ?>)">
                                         <?php echo 0; ?>
                                     </td>
-                                    <td class="text-left" onClick="viewUser(<?php echo $company->id; ?>)">
+                                    <td class="text-center" onClick="viewUser(<?php echo $company->id; ?>)">
                                         <?php echo 0; ?>
                                     </td>
-                                    <td class="text-left" onClick="viewUser(<?php echo $company->id; ?>)">
+                                    <td class="text-center" onClick="viewUser(<?php echo $company->id; ?>)">
                                         <?php echo 0; ?>
                                     </td>
                                 </tr>
