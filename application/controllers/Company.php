@@ -58,4 +58,54 @@ class Company extends CI_Controller {
         $data['company'] = $result;
         renderPage($this,$data,'company/detailsView');
     }
+    
+    /**
+    * Update company details.
+    */
+    public function update(){
+        $this->form_validation->set_rules('name', 'Name',
+                'trim|required|max_length[255]');
+        $this->form_validation->set_rules('companyId','Company ID'
+                ,'required|integer');
+        $company = $this->createCompanyObject(true);
+        $company->id = $this->input->post('companyId');
+        $data["company"] = $company;
+        if ($this->form_validation->run() == FALSE){
+            renderPage($this,$data,'company/detailsView');
+            return;
+        }
+        $success = $this->CompanyModel->updateCompany($company,$company->id);
+        if(!$success){
+            // Set error message.
+            $data["error_message"] = "Error occured.";        
+        }else{
+            // Set success message.
+            $data["success_message"] = "User successfully updated!";
+        }
+        // Display form.
+        renderPage($this,$data,'company/detailsView');
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Updated company ".$company->name." details.");
+    }
+    
+    /**
+    * Creates company object.
+    * 
+    * @param    boolean  $post          If true, it will create object from post data. Otherwise, it will create object with properties but values are blank.
+    * @return   company object
+    */
+    private function createCompanyObject($post){
+        $company = (object)[
+            'name' => $post ? $this->input->post('name'): '',
+            'contact_person' => $post ? $this->input->post('contact_person'): '',
+            'primary_phone' => $post ? $this->input->post('primary_phone'): '',
+            'secondary_phone' => $post ? $this->input->post('secondary_phone'): '',
+            'address' => $post ? $this->input->post('address'): '',
+            'website' => $post ? $this->input->post('website'): '',
+            'industry' => $post ? $this->input->post('industry'): '',
+        ];
+        return $company;
+    }
 }
