@@ -1,3 +1,9 @@
+<script>
+    // Redirect to details view.
+    function viewCompany(id){
+        window.location.href = '<?php echo site_url('company/view') ?>?id='+id;
+    }
+</script>
 <div id="company-page" class="company-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -29,16 +35,16 @@
                                     <td class="text-left comp-chk">
                                         <input type="checkbox" class="chk" value="<?php echo $company->id; ?>">
                                     </td>
-                                    <td class="text-left comp-name" onClick="viewUser(<?php echo $company->id; ?>)">
+                                    <td class="text-left comp-name" onClick="viewCompany(<?php echo $company->id; ?>)">
                                         <?php echo $company->name; ?>
                                     </td>
-                                    <td class="text-center" onClick="viewUser(<?php echo $company->id; ?>)">
+                                    <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
                                         <?php echo 0; ?>
                                     </td>
-                                    <td class="text-center" onClick="viewUser(<?php echo $company->id; ?>)">
+                                    <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
                                         <?php echo 0; ?>
                                     </td>
-                                    <td class="text-center" onClick="viewUser(<?php echo $company->id; ?>)">
+                                    <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
                                         <?php echo 0; ?>
                                     </td>
                                 </tr>

@@ -4,7 +4,6 @@
         // Create a post request to delete user/s.
         $("#UserDetailsDeleteForm").submit(function(e){
             e.preventDefault();
-            console.log("hello");
             $.post('<?php echo site_url('user/delete') ?>', 
             $(this).serialize(),
             function(data) {

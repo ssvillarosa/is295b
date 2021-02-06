@@ -38,4 +38,24 @@ class Company extends CI_Controller {
         $data['current_uri'] = 'company/companyList';
         renderPage($this,$data,'company/companyList');
     }
+    
+    /**
+    * Display company details.
+    */
+    public function view(){
+        $companyId = $this->input->get('id');
+        if(!$companyId){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'company/detailsView');
+            return;
+        }
+        $result = $this->CompanyModel->getCompanyById($companyId);
+        if($result === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'company/detailsView');
+            return;
+        }
+        $data['company'] = $result;
+        renderPage($this,$data,'company/detailsView');
+    }
 }
