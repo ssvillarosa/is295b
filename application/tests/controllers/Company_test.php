@@ -103,4 +103,33 @@ class Company_test extends TestCase{
         $output = $this->request('GET','user/searchResult?condition_name=E&value_name=BBS&display_name=on');
         $this->assertContains('BBS', $output);
     }
+    
+    public function test_delete(){
+        // Add company.
+        $postData = [
+            'name' => 'DelCompany',
+        ];
+        $success = $this->request(
+            'POST',
+            'company/add',
+            $postData
+        );
+        $this->assertContains('User successfully added!', $success);
+        // Confirm if company is added.
+        $output = $this->request('GET','user/searchResult?condition_name=E&value_name=DelCompany&display_name=on');
+        $this->assertContains('DelCompany', $output);
+        // Delete company.
+        $delPostData = [
+            'delCompanyIds' => '6',
+        ];
+        $delSuccess = $this->request(
+            'POST',
+            'company/delete',
+            $delPostData
+        );
+        $this->assertContains('Success', $delSuccess);
+        // Confirm if company is deleted.
+        $output = $this->request('GET','user/searchResult?condition_name=E&value_name=DelCompany&display_name=on');
+        $this->assertContains('DelCompany', $output);
+    }
 }
