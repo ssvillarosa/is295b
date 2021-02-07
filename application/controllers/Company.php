@@ -74,8 +74,8 @@ class Company extends CI_Controller {
             renderPage($this,$data,'company/detailsView');
             return;
         }
-        $success = $this->CompanyModel->updateCompany($company,$company->id);
-        if(!$success){
+        $result = $this->CompanyModel->updateCompany($company,$company->id);
+        if($result === ERROR_CODE){
             // Set error message.
             $data["error_message"] = "Error occured.";        
         }else{
@@ -88,6 +88,36 @@ class Company extends CI_Controller {
         $this->ActivityModel->saveUserActivity(
                 $this->session->userdata(SESS_USER_ID),
                 "Updated company ".$company->name." details.");
+    }
+    
+    /**
+    * Add company details.
+    */
+    public function add(){
+        $this->form_validation->set_rules('name', 'Name',
+                'trim|required|max_length[255]');
+        $company = $this->createCompanyObject(true);
+        $company->id = $this->input->post('companyId');
+        $company->created_by = $this->session->userdata(SESS_USER_ID);
+        $data["company"] = $company;
+        if ($this->form_validation->run() == FALSE){
+            renderPage($this,$data,'company/add');
+            return;
+        }
+        $result = $this->CompanyModel->addCompany($company,$company->id);
+        if($result === ERROR_CODE){
+            // Set error message.
+            $data["error_message"] = "Error occured.";        
+        }else{
+            // Set success message.
+            $data["success_message"] = "User successfully updated!";
+        }
+        // Display form.
+        renderPage($this,$data,'company/add');
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Added company ".$company->name.".");
     }
     
     /**

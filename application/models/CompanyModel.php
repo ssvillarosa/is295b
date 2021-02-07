@@ -59,6 +59,7 @@ Class CompanyModel extends CI_Model{
     * @return   id of the new company.
     */
     public function addCompany($company){
+        $this->db->set('created_time', 'NOW()', FALSE);
         $success = $this->db->insert('company', $company);
         if(!$success){
             logArray('error',$this->db->error());

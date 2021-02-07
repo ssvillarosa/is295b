@@ -50,7 +50,6 @@ class CompanyModel_seedtest extends UnitTestCase {
             'address' => 'BGC',
             'website' => 'www.new-company.com',
             'industry' => 'Recruitment',
-            'created_time' => '2021-02-05 16:24:00',
             'created_by' => '1',
             'is_deleted' => '0',
             'deleted_time' => null,

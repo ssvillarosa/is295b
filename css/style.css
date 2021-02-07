@@ -268,7 +268,7 @@ body {
         border-radius: 0px 0px 4px 4px;
         min-height: 300px;
     }
-    .user-table tr{
+    .user-table tr, .company-table tr{
         cursor: pointer;
     }
     
