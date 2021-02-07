@@ -53,4 +53,31 @@ class Company_test extends TestCase{
         $this->assertContains('ABC Corp', $page);
         $this->assertContains('Steven Suanuqe', $page);
     }
+    
+    public function test_update(){
+        $postData = [
+            'companyId' => '2',
+            'name' => 'UpdatedTest',
+            'contact_person' => 'Updated Contact',
+            'primary_phone' => '1111',
+            'secondary_phone' => '2222',
+            'address' => 'Updated Address',
+            'website' => 'www.updated-webiste.com',
+            'industry' => 'Updated Industry',
+        ];
+        $success = $this->request(
+            'POST',
+            'company/update',
+            $postData
+        );
+        $this->assertContains('User successfully updated!', $success);
+        $page = $this->request('GET','company/view?id=2');
+        $this->assertContains($postData['name'], $page);
+        $this->assertContains($postData['contact_person'], $page);
+        $this->assertContains($postData['primary_phone'], $page);
+        $this->assertContains($postData['secondary_phone'], $page);
+        $this->assertContains($postData['address'], $page);
+        $this->assertContains($postData['website'], $page);
+        $this->assertContains($postData['industry'], $page);
+    }
 }
