@@ -98,4 +98,9 @@ class Company_test extends TestCase{
         );
         $this->assertContains('User successfully added!', $success);
     }
+    
+    public function test_search(){
+        $output = $this->request('GET','user/searchResult?condition_name=E&value_name=BBS&display_name=on');
+        $this->assertContains('BBS', $output);
+    }
 }
