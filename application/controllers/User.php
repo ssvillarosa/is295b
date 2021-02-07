@@ -71,7 +71,7 @@ class User extends CI_Controller {
             "birthday",
             "address"];
         foreach ($fields as $field){
-            $param = $this->getSearchParam($field);
+            $param = getSearchParam($this,$field);
             $param ? array_push($searchParams, $param):'';            
         }
         
@@ -87,7 +87,7 @@ class User extends CI_Controller {
         }
         if(!$shownFields){
             $data['error_message'] = "Select at least one field to be displayed.";
-            renderPage($this,$data,'user/searchResult');
+            renderPage($this,$data,'common/searchResult');
             return;
         }
         
@@ -101,81 +101,20 @@ class User extends CI_Controller {
         $data['columnHeaders'] = $columnHeaders;
         $data['searcParams'] = $searchParams;
         $data['filters'] = generateTextForFilters($searchParams);
+        $data['module'] = 'user';
         $data['removedRowsPerPage'] = site_url('user/searchResult').'?'.getQueryParams(["rowsPerPage"]);
         $data['removedCurrentPage'] = site_url('user/searchResult').'?'.getQueryParams(["currentPage"]);
         
         if($this->input->get("exportResult")){
             $users = $this->UserModel->searchUser($searchParams,$shownFields,0);
-            $this->exportCSV($this->input->get("exportResult"),$users,$columnHeaders);
+            exportCSV($this->input->get("exportResult"),$users,$columnHeaders);
         }else{
             $users = $this->UserModel->searchUser($searchParams,$shownFields,$rowsPerPage,$data['offset']);
         }
         $data['users'] = $users;
-        renderPage($this,$data,'user/searchResult');
+        renderPage($this,$data,'common/searchResult');
     }
     
-    /**
-    * Export search result to CSV file.
-    */
-   private function exportCSV($filename,$data,$header){ 
-        // file name 
-        $filename = $filename.'.csv'; 
-        header("Content-Description: File Transfer"); 
-        header("Content-Disposition: attachment; filename=$filename"); 
-        header("Content-Type: application/csv; ");
-
-        // file creation 
-        $file = fopen('php://output', 'w');
-
-        fputcsv($file, $header);
-        foreach ($data as $key=>$line){
-            // Remove ID
-            unset($line['id']);
-            fputcsv($file,$line); 
-        }
-        fclose($file); 
-        exit; 
-    }
-    
-    /**
-    * Creates searchParameter object out of get input.
-    * 
-    * @param    string  $field  The field to create the search param.           
-    * @return   object(field,condition,value[,value_2])
-    */
-    private function getSearchParam($field){
-        if($this->input->get("condition_$field") && 
-                $this->input->get("value_$field")){
-            $condition = strval($this->input->get("condition_$field"));
-            $value = strval($this->input->get("value_$field"));
-            $value2 = strval($this->input->get("value_{$field}_2"));
-            $show = $this->input->get("display_$field")? true: false;
-            // For date fields with F condition.
-            if($condition == CONDITION_FROM){
-                return (object) [
-                    'field' => $field,
-                    'condition' => $condition,
-                    'value' => $value,
-                    'value_2' => $value2 ? $value2 : date('Y-m-d'),
-                    'show' => $show,
-                  ];                
-            }
-            return (object) [
-                'field' => $field,
-                'condition' => $condition,
-                'value' => $value,
-                'show' => $show,
-              ];
-        }
-        if($this->input->get("display_$field")){
-            $show = $this->input->get("display_$field")? true: false;
-            return (object) [
-                'field' => $field,
-                'show' => $show,
-              ];
-        }
-    }
-
     /**
     * Display user details.
     */

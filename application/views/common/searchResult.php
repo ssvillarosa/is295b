@@ -17,9 +17,9 @@
                 <?php endif; ?>
                 <div class="table_toolbar">
                     <?php if(isset($users) && count($users)): ?>
-                        <a href="<?php echo site_url('user/searchResult').'?'.getQueryParams(); ?>&exportResult=user" class="btn btn-primary">Export</a>
+                        <a href="<?php echo site_url($module.'/searchResult').'?'.getQueryParams(); ?>&exportResult=report" class="btn btn-primary">Export</a>
                     <?php endif; ?>
-                    <a href="<?php echo site_url('user/search') ?>" class="btn btn-success">Search</a>
+                    <a href="<?php echo site_url($module.'/search') ?>" class="btn btn-success">Search</a>
                 </div>
                 <?php if(isset($error_message)): ?>
                     <div class="alert alert-danger" role="alert">

@@ -105,6 +105,7 @@ define('USER_ROLE_RECRUITER_TEXT','Recruiter');
 define('MAX_LOGIN_ATTEMPT',5);
 
 define('COMPANY_IS_DELETED_TRUE','1');
+define('COMPANY_IS_DELETED_FALSE','0');
 
 define('SESS_USER_ID','user_id');
 define('SESS_USERNAME','username');
@@ -117,6 +118,7 @@ define('COOKIE_USER_ROWS_PER_PAGE','user_rows_per_page');
 define('COOKIE_USER_SEARCH_ROWS_PER_PAGE','user_search_rows_per_page');
 define('COOKIE_ACTIVITY_ROWS_PER_PAGE','activity_rows_per_page');
 define('COOKIE_COMPANY_ROWS_PER_PAGE','company_rows_per_page');
+define('COOKIE_COMPANY_SEARCH_ROWS_PER_PAGE','company_search_rows_per_page');
 
 define('CONDITION_EQUALS','E');
 define('CONDITION_NOT_EQUAL','NE');

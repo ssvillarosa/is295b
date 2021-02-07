@@ -115,4 +115,50 @@ Class CompanyModel extends CI_Model{
         }
         return SUCCESS_CODE;
     }
+    
+    /**
+    * Returns array of companies based on critera.
+    *
+    * @param    object     $searchParams    List of criteria includig display columns
+    * @param    int     $offset Offset value
+    * @return   array of companies objects
+    */
+    public function searchUser($searchParams,$columns,$limit=25,$offset=0){
+        if(!count($columns)){
+            log_message('error', "CompanyModel->searchUser: No columns to display");
+            return false;
+        }
+        // Set select columns
+        $this->db->select("id");
+        foreach ($columns as &$column) {
+            $this->db->select($column);
+        }
+        // Set where conditions
+        setWhereParams($this,$searchParams);
+        $this->db->where("is_deleted !=", COMPANY_IS_DELETED_TRUE);
+        if($limit === 0){
+            $query = $this->db->get('company');            
+        }else{
+            $query = $this->db->get('company',$limit,$offset);            
+        }
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return $query->result_array();
+    }
+    
+    /**
+    * Returns the total count of companies based on criteria.
+    *
+    * @param    search param object     $searchParams
+    */
+    public function searchUserCount($searchParams){
+        setWhereParams($this,$searchParams);
+        $this->db->where("is_deleted !=", COMPANY_IS_DELETED_TRUE);
+        $this->db->from('company');
+        $count = $this->db->count_all_results();
+        return $count;
+    }
 }

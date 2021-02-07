@@ -119,6 +119,76 @@ class Company extends CI_Controller {
                 $this->session->userdata(SESS_USER_ID),
                 "Added company ".$company->name.".");
     }
+        
+    /**
+    * Search page.
+    */
+    public function search(){
+        renderPage($this,null,'company/search');        
+    }
+    
+    /**
+    * Search results page.
+    */
+    public function searchResult(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
+        // Create search parameters for each field.
+        $searchParams = [];
+        $fields = [
+            "name",
+            "contact_person",
+            "primary_phone",
+            "secondary_phone",
+            "address",
+            "website",
+            "industry",];
+        foreach ($fields as $field){
+            $param = getSearchParam($this,$field);
+            $param ? array_push($searchParams, $param):'';            
+        }
+        
+        // Create array to store fields to be shown
+        $shownFields = [];
+        // Create column header for the table.
+        $columnHeaders = [];
+        foreach ($searchParams as $param){
+            if($param->show){
+                array_push($shownFields, $param->field);   
+                array_push($columnHeaders, ucwords(str_replace("_", " ", $param->field)));   
+            }
+        }
+        if(!$shownFields){
+            $data['error_message'] = "Select at least one field to be displayed.";
+            renderPage($this,$data,'company/searchResult');
+            return;
+        }
+        
+        $rowsPerPage = getRowsPerPage($this,COOKIE_COMPANY_SEARCH_ROWS_PER_PAGE);
+        $totalCount = $this->CompanyModel->searchUserCount($searchParams);
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $data['shownFields'] = $shownFields;
+        $data['columnHeaders'] = $columnHeaders;
+        $data['searcParams'] = $searchParams;
+        $data['filters'] = generateTextForFilters($searchParams);
+        $data['module'] = 'company';
+        $data['removedRowsPerPage'] = site_url('company/searchResult').'?'.getQueryParams(["rowsPerPage"]);
+        $data['removedCurrentPage'] = site_url('company/searchResult').'?'.getQueryParams(["currentPage"]);
+        
+        if($this->input->get("exportResult")){
+            $users = $this->CompanyModel->searchUser($searchParams,$shownFields,0);
+            exportCSV($this->input->get("exportResult"),$users,$columnHeaders);
+        }else{
+            $users = $this->CompanyModel->searchUser($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+        }
+        $data['users'] = $users;
+        renderPage($this,$data,'common/searchResult');
+    }
     
     /**
     * Creates company object.

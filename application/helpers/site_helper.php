@@ -295,7 +295,6 @@ if(!function_exists('setPaginationData')){
     }
 }
 
-
 if(!function_exists('renderPage')){
     /**
     * Renders page.
@@ -309,5 +308,114 @@ if(!function_exists('renderPage')){
         $ctx->load->view('common/nav');
         $ctx->load->view($page, $data);
         $ctx->load->view('common/footer');        
+    }
+}
+
+if(!function_exists('getSearchParam')){
+    /**
+    * Creates searchParameter object out of get input.
+    * 
+    * @param    string  $ctx    The context page of the caller.
+    * @param    string  $field  The field to create the search param.
+    * @return   object(field,condition,value[,value_2])
+    */
+    function getSearchParam($ctx,$field){
+        if($ctx->input->get("condition_$field") && 
+                $ctx->input->get("value_$field")){
+            $condition = strval($ctx->input->get("condition_$field"));
+            $value = strval($ctx->input->get("value_$field"));
+            $value2 = strval($ctx->input->get("value_{$field}_2"));
+            $show = $ctx->input->get("display_$field")? true: false;
+            // For date fields with F condition.
+            if($condition == CONDITION_FROM){
+                return (object) [
+                    'field' => $field,
+                    'condition' => $condition,
+                    'value' => $value,
+                    'value_2' => $value2 ? $value2 : date('Y-m-d'),
+                    'show' => $show,
+                  ];                
+            }
+            return (object) [
+                'field' => $field,
+                'condition' => $condition,
+                'value' => $value,
+                'show' => $show,
+              ];
+        }
+        if($ctx->input->get("display_$field")){
+            $show = $ctx->input->get("display_$field")? true: false;
+            return (object) [
+                'field' => $field,
+                'show' => $show,
+              ];
+        }
+    }
+}
+
+if(!function_exists('setWhereParams')){
+    /**
+    * Sets where condition for search.
+    *
+    * @param    search param object     $searchParams
+    */
+    function setWhereParams($ctx,$searchParams){
+        foreach ($searchParams as $param){
+            if(empty($param->value) || empty($param->condition)){
+                continue;
+            }
+            switch (strval($param->condition)){
+                case CONDITION_EQUALS:
+                    $ctx->db->where($param->field, $param->value);
+                    break;
+                case CONDITION_NOT_EQUAL:
+                    $ctx->db->where($param->field." !=", $param->value);
+                    break;
+                case CONDITION_STARTS_WITH:
+                    $ctx->db->like($param->field, $param->value, 'after');
+                    break;
+                case CONDITION_ENDS_WITH:
+                    $ctx->db->like($param->field, $param->value, 'before');
+                    break;
+                case CONDITION_CONTAINS:
+                    $ctx->db->like($param->field, $param->value);
+                    break;
+                case CONDITION_BEFORE:
+                    $ctx->db->where($param->field." <", $param->value);
+                    break;
+                case CONDITION_AFTER:
+                    $ctx->db->where($param->field." >", $param->value);
+                    break;
+                case CONDITION_FROM:
+                    $ctx->db->where($param->field." >=", $param->value);
+                    $ctx->db->where($param->field." <=", $param->value_2);
+                    break;
+            }
+        }
+    }
+}
+
+if(!function_exists('exportCSV')){
+    /**
+    * Export search result to CSV file.
+    */
+   function exportCSV($filename,$data,$header){ 
+        // file name 
+        $filename = $filename.'.csv'; 
+        header("Content-Description: File Transfer"); 
+        header("Content-Disposition: attachment; filename=$filename"); 
+        header("Content-Type: application/csv; ");
+
+        // file creation 
+        $file = fopen('php://output', 'w');
+
+        fputcsv($file, $header);
+        foreach ($data as $key=>$line){
+            // Remove ID
+            unset($line['id']);
+            fputcsv($file,$line); 
+        }
+        fclose($file); 
+        exit; 
     }
 }
