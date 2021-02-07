@@ -106,7 +106,7 @@ Class CompanyModel extends CI_Model{
         $this->db->where_in('id', $companyIds);
         $this->db->set('is_deleted', COMPANY_IS_DELETED_TRUE);
         $this->db->set('deleted_time', 'NOW()', FALSE);
-        $this->db->set('deleted_by', 1);
+        $this->db->set('deleted_by', $userId);
         $success = $this->db->update('company');
         if(!$success){
             logArray('error',$this->db->error());

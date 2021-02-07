@@ -193,6 +193,28 @@ class Company extends CI_Controller {
     }
     
     /**
+    * Delete company.
+    */
+    public function delete(){
+        if(!$this->input->post('delCompanyIds')){
+            echo 'Invalid Company ID';
+            return;
+        }
+        $userIds = explode(",", $this->input->post('delCompanyIds'));
+        $success = $this->CompanyModel->deleteCompany($userIds,
+                $this->session->userdata(SESS_USER_ID));
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Deleted company.");
+        echo 'Success';
+    }
+    
+    /**
     * Creates company object.
     * 
     * @param    boolean  $post          If true, it will create object from post data. Otherwise, it will create object with properties but values are blank.
