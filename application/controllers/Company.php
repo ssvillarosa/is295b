@@ -111,13 +111,15 @@ class Company extends CI_Controller {
         }else{
             // Set success message.
             $data["success_message"] = "User successfully added!";
+            // Log user activity.
+            $this->ActivityModel->saveUserActivity(
+                    $this->session->userdata(SESS_USER_ID),
+                    "Added company ".$company->name.".");
+            $company = $this->createCompanyObject(FALSE);
+            $data["company"] = $company;
         }
         // Display form.
         renderPage($this,$data,'company/add');
-        // Log user activity.
-        $this->ActivityModel->saveUserActivity(
-                $this->session->userdata(SESS_USER_ID),
-                "Added company ".$company->name.".");
     }
         
     /**
