@@ -63,6 +63,11 @@ class Company extends CI_Controller {
     * Update company details.
     */
     public function update(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            $data["error_message"] = 'Invalid access.';
+            renderPage($this,$data,'company/detailsView');
+            return;
+        }
         $this->form_validation->set_rules('name', 'Name',
                 'trim|required|max_length[255]');
         $this->form_validation->set_rules('companyId','Company ID'
@@ -94,6 +99,11 @@ class Company extends CI_Controller {
     * Add company details.
     */
     public function add(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            $data["error_message"] = 'Invalid access.';
+            renderPage($this,$data,'company/add');
+            return;
+        }
         $this->form_validation->set_rules('name', 'Name',
                 'trim|required|max_length[255]');
         $company = $this->createCompanyObject(true);
@@ -133,10 +143,6 @@ class Company extends CI_Controller {
     * Search results page.
     */
     public function searchResult(){
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            echo 'Invalid access.';
-            return;
-        }
         // Create search parameters for each field.
         $searchParams = [];
         $fields = [
@@ -196,6 +202,10 @@ class Company extends CI_Controller {
     * Delete company.
     */
     public function delete(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
         if(!$this->input->post('delCompanyIds')){
             echo 'Invalid Company ID';
             return;

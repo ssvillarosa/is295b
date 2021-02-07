@@ -51,8 +51,10 @@
                     </div>
                 <?php endif; ?>
                 <div class="table_toolbar">
-                    <a href="<?php echo site_url('company/add') ?>" class="btn btn-primary">New</a>
-                    <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
+                    <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                        <a href="<?php echo site_url('company/add') ?>" class="btn btn-primary">New</a>
+                        <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
+                    <?php endif; ?>
                     <a href="<?php echo site_url('company/search') ?>" class="btn btn-success">Search</a>
                 </div>
                 <div class="table-responsive company-table">
