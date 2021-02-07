@@ -80,4 +80,22 @@ class Company_test extends TestCase{
         $this->assertContains($postData['website'], $page);
         $this->assertContains($postData['industry'], $page);
     }
+    
+    public function test_add(){
+        $postData = [
+            'name' => 'New Company',
+            'contact_person' => 'Newly Created',
+            'primary_phone' => '1111',
+            'secondary_phone' => '2222',
+            'address' => 'New Address',
+            'website' => 'www.new-webiste.com',
+            'industry' => 'New Industry',
+        ];
+        $success = $this->request(
+            'POST',
+            'company/add',
+            $postData
+        );
+        $this->assertContains('User successfully added!', $success);
+    }
 }

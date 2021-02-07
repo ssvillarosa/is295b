@@ -110,7 +110,7 @@ class Company extends CI_Controller {
             $data["error_message"] = "Error occured.";        
         }else{
             // Set success message.
-            $data["success_message"] = "User successfully updated!";
+            $data["success_message"] = "User successfully added!";
         }
         // Display form.
         renderPage($this,$data,'company/add');
