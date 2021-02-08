@@ -24,7 +24,7 @@ Class CompanyModel extends CI_Model{
     * @return   array of company objects
     */
     public function getCompanies($limit=25,$offset=0){
-        $this->db->where("is_deleted !=", COMPANY_IS_DELETED_TRUE);
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $query = $this->db->get('company',$limit,$offset);
         if(!$query){
             logArray('error',$this->db->error());
@@ -42,7 +42,7 @@ Class CompanyModel extends CI_Model{
     */
     public function getCompanyById($companyId){
         $this->db->where("id", $companyId);
-        $this->db->where("is_deleted !=", COMPANY_IS_DELETED_TRUE);
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $query = $this->db->get("company");
         if(!$query){
             logArray('error',$this->db->error());
@@ -90,7 +90,7 @@ Class CompanyModel extends CI_Model{
     * Returns the total count of companies that are not deleted.
     */
     public function getCompanyCount(){
-        $this->db->where("is_deleted !=", COMPANY_IS_DELETED_TRUE);
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $this->db->from('company');
         return $this->db->count_all_results(); 
     }
@@ -104,7 +104,7 @@ Class CompanyModel extends CI_Model{
     */
     public function deleteCompany($companyIds,$userId){
         $this->db->where_in('id', $companyIds);
-        $this->db->set('is_deleted', COMPANY_IS_DELETED_TRUE);
+        $this->db->set('is_deleted', IS_DELETED_TRUE);
         $this->db->set('deleted_time', 'NOW()', FALSE);
         $this->db->set('deleted_by', $userId);
         $success = $this->db->update('company');
@@ -135,7 +135,7 @@ Class CompanyModel extends CI_Model{
         }
         // Set where conditions
         setWhereParams($this,$searchParams);
-        $this->db->where("is_deleted !=", COMPANY_IS_DELETED_TRUE);
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         if($limit === 0){
             $query = $this->db->get('company');            
         }else{
@@ -156,7 +156,7 @@ Class CompanyModel extends CI_Model{
     */
     public function searchUserCount($searchParams){
         setWhereParams($this,$searchParams);
-        $this->db->where("is_deleted !=", COMPANY_IS_DELETED_TRUE);
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $this->db->from('company');
         $count = $this->db->count_all_results();
         return $count;

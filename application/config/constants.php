@@ -104,8 +104,8 @@ define('USER_ROLE_RECRUITER_TEXT','Recruiter');
 
 define('MAX_LOGIN_ATTEMPT',5);
 
-define('COMPANY_IS_DELETED_TRUE','1');
-define('COMPANY_IS_DELETED_FALSE','0');
+define('IS_DELETED_TRUE','1');
+define('IS_DELETED_FALSE','0');
 
 define('SESS_USER_ID','user_id');
 define('SESS_USERNAME','username');
