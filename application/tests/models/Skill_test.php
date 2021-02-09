@@ -18,7 +18,7 @@ class SkillModel_seedtest extends UnitTestCase {
         $expected = [
             1 => 'Javascript',
             3 => 'Go',
-            4 => 'Git',
+            4 => 'Indexing',
         ];
         $skills = $this->obj->getSkills();
         $this->assertNotEquals($skills,ERROR_CODE);
@@ -44,6 +44,7 @@ class SkillModel_seedtest extends UnitTestCase {
     public function test_addSkill(){
         $skill = (object)[
             'name' => 'CSS',
+            'category_id' => 1,
         ];
         $inserted_id = $this->obj->addSkill($skill);
         $newSkill  = $this->obj->getSkillById($inserted_id);
