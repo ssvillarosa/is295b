@@ -23,7 +23,7 @@ $( document ).ready(function() {
     */
     $("[id^=date_field_] .date-field-select").change(function(){
         $mainDiv = $(this).parent().parent();
-        if($(this).val()=='F'){
+        if($(this).val()=='R'){
             $dateField = $mainDiv.find("[id^=value_]");
             $dateFieldClone = $dateField.clone();
             $dateFieldClone.attr("id",$dateField.attr('id')+"_2");

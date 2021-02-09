@@ -127,4 +127,4 @@ define('CONDITION_ENDS_WITH','EW');
 define('CONDITION_CONTAINS','C');
 define('CONDITION_BEFORE','B');
 define('CONDITION_AFTER','A');
-define('CONDITION_FROM','F');
+define('CONDITION_RANGE','R');

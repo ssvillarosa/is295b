@@ -183,7 +183,7 @@ if(!function_exists('createDateCondition')){
                             <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
                             <option value='".CONDITION_BEFORE."'>".getConditionDictionary(CONDITION_BEFORE)."</option>
                             <option value='".CONDITION_AFTER."'>".getConditionDictionary(CONDITION_AFTER)."</option>
-                            <option value='".CONDITION_FROM."'>".getConditionDictionary(CONDITION_FROM)."</option>
+                            <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
                         </select>
                     </div>
                     <div class='col-sm-3'>
@@ -217,8 +217,8 @@ if(!function_exists('getConditionDictionary')){
                 return "Before";
             case CONDITION_AFTER:
                 return "After";
-            case CONDITION_FROM:
-                return "From";
+            case CONDITION_RANGE:
+                return "Range";
         }
     }
 }
@@ -238,7 +238,7 @@ if(!function_exists('generateTextForFilters')){
             }
             $field = ucwords(str_replace("_", " ", $param->field));
             $condition = getConditionDictionary(strval($param->condition));
-            if(strval($param->condition) == CONDITION_FROM){
+            if(strval($param->condition) == CONDITION_RANGE){
                 $textFilter = "$field $condition ".
                         $param->value." TO ".$param->value_2;
                 array_push($textFilters, $textFilter);
@@ -327,7 +327,7 @@ if(!function_exists('getSearchParam')){
             $value2 = strval($ctx->input->get("value_{$field}_2"));
             $show = $ctx->input->get("display_$field")? true: false;
             // For date fields with F condition.
-            if($condition == CONDITION_FROM){
+            if($condition == CONDITION_RANGE){
                 return (object) [
                     'field' => $field,
                     'condition' => $condition,
@@ -386,7 +386,7 @@ if(!function_exists('setWhereParams')){
                 case CONDITION_AFTER:
                     $ctx->db->where($param->field." >", $param->value);
                     break;
-                case CONDITION_FROM:
+                case CONDITION_RANGE:
                     $ctx->db->where($param->field." >=", $param->value);
                     $ctx->db->where($param->field." <=", $param->value_2);
                     break;
