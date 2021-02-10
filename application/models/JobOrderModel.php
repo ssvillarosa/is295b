@@ -25,7 +25,7 @@ Class JobOrderModel extends CI_Model{
     */
     public function getJobOrders($limit=25,$offset=0){
         $this->db->where("is_deleted !=", IS_DELETED_TRUE);
-        $query = $this->db->get('job_order',$limit,$offset);
+        $query = $this->db->get('job_order_list',$limit,$offset);
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
