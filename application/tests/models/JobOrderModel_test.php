@@ -49,7 +49,7 @@ class JobOrderModel_seedtest extends UnitTestCase {
             'requirement' => 'Lorem Ipsum',
             'min_salary' => 50000,
             'max_salary' => 90000,
-            'type' => 2,
+            'employment_type' => 2,
             'status' => 1,
             'created_by' => 1,
             'is_deleted' => 0,
