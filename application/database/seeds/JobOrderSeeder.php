@@ -32,7 +32,7 @@ class JobOrderSeeder extends Seeder {
             ],[
                 'id' => 2,
                 'title' => 'Business Analyst',
-                'company_id' => 1,
+                'company_id' => 2,
                 'job_function' => 'Lorem Ipsum',
                 'requirement' => 'Lorem Ipsum',
                 'min_salary' => 50000,
@@ -83,28 +83,24 @@ class JobOrderSeeder extends Seeder {
         
         $job_order_skills= [
             [
-                'id' => 1,
                 'job_order_id' => 1,
                 'skill_id' => 1,
-                'years_of_experience' => 2,
+                'years_of_experience' => 1,
             ],
             [
-                'id' => 2,
                 'job_order_id' => 1,
                 'skill_id' => 2,
                 'years_of_experience' => 2,
             ],
             [
-                'id' => 3,
                 'job_order_id' => 1,
                 'skill_id' => 3,
-                'years_of_experience' => 2,
+                'years_of_experience' => 3,
             ],
             [
-                'id' => 4,
                 'job_order_id' => 1,
                 'skill_id' => 4,
-                'years_of_experience' => 2,
+                'years_of_experience' => 4,
             ],
         ];
         foreach ($job_order_skills as $job_order_skill) {

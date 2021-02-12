@@ -110,6 +110,22 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
+                                <label for="requirement" class="form-label">Skills</label>
+                                <div id="skills">
+                                    <?php foreach($job_order_skills as $job_order_skill) : ?>
+                                        <button type="button" id="skill-<?php echo $job_order_skill->skill_id; ?>" class="btn btn-primary badge-pill btn-sm">
+                                            <?php echo $job_order_skill->name ?>
+                                            <span class="badge badge-light badge-pill">
+                                                <?php echo $job_order_skill->years_of_experience ?>
+                                            </span>
+                                        </button>
+                                    <?php endforeach; ?>
+                                    <button type="button" id="add_skill" class="btn btn-outline-primary btn-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
                                 <label for="location" class="form-label">Location</label>
                                 <input type="text" value="<?php echo $job_order->location; ?>" class="form-control" id="location" name="location" maxLength="255">
                                 <?php echo form_error('location','<div class="alert alert-danger">','</div>'); ?>

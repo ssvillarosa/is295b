@@ -23,8 +23,9 @@ Class CompanyModel extends CI_Model{
     * @param    int     $offset Offset value
     * @return   array of company objects
     */
-    public function getCompanies($limit=25,$offset=0){
+    public function getCompanies($limit=25,$offset=0,$orderBy='id',$order='asc'){
         $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $this->db->order_by($orderBy,$order);
         $query = $this->db->get('company',$limit,$offset);
         if(!$query){
             logArray('error',$this->db->error());

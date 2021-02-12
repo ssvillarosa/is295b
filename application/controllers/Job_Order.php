@@ -19,6 +19,7 @@ class Job_Order extends CI_Controller {
         checkUserLogin();
         $this->load->model('JobOrderModel');
         $this->load->model('CompanyModel');
+        $this->load->model('JobOrderSkillModel');
     }
     
     /**
@@ -50,20 +51,27 @@ class Job_Order extends CI_Controller {
             renderPage($this,$data,'job_order/detailsView');
             return;
         }
-        $result = $this->JobOrderModel->getJobOrderById($jobOrderId);
-        if($result === ERROR_CODE){
+        $job_order = $this->JobOrderModel->getJobOrderById($jobOrderId);
+        if($job_order === ERROR_CODE){
             $data["error_message"] = "Error occured.";
             renderPage($this,$data,'job_order/detailsView');
             return;
         }
-        $companies = $this->CompanyModel->getCompanies(0);
+        $companies = $this->CompanyModel->getCompanies(0,0,"name","asc");
         if($companies === ERROR_CODE){
             $data["error_message"] = "Error occured.";
             renderPage($this,$data,'job_order/detailsView');
             return;
         }
-        $data["job_order"] = $result;
+        $job_order_skills = $this->JobOrderSkillModel->getSkillsByJobOrderId($jobOrderId);
+        if($companies === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'job_order/detailsView');
+            return;
+        }
+        $data["job_order"] = $job_order;
         $data["companies"] = $companies;
+        $data["job_order_skills"] = $job_order_skills;
         renderPage($this,$data,'job_order/detailsView');
     }
 }
