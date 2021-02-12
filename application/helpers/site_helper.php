@@ -181,8 +181,8 @@ if(!function_exists('createDateCondition')){
                         <select name='condition_$id' id='condition_$id' class='custom-select date-field-select'>
                             <option value=''>Select Condition</option>
                             <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
-                            <option value='".CONDITION_BEFORE."'>".getConditionDictionary(CONDITION_BEFORE)."</option>
-                            <option value='".CONDITION_AFTER."'>".getConditionDictionary(CONDITION_AFTER)."</option>
+                            <option value='".CONDITION_LESS_THAN."'>".getConditionDictionary(CONDITION_LESS_THAN)."</option>
+                            <option value='".CONDITION_GREATER_THAN."'>".getConditionDictionary(CONDITION_GREATER_THAN)."</option>
                             <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
                         </select>
                     </div>
@@ -213,10 +213,10 @@ if(!function_exists('getConditionDictionary')){
                 return "Ends With";
             case CONDITION_CONTAINS:
                 return "Contains";
-            case CONDITION_BEFORE:
-                return "Before";
-            case CONDITION_AFTER:
-                return "After";
+            case CONDITION_LESS_THAN:
+                return "Less than";
+            case CONDITION_GREATER_THAN:
+                return "Greater than";
             case CONDITION_RANGE:
                 return "Range";
         }
@@ -380,10 +380,10 @@ if(!function_exists('setWhereParams')){
                 case CONDITION_CONTAINS:
                     $ctx->db->like($param->field, $param->value);
                     break;
-                case CONDITION_BEFORE:
+                case CONDITION_LESS_THAN:
                     $ctx->db->where($param->field." <", $param->value);
                     break;
-                case CONDITION_AFTER:
+                case CONDITION_GREATER_THAN:
                     $ctx->db->where($param->field." >", $param->value);
                     break;
                 case CONDITION_RANGE:
