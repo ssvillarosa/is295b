@@ -33,5 +33,8 @@ class JobOrder_test extends TestCase{
     public function test_view(){
         $output = $this->request('GET','job_order/view?id=1');
         $this->assertContains('value="Software Developer"', $output);
+        $this->assertContains('id="skill-1"', $output);
+        $this->assertContains('id="skill-3"', $output);
+        $this->assertContains('id="skill-4"', $output);
     }
 }
