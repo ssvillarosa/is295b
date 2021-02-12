@@ -1,101 +1,7 @@
 <script>
-    $(document).ready(function() {
-        
-        // Create a post request to toggle user status.
-        $("#statusForm").submit(function(e){
-            e.preventDefault();
-            var api = '<?php echo site_url('user') ?>/'+$("#action").val();
-            $.post(api, 
-            $(this).serialize(),
-            function(data) {
-                hideDialog();
-                if(data.trim() === "Error"){
-                    showToast("Error occurred.",3000);
-                    return;
-                }
-                var rowButton = "#statusUser"+$("#userId").val(); 
-                var done;
-                var newStatus;
-                if($("#action").val() === "activate"){
-                    done = "activated";
-                    newStatus = "Active";
-                    $(rowButton).removeClass('btn-status-'+USER_STATUS_BLOCKED);
-                    $(rowButton).addClass('btn-status-'+USER_STATUS_ACTIVE);
-                }else{
-                    done = "blocked";
-                    newStatus = "Blocked";
-                    $(rowButton).removeClass('btn-status-'+USER_STATUS_ACTIVE);
-                    $(rowButton).addClass('btn-status-'+USER_STATUS_BLOCKED);
-                }
-                var message = "User "+$("#username").val()
-                        +" successfully "+done+".";
-                $(rowButton+" span").text(newStatus);
-                showToast(message,3000);
-            }).fail(function() {
-                showToast("Error occurred.",3000);
-            });
-        });        
-        
-        // Create a post request to delete user/s.
-        $("#deleteForm").submit(function(e){
-            e.preventDefault();
-            $.post('<?php echo site_url('user/delete') ?>', 
-            $(this).serialize(),
-            function(data) {
-                hideDialog();
-                if(data.trim() === "Error"){
-                    showToast("Error occurred.",3000);
-                    return;
-                }
-                showToast("Deleted Successfully.",3000);
-                location.reload();
-            }).fail(function() {
-                showToast("Error occurred.",3000);
-            });
-        });
-    });
-    
     // Redirect user to details view.
     function viewUser(id){
         window.location.href = './view?id='+id;
-    }
-    
-    // Displays the dialog to toggle user status.
-    function toggleUserStatus(userId,username){
-        var action;
-        var status = $("#statusUser"+userId+" span").text() != "Active";
-        $("#userId").val(userId);
-        if(status){
-            action = "activate";
-            $("#modal-action").addClass("btn-warning");
-            $("#modal-action").removeClass("btn-danger");
-        }else{
-            action = "block";
-            $("#modal-action").addClass("btn-danger");
-            $("#modal-action").removeClass("btn-warning");
-        }        
-        var message = "Do you want to "+action+" "+username+"?";
-        $("#modal-action").html(action);
-        $("#action").val(action);
-        $("#username").val(username);
-        $(".modal-text").html(message);
-        $("#status_dialog").fadeIn();
-    }
-    
-    // Displays the dialog to confirm deletion.
-    function showDeleteDialog(){
-        var users = []
-        $('#user_table > tbody  > tr > td > .chk').each(function() {
-            if($(this).is(":checked")){
-                users.push($(this).val());
-            }
-        });
-        if(!users.length){
-            showToast("Please select items to delete.",3000);
-            return;
-        }
-        $("#delete_dialog").fadeIn();
-        $("#delUserIds").val(users.join(','));
     }
 </script>
 <div id="user-page" class="user-page">
@@ -164,45 +70,11 @@
                             </div>
                         </div>
                     </div>
-                    <?php if ($totalPage > 1): ?>
-                        <div class="pagination">
-                            <nav>
-                                <ul class="pagination justify-content-center mb-0 font-weight-bold">
-                                    <li class="page-item <?php echo strval($currentPage) === "1" ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="<?php echo site_url('user/userList?currentPage=1'); ?>">&#60;&#60;</a>
-                                    </li>
-                                    <li class="page-item <?php echo strval($currentPage) === "1" ? 'disabled' : ''; ?>">
-                                        <a class="page-link" 
-                                           href="<?php echo site_url('user/userList?currentPage=').($currentPage > 1 ? $currentPage - 1 : 1); ?>"
-                                           >&#60;</a>
-                                    </li>
-                                    <?php for($page=$currentPage-1;$page<$currentPage+2;$page++): ?>
-                                        <?php if ($page < 1 || $page > $totalPage){ continue; } ?>
-                                        <?php if (strval($currentPage) === strval($page)): ?>                                            
-                                            <li class="page-item active">
-                                                <a class="page-link" href="#">
-                                                    <?php echo $page; ?>
-                                                </a>
-                                            </li>
-                                        <?php else: ?>
-                                            <li class="page-item">
-                                                <a class="page-link" href="<?php echo site_url("user/userList?currentPage=$page") ?>">
-                                                    <?php echo $page; ?>
-                                                </a>
-                                            </li>
-                                        <?php endif; ?>
-                                    <?php endfor;?>
-                                    <li class="page-item <?php echo strval($currentPage) === strval($totalPage) ? 'disabled' : ''; ?>">
-                                        <a class="page-link" href="<?php echo site_url('user/userList?currentPage=').($currentPage < $totalPage ? $currentPage + 1 : $totalPage); ?>">&#62;</a>
-                                    </li>                            
-                                    <li class="page-item <?php echo strval($currentPage) === strval($totalPage) ? 'disabled' : ''; ?>">
-                                        <a class="page-link" 
-                                           href="<?php echo site_url("user/userList?currentPage=$totalPage") ?>">&#62;&#62;</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    <?php endif; ?>
+                    <?php 
+                        if ($totalPage > 1){
+                            $this->view('user/pagination');
+                        } 
+                    ?>
                     <div class="row-statistics">
                         Showing <?php echo ($offset+1) ?>-<?php echo ($rowsPerPage*$currentPage < $totalCount) ? ($rowsPerPage*$currentPage): $totalCount; ?> out of <?php echo $totalCount; ?>
                     </div>
@@ -211,37 +83,5 @@
         </div>
     </div>	
 </div>
-
-<div class="m2mj-dialog" id="status_dialog">
-    <div class="dialog-background"></div>
-    <div class="m2mj-modal-content">
-        <?php echo form_open('user/block','id="statusForm"'); ?>
-            <input type="hidden" name="userId" id="userId"/>
-            <input type="hidden" name="username" id="username"/>
-            <input type="hidden" name="action" id="action"/>
-            <div class="modal-body">
-                <strong class="modal-text"></strong>
-            </div>
-            <div class="modal-footer p-2">
-              <button type="button" class="btn btn-secondary m2mj-dialog-close">Close</button>
-              <button type="submit" class="btn btn-primary" id="modal-action">Save</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<div class="m2mj-dialog" id="delete_dialog">
-    <div class="dialog-background"></div>
-    <div class="m2mj-modal-content">
-        <?php echo form_open('user/delete','id="deleteForm"'); ?>        
-            <input type="hidden" name="delUserIds" id="delUserIds"/>
-            <div class="modal-body">
-                <strong class="modal-text">Are you sure you want to delete?</strong>
-            </div>
-            <div class="modal-footer p-2">
-              <button type="button" class="btn btn-secondary m2mj-dialog-close">Close</button>
-              <button type="submit" class="btn btn-danger" id="delete_confirm">Delete</button>
-            </div>
-        </form>
-    </div>
-</div>
+<?php $this->view('user/toggleStatus'); ?>
+<?php $this->view('user/delete'); ?>
