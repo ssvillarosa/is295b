@@ -3,6 +3,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <section id="content" >
+                    <div class="d-flex">
+                        <h5>Search</h5>
+                        <div class="help-tip m-1">
+                            <p>All fields are listed below. For every field, you can select a condition available for that field. Fill out value field that satisfies the condition. If condition or value is unset the search field will be ignored. Tick "show" item for each field to display that field in the search result.</p>
+                        </div>
+                    </div>
                     <?php if(isset($error_message)): ?>
                         <div class="alert alert-danger" role="alert">
                             <?php echo $error_message; ?>
