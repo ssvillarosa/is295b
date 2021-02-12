@@ -1,3 +1,9 @@
+<script>
+    // Redirect to details view.
+    function viewJobOrder(id){
+        window.location.href = '<?php echo site_url('job_order/view') ?>?id='+id;
+    }
+</script>
 <div id="job_order-page" class="job_order-page">
     <div class="container">
         <div class="row justify-content-center">

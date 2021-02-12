@@ -102,6 +102,18 @@ define('USER_ROLE_RECRUITER',2);
 define('USER_ROLE_ADMIN_TEXT','Admin');
 define('USER_ROLE_RECRUITER_TEXT','Recruiter');
 
+define('JOB_ORDER_TYPE_REGULAR',1);
+define('JOB_ORDER_TYPE_CONTRACTUAL',2);
+define('JOB_ORDER_TYPE_REGULAR_TEXT','Regular');
+define('JOB_ORDER_TYPE_CONTRACTUAL_TEXT','Contractual');
+
+define('JOB_ORDER_STATUS_OPEN',1);
+define('JOB_ORDER_STATUS_ON_HOLD',2);
+define('JOB_ORDER_STATUS_CLOSED',2);
+define('JOB_ORDER_STATUS_OPEN_TEXT','Open');
+define('JOB_ORDER_STATUS_ON_HOLD_TEXT','On hold');
+define('JOB_ORDER_STATUS_CLOSED_TEXT','Closed');
+
 define('MAX_LOGIN_ATTEMPT',5);
 
 define('IS_DELETED_TRUE','1');

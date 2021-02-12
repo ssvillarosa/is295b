@@ -134,6 +134,10 @@ body {
     color: #8e8588;
 }
 
+#nav > ul{
+    padding-left: 0px;
+}
+
 #nav > ul > li {
     display: inline-block;
 }
