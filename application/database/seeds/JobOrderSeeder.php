@@ -85,22 +85,22 @@ class JobOrderSeeder extends Seeder {
             [
                 'job_order_id' => 1,
                 'skill_id' => 1,
-                'years_of_experience' => 1,
+                'years_of_experience' => 8,
             ],
             [
                 'job_order_id' => 1,
                 'skill_id' => 2,
-                'years_of_experience' => 2,
+                'years_of_experience' => 7,
             ],
             [
                 'job_order_id' => 1,
                 'skill_id' => 3,
-                'years_of_experience' => 3,
+                'years_of_experience' => 6,
             ],
             [
                 'job_order_id' => 1,
                 'skill_id' => 4,
-                'years_of_experience' => 4,
+                'years_of_experience' => 5,
             ],
         ];
         foreach ($job_order_skills as $job_order_skill) {

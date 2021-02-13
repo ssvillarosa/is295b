@@ -1,6 +1,6 @@
 <?php
 
-class SkillSeeder extends Seeder {
+class SkillCategorySeeder extends Seeder {
 
     private $skill_table = 'skill';
     private $category_table = 'skill_category';
