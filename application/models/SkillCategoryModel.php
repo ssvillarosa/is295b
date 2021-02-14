@@ -25,6 +25,7 @@ Class SkillCategoryModel extends CI_Model{
     */
     public function getSkillCategories($limit=25,$offset=0,$orderBy='id',$order='asc'){
         $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $this->db->order_by($orderBy,$order);
         if($limit === 0){ 
             $query = $this->db->get('skill_category');          
         }else{

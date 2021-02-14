@@ -93,7 +93,7 @@ body {
     border-radius: 2px;
     padding: 16px;
     position: fixed;
-    z-index: 1;
+    z-index: 9999;
     left: 50%;
     bottom: 30px;
 }
@@ -396,4 +396,13 @@ body {
         border: 1px solid #cecece;
         padding: 20px;
         border-radius: 5px;
+    }
+        
+    /* Job order details page */
+    .skill-button{
+        min-width: 80px;
+    }
+    .skill-button:hover{
+        background-color: #dc3545;
+        border-color: #dc3545;
     }

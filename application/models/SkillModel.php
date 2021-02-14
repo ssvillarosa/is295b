@@ -17,15 +17,20 @@ Class SkillModel extends CI_Model{
     }
 
     /**
-    * Returns job order objects.
+    * Returns skill objects.
     *
     * @param    int     $limit  Limit count
     * @param    int     $offset Offset value
-    * @return   array of job order objects
+    * @return   array of skill objects
     */
-    public function getSkills($limit=25,$offset=0){
+    public function getSkills($limit=25,$offset=0,$orderBy='id',$order='asc'){
+        $this->db->order_by($orderBy,$order);
         $this->db->where("is_deleted !=", IS_DELETED_TRUE);
-        $query = $this->db->get('skill',$limit,$offset);
+        if($limit === 0){ 
+            $query = $this->db->get('skill');          
+        }else{
+            $query = $this->db->get('skill',$limit,$offset);         
+        }
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
@@ -35,7 +40,7 @@ Class SkillModel extends CI_Model{
     }
     
     /**
-    * Returns job order object if skillId exist in the database.
+    * Returns skill object if skillId exist in the database.
     *
     * @param    int     $skillId
     * @return   company object
@@ -53,10 +58,28 @@ Class SkillModel extends CI_Model{
     }
     
     /**
-    * Adds job order to the database.
+    * Returns skill object based on category.
     *
-    * @param    job order object     $skill
-    * @return   id of the new job order.
+    * @param    int     $skillCategoryId
+    * @return   array of skill object
+    */
+    public function getSkillByCategoryId($skillCategoryId){
+        $this->db->where("category_id", $skillCategoryId);
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $query = $this->db->get("skill");
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
+    
+    /**
+    * Adds skill to the database.
+    *
+    * @param    skill object     $skill
+    * @return   id of the new skill.
     */
     public function addSkill($skill){
         $this->db->set('created_time', 'NOW()', FALSE);
@@ -70,9 +93,9 @@ Class SkillModel extends CI_Model{
     }
     
     /**
-    * Updates job order details. Returns true if successful.
+    * Updates skill details. Returns true if successful.
     *
-    * @param    job order object     $skill
+    * @param    skill object     $skill
     * @return   boolean
     */
     public function updateSkill($skill,$skillId){
@@ -87,7 +110,7 @@ Class SkillModel extends CI_Model{
     }
         
     /**
-    * Returns the total count of job orders that are not deleted.
+    * Returns the total count of skills that are not deleted.
     */
     public function getSkillCount(){
         $this->db->where("is_deleted !=", IS_DELETED_TRUE);
@@ -96,7 +119,7 @@ Class SkillModel extends CI_Model{
     }
     
     /**
-    * Sets the job order status to IS_DELETED_TRUE(1). Returns SUCCESS_CODE if successful.
+    * Sets the skill status to IS_DELETED_TRUE(1). Returns SUCCESS_CODE if successful.
     *
     * @param    int[]     $SkillIds      array of user IDs.
     * @param    int       $userId          ID of the user who performed delete.
