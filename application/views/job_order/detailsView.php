@@ -25,7 +25,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <section id="content" >
-                    <h5 class="mb-3">Job order details: </h5>
+                    <h5 class="mb-3">Job order ID: <?php echo $job_order->id; ?></h5>
                     <?php if(isset($success_message)): ?>
                         <div class="alert alert-success" role="alert">
                             <?php echo $success_message; ?>

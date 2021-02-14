@@ -25,10 +25,10 @@
                         <thead>
                             <tr>
                                 <th class="text-left"></th>
+                                <th class="text-left">ID</th>
                                 <th class="text-left">Title</th>
                                 <th class="text-left">Company</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center">Employment Type</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -38,6 +38,9 @@
                                         <input type="checkbox" class="chk" value="<?php echo $job_order->id; ?>">
                                     </td>
                                     <td class="text-left" onClick="viewJobOrder(<?php echo $job_order->id; ?>)">
+                                        <?php echo $job_order->id; ?>
+                                    </td>
+                                    <td class="text-left" onClick="viewJobOrder(<?php echo $job_order->id; ?>)">
                                         <?php echo $job_order->title; ?>
                                     </td>
                                     <td class="text-left" onClick="viewJobOrder(<?php echo $job_order->id; ?>)">
@@ -45,9 +48,6 @@
                                     </td>
                                     <td class="text-center" onClick="viewJobOrder(<?php echo $job_order->id; ?>)">
                                         <?php echo $job_order->status; ?>
-                                    </td>
-                                    <td class="text-center" onClick="viewJobOrder(<?php echo $job_order->id; ?>)">
-                                        <?php echo $job_order->employment_type; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

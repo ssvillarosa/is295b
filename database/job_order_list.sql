@@ -19,6 +19,8 @@ END AS employment_type,
     jo.min_salary,
     jo.max_salary, 
     jo.location,
+    jo.slots_available,
+    jo.priority_level,
     jo.is_deleted
 FROM `job_order` jo
     JOIN company c ON jo.company_id = c.id
