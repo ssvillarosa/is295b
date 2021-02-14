@@ -210,8 +210,8 @@ class Company extends CI_Controller {
             echo 'Invalid Company ID';
             return;
         }
-        $userIds = explode(",", $this->input->post('delCompanyIds'));
-        $success = $this->CompanyModel->deleteCompany($userIds,
+        $companyIds = explode(",", $this->input->post('delCompanyIds'));
+        $success = $this->CompanyModel->deleteCompany($companyIds,
                 $this->session->userdata(SESS_USER_ID));
         if(!$success){
             echo 'Error';

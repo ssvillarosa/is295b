@@ -81,4 +81,4 @@
         </div>
     </div>	
 </div>
-<?php $this->view('company/delete'); ?>
+<?php $this->view('company/listPageDelete'); ?>
