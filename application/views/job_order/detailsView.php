@@ -84,7 +84,7 @@
                                         <?php echo JOB_ORDER_TYPE_CONTRACTUAL_TEXT; ?>    
                                     </option>
                                 </select>
-                                <?php echo form_error('status','<div class="alert alert-danger">','</div>'); ?>
+                                <?php echo form_error('employment_type','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="status">Status</label>
