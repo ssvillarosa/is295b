@@ -70,7 +70,7 @@ class Company_test extends TestCase{
             'company/update',
             $postData
         );
-        $this->assertContains('User successfully updated!', $success);
+        $this->assertContains('Company successfully updated!', $success);
         $page = $this->request('GET','company/view?id=2');
         $this->assertContains($postData['name'], $page);
         $this->assertContains($postData['contact_person'], $page);
@@ -96,7 +96,7 @@ class Company_test extends TestCase{
             'company/add',
             $postData
         );
-        $this->assertContains('User successfully added!', $success);
+        $this->assertContains('Company successfully added!', $success);
     }
     
     public function test_search(){
@@ -114,7 +114,7 @@ class Company_test extends TestCase{
             'company/add',
             $postData
         );
-        $this->assertContains('User successfully added!', $success);
+        $this->assertContains('Company successfully added!', $success);
         // Confirm if company is added.
         $output = $this->request('GET','user/searchResult?condition_name=E&value_name=DelCompany&display_name=on');
         $this->assertContains('DelCompany', $output);

@@ -85,7 +85,7 @@ class Company extends CI_Controller {
             $data["error_message"] = "Error occured.";        
         }else{
             // Set success message.
-            $data["success_message"] = "User successfully updated!";
+            $data["success_message"] = "Company successfully updated!";
         }
         // Display form.
         renderPage($this,$data,'company/detailsView');
@@ -120,7 +120,7 @@ class Company extends CI_Controller {
             $data["error_message"] = "Error occured.";        
         }else{
             // Set success message.
-            $data["success_message"] = "User successfully added!";
+            $data["success_message"] = "Company successfully added!";
             // Log user activity.
             $this->ActivityModel->saveUserActivity(
                     $this->session->userdata(SESS_USER_ID),
