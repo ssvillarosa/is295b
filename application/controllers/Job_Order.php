@@ -188,6 +188,32 @@ class Job_Order extends CI_Controller {
                 "Updated job order ".$job_order->title." details.");
     }
     
+     /**
+    * Delete job order.
+    */
+    public function delete(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
+        if(!$this->input->post('delJobOrderIds')){
+            echo 'Invalid Job Order ID';
+            return;
+        }
+        $jobOrderIds = explode(",", $this->input->post('delJobOrderIds'));
+        $success = $this->JobOrderModel->deleteJobOrder($jobOrderIds,
+                $this->session->userdata(SESS_USER_ID));
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Deleted job order ID : ".$this->input->post('delJobOrderIds'));
+        echo 'Success';
+    }
+    
     /**
     * Creates job order object.
     * 

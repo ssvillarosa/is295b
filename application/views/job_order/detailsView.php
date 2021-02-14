@@ -175,3 +175,4 @@
 </div>
 
 <?php $this->view('job_order/skill'); ?>
+<?php $this->view('job_order/detailsPageDelete'); ?>

@@ -79,5 +79,7 @@
                 </div>
             </div>
         </div>
-    </div>	
+    </div>
 </div>
+
+<?php $this->view('job_order/listPageDelete'); ?>
