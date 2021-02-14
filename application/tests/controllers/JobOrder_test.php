@@ -86,4 +86,45 @@ class JobOrder_test extends TestCase{
         $output = $this->request('GET','job_order/jobOrderList');
         $this->assertContains('Chief Officer', $output);
     }
+    
+    public function test_delete(){
+        // Add job order.
+        $postData = [
+            'title' => 'Del JO',
+            'company_id' => '1',
+            'min_salary' => '19000',
+            'max_salary' => '22000',
+            'employment_type' => '1',
+            'status' => '1',
+            'job_function' => 'Deleted Job functions.',
+            'requirement' => 'Deleted Job requirements.',
+            'skillIds' => '1,4',
+            'skillNames' => 'Javascript,Indexing',
+            'yearsOfExperiences' => '2,2',
+            'location' => 'Deleted Location',
+            'slots_available' => '2',
+            'priority_level' => '1',
+        ];
+        $success = $this->request(
+            'POST',
+            'job_order/add',
+            $postData
+        );
+        $this->assertContains('Job order successfully added!', $success);
+        $page1 = $this->request('GET','job_order/jobOrderList');
+        $rowCount = substr_count($page1,'job_order-row-item');
+        // Delete company.
+        $delPostData = [
+            'delJobOrderIds' => '6',
+        ];
+        $delSuccess = $this->request(
+            'POST',
+            'job_order/delete',
+            $delPostData
+        );
+        $this->assertContains('Success', $delSuccess);
+        $page2 = $this->request('GET','job_order/jobOrderList');
+        $newCount = substr_count($page2,'job_order-row-item');
+        $this->assertEquals($rowCount-1,$newCount);
+    }
 }
