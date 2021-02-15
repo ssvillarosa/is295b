@@ -84,4 +84,4 @@
     </div>	
 </div>
 <?php $this->view('user/toggleStatus'); ?>
-<?php $this->view('user/delete'); ?>
+<?php $this->view('user/listPageDelete'); ?>
