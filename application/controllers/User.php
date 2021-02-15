@@ -111,7 +111,7 @@ class User extends CI_Controller {
         }else{
             $users = $this->UserModel->searchUser($searchParams,$shownFields,$rowsPerPage,$data['offset']);
         }
-        $data['users'] = $users;
+        $data['entries'] = $users;
         renderPage($this,$data,'common/searchResult');
     }
     

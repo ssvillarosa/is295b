@@ -78,7 +78,7 @@ var showToast = (function () {
 * Hides dropdown when user clicks outside the container
 */
 $(document).mouseup(function(e){
-    var container = $("#user_profile_dropdown, #user_rows_dropdown");
+    var container = $("#user_profile_dropdown, #user_rows_dropdown, #number_of_rows_dropdown");
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         container.hide();
     }

@@ -268,7 +268,7 @@ body {
     margin-left: -120px;
 }
 
-#user_rows_dropdown{
+#user_rows_dropdown,#number_of_rows_dropdown{
     margin-top: -155px;
     margin-left: 0;
     min-width: 50px;
@@ -276,7 +276,7 @@ body {
     padding: 0;
 }
 
-#user_rows_dropdown a{
+#user_rows_dropdown a,#number_of_rows_dropdown a{
     padding: .5rem 1rem;
     text-align: center;
 }

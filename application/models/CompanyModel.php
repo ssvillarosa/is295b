@@ -17,7 +17,7 @@ Class CompanyModel extends CI_Model{
     }
 
     /**
-    * Returns user objects.
+    * Returns company objects.
     *
     * @param    int     $limit  Limit count
     * @param    int     $offset Offset value
@@ -73,7 +73,8 @@ Class CompanyModel extends CI_Model{
     /**
     * Updates company details. Returns true if successful.
     *
-    * @param    company object     $user
+    * @param    company object     $company
+    * @param    compay ID          $companyId
     * @return   boolean
     */
     public function updateCompany($company,$companyId){
@@ -99,7 +100,7 @@ Class CompanyModel extends CI_Model{
     /**
     * Sets the company status to COMPANY_IS_DELETED_TRUE(1). Returns SUCCESS_CODE if successful.
     *
-    * @param    int[]     $companyIds      array of user IDs.
+    * @param    int[]     $companyIds      array of Company IDs.
     * @param    int       $userId          ID of the user who performed delete.
     * @return   boolean
     */
@@ -124,9 +125,9 @@ Class CompanyModel extends CI_Model{
     * @param    int     $offset Offset value
     * @return   array of companies objects
     */
-    public function searchUser($searchParams,$columns,$limit=25,$offset=0){
+    public function searchCompany($searchParams,$columns,$limit=25,$offset=0){
         if(!count($columns)){
-            log_message('error', "CompanyModel->searchUser: No columns to display");
+            log_message('error', "CompanyModel->searchCompany: No columns to display");
             return false;
         }
         // Set select columns
@@ -155,7 +156,7 @@ Class CompanyModel extends CI_Model{
     *
     * @param    search param object     $searchParams
     */
-    public function searchUserCount($searchParams){
+    public function searchCompanyCount($searchParams){
         setWhereParams($this,$searchParams);
         $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $this->db->from('company');
