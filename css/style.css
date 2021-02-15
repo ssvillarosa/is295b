@@ -399,10 +399,10 @@ body {
     }
         
     /* Job order details page */
-    .skill-button{
+    .pill-button{
         min-width: 80px;
     }
-    .skill-button:hover{
+    .pill-button-removable:hover{
         background-color: #dc3545;
         border-color: #dc3545;
     }

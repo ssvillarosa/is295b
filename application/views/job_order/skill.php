@@ -1,25 +1,6 @@
 <script>
-    function applyEvents(){
-        $(".skill-button").click(function(){
-            $(this).remove();
-        });
-        
-        $('.skill-button').hover(
-            function() {
-                $(this).width($(this).width());
-                $(this).find(".skill-text").hide();
-                $(this).find(".years-of-experience").hide();
-                $(this).find(".remove-skill").removeClass("d-none");
-            },
-            function() {
-                $(this).find(".skill-text").show();
-                $(this).find(".years-of-experience").show();
-                $(this).find(".remove-skill").addClass("d-none");
-            }
-        );
-    }
     $(document).ready(function() {
-        applyEvents();
+        applyPillEvents();
         $("#category_select").change(function(){
             var categoryId = $("#category_select").val();
             $.get('<?php echo site_url('skill/getSkillsByCategory') ?>?skillCategoyId='+categoryId,
@@ -54,12 +35,9 @@
                 showToast("Already exist.",3000);
                 return;
             }
-            var skillBtn = "<button type='button' id='skill-"+skillId+"' class='btn btn-primary badge-pill btn-sm skill-button'>";
-                skillBtn += "<span class='skill-text mr-1'>"+skillName+"</span>";
-                skillBtn += "<span class='remove-skill d-none'>Remove</span>";
-                skillBtn += "<span id='skill-"+skillName+"' class='badge badge-light badge-pill years-of-experience'>"+yrsOfExp+"</span></button>";
+            var skillBtn = createPill('skill-'+skillId,skillName,yrsOfExp,true);
             $("#skills").prepend(skillBtn);
-            applyEvents();
+            applyPillEvents();
             hideDialog();
         });
     });

@@ -9,9 +9,9 @@
                 var skillId = $(this).attr('id').replace("skill-", "");
                 if(skillId != "add_skill"){
                     skillIds.push(skillId);
-                    var span = $(this).find('.years-of-experience');
+                    var span = $(this).find('.pill-text');
                     yearsOfExperiences.push(span.text().trim());
-                    skillNames.push($(this).find('.skill-text').text());
+                    skillNames.push($(this).find('.pill-button-text').text());
                 }
             });
             $("#skillIds").val(skillIds);
@@ -42,12 +42,12 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" value="<?php echo $job_order->title; ?>" class="form-control" id="title" name="title" maxLength="255">
+                                <input type="text" value="<?php echo $job_order->title; ?>" class="form-control" id="title" name="title" maxLength="255" required>
                                 <?php echo form_error('title','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="company_id" class="form-label">Company</label>
-                                <select name="company_id" id="company_id" class="custom-select">
+                                <select name="company_id" id="company_id" class="custom-select" required>
                                     <option value="">Select Company</option>
                                     <?php foreach($companies as $company): ?>
                                         <option value="<?php echo $company->id; ?>" <?php if($company->id === $job_order->company_id) echo 'selected'; ?>>
@@ -61,19 +61,19 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="min_salary" class="form-label">Min. Salary</label>
-                                <input type="number" value="<?php echo $job_order->min_salary; ?>" class="form-control" id="min_salary" name="min_salary">
+                                <input type="number" value="<?php echo $job_order->min_salary; ?>" class="form-control" id="min_salary" name="min_salary" required>
                                 <?php echo form_error('min_salary','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="max_salary" class="form-label">Max. Salary</label>
-                                <input type="number" value="<?php echo $job_order->max_salary; ?>" class="form-control" id="max_salary" name="max_salary">
+                                <input type="number" value="<?php echo $job_order->max_salary; ?>" class="form-control" id="max_salary" name="max_salary" required>
                                 <?php echo form_error('max_salary','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="employment_type">Employment Type</label>
-                                <select name="employment_type" id="employment_type" class="custom-select">
+                                <select name="employment_type" id="employment_type" class="custom-select" required>
                                     <option value="">Select Employment Type</option>
                                     <option value="<?php echo JOB_ORDER_TYPE_REGULAR; ?>" 
                                         <?php if($job_order->employment_type==JOB_ORDER_TYPE_REGULAR) echo "selected"; ?> >
@@ -88,7 +88,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="status">Status</label>
-                                <select name="status" id="status" class="custom-select">
+                                <select name="status" id="status" class="custom-select" required>
                                     <option value="<?php echo JOB_ORDER_STATUS_OPEN; ?>" 
                                         <?php if($job_order->status===JOB_ORDER_STATUS_OPEN) echo "selected"; ?> >
                                         <?php echo JOB_ORDER_STATUS_OPEN_TEXT; ?>
@@ -108,14 +108,14 @@
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
                                 <label for="job_function" class="form-label">Job Function</label>
-                                <textarea class="form-control" id="job_function" name="job_function" rows="3"><?php echo $job_order->job_function; ?></textarea>
+                                <textarea class="form-control" id="job_function" name="job_function" rows="3" required><?php echo $job_order->job_function; ?></textarea>
                                 <?php echo form_error('job_function','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
                                 <label for="requirement" class="form-label">Requirement</label>
-                                <textarea class="form-control" id="requirement" name="requirement" rows="3"><?php echo $job_order->requirement; ?></textarea>
+                                <textarea class="form-control" id="requirement" name="requirement" rows="3" required><?php echo $job_order->requirement; ?></textarea>
                                 <?php echo form_error('requirement','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -124,13 +124,14 @@
                                 <label for="requirement" class="form-label">Skills</label>
                                 <div id="skills">
                                     <?php foreach($job_order_skills as $job_order_skill) : ?>
-                                        <button type="button" id="skill-<?php echo $job_order_skill->skill_id; ?>" class="btn btn-primary badge-pill btn-sm skill-button">
-                                            <span class="skill-text"><?php echo $job_order_skill->name; ?></span>
-                                            <span class="remove-skill d-none">Remove</span>
-                                            <span id="skill-<?php echo $job_order_skill->name; ?>" class="badge badge-light badge-pill years-of-experience">
-                                                <?php echo $job_order_skill->years_of_experience ?>
-                                            </span>
-                                        </button>
+                                        <script>
+                                            var skill = createPill(
+                                                'skill-<?php echo $job_order_skill->skill_id; ?>',
+                                                '<?php echo $job_order_skill->name; ?>',
+                                                '<?php echo $job_order_skill->years_of_experience ?>',
+                                                true);
+                                            $("#skills").prepend(skill);
+                                        </script>
                                     <?php endforeach; ?>
                                     <button type="button" id="add_skill" class="btn btn-outline-primary btn-sm" onclick="$('#skills_dialog').fadeIn();">+</button>
                                 </div>
@@ -149,12 +150,12 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="slots_available" class="form-label">Slots Available</label>
-                                <input type="number" value="<?php echo $job_order->slots_available; ?>" class="form-control" id="slots_available" name="slots_available" min="1">
+                                <input type="number" value="<?php echo $job_order->slots_available; ?>" class="form-control" id="slots_available" name="slots_available" min="1" required>
                                 <?php echo form_error('slots_available','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="priority_level" class="form-label">Priority Level</label>
-                                <input type="number" value="<?php echo $job_order->priority_level; ?>" class="form-control" id="priority_level" name="priority_level" min="1" max="10">
+                                <input type="number" value="<?php echo $job_order->priority_level; ?>" class="form-control" id="priority_level" name="priority_level" min="1" max="10" required>
                                 <?php echo form_error('priority_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>

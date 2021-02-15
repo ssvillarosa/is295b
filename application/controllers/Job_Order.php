@@ -90,9 +90,6 @@ class Job_Order extends CI_Controller {
         $job_order_skills = $this->createJobOrderSkillObject(0);
         $data["job_order_skills"] = $job_order_skills;
         $job_order->created_by = $this->session->userdata(SESS_USER_ID);
-        echo '<pre>';
-        print_r($data);
-        echo '</pre>';
         if($this->setData($data) === ERROR_CODE){
             $data["error_message"] = "Error occured.";
             renderPage($this,$data,'job_order/add');
