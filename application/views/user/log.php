@@ -29,11 +29,11 @@
                 
                 <div class="table_footer d-flex justify-content-between align-items-center">
                     <div class="row-per-page">
-                        <div class="usr-icon" onclick="$('#user_rows_dropdown').toggle();">
+                        <div class="usr-icon" onclick="$('#number_of_rows_dropdown').toggle();">
                             <button class="btn btn-secondary dropdown-toggle btn-sm" href="#">
                                 <?php echo $rowsPerPage; ?>
                             </button> Items per page
-                            <div id="user_rows_dropdown" class="dropdown-content dropdown-menu">
+                            <div id="number_of_rows_dropdown" class="dropdown-content dropdown-menu">
                                 <a class="dropdown-item" href="<?php echo site_url('user/log?rowsPerPage=25') ?>">25</a>
                                 <a class="dropdown-item" href="<?php echo site_url('user/log?rowsPerPage=50') ?>">50</a>
                                 <a class="dropdown-item" href="<?php echo site_url('user/userList?rowsPerPage=100') ?>">100</a>

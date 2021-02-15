@@ -175,7 +175,7 @@ class Company extends CI_Controller {
         }
         
         $rowsPerPage = getRowsPerPage($this,COOKIE_COMPANY_SEARCH_ROWS_PER_PAGE);
-        $totalCount = $this->CompanyModel->searchUserCount($searchParams);
+        $totalCount = $this->CompanyModel->searchCompanyCount($searchParams);
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
@@ -189,12 +189,12 @@ class Company extends CI_Controller {
         $data['removedCurrentPage'] = site_url('company/searchResult').'?'.getQueryParams(["currentPage"]);
         
         if($this->input->get("exportResult")){
-            $users = $this->CompanyModel->searchUser($searchParams,$shownFields,0);
-            exportCSV($this->input->get("exportResult"),$users,$columnHeaders);
+            $companies = $this->CompanyModel->searchCompany($searchParams,$shownFields,0);
+            exportCSV($this->input->get("exportResult"),$companies,$columnHeaders);
         }else{
-            $users = $this->CompanyModel->searchUser($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+            $companies = $this->CompanyModel->searchCompany($searchParams,$shownFields,$rowsPerPage,$data['offset']);
         }
-        $data['users'] = $users;
+        $data['entries'] = $companies;
         renderPage($this,$data,'common/searchResult');
     }
     
