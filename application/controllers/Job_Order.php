@@ -213,6 +213,81 @@ class Job_Order extends CI_Controller {
                 "Deleted job order ID : ".$this->input->post('delJobOrderIds'));
         echo 'Success';
     }
+        
+    /**
+    * Search page.
+    */
+    public function search(){
+        renderPage($this,null,'job_order/search');        
+    }
+    
+    /**
+    * Search results page.
+    */
+    public function searchResult(){
+        // Create search parameters for each field.
+        $searchParams = [];
+        $fields = [
+            "id",
+            "title",
+            "company",
+            "status",
+            "employment_type",
+            "job_function",
+            "requirement",
+            "min_salary",
+            "max_salary",
+            "location",
+            "slots_available",
+            "priority_level",
+            "is_deleted",
+            "skills",
+            ];
+        foreach ($fields as $field){
+            $param = getSearchParam($this,$field);
+            $param ? array_push($searchParams, $param):'';            
+        }
+        
+        // Create array to store fields to be shown
+        $shownFields = [];
+        // Create column header for the table.
+        $columnHeaders = [];
+        foreach ($searchParams as $param){
+            if($param->show){
+                array_push($shownFields, $param->field);   
+                array_push($columnHeaders, ucwords(str_replace("_", " ", $param->field)));   
+            }
+        }
+        if(!$shownFields){
+            $data['error_message'] = "Select at least one field to be displayed.";
+            renderPage($this,$data,'job_order/searchResult');
+            return;
+        }
+        
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_SEARCH_ROWS_PER_PAGE);
+        $totalCount = $this->JobOrderModel->searchJobOrderCount($searchParams);
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $data['shownFields'] = $shownFields;
+        $data['columnHeaders'] = $columnHeaders;
+        $data['searcParams'] = $searchParams;
+        $data['filters'] = generateTextForFilters($searchParams);
+        $data['module'] = 'job_order';
+        $data['removedRowsPerPage'] = site_url('job_order/searchResult').'?'.getQueryParams(["rowsPerPage"]);
+        $data['removedCurrentPage'] = site_url('job_order/searchResult').'?'.getQueryParams(["currentPage"]);
+        
+        if($this->input->get("exportResult")){
+            $job_orders = $this->JobOrderModel->searchJobOrder($searchParams,$shownFields,0);
+            exportCSV($this->input->get("exportResult"),$job_orders,$columnHeaders,[]);
+        }else{
+            $job_orders = $this->JobOrderModel->searchJobOrder($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+        }
+        $data['entries'] = $job_orders;
+        renderPage($this,$data,'common/searchResult');
+        // TODO: Might create custom implementation of export csv and results page.
+    }
     
     /**
     * Creates job order object.

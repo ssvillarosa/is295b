@@ -194,6 +194,36 @@ if(!function_exists('createDateCondition')){
     }
 }
 
+if(!function_exists('createNumberCondition')){
+    /**
+    * Creates a filter for number fields.
+    * 
+    * @param    string     $label   Label of the filter. Out of it, the ID will be generated.
+    */
+    function createNumberCondition($label){
+        if(!trim($label)){
+            return;
+        }
+        $id = strtolower(str_replace(' ', '_', trim($label)));
+        echo "  <div class='form-group row  d-flex justify-content-around' id='number_field_$id'>
+                    <label for='role' class='col-form-label col-sm-3 text-center' id='label_$id'>".ucwords($label)."</label>
+                    <div class='col-sm-3'>
+                        <select name='condition_$id' id='condition_$id' class='custom-select number-field-select'>
+                            <option value=''>Select Condition</option>
+                            <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_LESS_THAN."'>".getConditionDictionary(CONDITION_LESS_THAN)."</option>
+                            <option value='".CONDITION_GREATER_THAN."'>".getConditionDictionary(CONDITION_GREATER_THAN)."</option>
+                            <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
+                        </select>
+                    </div>
+                    <div class='col-sm-3'>
+                        <input type='number' class='form-control' id='value_$id' name='value_$id' maxLength='50'>
+                    </div>
+                    <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."' checked>
+                </div>";
+    }
+}
+
 if(!function_exists('getConditionDictionary')){
     /**
     * Returns the equivalent text of a condition.
@@ -399,7 +429,7 @@ if(!function_exists('exportCSV')){
     /**
     * Export search result to CSV file.
     */
-   function exportCSV($filename,$data,$header){ 
+   function exportCSV($filename,$data,$header,$exclude=["id"]){ 
         // file name 
         $filename = $filename.'.csv'; 
         header("Content-Description: File Transfer"); 
@@ -411,8 +441,9 @@ if(!function_exists('exportCSV')){
 
         fputcsv($file, $header);
         foreach ($data as $key=>$line){
-            // Remove ID
-            unset($line['id']);
+            foreach ($exclude as $col){
+                unset($line[$col]);
+            }
             fputcsv($file,$line); 
         }
         fclose($file); 
