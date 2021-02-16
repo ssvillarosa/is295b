@@ -22,7 +22,7 @@ END AS employment_type,
     jo.slots_available,
     jo.priority_level,
     jo.is_deleted,
-    (SELECT GROUP_CONCAT(concat(s.name,'-',years_of_experience) SEPARATOR ', ') 
+    (SELECT GROUP_CONCAT(concat(s.name,'(',years_of_experience,'y)') SEPARATOR ', ') 
         FROM `job_order_skill` jos
         JOIN skill s ON jos.skill_id=s.id 
         WHERE job_order_id=jo.id

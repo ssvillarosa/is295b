@@ -85,4 +85,30 @@ class JobOrderModel_seedtest extends UnitTestCase {
         $newCount  = $this->obj->getJobOrderCount();
         $this->assertEquals($newCount, $jobOrderCount-1);    
     }
+    
+    public function test_searchJobOrder(){
+        $searchParam = [
+            (object)[
+                "field" => "title",
+                "condition" => "E",
+                "value" => "Software Developer",
+                "show" => 1,
+            ]
+        ];
+        $job_order  = $this->obj->searchJobOrder($searchParam,["title"]);
+        $this->assertEquals($job_order[0]["title"], "Software Developer");
+    }
+    
+    public function test_searchJobOrderCount(){
+        $searchParam = [
+            (object)[
+                "field" => "title",
+                "condition" => "E",
+                "value" => "Software Developer",
+                "show" => 1,
+            ]
+        ];
+        $job_order  = $this->obj->searchJobOrderCount($searchParam);
+        $this->assertEquals(count($job_order), 1);
+    }
 }

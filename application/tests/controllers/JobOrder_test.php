@@ -33,9 +33,9 @@ class JobOrder_test extends TestCase{
     public function test_view(){
         $output = $this->request('GET','job_order/view?id=1');
         $this->assertContains('value="Software Developer"', $output);
-        $this->assertContains('id="skill-1"', $output);
-        $this->assertContains('id="skill-3"', $output);
-        $this->assertContains('id="skill-4"', $output);
+        $this->assertContains("'skill-1'", $output);
+        $this->assertContains("'skill-3'", $output);
+        $this->assertContains("'skill-4'", $output);
     }
     
     public function test_update(){
@@ -59,9 +59,9 @@ class JobOrder_test extends TestCase{
         $this->request('POST','job_order/update',$postData);
         $output = $this->request('GET','job_order/view?id=2');
         $this->assertContains('value="Software"', $output);
-        $this->assertContains('id="skill-1"', $output);
-        $this->assertContains('id="skill-4"', $output);
-        $this->assertNotContains('id="skill-3"', $output);
+        $this->assertContains("'skill-1'", $output);
+        $this->assertContains("'skill-4'", $output);
+        $this->assertNotContains("'skill-3'", $output);
     }
     
     public function test_add(){
@@ -126,5 +126,10 @@ class JobOrder_test extends TestCase{
         $page2 = $this->request('GET','job_order/jobOrderList');
         $newCount = substr_count($page2,'job_order-row-item');
         $this->assertEquals($rowCount-1,$newCount);
+    }
+    
+    public function test_search(){
+        $output = $this->request('GET','job_order/searchResult?condition_title=E&value_title=Software+Developer&display_title=on');
+        $this->assertContains('Software Developer', $output);
     }
 }

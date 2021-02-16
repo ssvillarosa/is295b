@@ -38,10 +38,27 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($entries as $entry): ?>
-                                    <tr class="entry-row-item" onClick="viewEntry(<?php echo $entry["id"]; ?>)">
+                                    <tr id="entry-row-item-<?php echo $entry["id"]; ?>" class="entry-row-item" onClick="viewEntry(<?php echo $entry["id"]; ?>)">
                                         <?php foreach ($shownFields as $field): ?>
-                                            <td>
-                                                <?php echo $entry[$field]; ?>
+                                            <td id="cell-<?php echo $entry["id"]; ?>-<?php echo $field; ?>">
+                                                <?php 
+                                                    if($field == "skills"){
+                                                        $items = explode(", ",$entry[$field]);
+                                                        forEach($items as $item){
+                                                            $skill = explode("-",$item)[0];
+                                                            $yrs = explode("-",$item)[1];
+                                                            echo "<script>";
+                                                            echo "var skill = createPill(";
+                                                            echo "'',";
+                                                            echo "'".$skill."',";
+                                                            echo "'".$yrs."');";
+                                                            echo "$('#cell-".$entry["id"]."-".$field."').append(skill)";
+                                                            echo "</script>";
+                                                        }
+                                                    }else{
+                                                        echo $entry[$field];
+                                                    }
+                                                ?>
                                             </td>
                                         <?php endforeach; ?>
                                     </tr>
