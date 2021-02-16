@@ -1,6 +1,9 @@
 <script>
     $(document).ready(function() {
-        $.get('<?php echo site_url('job_order/ajaxListPage') ?>?display_id=on&display_title=on&condition_company=E&value_company=<?php echo $company->name; ?>&display_status=on',
+        $.get("<?php echo site_url('job_order/ajaxListPage') ?>"+
+                "?display_id=on&display_title=on"+
+                "&condition_company=E&value_company=<?php echo $company->name; ?>"+
+                "&display_status=on",
         function(data) {
             if(data.trim() == "Error"){
                 showToast("Error occurred.",3000);
