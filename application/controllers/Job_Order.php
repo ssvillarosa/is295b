@@ -283,7 +283,54 @@ class Job_Order extends CI_Controller {
         }
         $data['entries'] = $job_orders;
         renderPage($this,$data,'common/searchResult');
-        // TODO: Might create custom implementation of export csv and results page.
+    }
+    
+    /**
+    * List of job orders designed for ajax request.
+    */
+    public function ajaxListPage(){
+        $fields = [
+            "id",
+            "title",
+            "company",
+            "status",
+            ];
+        // Create search parameters for each field.
+        $searchParams = [];
+        // Create array to store fields to be shown
+        $shownFields = [];
+        // Create column header for the table.
+        $columnHeaders = [];
+        foreach ($fields as $field){
+            $param = getSearchParam($this,$field);
+            if(!$param){
+                continue;
+            }
+            array_push($searchParams, $param); 
+            if($param->show){
+                array_push($shownFields, $param->field);
+                array_push($columnHeaders, ucwords(str_replace("_", " ", $param->field)));  
+            }
+        }
+        
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_AJAX_ROWS_PER_PAGE);
+        $totalCount = $this->JobOrderModel->searchJobOrderCount($searchParams);
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $data['toolbar_text'] = "Job Orders";
+        $data['module'] = 'job_order';
+        $data['shownFields'] = $shownFields;
+        $data['columnHeaders'] = $columnHeaders;
+        $data['searcParams'] = $searchParams;
+        $data['ajaxContainer'] = 'companyJobOderList';
+        $data['removedRowsPerPage'] = site_url('job_order/ajaxListPage').'?'.getQueryParams(["rowsPerPage"]);
+        $data['removedCurrentPage'] = site_url('job_order/ajaxListPage').'?'.getQueryParams(["currentPage"]);
+        
+        $job_orders = $this->JobOrderModel->searchJobOrder($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+        $data['entries'] = $job_orders;
+        $this->load->view('common/ajaxListPage', $data);
     }
     
     /**

@@ -1,3 +1,17 @@
+<script>
+    $(document).ready(function() {
+        $.get('<?php echo site_url('job_order/ajaxListPage') ?>?display_id=on&display_title=on&condition_company=E&value_company=<?php echo $company->name; ?>&display_status=on',
+        function(data) {
+            if(data.trim() == "Error"){
+                showToast("Error occurred.",3000);
+                return;
+            }
+            $("#companyJobOderList").html(data);
+        }).fail(function() {
+            showToast("Error occurred.",3000);
+        });
+    });
+</script>
 <div id="company-details-page" class="company-details-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -60,6 +74,8 @@
                                 <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
+                        <!--This is where the ajax takes place.-->
+                        <div id="companyJobOderList" class="mb-3"></div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
                                 <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
@@ -70,7 +86,6 @@
                             </div>
                         </div>
                     </form>
-                    <!--TODO: Add job order list here. --> 
                 </section>
             </div>
         </div>
