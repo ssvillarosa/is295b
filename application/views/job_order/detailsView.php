@@ -25,7 +25,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <section id="content" >
-                    <h5 class="mb-3">Job order ID: <?php echo $job_order->id; ?></h5>
+                    <h5 class="mb-3">Job order ID: <?php if(isset($job_order)) echo $job_order->id; ?></h5>
                     <?php if(isset($success_message)): ?>
                         <div class="alert alert-success" role="alert">
                             <?php echo $success_message; ?>
@@ -161,10 +161,14 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
-                                <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
+                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                                    <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
+                                <?php endif; ?>
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                <?php endif; ?>
                                 <a href="<?php echo site_url('job_order/jobOrderList') ?>" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>

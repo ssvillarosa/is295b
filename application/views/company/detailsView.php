@@ -78,10 +78,14 @@
                         <div id="companyJobOderList" class="mb-3"></div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
-                                <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
+                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                                    <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
+                                <?php endif; ?>
                             </div>
                             <div class="text-right">
-                                <button type="submit" class="btn btn-primary">Save</button>
+                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                                    <button type="submit" class="btn btn-primary">Save</button>
+                                <?php endif; ?>
                                 <a href="<?php echo site_url('company/companyList') ?>" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
