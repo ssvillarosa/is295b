@@ -135,7 +135,7 @@
                                 <label for="skills" class="form-label">Skills</label>
                                 <div id="skills">
                                     <?php foreach($job_order_skills as $job_order_skill){
-                                        echo createPill($job_order_skill->skill_id,
+                                        echo createPill('skill-'.$job_order_skill->skill_id,
                                                 $job_order_skill->name,
                                                 $job_order_skill->years_of_experience,
                                                 true);
@@ -152,7 +152,7 @@
                                 <label for="users" class="form-label">Recruiters</label>
                                 <div id="users">
                                     <?php foreach($job_order_users as $job_order_user){
-                                        echo createPill($job_order_user->user_id,
+                                        echo createPill('user-'.$job_order_user->user_id,
                                                 $job_order_user->name,
                                                 '',
                                                 true);
