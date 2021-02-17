@@ -97,7 +97,8 @@ function createPill(id,buttonText,pillText,removable){
     var pillBtn = "<button type='button' id='"+id+"' class='btn btn-primary badge-pill btn-sm "+cls+" mr-1'>";
         pillBtn += "<span class='pill-button-text mr-1'>"+buttonText+"</span>";
         pillBtn += removable ? "<span class='remove-pill d-none'>Remove</span>" : "";
-        pillBtn += "<span id='skill-"+buttonText+"' class='badge badge-light badge-pill pill-text'>"+pillText+"</span></button>";
+        pillBtn += pillText ? "<span id='skill-"+buttonText+"' class='badge badge-light badge-pill pill-text'>"+pillText+"</span>" : "";
+        pillBtn += "</button>";
     return pillBtn;
 }
 

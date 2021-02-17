@@ -4,12 +4,14 @@ class JobOrderSeeder extends Seeder {
 
     private $job_order_table = 'job_order';
     private $job_order_skill_table = 'job_order_skill';
+    private $job_order_user_table = 'job_order_user';
 
     public function run()
     {
         $this->db->query("SET FOREIGN_KEY_CHECKS = 0;");
         $this->db->query("TRUNCATE table {$this->job_order_table};");
         $this->db->query("TRUNCATE table {$this->job_order_skill_table};");
+        $this->db->query("TRUNCATE table {$this->job_order_user_table};");
         $this->db->query("SET FOREIGN_KEY_CHECKS = 1;");
 
         $job_orders = [
@@ -105,6 +107,28 @@ class JobOrderSeeder extends Seeder {
         ];
         foreach ($job_order_skills as $job_order_skill) {
             $this->db->insert($this->job_order_skill_table, $job_order_skill);            
+        }
+        
+        $job_order_users= [
+            [
+                'job_order_id' => 1,
+                'user_id' => 1,
+            ],
+            [
+                'job_order_id' => 1,
+                'user_id' => 2,
+            ],
+            [
+                'job_order_id' => 1,
+                'user_id' => 3,
+            ],
+            [
+                'job_order_id' => 1,
+                'user_id' => 4,
+            ],
+        ];
+        foreach ($job_order_users as $job_order_user) {
+            $this->db->insert($this->job_order_user_table, $job_order_user);            
         }
     }
 }

@@ -450,3 +450,23 @@ if(!function_exists('exportCSV')){
         exit; 
     }
 }
+
+if(!function_exists('createPill')){
+    /**
+    * Creates a pill button.
+     *
+     * @param {string}  id              The ID of the button
+     * @param {string}  buttonText      The text of the button
+     * @param {string}  pillText        The text of the pill
+     * @param {boolean} removable       Indicates whether the button is removable or not
+     */
+    function createPill($id,$buttonText,$pillText,$removable){
+        $cls = $removable ? "pill-button-removable" : "pill-button";
+        $pillBtn = "<button type='button' id='".$id."' class='btn btn-primary badge-pill btn-sm ".$cls." mr-1'>";
+            $pillBtn .= "<span class='pill-button-text mr-1'>".$buttonText."</span>";
+            $pillBtn .= $removable ? "<span class='remove-pill d-none'>Remove</span>" : "";
+            $pillBtn .= $pillText ? "<span id='skill-".$buttonText."' class='badge badge-light badge-pill pill-text'>".$pillText."</span>" : "";
+            $pillBtn .= "</button>";
+        return $pillBtn;
+    }
+}

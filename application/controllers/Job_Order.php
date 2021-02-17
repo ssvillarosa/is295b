@@ -20,7 +20,9 @@ class Job_Order extends CI_Controller {
         $this->load->model('JobOrderModel');
         $this->load->model('CompanyModel');
         $this->load->model('JobOrderSkillModel');
+        $this->load->model('JobOrderUserModel');
         $this->load->model('SkillCategoryModel');
+        $this->load->model('UserModel');
         $this->load->model('SkillModel');
     }
     
@@ -71,7 +73,14 @@ class Job_Order extends CI_Controller {
             renderPage($this,$data,'job_order/detailsView');
             return;
         }
+        $job_order_users = $this->JobOrderUserModel->getUsersByJobOrderId($jobOrderId);
+        if($job_order_users === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'job_order/detailsView');
+            return;
+        }
         $data["job_order_skills"] = $job_order_skills;
+        $data["job_order_users"] = $job_order_users;
         renderPage($this,$data,'job_order/detailsView');
     }
     
@@ -147,6 +156,8 @@ class Job_Order extends CI_Controller {
         $data["job_order"] = $job_order;
         $job_order_skills = $this->createJobOrderSkillObject($jobOrderId);
         $data["job_order_skills"] = $job_order_skills;
+        $job_order_users = $this->createJobOrderUserObject($jobOrderId);
+        $data["job_order_users"] = $job_order_users;
         if($this->setData($data) === ERROR_CODE){
             $data["error_message"] = "Error occured.";
             renderPage($this,$data,'job_order/detailsView');
@@ -171,6 +182,18 @@ class Job_Order extends CI_Controller {
                     && $this->JobOrderSkillModel->addJobOrderSkills($job_order_skills);
         }
         if($updateJobOrderSkills === ERROR_CODE){
+            // Set error message.
+            $data["error_message"] = "Error occured.";     
+            renderPage($this,$data,'job_order/detailsView');
+            return;
+        }
+        // Batch insert users into job order user table.
+        $updateJobOrderUsers = false;
+        if($job_order_users){
+            $updateJobOrderUsers = $this->JobOrderUserModel->deleteJobOrderUsers($jobOrderId)
+                    && $this->JobOrderUserModel->addJobOrderUsers($job_order_users);
+        }
+        if($updateJobOrderUsers === ERROR_CODE){
             // Set error message.
             $data["error_message"] = "Error occured.";     
             renderPage($this,$data,'job_order/detailsView');
@@ -387,6 +410,32 @@ class Job_Order extends CI_Controller {
     }
     
     /**
+    * Creates job order user object.
+    * 
+    * @return   job order user object
+    */
+    private function createJobOrderUserObject($jobOrderId){
+        $job_order_users = [];
+        if(!$this->input->post('userIds') || !$this->input->post('userNames')){
+            return [];
+        }
+        $userIds = explode(",", $this->input->post('userIds'));
+        $userNames = explode(",", $this->input->post('userNames'));
+        if(count($userIds) != count($userNames)){
+            return ERROR_CODE;
+        }
+        foreach ($userIds as $key => $userId){
+            $job_order_user = (object)[
+                'job_order_id' => $jobOrderId,
+                'user_id' => $userIds[$key],
+                'name' => $userNames[$key]
+            ];
+            array_push($job_order_users, $job_order_user);
+        }
+        return $job_order_users;
+    }
+    
+    /**
     * Apply validation rules for other details to be used in update form.
     */
     private function setValidationDetails(){        
@@ -419,6 +468,8 @@ class Job_Order extends CI_Controller {
             return ERROR_CODE;
         }
         $data["skillCategories"] = $skillCategories;
+        $recruiters = $this->UserModel->getUsers(0);
+        $data["recruiters"] = $recruiters;
         return SUCCESS_CODE;
     }
 }
