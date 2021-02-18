@@ -152,7 +152,11 @@ class Company extends CI_Controller {
             "secondary_phone",
             "address",
             "website",
-            "industry",];
+            "industry",
+            "active",
+            "on_hold",
+            "closed",
+            "total"];
         foreach ($fields as $field){
             $param = getSearchParam($this,$field);
             $param ? array_push($searchParams, $param):'';            

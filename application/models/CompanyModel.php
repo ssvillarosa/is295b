@@ -24,9 +24,8 @@ Class CompanyModel extends CI_Model{
     * @return   array of company objects
     */
     public function getCompanies($limit=25,$offset=0,$orderBy='id',$order='asc'){
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $this->db->order_by($orderBy,$order);
-        $query = $this->db->get('company',$limit,$offset);
+        $query = $this->db->get('company_list',$limit,$offset);
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
@@ -43,8 +42,7 @@ Class CompanyModel extends CI_Model{
     */
     public function getCompanyById($companyId){
         $this->db->where("id", $companyId);
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
-        $query = $this->db->get("company");
+        $query = $this->db->get("company_list");
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
@@ -137,11 +135,10 @@ Class CompanyModel extends CI_Model{
         }
         // Set where conditions
         setWhereParams($this,$searchParams);
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         if($limit === 0){
-            $query = $this->db->get('company');            
+            $query = $this->db->get('company_list');            
         }else{
-            $query = $this->db->get('company',$limit,$offset);            
+            $query = $this->db->get('company_list',$limit,$offset);            
         }
         if(!$query){
             logArray('error',$this->db->error());
@@ -158,8 +155,7 @@ Class CompanyModel extends CI_Model{
     */
     public function searchCompanyCount($searchParams){
         setWhereParams($this,$searchParams);
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
-        $this->db->from('company');
+        $this->db->from('company_list');
         $count = $this->db->count_all_results();
         return $count;
     }

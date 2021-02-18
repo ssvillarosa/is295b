@@ -78,7 +78,11 @@
                             </div>
                         </div>
                         <!--This is where the ajax takes place.-->
-                        <div id="companyJobOderList" class="mb-3"></div>
+                        <div id="companyJobOderList" class="mb-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader"></div>
+                            </div>
+                        </div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
                                 <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>

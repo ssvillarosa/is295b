@@ -26,6 +26,16 @@ END AS employment_type,
         FROM `job_order_skill` jos
         JOIN skill s ON jos.skill_id=s.id 
         WHERE job_order_id=jo.id
-    ) AS skills
+    ) AS skills,
+    (SELECT GROUP_CONCAT(u.name SEPARATOR ', ') 
+        FROM `job_order_user` jos
+        JOIN user u ON jos.user_id=u.id
+        WHERE job_order_id=jo.id
+    ) AS recruiters,
+    (SELECT GROUP_CONCAT(concat('(',u.id,')') SEPARATOR ', ') 
+        FROM `job_order_user` jos
+        JOIN user u ON jos.user_id=u.id
+        WHERE job_order_id=jo.id
+    ) AS users
 FROM `job_order` jo
     JOIN company c ON jo.company_id = c.id

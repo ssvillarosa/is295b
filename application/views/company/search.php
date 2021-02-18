@@ -30,6 +30,10 @@
                         <?php createTextFilter("Address") ?>
                         <?php createTextFilter("Website") ?>
                         <?php createTextFilter("Industry") ?>
+                        <?php createNumberCondition("Active") ?>
+                        <?php createNumberCondition("On Hold") ?>
+                        <?php createNumberCondition("Closed") ?>
+                        <?php createNumberCondition("Total") ?>
                         <div class="text-center mt-4 mb-2">
                             <button type="submit" class="btn btn-primary">Search</button>
                             <a href="<?php echo site_url('company/companyList') ?>" class="btn btn-secondary">Cancel</a>

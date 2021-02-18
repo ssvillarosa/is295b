@@ -275,6 +275,7 @@ class Job_Order extends CI_Controller {
             "priority_level",
             "is_deleted",
             "skills",
+            "recruiters"
             ];
         foreach ($fields as $field){
             $param = getSearchParam($this,$field);
@@ -330,6 +331,7 @@ class Job_Order extends CI_Controller {
             "title",
             "company",
             "status",
+            "users",
             ];
         // Create search parameters for each field.
         $searchParams = [];

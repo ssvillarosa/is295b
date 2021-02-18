@@ -26,9 +26,10 @@
                             <tr>
                                 <th class="text-left"></th>
                                 <th class="text-left">Company Name</th>
-                                <th class="text-center">Active Jobs</th>
-                                <th class="text-center">Completed Jobs</th>
-                                <th class="text-center">Total Jobs</th>
+                                <th class="text-center">Active</th>
+                                <th class="text-center">On Hold</th>
+                                <th class="text-center">Closed</th>
+                                <th class="text-center">Total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,13 +42,16 @@
                                         <?php echo $company->name; ?>
                                     </td>
                                     <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
-                                        <?php echo 0; ?>
+                                        <?php echo $company->active; ?>
                                     </td>
                                     <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
-                                        <?php echo 0; ?>
+                                        <?php echo $company->on_hold; ?>
                                     </td>
                                     <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
-                                        <?php echo 0; ?>
+                                        <?php echo $company->closed; ?>
+                                    </td>
+                                    <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
+                                        <?php echo $company->total; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

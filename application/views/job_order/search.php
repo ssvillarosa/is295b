@@ -47,6 +47,7 @@
                         <?php createNumberCondition("Slots Available") ?>
                         <?php createNumberCondition("Priority Level") ?>
                         <?php createTextFilter("Skills") ?>
+                        <?php createTextFilter("Recruiters") ?>
                         <div class="text-center mt-4 mb-2">
                             <button type="submit" class="btn btn-primary">Search</button>
                             <a href="<?php echo site_url('job_order/jobOrderList') ?>" class="btn btn-secondary">Cancel</a>

@@ -1,3 +1,20 @@
+<script>
+    $(document).ready(function() {
+        $.get("<?php echo site_url('job_order/ajaxListPage') ?>"+
+                "?display_id=on&display_title=on"+
+                "&condition_users=C&value_users=(<?php echo $user->id; ?>)"+
+                "&display_status=on",
+        function(data) {
+            if(data.trim() == "Error"){
+                showToast("Error occurred.",3000);
+                return;
+            }
+            $("#userJobOderList").html(data);
+        }).fail(function() {
+            showToast("Error occurred.",3000);
+        });
+    });
+</script>
 <div id="user-details-page" class="user-details-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -63,6 +80,12 @@
                             <label for="name" class="form-label">Address</label>
                             <input type="text" value="<?php echo $user->address; ?>" class="form-control" id="address" name="address" maxLength="50">
                             <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
+                        </div>                        
+                        <!--This is where the ajax takes place.-->
+                        <div id="userJobOderList" class="mb-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader"></div>
+                            </div>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">

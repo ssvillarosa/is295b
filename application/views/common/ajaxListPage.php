@@ -17,9 +17,6 @@
 </script>
 <div id="entry_serch_result_page_ajax" class="entry_serch_result_page_ajax">
     <div class="w-100">
-        <p class="h5 mb-0 align-middle">
-            <?php if(isset($toolbar_text)){ echo$toolbar_text; } ?>
-        </p>
         <?php if(isset($error_message)): ?>
             <div class="alert alert-danger" role="alert">
                 <?php echo $error_message; ?>
@@ -27,9 +24,9 @@
             </div>
         <?php endif; ?>
         <div class="table_toolbar">
-            <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                <a href="<?php echo site_url($module.'/add'); ?>" class="btn btn-primary">New</a>
-            <?php endif; ?>
+            <p class="h5 mb-0 align-middle text-light">
+                <?php if(isset($toolbar_text)){ echo$toolbar_text; } ?>
+            </p>
         </div>
         <?php if (isset($entries) && count($entries)>0): ?> 
             <div class="table-responsive entry-search-result-table">
