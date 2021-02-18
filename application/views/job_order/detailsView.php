@@ -3,9 +3,9 @@
         // Add skills to post request.
         $("#updateForm").submit(function(e){
             var skillIds = [];
-            var userIds = [];
-            var yearsOfExperiences = [];
             var skillNames = [];
+            var yearsOfExperiences = [];
+            var userIds = [];
             var userNames = [];
             $('#skills > button').each(function() {
                 var skillId = $(this).attr('id').replace("skill-", "");
@@ -24,8 +24,8 @@
                 }
             });
             $("#skillIds").val(skillIds);
-            $("#yearsOfExperiences").val(yearsOfExperiences);
             $("#skillNames").val(skillNames);
+            $("#yearsOfExperiences").val(yearsOfExperiences);
             $("#userIds").val(userIds);
             $("#userNames").val(userNames);
         });

@@ -52,6 +52,8 @@ class JobOrder_test extends TestCase{
             'skillIds' => '1,4',
             'skillNames' => 'Javascript,Indexing',
             'yearsOfExperiences' => '8,1',
+            'userIds' => '2,1',
+            'userNames' => 'Steven Villarosa,Super Admin',
             'location' => 'Updated Location',
             'slots_available' => '5',
             'priority_level' => '5',
@@ -62,6 +64,9 @@ class JobOrder_test extends TestCase{
         $this->assertContains("'skill-1'", $output);
         $this->assertContains("'skill-4'", $output);
         $this->assertNotContains("'skill-3'", $output);
+        $this->assertContains("'user-1'", $output);
+        $this->assertContains("'user-2'", $output);
+        $this->assertNotContains("'user-3'", $output);
     }
     
     public function test_add(){
@@ -77,6 +82,8 @@ class JobOrder_test extends TestCase{
             'skillIds' => '1,4',
             'skillNames' => 'Javascript,Indexing',
             'yearsOfExperiences' => '2,2',
+            'userIds' => '2,1',
+            'userNames' => 'Steven Villarosa,Super Admin',
             'location' => 'Added Location',
             'slots_available' => '2',
             'priority_level' => '1',

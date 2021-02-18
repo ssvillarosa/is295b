@@ -3,8 +3,10 @@
         // Add skills to post request.
         $("#addForm").submit(function(e){
             var skillIds = [];
-            var yearsOfExperiences = [];
             var skillNames = [];
+            var yearsOfExperiences = [];
+            var userIds = [];
+            var userNames = [];
             $('#skills > button').each(function() {
                 var skillId = $(this).attr('id').replace("skill-", "");
                 if(skillId != "add_skill"){
@@ -14,9 +16,18 @@
                     skillNames.push($(this).find('.pill-button-text').text());
                 }
             });
+            $('#users > button').each(function() {
+                var userId = $(this).attr('id').replace("user-", "");
+                if(userId != "add_user"){
+                    userIds.push(userId);
+                    userNames.push($(this).find('.pill-button-text').text().trim());
+                }
+            });
             $("#skillIds").val(skillIds);
-            $("#yearsOfExperiences").val(yearsOfExperiences);
             $("#skillNames").val(skillNames);
+            $("#yearsOfExperiences").val(yearsOfExperiences);
+            $("#userIds").val(userIds);
+            $("#userNames").val(userNames);
         });
     });
 </script>
@@ -123,21 +134,33 @@
                                 <div class="col-md-12 mb-3">
                                     <label for="requirement" class="form-label">Skills</label>
                                     <div id="skills">
-                                        <?php foreach($job_order_skills as $job_order_skill) : ?>
-                                            <script>
-                                                var skill = createPill(
-                                                    'skill-<?php echo $job_order_skill->skill_id; ?>',
-                                                    '<?php echo $job_order_skill->name; ?>',
-                                                    '<?php echo $job_order_skill->years_of_experience ?>',
+                                        <?php foreach($job_order_skills as $job_order_skill){
+                                            echo createPill('skill-'.$job_order_skill->skill_id,
+                                                    $job_order_skill->name,
+                                                    $job_order_skill->years_of_experience,
                                                     true);
-                                                $("#skills").prepend(skill);
-                                            </script>
-                                        <?php endforeach; ?>
+                                        } ?>
                                         <button type="button" id="add_skill" class="btn btn-outline-primary btn-sm" onclick="$('#skills_dialog').fadeIn();">+</button>
                                     </div>
                                     <input type="hidden" name="skillIds" id="skillIds">
                                     <input type="hidden" name="skillNames" id="skillNames">
                                     <input type="hidden" name="yearsOfExperiences" id="yearsOfExperiences">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="users" class="form-label">Recruiters</label>
+                                    <div id="users">
+                                        <?php foreach($job_order_users as $job_order_user){
+                                            echo createPill('user-'.$job_order_user->user_id,
+                                                    $job_order_user->name,
+                                                    '',
+                                                    true);
+                                        } ?>
+                                        <button type="button" id="add_user" class="btn btn-outline-primary btn-sm" onclick="$('#users_dialog').fadeIn();">+</button>
+                                    </div>
+                                    <input type="hidden" name="userIds" id="userIds">
+                                    <input type="hidden" name="userNames" id="userNames">
                                 </div>
                             </div>
                             <div class="form-row">
@@ -177,3 +200,4 @@
 </div>
 
 <?php $this->view('job_order/skill'); ?>
+<?php $this->view('job_order/user'); ?>

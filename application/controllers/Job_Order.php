@@ -73,13 +73,13 @@ class Job_Order extends CI_Controller {
             renderPage($this,$data,'job_order/detailsView');
             return;
         }
+        $data["job_order_skills"] = $job_order_skills;
         $job_order_users = $this->JobOrderUserModel->getUsersByJobOrderId($jobOrderId);
         if($job_order_users === ERROR_CODE){
             $data["error_message"] = "Error occured.";
             renderPage($this,$data,'job_order/detailsView');
             return;
         }
-        $data["job_order_skills"] = $job_order_skills;
         $data["job_order_users"] = $job_order_users;
         renderPage($this,$data,'job_order/detailsView');
     }
@@ -94,10 +94,14 @@ class Job_Order extends CI_Controller {
             return;
         }
         $this->setValidationDetails();
+        // Create job order objects and its sub items.
         $job_order = $this->createJobOrderObject(true);
         $data["job_order"] = $job_order;
         $job_order_skills = $this->createJobOrderSkillObject(0);
         $data["job_order_skills"] = $job_order_skills;
+        $job_order_users = $this->createJobOrderUserObject(0);
+        $data["job_order_users"] = $job_order_users;
+        
         $job_order->created_by = $this->session->userdata(SESS_USER_ID);
         if($this->setData($data) === ERROR_CODE){
             $data["error_message"] = "Error occured.";
@@ -115,14 +119,25 @@ class Job_Order extends CI_Controller {
             renderPage($this,$data,'job_order/add');
             return;
         }
-        // Add skills associated to job order.
-        $job_order_skills = $this->createJobOrderSkillObject($newJobOrderId);
+        // Batch insert skills into job order skills table.
+        $new_job_order_skills = $this->createJobOrderSkillObject($newJobOrderId);
         if($job_order_skills){
-            $addJobOrderSkills = $this->JobOrderSkillModel->addJobOrderSkills($job_order_skills);
+            $addJobOrderSkills = $this->JobOrderSkillModel->addJobOrderSkills($new_job_order_skills);
             if($addJobOrderSkills === ERROR_CODE){
                 // Set error message.
                 $data["error_message"] = "Error occured.";
                 renderPage($this,$data,'job_order/add');
+                return;
+            }
+        }
+        // Batch insert users into job order user table.
+        $new_job_order_users = $this->createJobOrderUserObject($newJobOrderId);
+        if($job_order_users){
+            $addJobOrderUsers = $this->JobOrderUserModel->addJobOrderUsers($new_job_order_users);
+            if($addJobOrderUsers === ERROR_CODE){
+                // Set error message.
+                $data["error_message"] = "Error occured.";     
+                renderPage($this,$data,'job_order/detailsView');
                 return;
             }
         }
@@ -176,28 +191,26 @@ class Job_Order extends CI_Controller {
             return;
         }
         // Batch insert skills into job order skills table.
-        $updateJobOrderSkills = false;
         if($job_order_skills){
             $updateJobOrderSkills = $this->JobOrderSkillModel->deleteJobOrderSkills($jobOrderId)
                     && $this->JobOrderSkillModel->addJobOrderSkills($job_order_skills);
-        }
-        if($updateJobOrderSkills === ERROR_CODE){
-            // Set error message.
-            $data["error_message"] = "Error occured.";     
-            renderPage($this,$data,'job_order/detailsView');
-            return;
+            if($updateJobOrderSkills === ERROR_CODE){
+                // Set error message.
+                $data["error_message"] = "Error occured.";     
+                renderPage($this,$data,'job_order/detailsView');
+                return;
+            }
         }
         // Batch insert users into job order user table.
-        $updateJobOrderUsers = false;
         if($job_order_users){
             $updateJobOrderUsers = $this->JobOrderUserModel->deleteJobOrderUsers($jobOrderId)
                     && $this->JobOrderUserModel->addJobOrderUsers($job_order_users);
-        }
-        if($updateJobOrderUsers === ERROR_CODE){
-            // Set error message.
-            $data["error_message"] = "Error occured.";     
-            renderPage($this,$data,'job_order/detailsView');
-            return;
+            if($updateJobOrderUsers === ERROR_CODE){
+                // Set error message.
+                $data["error_message"] = "Error occured.";     
+                renderPage($this,$data,'job_order/detailsView');
+                return;
+            }
         }
         // Display form with success message.
         $data["success_message"] = "Job order successfully updated!";
@@ -400,7 +413,7 @@ class Job_Order extends CI_Controller {
         foreach ($skillIds as $key => $skillId){
             $job_order_skill = (object)[
                 'job_order_id' => $jobOrderId,
-                'skill_id' => $skillIds[$key],
+                'skill_id' => $skillId,
                 'name' => $skillNames[$key],
                 'years_of_experience' => $yearsOfExperiences[$key]
             ];
@@ -427,7 +440,7 @@ class Job_Order extends CI_Controller {
         foreach ($userIds as $key => $userId){
             $job_order_user = (object)[
                 'job_order_id' => $jobOrderId,
-                'user_id' => $userIds[$key],
+                'user_id' => $userId,
                 'name' => $userNames[$key]
             ];
             array_push($job_order_users, $job_order_user);
