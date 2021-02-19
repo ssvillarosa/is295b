@@ -30,7 +30,7 @@
                         <?php createTextFilter("Address") ?>
                         <?php createTextFilter("Website") ?>
                         <?php createTextFilter("Industry") ?>
-                        <?php createNumberCondition("Active") ?>
+                        <?php createNumberCondition("Open") ?>
                         <?php createNumberCondition("On Hold") ?>
                         <?php createNumberCondition("Closed") ?>
                         <?php createNumberCondition("Total") ?>

@@ -26,7 +26,7 @@
                             <tr>
                                 <th class="text-left"></th>
                                 <th class="text-left">Company Name</th>
-                                <th class="text-center">Active</th>
+                                <th class="text-center">Open</th>
                                 <th class="text-center">On Hold</th>
                                 <th class="text-center">Closed</th>
                                 <th class="text-center">Total</th>
@@ -42,7 +42,7 @@
                                         <?php echo $company->name; ?>
                                     </td>
                                     <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
-                                        <?php echo $company->active; ?>
+                                        <?php echo $company->open; ?>
                                     </td>
                                     <td class="text-center" onClick="viewCompany(<?php echo $company->id; ?>)">
                                         <?php echo $company->on_hold; ?>

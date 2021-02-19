@@ -153,7 +153,7 @@ class Company extends CI_Controller {
             "address",
             "website",
             "industry",
-            "active",
+            "open",
             "on_hold",
             "closed",
             "total"];
