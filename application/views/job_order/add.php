@@ -182,6 +182,9 @@
                                     <?php echo form_error('priority_level','<div class="alert alert-danger">','</div>'); ?>
                                 </div>
                             </div>
+                            <?php if(isset($referrer)): ?>
+                                    <input type="hidden" name="referrer" id="referrer" value="<?php echo $referrer; ?>">
+                            <?php endif; ?>
                             <div class="d-flex justify-content-between">
                                 <div class="text-left">
                                     <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>

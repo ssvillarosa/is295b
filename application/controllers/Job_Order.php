@@ -102,6 +102,13 @@ class Job_Order extends CI_Controller {
         $job_order_users = $this->createJobOrderUserObject(0);
         $data["job_order_users"] = $job_order_users;
         
+        // Set company value if there is parameter from GET request.
+        $selectedCompany = $this->input->get_post("company_id");
+        $job_order->company_id = $selectedCompany;
+        // Set referrer value
+        $referrer = $this->input->get_post("referrer");
+        $data["referrer"] = $referrer;
+        
         $job_order->created_by = $this->session->userdata(SESS_USER_ID);
         if($this->setData($data) === ERROR_CODE){
             $data["error_message"] = "Error occured.";
@@ -151,6 +158,11 @@ class Job_Order extends CI_Controller {
         $this->ActivityModel->saveUserActivity(
                 $this->session->userdata(SESS_USER_ID),
                 "Added job order ".$job_order->title.".");
+        
+        // If referrer is set, redirect to referrer.
+        if($referrer){
+            header("Refresh: 1; url=". base_url().$referrer);
+        }
     }
     
     /**

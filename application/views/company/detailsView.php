@@ -77,6 +77,9 @@
                                 <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
+                        <div>
+                            <a type="button" href="<?php echo site_url('job_order/add') ?>?company_id=<?php echo $company->id; ?>&referrer=<?php echo getFullUrl(); ?>" class="btn btn-primary btn-sm">Add Job Order</a>
+                        </div>
                         <!--This is where the ajax takes place.-->
                         <div id="companyJobOderList" class="mb-3">
                             <div class="d-flex justify-content-center align-items-center">
