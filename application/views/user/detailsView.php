@@ -80,7 +80,10 @@
                             <label for="name" class="form-label">Address</label>
                             <input type="text" value="<?php echo $user->address; ?>" class="form-control" id="address" name="address" maxLength="50">
                             <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
-                        </div>                        
+                        </div>
+                        <div>
+                            <a href="<?php echo site_url('job_order/add') ?>?userIds=<?php echo $user->id; ?>&userNames=<?php echo $user->name; ?>&referrer=<?php echo getFullUrl(); ?>">Add Job Order</a>
+                        </div>
                         <!--This is where the ajax takes place.-->
                         <div id="userJobOderList" class="mb-3">
                             <div class="d-flex justify-content-center align-items-center">

@@ -78,7 +78,7 @@
                             </div>
                         </div>
                         <div>
-                            <a type="button" href="<?php echo site_url('job_order/add') ?>?company_id=<?php echo $company->id; ?>&referrer=<?php echo getFullUrl(); ?>" class="btn btn-primary btn-sm">Add Job Order</a>
+                            <a href="<?php echo site_url('job_order/add') ?>?company_id=<?php echo $company->id; ?>&referrer=<?php echo getFullUrl(); ?>">Add Job Order</a>
                         </div>
                         <!--This is where the ajax takes place.-->
                         <div id="companyJobOderList" class="mb-3">

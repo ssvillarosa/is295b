@@ -443,11 +443,11 @@ class Job_Order extends CI_Controller {
     */
     private function createJobOrderUserObject($jobOrderId){
         $job_order_users = [];
-        if(!$this->input->post('userIds') || !$this->input->post('userNames')){
+        if(!$this->input->get_post('userIds') || !$this->input->get_post('userNames')){
             return [];
         }
-        $userIds = explode(",", $this->input->post('userIds'));
-        $userNames = explode(",", $this->input->post('userNames'));
+        $userIds = explode(",", $this->input->get_post('userIds'));
+        $userNames = explode(",", $this->input->get_post('userNames'));
         if(count($userIds) != count($userNames)){
             return ERROR_CODE;
         }
