@@ -93,10 +93,114 @@ body {
     border-radius: 2px;
     padding: 16px;
     position: fixed;
-    z-index: 1;
+    z-index: 9999;
     left: 50%;
     bottom: 30px;
 }
+
+.help-tip{
+    position: relative;
+    text-align: center;
+    background-color: #BCDBEA;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+    cursor: default;
+}
+
+.help-tip:before{
+    content:'?';
+    font-weight: bold;
+    color:#fff;
+}
+
+.help-tip:hover p{
+    display:block;
+    transform-origin: 100% 0%;
+
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+
+}
+
+.help-tip p{
+    display: none;
+    text-align: justify;
+    background-color: #1E2021;
+    padding: 20px;
+    width: 300px;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1.4;
+    z-index: 999;
+    top: 25px;
+    left: -15px;
+}
+
+.help-tip p:before{
+    position: absolute;
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#1E2021;
+    top:-12px;
+}
+
+.help-tip p:after{
+    width:100%;
+    height:40px;
+    content:'';
+    position: absolute;
+    top:-40px;
+    left:0;
+}
+
+@-webkit-keyframes fadeIn {
+    0% { 
+        opacity:0; 
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+
+#entry_serch_result_page_ajax .table_toolbar{
+    min-height: 45px;
+}
+
+.loader {
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-bottom: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.span-divider{
+    color: #b1b1b1;
+    margin: 0px 5px;
+}
+
 /*********************************************************************************/
 /* Header                                                                        */
 /*********************************************************************************/
@@ -132,6 +236,10 @@ body {
     text-transform: uppercase;
     font-size: 0.28em;
     color: #8e8588;
+}
+
+#nav > ul{
+    padding-left: 0px;
 }
 
 #nav > ul > li {
@@ -184,7 +292,7 @@ body {
     margin-left: -120px;
 }
 
-#user_rows_dropdown{
+#user_rows_dropdown,#number_of_rows_dropdown{
     margin-top: -155px;
     margin-left: 0;
     min-width: 50px;
@@ -192,9 +300,13 @@ body {
     padding: 0;
 }
 
-#user_rows_dropdown a{
+#user_rows_dropdown a,#number_of_rows_dropdown a{
     padding: .5rem 1rem;
     text-align: center;
+}
+
+.table thead th{
+    vertical-align: middle;
 }
 
 /*********************************************************************************/
@@ -268,7 +380,7 @@ body {
         border-radius: 0px 0px 4px 4px;
         min-height: 300px;
     }
-    .user-table tr{
+    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item{
         cursor: pointer;
     }
     
@@ -308,4 +420,13 @@ body {
         border: 1px solid #cecece;
         padding: 20px;
         border-radius: 5px;
+    }
+        
+    /* Job order details page */
+    .pill-button{
+        min-width: 80px;
+    }
+    .pill-button-removable:hover{
+        background-color: #dc3545;
+        border-color: #dc3545;
     }

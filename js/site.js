@@ -23,7 +23,7 @@ $( document ).ready(function() {
     */
     $("[id^=date_field_] .date-field-select").change(function(){
         $mainDiv = $(this).parent().parent();
-        if($(this).val()=='F'){
+        if($(this).val()=='R'){
             $dateField = $mainDiv.find("[id^=value_]");
             $dateFieldClone = $dateField.clone();
             $dateFieldClone.attr("id",$dateField.attr('id')+"_2");
@@ -78,8 +78,49 @@ var showToast = (function () {
 * Hides dropdown when user clicks outside the container
 */
 $(document).mouseup(function(e){
-    var container = $("#user_profile_dropdown, #user_rows_dropdown");
+    var container = $("#user_profile_dropdown, #user_rows_dropdown, #number_of_rows_dropdown");
     if (!container.is(e.target) && container.has(e.target).length === 0) {
         container.hide();
     }
 });
+
+/**
+* Creates a pill button.
+ *
+ * @param {string}  id              The ID of the button
+ * @param {string}  buttonText      The text of the button
+ * @param {string}  pillText        The text of the pill
+ * @param {boolean} removable       Indicates whether the button is removable or not
+ */
+function createPill(id,buttonText,pillText,removable){
+    var cls = removable ? "pill-button-removable" : "pill-button";
+    var pillBtn = "<button type='button' id='"+id+"' class='btn btn-primary badge-pill btn-sm "+cls+" mr-1'>";
+        pillBtn += "<span class='pill-button-text mr-1'>"+buttonText+"</span>";
+        pillBtn += removable ? "<span class='remove-pill d-none'>Remove</span>" : "";
+        pillBtn += pillText ? "<span id='skill-"+buttonText+"' class='badge badge-light badge-pill pill-text'>"+pillText+"</span>" : "";
+        pillBtn += "</button>";
+    return pillBtn;
+}
+
+/**
+* Applying events for removable pill buttons.
+ */
+function applyPillEvents(){
+    $(".pill-button-removable").click(function(){
+        $(this).remove();
+    });
+
+    $('.pill-button-removable').hover(
+        function() {
+            $(this).width($(this).width());
+            $(this).find(".pill-button-text").hide();
+            $(this).find(".pill-text").hide();
+            $(this).find(".remove-pill").removeClass("d-none");
+        },
+        function() {
+            $(this).find(".pill-button-text").show();
+            $(this).find(".pill-text").show();
+            $(this).find(".remove-pill").addClass("d-none");
+        }
+    );
+}

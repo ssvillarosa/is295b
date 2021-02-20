@@ -1,4 +1,4 @@
-<div id="user-details-page" class="user-details-page">
+<div id="job-order-details-page" class="job-order-details-page">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -14,7 +14,7 @@
                             <?php echo $error_message; ?>
                         </div>
                     <?php endif; ?>
-                    <form action="<?php echo site_url('user/searchResult') ?>" class="get-form-clear-params">
+                    <form action="<?php echo site_url('job_order/searchResult') ?>" class="get-form-clear-params">
                         <div class='form-group row  d-flex justify-content-around font-weight-bold'>
                             <label class="col-sm-3 text-center">Field</label>
                             <label class="col-sm-3 text-center">Condition</label>
@@ -23,27 +23,34 @@
                                 <label class="text-center">Show</label>
                             </div>
                         </div>
-                        <?php createTextFilter("Username") ?>
-                        <?php createSelectionFilter('Role',
-                                array(
-                                    ''=>'Select Role',
-                                    USER_ROLE_ADMIN_TEXT =>USER_ROLE_ADMIN_TEXT,
-                                    USER_ROLE_RECRUITER =>USER_ROLE_RECRUITER_TEXT
-                                    )); ?>
+                        <?php createNumberCondition("ID") ?>
+                        <?php createTextFilter("Title") ?>
+                        <?php createTextFilter("Company") ?>
                         <?php createSelectionFilter('Status',
                                 array(
                                     ''=>'Select Status',
-                                    USER_STATUS_ACTIVE_TEXT =>USER_STATUS_ACTIVE_TEXT,
-                                    USER_STATUS_BLOCKED_TEXT =>USER_STATUS_BLOCKED_TEXT
+                                    JOB_ORDER_STATUS_OPEN =>JOB_ORDER_STATUS_OPEN_TEXT,
+                                    JOB_ORDER_STATUS_ON_HOLD =>JOB_ORDER_STATUS_ON_HOLD_TEXT,
+                                    JOB_ORDER_STATUS_CLOSED => JOB_ORDER_STATUS_CLOSED_TEXT,
                                     )); ?>
-                        <?php createTextFilter("Name") ?>
-                        <?php createTextFilter("Email") ?>
-                        <?php createTextFilter("Contact Number") ?>
-                        <?php createDateCondition("Birthday") ?>
-                        <?php createTextFilter("Address") ?>
+                        <?php createSelectionFilter('Employent Type',
+                                array(
+                                    ''=>'Select Type',
+                                    JOB_ORDER_TYPE_REGULAR =>JOB_ORDER_TYPE_REGULAR_TEXT,
+                                    JOB_ORDER_TYPE_CONTRACTUAL =>JOB_ORDER_TYPE_CONTRACTUAL_TEXT
+                                    )); ?>
+                        <?php createTextFilter("Job Function") ?>
+                        <?php createTextFilter("Requirement") ?>
+                        <?php createNumberCondition("Min Salary") ?>
+                        <?php createNumberCondition("Max Salary") ?>
+                        <?php createTextFilter("Location") ?>
+                        <?php createNumberCondition("Slots Available") ?>
+                        <?php createNumberCondition("Priority Level") ?>
+                        <?php createTextFilter("Skills") ?>
+                        <?php createTextFilter("Recruiters") ?>
                         <div class="text-center mt-4 mb-2">
                             <button type="submit" class="btn btn-primary">Search</button>
-                            <a href="<?php echo site_url('user/userList') ?>" class="btn btn-secondary">Cancel</a>
+                            <a href="<?php echo site_url('job_order/jobOrderList') ?>" class="btn btn-secondary">Cancel</a>
                         </div>
                     </form>
                 </section>

@@ -1,32 +1,19 @@
 <script>
-    
     $(document).ready(function() {
-        // Create a post request to delete user/s.
-        $("#UserDetailsDeleteForm").submit(function(e){
-            e.preventDefault();
-            console.log("hello");
-            $.post('<?php echo site_url('user/delete') ?>', 
-            $(this).serialize(),
-            function(data) {
-                hideDialog();
-                if(data.trim() === "Success"){
-                    showToast("Deleted Successfully.",3000);
-                    setTimeout(function(){
-                        window.location.replace("<?php echo site_url('user/userList') ?>");
-                    }, 1000);
-                    return;
-                }
+        $.get("<?php echo site_url('job_order/ajaxListPage') ?>"+
+                "?display_id=on&display_title=on"+
+                "&condition_users=C&value_users=(<?php echo $user->id; ?>)"+
+                "&display_status=on",
+        function(data) {
+            if(data.trim() == "Error"){
                 showToast("Error occurred.",3000);
-            }).fail(function() {
-                showToast("Error occurred.",3000);
-            });
+                return;
+            }
+            $("#userJobOderList").html(data);
+        }).fail(function() {
+            showToast("Error occurred.",3000);
         });
     });
-    
-    // Displays the dialog to confirm deletion.
-    function showDeleteDialog(){
-        $("#delete_dialog").fadeIn();
-    }
 </script>
 <div id="user-details-page" class="user-details-page">
     <div class="container">
@@ -35,12 +22,12 @@
                 <section id="content" >
                     <h5 class="mb-3">Username: <?php echo $user->username; ?></h5>
                     <?php if(isset($success_message)): ?>
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success">
                             <?php echo $success_message; ?>
                         </div>
                     <?php endif; ?>
                     <?php if(isset($error_message)): ?>
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger">
                             <?php echo $error_message; ?>
                         </div>
                     <?php endif; ?>
@@ -54,7 +41,7 @@
                                     <option value="<?php echo USER_ROLE_ADMIN; ?>" <?php if($user->role===strval(USER_ROLE_ADMIN)) echo "selected"; ?> >Admin</option>
                                     <option value="<?php echo USER_ROLE_RECRUITER; ?>" <?php if($user->role==USER_ROLE_RECRUITER) echo "selected";  ?> >Recruiter</option>
                                 </select>
-                                <?php echo form_error('role'); ?>
+                                <?php echo form_error('role','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="status">Status</label>
@@ -62,37 +49,46 @@
                                     <option value="<?php echo USER_STATUS_ACTIVE; ?>" <?php if($user->status===strval(USER_STATUS_ACTIVE)) echo "selected"; ?> >Active</option>
                                     <option value="<?php echo USER_STATUS_BLOCKED; ?>" <?php if($user->status==USER_STATUS_BLOCKED) echo "selected"; ?>>Blocked</option>
                                 </select>
-                                <?php echo form_error('status'); ?>
+                                <?php echo form_error('status','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Full Name</label>
                                 <input type="text" value="<?php echo $user->name; ?>" class="form-control" id="name" name="name" maxLength="255">
-                                <?php echo form_error('name'); ?>
+                                <?php echo form_error('name','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" value="<?php echo $user->email; ?>" class="form-control" id="email" name="email" maxLength="50">
-                                <?php echo form_error('email'); ?>
+                                <?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="contact" class="form-label">Contact No.</label>
                                 <input type="text" value="<?php echo $user->contact_number; ?>" class="form-control" id="contact_number" name="contact_number" maxLength="50">
-                                <?php echo form_error('contact'); ?>
+                                <?php echo form_error('contact','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Birthday</label>
                                 <input type="date" value="<?php echo $user->birthday; ?>" class="form-control" id="birthday" name="birthday" maxLength="50">
-                                <?php echo form_error('birthday'); ?>
+                                <?php echo form_error('birthday','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="mb-4">
                             <label for="name" class="form-label">Address</label>
                             <input type="text" value="<?php echo $user->address; ?>" class="form-control" id="address" name="address" maxLength="50">
-                            <?php echo form_error('address'); ?>
+                            <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
+                        </div>
+                        <div>
+                            <a href="<?php echo site_url('job_order/add') ?>?userIds=<?php echo $user->id; ?>&userNames=<?php echo $user->name; ?>&referrer=<?php echo getFullUrl(); ?>">Add Job Order</a>
+                        </div>
+                        <!--This is where the ajax takes place.-->
+                        <div id="userJobOderList" class="mb-3">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <div class="loader"></div>
+                            </div>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
@@ -111,18 +107,4 @@
     </div>	
 </div>
 
-<div class="m2mj-dialog" id="delete_dialog">
-    <div class="dialog-background"></div>
-    <div class="m2mj-modal-content">
-        <?php echo form_open('user/delete','id="UserDetailsDeleteForm"'); ?>        
-        <input type="hidden" name="delUserIds" id="delUserIds" value="<?php echo $user->id; ?>"/>
-            <div class="modal-body">
-                <strong class="modal-text">Are you sure you want to delete?</strong>
-            </div>
-            <div class="modal-footer p-2">
-              <button type="button" class="btn btn-secondary m2mj-dialog-close">Close</button>
-              <button type="submit" class="btn btn-danger" id="delete_confirm">Delete</button>
-            </div>
-        </form>
-    </div>
-</div>
+<?php $this->view('user/detailsPageDelete'); ?>

@@ -181,13 +181,43 @@ if(!function_exists('createDateCondition')){
                         <select name='condition_$id' id='condition_$id' class='custom-select date-field-select'>
                             <option value=''>Select Condition</option>
                             <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
-                            <option value='".CONDITION_BEFORE."'>".getConditionDictionary(CONDITION_BEFORE)."</option>
-                            <option value='".CONDITION_AFTER."'>".getConditionDictionary(CONDITION_AFTER)."</option>
-                            <option value='".CONDITION_FROM."'>".getConditionDictionary(CONDITION_FROM)."</option>
+                            <option value='".CONDITION_LESS_THAN."'>".getConditionDictionary(CONDITION_LESS_THAN)."</option>
+                            <option value='".CONDITION_GREATER_THAN."'>".getConditionDictionary(CONDITION_GREATER_THAN)."</option>
+                            <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
                         </select>
                     </div>
                     <div class='col-sm-3'>
                         <input type='date' class='form-control' id='value_$id' name='value_$id' maxLength='50'>
+                    </div>
+                    <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."' checked>
+                </div>";
+    }
+}
+
+if(!function_exists('createNumberCondition')){
+    /**
+    * Creates a filter for number fields.
+    * 
+    * @param    string     $label   Label of the filter. Out of it, the ID will be generated.
+    */
+    function createNumberCondition($label){
+        if(!trim($label)){
+            return;
+        }
+        $id = strtolower(str_replace(' ', '_', trim($label)));
+        echo "  <div class='form-group row  d-flex justify-content-around' id='number_field_$id'>
+                    <label for='role' class='col-form-label col-sm-3 text-center' id='label_$id'>".ucwords($label)."</label>
+                    <div class='col-sm-3'>
+                        <select name='condition_$id' id='condition_$id' class='custom-select number-field-select'>
+                            <option value=''>Select Condition</option>
+                            <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_LESS_THAN."'>".getConditionDictionary(CONDITION_LESS_THAN)."</option>
+                            <option value='".CONDITION_GREATER_THAN."'>".getConditionDictionary(CONDITION_GREATER_THAN)."</option>
+                            <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
+                        </select>
+                    </div>
+                    <div class='col-sm-3'>
+                        <input type='number' class='form-control' id='value_$id' name='value_$id' maxLength='50'>
                     </div>
                     <input type='checkbox' class='chk mt-2 col-sm-1' name='display_".$id."' checked>
                 </div>";
@@ -213,12 +243,12 @@ if(!function_exists('getConditionDictionary')){
                 return "Ends With";
             case CONDITION_CONTAINS:
                 return "Contains";
-            case CONDITION_BEFORE:
-                return "Before";
-            case CONDITION_AFTER:
-                return "After";
-            case CONDITION_FROM:
-                return "From";
+            case CONDITION_LESS_THAN:
+                return "Less than";
+            case CONDITION_GREATER_THAN:
+                return "Greater than";
+            case CONDITION_RANGE:
+                return "Range";
         }
     }
 }
@@ -238,7 +268,7 @@ if(!function_exists('generateTextForFilters')){
             }
             $field = ucwords(str_replace("_", " ", $param->field));
             $condition = getConditionDictionary(strval($param->condition));
-            if(strval($param->condition) == CONDITION_FROM){
+            if(strval($param->condition) == CONDITION_RANGE){
                 $textFilter = "$field $condition ".
                         $param->value." TO ".$param->value_2;
                 array_push($textFilters, $textFilter);
@@ -248,5 +278,195 @@ if(!function_exists('generateTextForFilters')){
             array_push($textFilters, $textFilter);   
         }
         return $textFilters;
+    }
+}
+
+if(!function_exists('getRowsPerPage')){
+    /**
+    * Returns the value of rows per page.
+    * 
+    * @return   int value
+    */
+    function getRowsPerPage($ctx,$module){        
+        // Default rows per page(25) is set if rowsPerPage is not changed.
+        $rowsPerPage = $ctx->input->cookie($module)?
+                $ctx->input->cookie($module) : 25;
+        // If user changes the number of rows per page, store it into cookie
+        if($ctx->input->get('rowsPerPage')){
+            set_cookie($module, $ctx->input->get('rowsPerPage'),
+                    COOKIE_EXPIRATION);
+            $rowsPerPage = $ctx->input->get('rowsPerPage');
+        }
+        return $rowsPerPage;
+    }
+}
+
+if(!function_exists('setPaginationData')){
+    /**
+    * Creates pagination data.
+    * 
+    * @param    int  $totalCount    The total number of users in the database.   
+    * @param    int  $rowsPerPage   The number of users per page.
+    * @param    int  $currentPage   The active page.
+    * @return   object(field,condition,value[,value_2])
+    */
+    function setPaginationData($totalCount,$rowsPerPage,$currentPage){        
+        $totalPage = floor($totalCount/$rowsPerPage);
+        if($totalCount%$rowsPerPage != 0){
+            $totalPage++;
+        }
+        $offset = ($currentPage - 1) * $rowsPerPage;
+        $data['totalPage'] = $totalPage;
+        $data['rowsPerPage'] = $rowsPerPage;
+        $data['currentPage'] = $currentPage;
+        $data['totalCount'] = $totalCount;
+        $data['offset'] = $offset;
+        return $data;
+    }
+}
+
+if(!function_exists('renderPage')){
+    /**
+    * Renders page.
+    * 
+    * @param    int  $ctx    The context of the page.   
+    * @param    int  $data   The data bind to the page.
+    * @param    int  $page   The active page.
+    */
+    function renderPage($ctx,$data,$page){
+        $ctx->load->view('common/header');
+        $ctx->load->view('common/nav');
+        $ctx->load->view($page, $data);
+        $ctx->load->view('common/footer');        
+    }
+}
+
+if(!function_exists('getSearchParam')){
+    /**
+    * Creates searchParameter object out of get input.
+    * 
+    * @param    string  $ctx    The context page of the caller.
+    * @param    string  $field  The field to create the search param.
+    * @return   object(field,condition,value[,value_2])
+    */
+    function getSearchParam($ctx,$field){
+        if($ctx->input->get("condition_$field") && 
+                $ctx->input->get("value_$field")){
+            $condition = strval($ctx->input->get("condition_$field"));
+            $value = strval($ctx->input->get("value_$field"));
+            $value2 = strval($ctx->input->get("value_{$field}_2"));
+            $show = $ctx->input->get("display_$field")? true: false;
+            // For date fields with F condition.
+            if($condition == CONDITION_RANGE){
+                return (object) [
+                    'field' => $field,
+                    'condition' => $condition,
+                    'value' => $value,
+                    'value_2' => $value2 ? $value2 : date('Y-m-d'),
+                    'show' => $show,
+                  ];                
+            }
+            return (object) [
+                'field' => $field,
+                'condition' => $condition,
+                'value' => $value,
+                'show' => $show,
+              ];
+        }
+        if($ctx->input->get("display_$field")){
+            $show = $ctx->input->get("display_$field")? true: false;
+            return (object) [
+                'field' => $field,
+                'show' => $show,
+              ];
+        }
+    }
+}
+
+if(!function_exists('setWhereParams')){
+    /**
+    * Sets where condition for search.
+    *
+    * @param    search param object     $searchParams
+    */
+    function setWhereParams($ctx,$searchParams){
+        foreach ($searchParams as $param){
+            if(empty($param->value) || empty($param->condition)){
+                continue;
+            }
+            switch (strval($param->condition)){
+                case CONDITION_EQUALS:
+                    $ctx->db->where($param->field, $param->value);
+                    break;
+                case CONDITION_NOT_EQUAL:
+                    $ctx->db->where($param->field." !=", $param->value);
+                    break;
+                case CONDITION_STARTS_WITH:
+                    $ctx->db->like($param->field, $param->value, 'after');
+                    break;
+                case CONDITION_ENDS_WITH:
+                    $ctx->db->like($param->field, $param->value, 'before');
+                    break;
+                case CONDITION_CONTAINS:
+                    $ctx->db->like($param->field, $param->value);
+                    break;
+                case CONDITION_LESS_THAN:
+                    $ctx->db->where($param->field." <", $param->value);
+                    break;
+                case CONDITION_GREATER_THAN:
+                    $ctx->db->where($param->field." >", $param->value);
+                    break;
+                case CONDITION_RANGE:
+                    $ctx->db->where($param->field." >=", $param->value);
+                    $ctx->db->where($param->field." <=", $param->value_2);
+                    break;
+            }
+        }
+    }
+}
+
+if(!function_exists('exportCSV')){
+    /**
+    * Export search result to CSV file.
+    */
+   function exportCSV($filename,$data,$header,$exclude=["id"]){ 
+        // file name 
+        $filename = $filename.'.csv'; 
+        header("Content-Description: File Transfer"); 
+        header("Content-Disposition: attachment; filename=$filename"); 
+        header("Content-Type: application/csv; ");
+
+        // file creation 
+        $file = fopen('php://output', 'w');
+
+        fputcsv($file, $header);
+        foreach ($data as $key=>$line){
+            foreach ($exclude as $col){
+                unset($line[$col]);
+            }
+            fputcsv($file,$line); 
+        }
+        fclose($file); 
+        exit; 
+    }
+}
+
+if(!function_exists('createPill')){
+    /**
+    * Creates a pill button.
+     *
+     * @param {string}  id              The ID of the button
+     * @param {string}  buttonText      The text of the button
+     * @param {string}  pillText        The text of the pill
+     * @param {boolean} removable       Indicates whether the button is removable or not
+     */
+    function createPill($id,$buttonText,$pillText,$removable){
+        $cls = $removable ? "pill-button-removable" : "pill-button";
+        $pillBtn = "<button type='button' id='".$id."' class='btn btn-primary badge-pill btn-sm ".$cls." mr-1'>";
+            $pillBtn .= "<span class='pill-button-text mr-1'>".$buttonText."</span>";
+            $pillBtn .= $removable ? "<span class='remove-pill d-none'>Remove</span>" : "";
+            $pillBtn .= $pillText ? "<span id='skill-".$buttonText."' class='badge badge-light badge-pill pill-text'>".$pillText."</span>" : "";
+            $pillBtn .= "</button>";
+        return $pillBtn;
     }
 }

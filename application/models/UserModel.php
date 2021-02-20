@@ -38,7 +38,11 @@ Class UserModel extends CI_Model{
     */
     public function getUsers($limit=25,$offset=0){
         $this->db->where("status !=", USER_STATUS_DELETED);
-        $query = $this->db->get('user',$limit,$offset);
+        if($limit === 0){
+            $query = $this->db->get('user');        
+        }else{
+            $query = $this->db->get('user',$limit,$offset);         
+        }
         return $query->result();
     }
     
@@ -262,7 +266,8 @@ Class UserModel extends CI_Model{
             $this->db->select($column);
         }
         // Set where conditions
-        $this->setWhereParams($searchParams);
+        setWhereParams($this,$searchParams);
+        $this->db->where("status !=", USER_STATUS_DELETED);
         if($limit === 0){
             $query = $this->db->get('user_search_table');            
         }else{
@@ -282,51 +287,11 @@ Class UserModel extends CI_Model{
     * @param    search param object     $searchParams
     */
     public function searchUserCount($searchParams){
-        $this->setWhereParams($searchParams);
+        setWhereParams($this,$searchParams);
+        $this->db->where("status !=", USER_STATUS_DELETED);
         $this->db->from('user_search_table');
         $count = $this->db->count_all_results();
         return $count;
     }
     
-    
-    /**
-    * Sets where condition for search.
-    *
-    * @param    search param object     $searchParams
-    */
-    private function setWhereParams($searchParams){
-        $this->db->where("status !=", USER_STATUS_DELETED);
-        foreach ($searchParams as $param){
-            if(empty($param->value) || empty($param->condition)){
-                continue;
-            }
-            switch (strval($param->condition)){
-                case CONDITION_EQUALS:
-                    $this->db->where($param->field, $param->value);
-                    break;
-                case CONDITION_NOT_EQUAL:
-                    $this->db->where($param->field." !=", $param->value);
-                    break;
-                case CONDITION_STARTS_WITH:
-                    $this->db->like($param->field, $param->value, 'after');
-                    break;
-                case CONDITION_ENDS_WITH:
-                    $this->db->like($param->field, $param->value, 'before');
-                    break;
-                case CONDITION_CONTAINS:
-                    $this->db->like($param->field, $param->value);
-                    break;
-                case CONDITION_BEFORE:
-                    $this->db->where($param->field." <", $param->value);
-                    break;
-                case CONDITION_AFTER:
-                    $this->db->where($param->field." >", $param->value);
-                    break;
-                case CONDITION_FROM:
-                    $this->db->where($param->field." >=", $param->value);
-                    $this->db->where($param->field." <=", $param->value_2);
-                    break;
-            }
-        }
-    }
 }
