@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @category    Controller
  * @author      Steven Villarosa
  */
-class Job_Order extends CI_Controller {
+class Job_order extends CI_Controller {
 
     /**
     * Class constructor.
