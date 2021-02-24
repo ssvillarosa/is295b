@@ -30,7 +30,7 @@ class Job_order extends CI_Controller {
     * Display list of job orders.
     */
     public function jobOrderList(){
-        $rowsPerPage = getRowsPerPage($this,COOKIE_COMPANY_ROWS_PER_PAGE);
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_ROWS_PER_PAGE);
         $totalCount = $this->JobOrderModel->getJobOrderCount();
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 

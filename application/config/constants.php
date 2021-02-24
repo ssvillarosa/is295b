@@ -131,8 +131,11 @@ define('COOKIE_USER_SEARCH_ROWS_PER_PAGE','user_search_rows_per_page');
 define('COOKIE_ACTIVITY_ROWS_PER_PAGE','activity_rows_per_page');
 define('COOKIE_COMPANY_ROWS_PER_PAGE','company_rows_per_page');
 define('COOKIE_COMPANY_SEARCH_ROWS_PER_PAGE','company_search_rows_per_page');
+define('COOKIE_JOB_ORDER_ROWS_PER_PAGE','job_order_rows_per_page');
 define('COOKIE_JOB_ORDER_SEARCH_ROWS_PER_PAGE','job_order_search_rows_per_page');
 define('COOKIE_JOB_ORDER_AJAX_ROWS_PER_PAGE','job_order_ajax_rows_per_page');
+define('COOKIE_APPLICANT_ROWS_PER_PAGE','applicant_rows_per_page');
+define('COOKIE_APPLICANT_SEARCH_ROWS_PER_PAGE','applicant_search_rows_per_page');
 
 define('CONDITION_EQUALS','E');
 define('CONDITION_NOT_EQUAL','NE');
