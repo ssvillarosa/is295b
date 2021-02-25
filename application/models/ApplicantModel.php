@@ -162,4 +162,19 @@ Class ApplicantModel extends CI_Model{
         $count = $this->db->count_all_results();
         return $count;
     }
+    
+    public function getApplicantSkill($applicantId){
+        $this->db->select('applicant_id,skill_id,name,years_of_experience');
+        $this->db->from('applicant_skill');
+        $this->db->join('skill', 'applicant_skill.skill_id = skill.id');
+        $this->db->where_in("applicant_id", $applicantId);
+        $this->db->where("skill.is_deleted !=", IS_DELETED_TRUE);
+        $query = $this->db->get();
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
 }

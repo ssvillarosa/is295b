@@ -37,8 +37,32 @@ class Applicant extends CI_Controller {
         $data['applicants'] = $result;
         $data['current_uri'] = 'applicant/applicantList';
         renderPage($this,$data,'applicant/applicantList');
-//        echo '<pre>';
-//        print_r($data);
-//        echo '</pre>';
+    }
+    
+    /**
+    * Display applicant details.
+    */
+    public function view(){
+        $applicantId = $this->input->get('id');
+        if(!$applicantId){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant/detailsView');
+            return;
+        }
+        $result = $this->ApplicantModel->getApplicantById($applicantId);
+        if($result === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant/detailsView');
+            return;
+        }
+        $data['applicant'] = $result;
+        $applicant_skills = $this->ApplicantModel->getApplicantSkill($applicantId);
+        if($applicant_skills === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'job_order/detailsView');
+            return;
+        }
+        $data["applicant_skills"] = $applicant_skills;
+        renderPage($this,$data,'applicant/detailsView');
     }
 }

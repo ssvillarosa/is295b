@@ -76,9 +76,9 @@ class ApplicantModel_seedtest extends UnitTestCase {
         ];
         $applicant1  = $this->obj->getApplicantById(2);
         $this->assertNotEquals($applicant1->last_name,$applicant->last_name);
-        $result = $this->obj->updateApplicant($applicant,1);
+        $result = $this->obj->updateApplicant($applicant,2);
         $this->assertEquals($result,SUCCESS_CODE);
-        $updatedApplicant1 = $this->obj->getApplicantById(1);
+        $updatedApplicant1 = $this->obj->getApplicantById(2);
         $this->assertEquals($updatedApplicant1->last_name,$applicant->last_name); 
         $this->assertEquals($updatedApplicant1->first_name,$applicant->first_name); 
         $this->assertEquals($updatedApplicant1->email,$applicant->email); 
@@ -100,5 +100,31 @@ class ApplicantModel_seedtest extends UnitTestCase {
         $this->obj->deleteApplicant(5,1);
         $newCount  = $this->obj->getApplicantCount();
         $this->assertEquals($newCount, $applicantCount-1);    
+    }
+    
+    public function test_getApplicantSkill(){
+        $applicantSkills  = $this->obj->getApplicantSkill(1); 
+        $expected = [
+            [
+                'applicant_id' => 1,
+                'skill_id' => 1,
+                'years_of_experience' => 8,
+            ],
+            [
+                'applicant_id' => 1,
+                'skill_id' => 3,
+                'years_of_experience' => 6,
+            ],
+            [
+                'applicant_id' => 1,
+                'skill_id' => 4,
+                'years_of_experience' => 5,
+            ],
+        ];
+        $this->assertNotEquals($applicantSkills,ERROR_CODE);
+        foreach ($applicantSkills as $key=>$applicantSkill) {
+                $this->assertEquals($expected[$key]["skill_id"], $applicantSkill->skill_id);
+                $this->assertEquals($expected[$key]["years_of_experience"], $applicantSkill->years_of_experience);
+        }
     }
 }

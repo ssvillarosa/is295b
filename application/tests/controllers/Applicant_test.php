@@ -47,4 +47,10 @@ class Applicant_test extends TestCase{
         $rowCount = substr_count($newPage,'applicant-row-item');
         $this->assertEquals(3, $rowCount);
     }
+    
+    public function test_view(){
+        $page = $this->request('GET','applicant/view?id=1');
+        $this->assertContains('value="Villarosa"', $page);
+        $this->assertContains('value="Steven"', $page);
+    }
 }

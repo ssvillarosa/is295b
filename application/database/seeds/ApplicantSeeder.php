@@ -3,11 +3,13 @@
 class ApplicantSeeder extends Seeder {
 
     private $applicant_table = 'applicant';
+    private $applicant_skill_table = 'applicant_skill';
 
     public function run()
     {
         $this->db->query("SET FOREIGN_KEY_CHECKS = 0;");
         $this->db->query("TRUNCATE table {$this->applicant_table};");
+        $this->db->query("TRUNCATE table {$this->applicant_skill_table};");
         $this->db->query("SET FOREIGN_KEY_CHECKS = 1;");
 
         $applicants = [
@@ -85,5 +87,30 @@ class ApplicantSeeder extends Seeder {
             $this->db->insert($this->applicant_table, $applicant);            
         }
         
+        $applicant_skills= [
+            [
+                'applicant_id' => 1,
+                'skill_id' => 1,
+                'years_of_experience' => 8,
+            ],
+            [
+                'applicant_id' => 1,
+                'skill_id' => 2,
+                'years_of_experience' => 7,
+            ],
+            [
+                'applicant_id' => 1,
+                'skill_id' => 3,
+                'years_of_experience' => 6,
+            ],
+            [
+                'applicant_id' => 1,
+                'skill_id' => 4,
+                'years_of_experience' => 5,
+            ],
+        ];
+        foreach ($applicant_skills as $applicant_skill) {
+            $this->db->insert($this->applicant_skill_table, $applicant_skill);            
+        }
     }
 }
