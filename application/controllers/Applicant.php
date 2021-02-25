@@ -57,6 +57,11 @@ class Applicant extends CI_Controller {
             return;
         }
         $data['applicant'] = $result;
+        if($this->setData($data) === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant/detailsView');
+            return;
+        }
         $applicant_skills = $this->ApplicantModel->getApplicantSkill($applicantId);
         if($applicant_skills === ERROR_CODE){
             $data["error_message"] = "Error occured.";

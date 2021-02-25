@@ -202,5 +202,5 @@
     </div>	
 </div>
 
-<?php $this->view('job_order/skill'); ?>
+<?php $this->view('common/skillDialog'); ?>
 <?php $this->view('job_order/user'); ?>

@@ -54,8 +54,8 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" value="<?php echo $applicant->email; ?>" class="form-control" id="email" name="email" maxLength="255">
-                                <?php echo form_error('contact_person','<div class="alert alert-danger">','</div>'); ?>
+                                <input type="email" value="<?php echo $applicant->email; ?>" class="form-control" id="email" name="email" maxLength="255">
+                                <?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="primary_phone" class="form-label">Primary Phone</label>

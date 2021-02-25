@@ -53,4 +53,42 @@ class Applicant_test extends TestCase{
         $this->assertContains('value="Villarosa"', $page);
         $this->assertContains('value="Steven"', $page);
     }
+    
+    public function test_update(){
+        $postData = [
+            'applicantId' => '2',
+            'last_name' => 'Controller',
+            'first_name' => 'TestUpdate',
+            'email' => 'testupdatecontroller@test.com',
+            'primary_phone' => '0000',
+            'secondary_phone' => '1122',
+            'work_phone' => '2233',
+            'address' => 'Somewhere over the rainbow',
+            'best_time_to_call' => '3AM',
+            'source' => 'Neverland',
+            'current_employer' => 'DreamLand',
+            'can_relocate' => '0',
+            'current_pay' => '',
+            'desired_pay' => '',
+            'skillIds' => '1,3,4',
+            'skillNames' => 'Javascript,Go,Indexing',
+            'yearsOfExperiences' => '8,6,5',
+        ];
+        $this->request('POST','applicant/update',$postData);
+        $output = $this->request('GET','applicant/view?id=2');
+        $this->assertContains('value="Controller"', $output);
+        $this->assertContains('value="TestUpdate"', $output);
+        $this->assertContains('value="testupdatecontroller@test.com"', $output);
+        $this->assertContains('value="0000"', $output);
+        $this->assertContains('value="1122"', $output);
+        $this->assertContains('value="2233"', $output);
+        $this->assertContains('value="Somewhere over the rainbow"', $output);
+        $this->assertContains('value="3AM"', $output);
+        $this->assertContains('value="Neverland"', $output);
+        $this->assertContains('value="DreamLand"', $output);
+        $this->assertContains('value="0"', $output);
+        $this->assertContains("'skill-1'", $output);
+        $this->assertContains("'skill-4'", $output);
+        $this->assertNotContains("'skill-2'", $output);
+    }
 }
