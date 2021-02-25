@@ -484,6 +484,9 @@ class Job_order extends CI_Controller {
                 ,'required|integer');
     }
     
+    /**
+    * Updates the data variable using pass as reference.
+    */
     private function setData(&$data){
         $companies = $this->CompanyModel->getCompanies(0,0,"name","asc");
         if($companies === ERROR_CODE){

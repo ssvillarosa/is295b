@@ -177,4 +177,56 @@ Class ApplicantModel extends CI_Model{
         }
         return $query->result();
     }
+    
+    /**
+    * Adds applicant skills for a particular applicant.
+    *
+    * @param    array of applicantSkill object
+    * @return   int     result code
+    */
+    public function addApplicantSkills($rawApplicantSkills){
+        $applicantSkills = $this->createApplicantSkillObject($rawApplicantSkills);
+        $success = $this->db->insert_batch('applicant_skill', $applicantSkills);
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return SUCCESS_CODE;
+    }
+    
+    /**
+    * Deletes applicant skills for a particular applicant.
+    *
+    * @param    applicantId  ID of applicant
+    * @return   int     result code
+    */
+    public function deleteApplicantSkills($applicantId){
+        $this->db->where('applicant_id', $applicantId);
+        $success = $this->db->delete('applicant_skill');
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return SUCCESS_CODE;
+    }
+    
+    /**
+    * Creates applicant skill object.
+    * 
+    * @return   applicant object
+    */
+    private function createApplicantSkillObject($applicantSkills){
+        $job_order_skills = [];
+        foreach ($applicantSkills as $applicantSkill){
+            $job_order_skill = (object)[
+                'applicant_id' => $applicantSkill->applicant_id,
+                'skill_id' => $applicantSkill->skill_id,
+                'years_of_experience' => $applicantSkill->years_of_experience
+            ];
+            array_push($job_order_skills, $job_order_skill);
+        }
+        return $job_order_skills;
+    }
 }

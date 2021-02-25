@@ -1,3 +1,25 @@
+<script>
+    $(document).ready(function() {
+        // Add skills to post request.
+        $("#updateApplicantForm").submit(function(e){
+            var skillIds = [];
+            var skillNames = [];
+            var yearsOfExperiences = [];
+            $('#skills > button').each(function() {
+                var skillId = $(this).attr('id').replace("skill-", "");
+                if(skillId != "add_skill"){
+                    skillIds.push(skillId);
+                    var span = $(this).find('.pill-text');
+                    yearsOfExperiences.push(span.text().trim());
+                    skillNames.push($(this).find('.pill-button-text').text());
+                }
+            });
+            $("#skillIds").val(skillIds);
+            $("#skillNames").val(skillNames);
+            $("#yearsOfExperiences").val(yearsOfExperiences);
+        });
+    });
+</script>
 <div id="applicant-details-page" class="applicant-details-page">
     <div class="container">
         <div class="row justify-content-center">
@@ -15,7 +37,7 @@
                         </div>
                         <?php return; ?>
                     <?php endif; ?>
-                    <?php echo form_open('applicant/update'); ?>
+                    <?php echo form_open('applicant/update','id="updateApplicantForm"'); ?>
                         <input type="hidden" value="<?php echo $applicant->id; ?>" id="applicantId" name="applicantId">
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
@@ -111,6 +133,7 @@
                                 <input type="hidden" name="skillIds" id="skillIds">
                                 <input type="hidden" name="skillNames" id="skillNames">
                                 <input type="hidden" name="yearsOfExperiences" id="yearsOfExperiences">
+                                <?php echo form_error('skillIds','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
@@ -132,3 +155,5 @@
         </div>
     </div>	
 </div>
+
+<?php $this->view('common/skillDialog'); ?>
