@@ -30,7 +30,7 @@ class Company_test extends TestCase{
         $this->assertContains('id="company-3"', $output);
     }
     
-    public function test_userListPagination(){
+    public function test_companyListPagination(){
         $page1 = $this->request('GET','company/companyList?rowsPerPage=1');
         $rowCount = substr_count($page1,'company-row-item');
         $this->assertEquals(1, $rowCount);
@@ -100,7 +100,7 @@ class Company_test extends TestCase{
     }
     
     public function test_search(){
-        $output = $this->request('GET','user/searchResult?condition_name=E&value_name=BBS&display_name=on');
+        $output = $this->request('GET','company/searchResult?condition_name=E&value_name=BBS&display_name=on');
         $this->assertContains('BBS', $output);
     }
     
@@ -116,7 +116,7 @@ class Company_test extends TestCase{
         );
         $this->assertContains('Company successfully added!', $success);
         // Confirm if company is added.
-        $output = $this->request('GET','user/searchResult?condition_name=E&value_name=DelCompany&display_name=on');
+        $output = $this->request('GET','company/searchResult?condition_name=E&value_name=DelCompany&display_name=on');
         $this->assertContains('DelCompany', $output);
         // Delete company.
         $delPostData = [
@@ -129,7 +129,7 @@ class Company_test extends TestCase{
         );
         $this->assertContains('Success', $delSuccess);
         // Confirm if company is deleted.
-        $output = $this->request('GET','user/searchResult?condition_name=E&value_name=DelCompany&display_name=on');
+        $output = $this->request('GET','company/searchResult?condition_name=E&value_name=DelCompany&display_name=on');
         $this->assertContains('DelCompany', $output);
     }
 }

@@ -28,6 +28,7 @@
                                 <th class="text-left">Last Name</th>
                                 <th class="text-center">First Name</th>
                                 <th class="text-center">Email</th>
+                                <th class="text-center">Active Applications</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -44,6 +45,9 @@
                                     </td>
                                     <td class="text-center" onClick="viewApplicant(<?php echo $applicant->id; ?>)">
                                         <?php echo $applicant->email; ?>
+                                    </td>
+                                    <td class="text-center" onClick="viewApplicant(<?php echo $applicant->id; ?>)">
+                                        0
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
