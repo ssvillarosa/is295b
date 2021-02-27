@@ -175,7 +175,7 @@ class Applicant extends CI_Controller {
         $empty_applicant = $this->createApplicantObject(false);
         $data["applicant"] = $empty_applicant;
         $data["applicant_skills"] = [];
-        $data["success_message"] = "Job order successfully added!";
+        $data["success_message"] = "Candidate successfully added!";
         renderPage($this,$data,'applicant/add');
         // Log user activity.
         $this->ActivityModel->saveUserActivity(

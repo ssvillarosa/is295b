@@ -86,9 +86,32 @@ class Applicant_test extends TestCase{
         $this->assertContains('value="3AM"', $output);
         $this->assertContains('value="Neverland"', $output);
         $this->assertContains('value="DreamLand"', $output);
-        $this->assertContains('value="0"', $output);
+        $this->assertNotContains('checked', $output);
         $this->assertContains("'skill-1'", $output);
         $this->assertContains("'skill-4'", $output);
         $this->assertNotContains("'skill-2'", $output);
+    }
+    
+     public function test_add(){
+        $postData = [
+            'last_name' => 'Controller',
+            'first_name' => 'TestAdd',
+            'email' => 'testaddcontroller@test.com',
+            'primary_phone' => '0000',
+            'secondary_phone' => '1122',
+            'work_phone' => '2233',
+            'address' => 'Somewhere over the rainbow',
+            'best_time_to_call' => '3AM',
+            'source' => 'Neverland',
+            'current_employer' => 'DreamLand',
+            'can_relocate' => '0',
+            'current_pay' => '',
+            'desired_pay' => '',
+            'skillIds' => '1,3,4',
+            'skillNames' => 'Javascript,Go,Indexing',
+            'yearsOfExperiences' => '8,6,5',
+        ];
+        $output = $this->request('POST','applicant/add',$postData);
+        $this->assertContains('Candidate successfully added!', $output);
     }
 }
