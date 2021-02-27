@@ -158,3 +158,4 @@
 </div>
 
 <?php $this->view('common/skillDialog'); ?>
+<?php $this->view('applicant/detailsPageDelete'); ?>

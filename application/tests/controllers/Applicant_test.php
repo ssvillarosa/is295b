@@ -114,4 +114,44 @@ class Applicant_test extends TestCase{
         $output = $this->request('POST','applicant/add',$postData);
         $this->assertContains('Candidate successfully added!', $output);
     }
+    
+    public function test_delete(){
+        // Add applicant.
+        $postData = [
+            'last_name' => 'Del',
+            'first_name' => 'Del',
+            'email' => 'del@test.com',
+            'primary_phone' => '0000',
+            'secondary_phone' => '1122',
+            'work_phone' => '2233',
+            'address' => 'Somewhere over the rainbow',
+            'best_time_to_call' => '3AM',
+            'source' => 'Neverland',
+            'current_employer' => 'DreamLand',
+            'can_relocate' => '0',
+            'current_pay' => '',
+            'desired_pay' => '',
+            'skillIds' => '1,3,4',
+            'skillNames' => 'Javascript,Go,Indexing',
+            'yearsOfExperiences' => '8,6,5',
+        ];
+        $output = $this->request('POST','applicant/add',$postData);
+        $this->assertContains('Candidate successfully added!', $output);
+        
+        $page1 = $this->request('GET','applicant/applicantList');
+        $rowCount = substr_count($page1,'applicant-row-item');
+        // Delete company.
+        $delPostData = [
+            'delApplicantIds' => '6',
+        ];
+        $delSuccess = $this->request(
+            'POST',
+            'applicant/delete',
+            $delPostData
+        );
+        $this->assertContains('Success', $delSuccess);
+        $page2 = $this->request('GET','applicant/applicantList');
+        $newCount = substr_count($page2,'applicant-row-item');
+        $this->assertEquals($rowCount-1,$newCount);
+    }
 }

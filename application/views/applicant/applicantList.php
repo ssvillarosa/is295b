@@ -34,10 +34,10 @@
                         <tbody>
                             <?php foreach ($applicants as $applicant): ?>
                                 <tr id="applicant-<?php echo $applicant->id; ?>" class="applicant-row-item">
-                                    <td class="text-left comp-chk">
+                                    <td class="text-left">
                                         <input type="checkbox" class="chk" value="<?php echo $applicant->id; ?>">
                                     </td>
-                                    <td class="text-left comp-name" onClick="viewApplicant(<?php echo $applicant->id; ?>)">
+                                    <td class="text-left" onClick="viewApplicant(<?php echo $applicant->id; ?>)">
                                         <?php echo $applicant->last_name; ?>
                                     </td>
                                     <td class="text-center" onClick="viewApplicant(<?php echo $applicant->id; ?>)">
@@ -81,3 +81,5 @@
         </div>
     </div>	
 </div>
+
+<?php $this->view('applicant/listPageDelete'); ?>

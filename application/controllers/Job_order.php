@@ -233,7 +233,7 @@ class Job_order extends CI_Controller {
                 "Updated job order ".$job_order->title." details.");
     }
     
-     /**
+    /**
     * Delete job order.
     */
     public function delete(){

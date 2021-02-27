@@ -73,7 +73,7 @@ class Applicant extends CI_Controller {
     }
     
     /**
-    * Updates job order details.
+    * Updates applicant details.
     */
     public function update(){
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
@@ -99,7 +99,7 @@ class Applicant extends CI_Controller {
             renderPage($this,$data,'applicant/detailsView');
             return;
         }
-        // Update job order details
+        // Update applicant details
         $updateApplicant = $this->ApplicantModel->updateApplicant($applicant,$applicantId);
         if($updateApplicant === ERROR_CODE){
             // Set error message.
@@ -107,7 +107,7 @@ class Applicant extends CI_Controller {
             renderPage($this,$data,'applicant/detailsView');
             return;
         }
-        // Batch insert skills into job order skills table.
+        // Batch insert skills into applicant skills table.
         if($applicant_skills){
             $updateApplicantSkills = $this->ApplicantModel->deleteApplicantSkills($applicantId)
                     && $this->ApplicantModel->addApplicantSkills($applicant_skills);
@@ -128,7 +128,7 @@ class Applicant extends CI_Controller {
     }
     
     /**
-    * Adds job order details.
+    * Adds applicant details.
     */
     public function add(){
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
@@ -137,7 +137,7 @@ class Applicant extends CI_Controller {
             return;
         }
         $this->setValidationDetails();
-        // Create job order objects and its sub items.
+        // Create applicant objects and its sub items.
         $applicant = $this->createApplicantObject(true);
         $data["applicant"] = $applicant;
         $applicant_skills = $this->createApplicantSkillObject(0);
@@ -153,14 +153,14 @@ class Applicant extends CI_Controller {
             renderPage($this,$data,'applicant/add');
             return;
         }
-        // Add job order details.
+        // Add applicant details.
         $newApplicantId = $this->ApplicantModel->addApplicant($applicant);
         if($newApplicantId === ERROR_CODE){
             $data["error_message"] = "Error occured.";
             renderPage($this,$data,'applicant/add');
             return;
         }
-        // Batch insert skills into job order skills table.
+        // Batch insert skills into applicant skills table.
         $new_applicant_skills = $this->createApplicantSkillObject($newApplicantId);
         if($applicant_skills){
             $addApplicantSkills = $this->ApplicantModel->addApplicantSkills($new_applicant_skills);
@@ -180,15 +180,41 @@ class Applicant extends CI_Controller {
         // Log user activity.
         $this->ActivityModel->saveUserActivity(
                 $this->session->userdata(SESS_USER_ID),
-                "Added job order ".$applicant->last_name.
+                "Added applicant ".$applicant->last_name.
                 ",".$applicant->first_name.".");
+    }
+    
+    /**
+    * Delete applicant.
+    */
+    public function delete(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            echo 'Invalid access.';
+            return;
+        }
+        if(!$this->input->post('delApplicantIds')){
+            echo 'Invalid Applicant ID';
+            return;
+        }
+        $applicantIds = explode(",", $this->input->post('delApplicantIds'));
+        $success = $this->ApplicantModel->deleteApplicant($applicantIds,
+                $this->session->userdata(SESS_USER_ID));
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Deleted applicant ID : ".$this->input->post('delApplicantIds'));
+        echo 'Success';
     }
     
     /**
     * Creates applicant object.
     * 
     * @param    boolean  $post          If true, it will create object from post data. Otherwise, it will create object with properties but values are blank.
-    * @return   job order object
+    * @return   applicant object
     */
     private function createApplicantObject($post){
         $applicant = (object)[
@@ -210,9 +236,9 @@ class Applicant extends CI_Controller {
     }
     
     /**
-    * Creates job order skill object.
+    * Creates applicant skill object.
     * 
-    * @return   job order object
+    * @return   applicant object
     */
     private function createApplicantSkillObject($applicantId){
         $applicant_skills = [];
