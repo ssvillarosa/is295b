@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function() {
         // Add skills to post request.
-        $("#updateApplicantForm").submit(function(e){
+        $("#addApplicantForm").submit(function(e){
             var skillIds = [];
             var skillNames = [];
             var yearsOfExperiences = [];
@@ -37,8 +37,7 @@
                         </div>
                         <?php return; ?>
                     <?php endif; ?>
-                    <?php echo form_open('applicant/update','id="updateApplicantForm"'); ?>
-                        <input type="hidden" value="<?php echo $applicant->id; ?>" id="applicantId" name="applicantId">
+                    <?php echo form_open('applicant/add','id="addApplicantForm"'); ?>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="last_name" class="form-label">Last Name</label>
@@ -54,12 +53,12 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" value="<?php echo $applicant->email; ?>" class="form-control" id="email" name="email" maxLength="255">
+                                <input type="email" value="<?php echo $applicant->email; ?>" class="form-control" id="email" name="email" maxLength="255" required>
                                 <?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="primary_phone" class="form-label">Primary Phone</label>
-                                <input type="text" value="<?php echo $applicant->primary_phone; ?>" class="form-control" id="primary_phone" name="primary_phone" maxLength="255">
+                                <input type="text" value="<?php echo $applicant->primary_phone; ?>" class="form-control" id="primary_phone" name="primary_phone" maxLength="255" required>
                                 <?php echo form_error('primary_phone','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -76,9 +75,9 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-12 mb-1">
+                            <div class="col-md-12 mb-3">
                                 <label for="address" class="form-label">Address</label>
-                                <input type="text" value="<?php echo $applicant->address; ?>" class="form-control" id="address" name="address" maxLength="255">
+                                <input type="text" value="<?php echo $applicant->address; ?>" class="form-control" id="address" name="address" maxLength="255" required>
                                 <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="custom-control custom-checkbox mr-sm-2  mb-3">
@@ -101,7 +100,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-12 mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label for="best_time_to_call" class="form-label">Best Time to Call</label>
                                 <input type="text" value="<?php echo $applicant->best_time_to_call; ?>" class="form-control" id="best_time_to_call" name="best_time_to_call" maxLength="255">
                                 <?php echo form_error('best_time_to_call','<div class="alert alert-danger">','</div>'); ?>
@@ -110,12 +109,12 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="current_pay" class="form-label">Current Pay</label>
-                                <input type="number" value="<?php if($applicant->current_pay != "0") echo $applicant->current_pay; ?>" class="form-control" id="current_pay" name="current_pay" maxLength="255">
+                                <input type="number" value="<?php echo $applicant->current_pay; ?>" class="form-control" id="current_pay" name="current_pay" maxLength="255">
                                 <?php echo form_error('current_pay','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="desired_pay" class="form-label">Desired Pay</label>
-                                <input type="number" value="<?php if($applicant->desired_pay != "0") echo $applicant->desired_pay; ?>" class="form-control" id="desired_pay" name="desired_pay" maxLength="255">
+                                <input type="number" value="<?php echo $applicant->desired_pay; ?>" class="form-control" id="desired_pay" name="desired_pay" maxLength="255">
                                 <?php echo form_error('desired_pay','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>

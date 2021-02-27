@@ -128,6 +128,63 @@ class Applicant extends CI_Controller {
     }
     
     /**
+    * Adds job order details.
+    */
+    public function add(){
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            $data["error_message"] = 'Invalid access.';
+            renderPage($this,$data,'applicant/add');
+            return;
+        }
+        $this->setValidationDetails();
+        // Create job order objects and its sub items.
+        $applicant = $this->createApplicantObject(true);
+        $data["applicant"] = $applicant;
+        $applicant_skills = $this->createApplicantSkillObject(0);
+        $data["applicant_skills"] = $applicant_skills;
+        
+        $applicant->created_by = $this->session->userdata(SESS_USER_ID);
+        if($this->setData($data) === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant/add');
+            return;
+        }
+        if ($this->form_validation->run() == FALSE){
+            renderPage($this,$data,'applicant/add');
+            return;
+        }
+        // Add job order details.
+        $newApplicantId = $this->ApplicantModel->addApplicant($applicant);
+        if($newApplicantId === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant/add');
+            return;
+        }
+        // Batch insert skills into job order skills table.
+        $new_applicant_skills = $this->createApplicantSkillObject($newApplicantId);
+        if($applicant_skills){
+            $addApplicantSkills = $this->ApplicantModel->addApplicantSkills($new_applicant_skills);
+            if($addApplicantSkills === ERROR_CODE){
+                // Set error message.
+                $data["error_message"] = "Error occured.";
+                renderPage($this,$data,'applicant/add');
+                return;
+            }
+        }
+        // Clear data and display form with success message.
+        $empty_applicant = $this->createApplicantObject(false);
+        $data["applicant"] = $empty_applicant;
+        $data["applicant_skills"] = [];
+        $data["success_message"] = "Job order successfully added!";
+        renderPage($this,$data,'applicant/add');
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Added job order ".$applicant->last_name.
+                ",".$applicant->first_name.".");
+    }
+    
+    /**
     * Creates applicant object.
     * 
     * @param    boolean  $post          If true, it will create object from post data. Otherwise, it will create object with properties but values are blank.
@@ -145,7 +202,7 @@ class Applicant extends CI_Controller {
             'address' => $post ? $this->input->post('address'): '',
             'source' => $post ? $this->input->post('source'): '',
             'current_employer' => $post ? $this->input->post('current_employer'): '',
-            'can_relocate' => $post ? $this->input->post('can_relocate'): '',
+            'can_relocate' => $post ? $this->input->post('can_relocate') ? '1' : '0' : '0',
             'current_pay' => $post ? $this->input->post('current_pay'): '',
             'desired_pay' => $post ? $this->input->post('desired_pay'): '',
         ];
