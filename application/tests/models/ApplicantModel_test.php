@@ -127,4 +127,30 @@ class ApplicantModel_seedtest extends UnitTestCase {
                 $this->assertEquals($expected[$key]["years_of_experience"], $applicantSkill->years_of_experience);
         }
     }
+    
+    public function test_searchApplicant(){
+        $searchParam = [
+            (object)[
+                "field" => "last_name",
+                "condition" => "E",
+                "value" => "Villarosa",
+                "show" => 1,
+            ]
+        ];
+        $applicant  = $this->obj->searchApplicant($searchParam,["last_name"]);
+        $this->assertEquals($applicant[0]["last_name"], "Villarosa");
+    }
+    
+    public function test_searchApplicantCount(){
+        $searchParam = [
+            (object)[
+                "field" => "last_name",
+                "condition" => "E",
+                "value" => "Villarosa",
+                "show" => 1,
+            ]
+        ];
+        $applicant  = $this->obj->searchApplicantCount($searchParam);
+        $this->assertEquals(count($applicant), 1);
+    }
 }

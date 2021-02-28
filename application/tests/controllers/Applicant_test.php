@@ -154,4 +154,9 @@ class Applicant_test extends TestCase{
         $newCount = substr_count($page2,'applicant-row-item');
         $this->assertEquals($rowCount-1,$newCount);
     }
+    
+    public function test_search(){
+        $output = $this->request('GET','applicant/searchResult?condition_last_name=E&value_last_name=Villarosa&display_last_name=on');
+        $this->assertContains('Villarosa', $output);
+    }
 }
