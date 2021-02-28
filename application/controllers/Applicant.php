@@ -209,6 +209,81 @@ class Applicant extends CI_Controller {
                 "Deleted applicant ID : ".$this->input->post('delApplicantIds'));
         echo 'Success';
     }
+        
+    /**
+    * Search page.
+    */
+    public function search(){
+        renderPage($this,null,'applicant/search');        
+    }
+    
+    /**
+    * Search results page.
+    */
+    public function searchResult(){
+        // Create search parameters for each field.
+        $searchParams = [];
+        $fields = [
+            "last_name",
+            "first_name",
+            "email",
+            "primary_phone",
+            "active_application",
+            "secondary_phone",
+            "work_phone",
+            "address",
+            "can_relocate",
+            "current_employer",
+            "source",
+            "best_time_to_call",
+            "current_pay",
+            "desired_pay",
+            "skills"
+            ];
+        foreach ($fields as $field){
+            $param = getSearchParam($this,$field);
+            $param ? array_push($searchParams, $param):'';            
+        }
+        
+        // Create array to store fields to be shown
+        $shownFields = [];
+        // Create column header for the table.
+        $columnHeaders = [];
+        foreach ($searchParams as $param){
+            if($param->show){
+                array_push($shownFields, $param->field);   
+                array_push($columnHeaders, ucwords(str_replace("_", " ", $param->field)));   
+            }
+        }
+        if(!$shownFields){
+            $data['error_message'] = "Select at least one field to be displayed.";
+            renderPage($this,$data,'applicant/searchResult');
+            return;
+        }
+        
+        $rowsPerPage = getRowsPerPage($this,COOKIE_APPLICANT_SEARCH_ROWS_PER_PAGE);
+        $totalCount = $this->ApplicantModel->searchApplicantCount($searchParams);
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $data['shownFields'] = $shownFields;
+        $data['columnHeaders'] = $columnHeaders;
+        $data['searcParams'] = $searchParams;
+        $data['filters'] = generateTextForFilters($searchParams);
+        $data['module'] = 'applicant';
+        $data['removedRowsPerPage'] = site_url('applicant/searchResult').'?'.getQueryParams(["rowsPerPage"]);
+        $data['removedCurrentPage'] = site_url('applicant/searchResult').'?'.getQueryParams(["currentPage"]);
+        
+        if($this->input->get("exportResult")){
+            $applicants = $this->ApplicantModel->searchApplicant($searchParams,$shownFields,0);
+            exportCSV($this->input->get("exportResult"),$applicants,$columnHeaders,[]);
+        }else{
+            $applicants = $this->ApplicantModel->searchApplicant($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+        }
+        $data['entries'] = $applicants;
+        renderPage($this,$data,'common/searchResult');
+    }
     
     /**
     * Creates applicant object.

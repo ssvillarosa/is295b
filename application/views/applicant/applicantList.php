@@ -28,7 +28,7 @@
                                 <th class="text-left">Last Name</th>
                                 <th class="text-center">First Name</th>
                                 <th class="text-center">Email</th>
-                                <th class="text-center">Active Applications</th>
+                                <th class="text-center">Active Application</th>
                             </tr>
                         </thead>
                         <tbody>
