@@ -25,11 +25,14 @@
                         </div>
                         <?php createTextFilter("Last Name") ?>
                         <?php createTextFilter("First Name") ?>
+                        <?php createDateCondition("Birthday") ?>
+                        <?php createDateCondition("Civil Status") ?>
+                        <?php createNumberCondition("Active Application") ?>
                         <?php createTextFilter("Email") ?>
                         <?php createTextFilter("Primary Phone") ?>
-                        <?php createNumberCondition("Active Applicantion") ?>
                         <?php createTextFilter("Secondary Phone") ?>
                         <?php createTextFilter("Work Phone") ?>
+                        <?php createTextFilter("Best Time to Call") ?>
                         <?php createTextFilter("Address") ?>
                         <?php createSelectionFilter('Can Relocate',
                                 array(
@@ -39,10 +42,13 @@
                                     )); ?>
                         <?php createTextFilter("Current Employer") ?>
                         <?php createTextFilter("Source") ?>
-                        <?php createTextFilter("Best Time to Call") ?>
                         <?php createNumberCondition("Current Pay") ?>
                         <?php createNumberCondition("Desired Pay") ?>
                         <?php createTextFilter("Skills") ?>
+                        <?php createTextFilter("Objectives") ?>
+                        <?php createTextFilter("Educational Background") ?>
+                        <?php createTextFilter("Professional Experience") ?>
+                        <?php createTextFilter("Seminars and Trainings") ?>
                         <div class="text-center mt-4 mb-2">
                             <button type="submit" class="btn btn-primary">Search</button>
                             <a href="<?php echo site_url('applicant/applicantList') ?>" class="btn btn-secondary">Cancel</a>

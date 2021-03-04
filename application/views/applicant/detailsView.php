@@ -25,7 +25,6 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <section id="content" >
-                    <h5 class="mb-1">Applicant details: </h5>
                     <?php if(isset($success_message)): ?>
                         <div class="alert alert-success" role="alert">
                             <?php echo $success_message; ?>
@@ -39,6 +38,7 @@
                     <?php endif; ?>
                     <?php echo form_open('applicant/update','id="updateApplicantForm"'); ?>
                         <input type="hidden" value="<?php echo $applicant->id; ?>" id="applicantId" name="applicantId">
+                        <h5 class="mb-1 section-head">Personal Information: </h5>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="last_name" class="form-label">Last Name</label>
@@ -51,6 +51,24 @@
                                 <?php echo form_error('first_name','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Birthday</label>
+                                <input type="date" value="<?php echo $applicant->birthday; ?>" class="form-control form-control-sm" id="birthday" name="birthday" maxLength="50">
+                                <?php echo form_error('birthday','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="role">Civil Status</label>
+                                <select id="civil_status" name="civil_status" class="custom-select custom-select-sm">
+                                    <option value="">Select Civil Status</option>
+                                    <option value="<?php echo APPLICANT_CIVIL_STATUS_SINGLE; ?>" <?php if($applicant->civil_status===strval(APPLICANT_CIVIL_STATUS_SINGLE)) echo "selected"; ?> ><?php echo APPLICANT_CIVIL_STATUS_SINGLE_TEXT; ?></option>
+                                    <option value="<?php echo APPLICANT_CIVIL_STATUS_MARRIED; ?>" <?php if($applicant->civil_status===strval(APPLICANT_CIVIL_STATUS_MARRIED)) echo "selected"; ?> ><?php echo APPLICANT_CIVIL_STATUS_MARRIED_TEXT; ?></option>
+                                    <option value="<?php echo APPLICANT_CIVIL_STATUS_WIDOWED; ?>" <?php if($applicant->civil_status===strval(APPLICANT_CIVIL_STATUS_WIDOWED)) echo "selected"; ?> ><?php echo APPLICANT_CIVIL_STATUS_WIDOWED_TEXT; ?></option>
+                                </select>
+                                <?php echo form_error('civil_status','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <h5 class="mb-1 section-head">Contact Information: </h5>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="email" class="form-label">Email</label>
@@ -77,17 +95,25 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-1">
+                                <label for="best_time_to_call" class="form-label">Best Time to Call</label>
+                                <input type="text" value="<?php echo $applicant->best_time_to_call; ?>" class="form-control form-control-sm" id="best_time_to_call" name="best_time_to_call" maxLength="255">
+                                <?php echo form_error('best_time_to_call','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-1">
                                 <label for="address" class="form-label">Address</label>
                                 <input type="text" value="<?php echo $applicant->address; ?>" class="form-control form-control-sm" id="address" name="address" maxLength="255">
                                 <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
                             </div>
-                            <div class="custom-control custom-checkbox mr-sm-2  mb-1">
+                            <div class="custom-control custom-checkbox mr-sm-2  mb-2">
                                 <input type="checkbox" class="custom-control-input" id="can_relocate" name="can_relocate" value="1"
                                        <?php if($applicant->can_relocate != "0") echo "checked"; ?>>
                                 <label class="custom-control-label" for="can_relocate">Can relocate</label>
                                 <?php echo form_error('can_relocate','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
+                        <h5 class="mb-1 section-head">Employment Information: </h5>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="current_employer" class="form-label">Current Employer</label>
@@ -98,13 +124,6 @@
                                 <label for="source" class="form-label">Source</label>
                                 <input type="text" value="<?php echo $applicant->source; ?>" class="form-control form-control-sm" id="source" name="source" maxLength="255">
                                 <?php echo form_error('source','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-12 mb-1">
-                                <label for="best_time_to_call" class="form-label">Best Time to Call</label>
-                                <input type="text" value="<?php echo $applicant->best_time_to_call; ?>" class="form-control form-control-sm" id="best_time_to_call" name="best_time_to_call" maxLength="255">
-                                <?php echo form_error('best_time_to_call','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
@@ -135,6 +154,34 @@
                                 <input type="hidden" name="skillNames" id="skillNames">
                                 <input type="hidden" name="yearsOfExperiences" id="yearsOfExperiences">
                                 <?php echo form_error('skillIds','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="objectives" class="form-label">Objectives</label>
+                                <textarea class="form-control form-control-sm" id="objectives" name="objectives" rows="3"><?php echo $applicant->objectives; ?></textarea>
+                                <?php echo form_error('objectives','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="objectives" class="form-label">Educational Background</label>
+                                <textarea class="form-control form-control-sm" id="educational_background" name="educational_background" rows="3"><?php echo $applicant->educational_background; ?></textarea>
+                                <?php echo form_error('educational_background','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="objectives" class="form-label">Professional Experience</label>
+                                <textarea class="form-control form-control-sm" id="professional_experience" name="professional_experience" rows="3"><?php echo $applicant->professional_experience; ?></textarea>
+                                <?php echo form_error('professional_experience','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="objectives" class="form-label">Seminars and Trainings</label>
+                                <textarea class="form-control form-control-sm" id="seminars_and_trainings" name="seminars_and_trainings" rows="3"><?php echo $applicant->seminars_and_trainings; ?></textarea>
+                                <?php echo form_error('seminars_and_trainings','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">

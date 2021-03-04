@@ -226,19 +226,24 @@ class Applicant extends CI_Controller {
         $fields = [
             "last_name",
             "first_name",
+            "birthday",
+            "civil_status",
+            "active_application",
             "email",
             "primary_phone",
-            "active_application",
             "secondary_phone",
             "work_phone",
+            "best_time_to_call",
             "address",
             "can_relocate",
             "current_employer",
             "source",
-            "best_time_to_call",
             "current_pay",
             "desired_pay",
-            "skills"
+            "skills",
+            "educational_background",
+            "professional_experience",
+            "seminars_and_trainings"
             ];
         foreach ($fields as $field){
             $param = getSearchParam($this,$field);
@@ -295,6 +300,8 @@ class Applicant extends CI_Controller {
         $applicant = (object)[
             'last_name' => $post ? $this->input->post('last_name'): '',
             'first_name' => $post ? $this->input->post('first_name'): '',
+            'birthday' => $post ? $this->input->post('birthday'): '',
+            'civil_status' => $post ? $this->input->post('civil_status'): '',
             'email' => $post ? $this->input->post('email'): '',
             'primary_phone' => $post ? $this->input->post('primary_phone'): '',
             'secondary_phone' => $post ? $this->input->post('secondary_phone'): '',
@@ -306,6 +313,10 @@ class Applicant extends CI_Controller {
             'can_relocate' => $post ? $this->input->post('can_relocate') ? '1' : '0' : '0',
             'current_pay' => $post ? $this->input->post('current_pay'): '',
             'desired_pay' => $post ? $this->input->post('desired_pay'): '',
+            'objectives' => $post ? $this->input->post('objectives'): '',
+            'educational_background' => $post ? $this->input->post('educational_background'): '',
+            'professional_experience' => $post ? $this->input->post('professional_experience'): '',
+            'seminars_and_trainings' => $post ? $this->input->post('seminars_and_trainings'): '',
         ];
         return $applicant;
     }
@@ -354,8 +365,6 @@ class Applicant extends CI_Controller {
                 ,'trim|required|max_length[255]');
         $this->form_validation->set_rules('address','Address'
                 ,'trim|required|max_length[255]');
-        $this->form_validation->set_rules('skillIds','Skills'
-                ,'required',array('required' => 'Please select at least 1 skill.'));
     }
     
     /**
