@@ -282,7 +282,7 @@ class Applicant extends CI_Controller {
         
         if($this->input->get("exportResult")){
             $applicants = $this->ApplicantModel->searchApplicant($searchParams,$shownFields,0);
-            exportCSV($this->input->get("exportResult"),$applicants,$columnHeaders,[]);
+            exportCSV($this->input->get("exportResult"),$applicants,$columnHeaders);
         }else{
             $applicants = $this->ApplicantModel->searchApplicant($searchParams,$shownFields,$rowsPerPage,$data['offset']);
         }
