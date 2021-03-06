@@ -292,11 +292,13 @@ class Registration extends CI_Controller {
     */
     private function createRegistrationObject($post){
         $registration = (object)[
+            'email' => $post ? $this->input->post('email'): '',
+            'password' => $post ? $this->input->post('password'): '',
+            'confirm_password' => $post ? $this->input->post('confirm_password'): '',
             'last_name' => $post ? $this->input->post('last_name'): '',
             'first_name' => $post ? $this->input->post('first_name'): '',
             'birthday' => $post ? $this->input->post('birthday'): '',
             'civil_status' => $post ? $this->input->post('civil_status'): '',
-            'email' => $post ? $this->input->post('email'): '',
             'primary_phone' => $post ? $this->input->post('primary_phone'): '',
             'secondary_phone' => $post ? $this->input->post('secondary_phone'): '',
             'work_phone' => $post ? $this->input->post('work_phone'): '',
@@ -348,12 +350,16 @@ class Registration extends CI_Controller {
     /**
     * Apply validation rules for other details to be used in update form.
     */
-    private function setValidationDetails(){        
+    private function setValidationDetails(){
+        $this->form_validation->set_rules('email','Email'
+                ,'trim|required|max_length[255]');
+        $this->form_validation->set_rules('password','Password'
+                ,'trim|required|max_length[255]');
+        $this->form_validation->set_rules('confirm_password', 
+                'Password Confirmation', 'required|matches[password]');
         $this->form_validation->set_rules('last_name', 'Last Name',
                 'trim|required|max_length[255]');
         $this->form_validation->set_rules('first_name','First Name'
-                ,'trim|required|max_length[255]');
-        $this->form_validation->set_rules('email','Email'
                 ,'trim|required|max_length[255]');
         $this->form_validation->set_rules('primary_phone','Primay Phone'
                 ,'trim|required|max_length[255]');

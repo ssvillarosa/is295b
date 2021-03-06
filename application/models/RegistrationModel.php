@@ -60,6 +60,8 @@ Class RegistrationModel extends CI_Model{
     * @return   id of the new registration.
     */
     public function addRegistration($registration){
+        unset($registration->confirm_password);
+        $registration->password = hashThis($registration->password);
         $this->db->set('created_time', 'NOW()', FALSE);
         $success = $this->db->insert('registration', $registration);
         if(!$success){

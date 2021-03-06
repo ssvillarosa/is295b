@@ -38,15 +38,35 @@
                         <?php return; ?>
                     <?php endif; ?>
                     <?php echo form_open('registration/register','id="addRegistrationForm"'); ?>
+                        <h5 class="mb-1 section-head">Login Information: </h5>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-1">
+                                <label for="email" class="form-label required">Email</label>
+                                <input type="email" value="<?php echo $registration->email; ?>" class="form-control form-control-sm" id="email" name="email" maxLength="255" required>
+                                <?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-1">
+                                <label for="password" class="form-label required">Password</label>
+                                <input type="password" value="<?php echo $registration->password; ?>" class="form-control form-control-sm" id="password" name="password" maxLength="255" required>
+                                <?php echo form_error('password','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                            <div class="col-md-6 mb-1">
+                                <label for="confirm_password" class="form-label required" required>Confirm Password</label>
+                                <input type="password" value="<?php echo $registration->confirm_password; ?>" class="form-control form-control-sm" id="confirm_password" name="confirm_password" maxLength="255" required>
+                                <?php echo form_error('confirm_password','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
                         <h5 class="mb-1 section-head">Personal Information: </h5>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
-                                <label for="last_name" class="form-label">Last Name</label>
+                                <label for="last_name" class="form-label required">Last Name</label>
                                 <input type="text" value="<?php echo $registration->last_name; ?>" class="form-control form-control-sm" id="last_name" name="last_name" maxLength="255" required>
                                 <?php echo form_error('last_name','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-1">
-                                <label for="first_name" class="form-label">First Name</label>
+                                <label for="first_name" class="form-label required">First Name</label>
                                 <input type="text" value="<?php echo $registration->first_name; ?>" class="form-control form-control-sm" id="first_name" name="first_name" maxLength="255" required>
                                 <?php echo form_error('first_name','<div class="alert alert-danger">','</div>'); ?>
                             </div>
@@ -71,14 +91,14 @@
                         <h5 class="mb-1 section-head">Contact Information: </h5>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" value="<?php echo $registration->email; ?>" class="form-control form-control-sm" id="email" name="email" maxLength="255" required>
-                                <?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                            <div class="col-md-6 mb-1">
-                                <label for="primary_phone" class="form-label">Primary Phone</label>
+                                <label for="primary_phone" class="form-label required">Primary Phone</label>
                                 <input type="text" value="<?php echo $registration->primary_phone; ?>" class="form-control form-control-sm" id="primary_phone" name="primary_phone" maxLength="255" required>
                                 <?php echo form_error('primary_phone','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                            <div class="col-md-6 mb-1">
+                                <label for="best_time_to_call" class="form-label">Best Time to Call</label>
+                                <input type="text" value="<?php echo $registration->best_time_to_call; ?>" class="form-control form-control-sm" id="best_time_to_call" name="best_time_to_call" maxLength="255">
+                                <?php echo form_error('best_time_to_call','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
@@ -95,14 +115,7 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-1">
-                                <label for="best_time_to_call" class="form-label">Best Time to Call</label>
-                                <input type="text" value="<?php echo $registration->best_time_to_call; ?>" class="form-control form-control-sm" id="best_time_to_call" name="best_time_to_call" maxLength="255">
-                                <?php echo form_error('best_time_to_call','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-12 mb-1">
-                                <label for="address" class="form-label">Address</label>
+                                <label for="address" class="form-label required">Address</label>
                                 <input type="text" value="<?php echo $registration->address; ?>" class="form-control form-control-sm" id="address" name="address" maxLength="255" required>
                                 <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
                             </div>
