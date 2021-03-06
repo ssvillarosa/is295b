@@ -52,7 +52,6 @@ class RegistrationModel_seedtest extends UnitTestCase {
             'best_time_to_call' => '2PM',
             'address' => 'Goner',
             'can_relocate' => 1,
-            'created_by' => 1,
             'is_deleted' => 0,
         ];
         $inserted_id = $this->obj->addRegistration($registration);

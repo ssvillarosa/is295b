@@ -92,7 +92,7 @@ class Registration_test extends TestCase{
         $this->assertNotContains("'skill-2'", $output);
     }
     
-     public function test_add(){
+     public function test_register(){
         $postData = [
             'last_name' => 'Controller',
             'first_name' => 'TestAdd',
@@ -111,8 +111,8 @@ class Registration_test extends TestCase{
             'skillNames' => 'Javascript,Go,Indexing',
             'yearsOfExperiences' => '8,6,5',
         ];
-        $output = $this->request('POST','registration/add',$postData);
-        $this->assertContains('Candidate successfully added!', $output);
+        $output = $this->request('POST','registration/register',$postData);
+        $this->assertContains('Thank you for your registration. Your entry is subject for approval. You can start you submission once approved.', $output);
     }
     
     public function test_delete(){
@@ -135,8 +135,8 @@ class Registration_test extends TestCase{
             'skillNames' => 'Javascript,Go,Indexing',
             'yearsOfExperiences' => '8,6,5',
         ];
-        $output = $this->request('POST','registration/add',$postData);
-        $this->assertContains('Candidate successfully added!', $output);
+        $output = $this->request('POST','registration/register',$postData);
+        $this->assertContains('Thank you for your registration. Your entry is subject for approval. You can start you submission once approved.', $output);
         
         $page1 = $this->request('GET','registration/registrationList');
         $rowCount = substr_count($page1,'registration-row-item');

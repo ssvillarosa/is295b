@@ -31,7 +31,6 @@ class RegistrationSeeder extends Seeder {
                 'current_pay' => 10000,
                 'desired_pay' => 15000,
                 'created_time' => '2021-02-05 16:22:00',
-                'created_by' => 1,
                 'is_deleted' => 0,
             ],[
                 'id' => 2,
@@ -51,7 +50,6 @@ class RegistrationSeeder extends Seeder {
                 'current_pay' => 15000,
                 'desired_pay' => 20000,
                 'created_time' => '2021-02-05 16:22:00',
-                'created_by' => 1,
                 'is_deleted' => 0,
             ],[
                 'id' => 3,
@@ -71,7 +69,6 @@ class RegistrationSeeder extends Seeder {
                 'current_pay' => 25000,
                 'desired_pay' => 30000,
                 'created_time' => '2021-02-05 16:22:00',
-                'created_by' => 1,
                 'is_deleted' => 0,
             ],[
                 'id' => 4,
@@ -85,7 +82,6 @@ class RegistrationSeeder extends Seeder {
                 'address' => 'Goner',
                 'can_relocate' => 1,
                 'created_time' => '2021-02-05 16:22:00',
-                'created_by' => 1,
                 'is_deleted' => 1,
             ]
         ];

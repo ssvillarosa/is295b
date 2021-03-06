@@ -18,13 +18,13 @@ class Registration extends CI_Controller {
         parent::__construct();
         $this->load->model('RegistrationModel');
         $this->load->model('SkillCategoryModel');
-        checkUserLogin();
     }
     
     /**
     * Display list of registrations.
     */
     public function registrationList(){
+        checkUserLogin();
         $rowsPerPage = getRowsPerPage($this,COOKIE_REGISTRATION_ROWS_PER_PAGE);
         $totalCount = $this->RegistrationModel->getRegistrationCount();
         // Current page is set to 1 if currentPage is not in URL.
@@ -44,6 +44,7 @@ class Registration extends CI_Controller {
     * Display registration details.
     */
     public function view(){
+        checkUserLogin();
         $registrationId = $this->input->get('id');
         if(!$registrationId){
             $data["error_message"] = "Error occured.";
@@ -76,6 +77,7 @@ class Registration extends CI_Controller {
     * Updates registration details.
     */
     public function update(){
+        checkUserLogin();
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
             $data["error_message"] = 'Invalid access.';
             renderPage($this,$data,'registration/detailsView');
@@ -130,12 +132,7 @@ class Registration extends CI_Controller {
     /**
     * Adds registration details.
     */
-    public function add(){
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            $data["error_message"] = 'Invalid access.';
-            renderPage($this,$data,'registration/add');
-            return;
-        }
+    public function register(){
         $this->setValidationDetails();
         // Create registration objects and its sub items.
         $registration = $this->createRegistrationObject(true);
@@ -143,21 +140,20 @@ class Registration extends CI_Controller {
         $registration_skills = $this->createRegistrationSkillObject(0);
         $data["registration_skills"] = $registration_skills;
         
-        $registration->created_by = $this->session->userdata(SESS_USER_ID);
         if($this->setData($data) === ERROR_CODE){
             $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'registration/add');
+            $this->load->view('registration/registrationPage', $data);
             return;
         }
         if ($this->form_validation->run() == FALSE){
-            renderPage($this,$data,'registration/add');
+            $this->load->view('registration/registrationPage', $data);
             return;
         }
         // Add registration details.
         $newRegistrationId = $this->RegistrationModel->addRegistration($registration);
         if($newRegistrationId === ERROR_CODE){
             $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'registration/add');
+            $this->load->view('registration/registrationPage, $data');
             return;
         }
         // Batch insert skills into registration skills table.
@@ -167,7 +163,7 @@ class Registration extends CI_Controller {
             if($addRegistrationSkills === ERROR_CODE){
                 // Set error message.
                 $data["error_message"] = "Error occured.";
-                renderPage($this,$data,'registration/add');
+                $this->load->view('registration/registrationPage', $data);
                 return;
             }
         }
@@ -175,19 +171,15 @@ class Registration extends CI_Controller {
         $empty_registration = $this->createRegistrationObject(false);
         $data["registration"] = $empty_registration;
         $data["registration_skills"] = [];
-        $data["success_message"] = "Candidate successfully added!";
-        renderPage($this,$data,'registration/add');
-        // Log user activity.
-        $this->ActivityModel->saveUserActivity(
-                $this->session->userdata(SESS_USER_ID),
-                "Added registration ".$registration->last_name.
-                ",".$registration->first_name.".");
+        $data["success_message"] = "Thank you for your registration. Your entry is subject for approval. You can start you submission once approved.";
+        $this->load->view('registration/successPage', $data);
     }
     
     /**
     * Delete registration.
     */
     public function delete(){
+        checkUserLogin();
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
             echo 'Invalid access.';
             return;
@@ -214,6 +206,7 @@ class Registration extends CI_Controller {
     * Search page.
     */
     public function search(){
+        checkUserLogin();
         renderPage($this,null,'registration/search');        
     }
     
@@ -221,6 +214,7 @@ class Registration extends CI_Controller {
     * Search results page.
     */
     public function searchResult(){
+        checkUserLogin();
         // Create search parameters for each field.
         $searchParams = [];
         $fields = [

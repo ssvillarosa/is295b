@@ -16,7 +16,6 @@ class Skill extends CI_Controller {
     */
     function __construct() {
         parent::__construct();
-        checkUserLogin();
         $this->load->model('SkillCategoryModel');
         $this->load->model('SkillModel');
     }

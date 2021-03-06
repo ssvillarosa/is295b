@@ -1,3 +1,4 @@
+<?php $this->load->view('common/unsignedHeader'); ?>
 <script>
     $(document).ready(function() {
         // Add skills to post request.
@@ -36,7 +37,7 @@
                         </div>
                         <?php return; ?>
                     <?php endif; ?>
-                    <?php echo form_open('registration/add','id="addRegistrationForm"'); ?>
+                    <?php echo form_open('registration/register','id="addRegistrationForm"'); ?>
                         <h5 class="mb-1 section-head">Personal Information: </h5>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
@@ -183,16 +184,9 @@
                                 <?php echo form_error('seminars_and_trainings','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <div class="text-left">
-                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                                    <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
-                                <?php endif; ?>
-                            </div>
-                            <div class="text-right">
-                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                <?php endif; ?>
+                        <div class="d-flex justify-content-center">
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Register</button>
                                 <a href="<?php echo site_url('registration/registrationList') ?>" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>
@@ -204,3 +198,4 @@
 </div>
 
 <?php $this->view('common/skillDialog'); ?>
+<?php $this->load->view('common/footer'); ?>
