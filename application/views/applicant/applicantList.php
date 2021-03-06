@@ -13,12 +13,13 @@
                         <?php echo $error_message; ?>
                     </div>
                 <?php endif; ?>
-                <div class="table_toolbar">
+                <div class="table_toolbar d-flex">
                     <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
                         <a href="<?php echo site_url('applicant/add') ?>" class="btn btn-primary">New</a>
-                        <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
+                        <button onclick="showDeleteDialog()" class="btn btn-secondary ml-1">Delete</button>
                     <?php endif; ?>
-                    <a href="<?php echo site_url('applicant/search') ?>" class="btn btn-success">Search</a>
+                    <a href="<?php echo site_url('applicant/search') ?>" class="btn btn-success ml-1">Search</a>
+                    <a href="<?php echo site_url('registration/registrationList') ?>" class="btn btn-info ml-auto">View Pending Registration</a>
                 </div>
                 <div class="table-responsive applicant-table">
                     <table class="table table-hover" id="applicant_table">

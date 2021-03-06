@@ -126,6 +126,11 @@ define('APPLICANT_CIVIL_STATUS_MARRIED_TEXT','Married');
 define('APPLICANT_CIVIL_STATUS_WIDOWED',3);
 define('APPLICANT_CIVIL_STATUS_WIDOWED_TEXT','Widowed');
 
+define('REGISTRATION_STATUS_PENDING',1);
+define('REGISTRATION_STATUS_PENDING_TEXT','Pending');
+define('REGISTRATION_STATUS_APPROVED',2);
+define('REGISTRATION_STATUS_APPROVED_TEXT','Approved');
+
 define('MAX_LOGIN_ATTEMPT',5);
 
 define('IS_DELETED_TRUE','1');
@@ -148,6 +153,8 @@ define('COOKIE_JOB_ORDER_SEARCH_ROWS_PER_PAGE','job_order_search_rows_per_page')
 define('COOKIE_JOB_ORDER_AJAX_ROWS_PER_PAGE','job_order_ajax_rows_per_page');
 define('COOKIE_APPLICANT_ROWS_PER_PAGE','applicant_rows_per_page');
 define('COOKIE_APPLICANT_SEARCH_ROWS_PER_PAGE','applicant_search_rows_per_page');
+define('COOKIE_REGISTRATION_ROWS_PER_PAGE','registration_rows_per_page');
+define('COOKIE_REGISTRATION_SEARCH_ROWS_PER_PAGE','registration_search_rows_per_page');
 
 define('CONDITION_EQUALS','E');
 define('CONDITION_NOT_EQUAL','NE');

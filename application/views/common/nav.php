@@ -9,7 +9,8 @@
                 <li class="<?php if($this->uri->segment(1)=="job_order") echo "active"; ?>">                
                     <a href="<?php echo site_url('job_order/jobOrderList') ?>">Job Orders</a>
                 </li>
-                <li class="<?php if($this->uri->segment(1)=="applicant") echo "active"; ?>">
+                <li class="<?php if($this->uri->segment(1)=="applicant" || 
+                        $this->uri->segment(1)=="registration") echo "active"; ?>">
                     <a href="<?php echo site_url('applicant/applicantList') ?>">Candidates</a>
                 </li>
                 <li class="<?php if($this->uri->segment(1)=="company") echo "active"; ?>">
