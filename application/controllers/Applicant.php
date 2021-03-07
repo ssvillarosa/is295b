@@ -76,11 +76,6 @@ class Applicant extends CI_Controller {
     * Updates applicant details.
     */
     public function update(){
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            $data["error_message"] = 'Invalid access.';
-            renderPage($this,$data,'applicant/detailsView');
-            return;
-        }
         $this->setValidationDetails();
         $this->form_validation->set_rules('applicantId','Applicant ID'
                 ,'required|integer');
@@ -131,11 +126,6 @@ class Applicant extends CI_Controller {
     * Adds applicant details.
     */
     public function add(){
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            $data["error_message"] = 'Invalid access.';
-            renderPage($this,$data,'applicant/add');
-            return;
-        }
         $this->setValidationDetails();
         // Create applicant objects and its sub items.
         $applicant = $this->createApplicantObject(true);
@@ -188,10 +178,6 @@ class Applicant extends CI_Controller {
     * Delete applicant.
     */
     public function delete(){
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            echo 'Invalid access.';
-            return;
-        }
         if(!$this->input->post('delApplicantIds')){
             echo 'Invalid Applicant ID';
             return;

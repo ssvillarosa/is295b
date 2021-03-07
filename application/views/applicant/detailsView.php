@@ -186,14 +186,10 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
-                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                                    <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
-                                <?php endif; ?>
+                                <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
                             </div>
                             <div class="text-right">
-                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                <?php endif; ?>
+                                <button type="submit" class="btn btn-primary">Save</button>
                                 <a href="<?php echo site_url('applicant/applicantList') ?>" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>

@@ -1,22 +1,27 @@
 <script>
     $(document).ready(function() {
         // Add skills to post request.
-        $("#updateRegistrationForm").submit(function(e){
-            var skillIds = [];
-            var skillNames = [];
-            var yearsOfExperiences = [];
-            $('#skills > button').each(function() {
-                var skillId = $(this).attr('id').replace("skill-", "");
-                if(skillId != "add_skill"){
-                    skillIds.push(skillId);
-                    var span = $(this).find('.pill-text');
-                    yearsOfExperiences.push(span.text().trim());
-                    skillNames.push($(this).find('.pill-button-text').text());
+        $("#approveRegistrationForm").submit(function(e){
+            e.preventDefault();
+            $.post('<?php echo site_url('registration/approve') ?>', 
+            {
+                csrf_token:$('input[name ="csrf_token"]').val(),
+                approveRegistrationIds:<?php echo $registration->id; ?>
+            },
+            function(data) {
+                hideDialog();
+                if(data.trim() === "Success"){
+                    showToast("Approved Successfully.",3000);
+                    setTimeout(function(){
+                        window.location.replace("<?php echo site_url('registration/registrationList') ?>");
+                    }, 1000);
+                    return;
                 }
+                showToast("Error occurred.",3000);
+            }).fail(function() {
+                hideDialog();
+                showToast("Error occurred.",3000);
             });
-            $("#skillIds").val(skillIds);
-            $("#skillNames").val(skillNames);
-            $("#yearsOfExperiences").val(yearsOfExperiences);
         });
     });
 </script>
@@ -36,7 +41,7 @@
                         </div>
                         <?php return; ?>
                     <?php endif; ?>
-                    <?php echo form_open('registration/update','id="updateRegistrationForm"'); ?>
+                    <?php echo form_open('registration/approve','id="approveRegistrationForm"'); ?>
                         <input type="hidden" value="<?php echo $registration->id; ?>" id="registrationId" name="registrationId">
                         <h5 class="mb-1 section-head">Personal Information: </h5>
                         <div class="form-row">
@@ -186,14 +191,10 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
-                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                                    <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
-                                <?php endif; ?>
+                                <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
                             </div>
                             <div class="text-right">
-                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                                    <button type="submit" class="btn btn-primary">Approve</button>
-                                <?php endif; ?>
+                                <button type="submit" class="btn btn-primary">Approve</button>
                                 <a href="<?php echo site_url('registration/registrationList') ?>" class="btn btn-secondary">Cancel</a>
                             </div>
                         </div>

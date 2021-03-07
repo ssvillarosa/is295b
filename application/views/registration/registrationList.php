@@ -15,10 +15,8 @@
                     </div>
                 <?php endif; ?>
                 <div class="table_toolbar d-flex">
-                    <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                        <button onclick="showApproveDialog()" class="btn btn-primary">Approve</button>
-                        <button onclick="showDeleteDialog()" class="btn btn-secondary ml-1">Delete</button>
-                    <?php endif; ?>
+                    <button onclick="showApproveDialog()" class="btn btn-primary">Approve</button>
+                    <button onclick="showDeleteDialog()" class="btn btn-secondary ml-1">Delete</button>
                     <a href="<?php echo site_url('registration/search') ?>" class="btn btn-success ml-1">Search</a>
                     <a href="<?php echo site_url('applicant/applicantList') ?>" class="btn btn-info ml-auto">Back</a>
                 </div>
@@ -81,4 +79,4 @@
 </div>
 
 <?php $this->view('registration/listPageDelete'); ?>
-<?php $this->view('registration/listPageUpdateStatus'); ?>
+<?php $this->view('registration/listPageApprove'); ?>
