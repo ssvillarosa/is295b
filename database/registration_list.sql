@@ -41,4 +41,6 @@ SELECT
     r.professional_experience,
     r.seminars_and_trainings
 FROM `registration` r
-WHERE r.is_deleted != 1;
+WHERE 
+    r.status = 1
+    AND r.is_deleted != 1;

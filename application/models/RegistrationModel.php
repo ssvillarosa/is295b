@@ -24,9 +24,8 @@ Class RegistrationModel extends CI_Model{
     * @return   array of registration objects
     */
     public function getRegistrations($limit=25,$offset=0,$orderBy='id',$order='asc'){
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $this->db->order_by($orderBy,$order);
-        $query = $this->db->get('registration',$limit,$offset);
+        $query = $this->db->get('registration_list',$limit,$offset);
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
