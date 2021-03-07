@@ -36,3 +36,4 @@ SELECT
     a.professional_experience,
     a.seminars_and_trainings
 FROM `applicant` a
+WHERE a.is_deleted != 1;
