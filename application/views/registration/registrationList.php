@@ -8,17 +8,19 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9">
+                <h5>Pending Registration Entries</h5>
                 <?php if(isset($error_message)): ?>
                     <div class="alert alert-danger" role="alert">
                         <?php echo $error_message; ?>
                     </div>
                 <?php endif; ?>
-                <div class="table_toolbar">
+                <div class="table_toolbar d-flex">
                     <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                        <a href="<?php echo site_url('registration/add') ?>" class="btn btn-primary">New</a>
-                        <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
+                        <button onclick="showApproveDialog()" class="btn btn-primary">Approve</button>
+                        <button onclick="showDeleteDialog()" class="btn btn-secondary ml-1">Delete</button>
                     <?php endif; ?>
-                    <a href="<?php echo site_url('registration/search') ?>" class="btn btn-success">Search</a>
+                    <a href="<?php echo site_url('registration/search') ?>" class="btn btn-success ml-1">Search</a>
+                    <a href="<?php echo site_url('applicant/applicantList') ?>" class="btn btn-info ml-auto">Back</a>
                 </div>
                 <div class="table-responsive registration-table">
                     <table class="table table-hover" id="registration_table">
@@ -28,7 +30,6 @@
                                 <th class="text-left">Last Name</th>
                                 <th class="text-center">First Name</th>
                                 <th class="text-center">Email</th>
-                                <th class="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,14 +46,6 @@
                                     </td>
                                     <td class="text-center" onClick="viewRegistration(<?php echo $registration->id; ?>)">
                                         <?php echo $registration->email; ?>
-                                    </td>
-                                    <td class="text-center" onClick="viewRegistration(<?php echo $registration->id; ?>)">
-                                        <button type="button" class="btn btn-primary">
-                                            <span>Approve</span>                                         
-                                        </button>
-                                        <button type="button" class="btn btn-danger">
-                                            <span>Delete</span>                                         
-                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -88,3 +81,4 @@
 </div>
 
 <?php $this->view('registration/listPageDelete'); ?>
+<?php $this->view('registration/listPageUpdateStatus'); ?>

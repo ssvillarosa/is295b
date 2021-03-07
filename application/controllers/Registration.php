@@ -18,6 +18,7 @@ class Registration extends CI_Controller {
         parent::__construct();
         $this->load->model('RegistrationModel');
         $this->load->model('SkillCategoryModel');
+        $this->load->model('ApplicantModel');
     }
     
     /**
@@ -74,59 +75,36 @@ class Registration extends CI_Controller {
     }
     
     /**
-    * Updates registration details.
+    * Approve registration details.
     */
-    public function update(){
+    public function approve(){
         checkUserLogin();
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            $data["error_message"] = 'Invalid access.';
-            renderPage($this,$data,'registration/detailsView');
+        if(!$this->input->post('approveRegistrationIds')){
+            echo 'Invalid Registration ID';
             return;
         }
-        $this->setValidationDetails();
-        $this->form_validation->set_rules('registrationId','Registration ID'
-                ,'required|integer');
-        $registration = $this->createRegistrationObject(true);
-        $registrationId = $this->input->post('registrationId');
-        $registration->id = $registrationId;
-        $data["registration"] = $registration;
-        $registration_skills = $this->createRegistrationSkillObject($registrationId);
-        $data["registration_skills"] = $registration_skills;
-        if($this->setData($data) === ERROR_CODE){
-            $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'registration/detailsView');
-            return;
-        }
-        if ($this->form_validation->run() == FALSE){
-            renderPage($this,$data,'registration/detailsView');
-            return;
-        }
-        // Update registration details
-        $updateRegistration = $this->RegistrationModel->updateRegistration($registration,$registrationId);
-        if($updateRegistration === ERROR_CODE){
-            // Set error message.
-            $data["error_message"] = "Error occured.";     
-            renderPage($this,$data,'registration/detailsView');
-            return;
-        }
-        // Batch insert skills into registration skills table.
-        if($registration_skills){
-            $updateRegistrationSkills = $this->RegistrationModel->deleteRegistrationSkills($registrationId)
-                    && $this->RegistrationModel->addRegistrationSkills($registration_skills);
-            if($updateRegistrationSkills === ERROR_CODE){
-                // Set error message.
-                $data["error_message"] = "Error occured.";     
-                renderPage($this,$data,'registration/detailsView');
-                return;
+        $registrationIds = explode(",", $this->input->post('approveRegistrationIds'));
+        foreach ($registrationIds as $registrationId){
+            // Move entries from registration to applicant.
+            $result = $this->insertRegistrationToApplicant($registrationId);
+            if($result == ERROR_CODE){
+                echo 'Error occured.';
+            }
+            // Update status of the registration to approved.
+            $result = $this->RegistrationModel->updateRegistration((object)[
+                'status' => 2,
+                'approved_by' => $this->session->userdata(SESS_USER_ID),
+                'approved_time' => date('Y-m-d H:i:s'),
+            ],$registrationId);
+            if($result == ERROR_CODE){
+                echo 'Error occured.';
             }
         }
-        // Display form with success message.
-        $data["success_message"] = "Registration successfully updated!";
-        renderPage($this,$data,'registration/detailsView');
         // Log user activity.
         $this->ActivityModel->saveUserActivity(
                 $this->session->userdata(SESS_USER_ID),
-                "Updated registration ".$registration->last_name.",".$registration->first_name." details.");
+                "Approved registration ID : ".$this->input->post('approveRegistrationIds'));
+        echo 'Success';
     }
     
     /**
@@ -180,10 +158,6 @@ class Registration extends CI_Controller {
     */
     public function delete(){
         checkUserLogin();
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            echo 'Invalid access.';
-            return;
-        }
         if(!$this->input->post('delRegistrationIds')){
             echo 'Invalid Registration ID';
             return;
@@ -376,6 +350,85 @@ class Registration extends CI_Controller {
             return ERROR_CODE;
         }
         $data["skillCategories"] = $skillCategories;
+        return SUCCESS_CODE;
+    }
+    
+    /**
+    * Converts the registration object to applicant object.
+    */
+    private function registrationToApplicantObject($registration){
+        $applicant = (object)[
+            'last_name' => $registration->last_name,
+            'first_name' => $registration->first_name,
+            'birthday' => $registration->birthday,
+            'civil_status' => $registration->civil_status,
+            'email' => $registration->email,
+            'primary_phone' => $registration->primary_phone,
+            'secondary_phone' => $registration->secondary_phone,
+            'work_phone' => $registration->work_phone,
+            'best_time_to_call' => $registration->best_time_to_call,
+            'address' => $registration->address,
+            'source' => $registration->source,
+            'current_employer' => $registration->current_employer,
+            'can_relocate' => $registration->can_relocate,
+            'current_pay' => $registration->current_pay,
+            'desired_pay' => $registration->desired_pay,
+            'objectives' => $registration->objectives,
+            'educational_background' => $registration->educational_background,
+            'professional_experience' => $registration->professional_experience,
+            'seminars_and_trainings' => $registration->seminars_and_trainings,
+        ];
+        return $applicant;
+    }
+    
+    /**
+    * Converts the registration skill object to applicant skill object.
+    */
+    private function registrationSkillsToApplicantSkillsObject($registration_skills, $applicantId){
+        $applicant_skills = [];
+        foreach ($registration_skills as $registration_skill){
+            $rs = (object)[
+                'applicant_id' => $applicantId,
+                'skill_id' => $registration_skill->skill_id,
+                'name' => $registration_skill->name,
+                'years_of_experience' => $registration_skill->years_of_experience,
+            ];
+            array_push($applicant_skills, $rs);
+        }
+        return $applicant_skills;
+    }
+    
+    /**
+    * Move entries from registration and registration skills to applicant and applicant skills table.
+    */
+    private function insertRegistrationToApplicant($registrationId){
+        // Get registration object.
+        $registration = $this->RegistrationModel->getRegistrationById($registrationId);
+        if($registration === ERROR_CODE){
+            echo "Error occured.";
+            return ERROR_CODE;
+        }
+        // Create applicant object out of registration object.
+        $applicant = $this->registrationToApplicantObject($registration);
+        // Insert Applicant to the database.
+        $applicantId = $this->ApplicantModel->addApplicant($applicant);
+        if($applicantId === ERROR_CODE){
+            return ERROR_CODE;
+        }
+        // Get registration skill object.
+        $registration_skills = $this->RegistrationModel->getRegistrationSkill($registrationId);
+        if($registration_skills === ERROR_CODE){
+            return ERROR_CODE;
+        }
+        if($registration_skills){
+            // Create applicant skill objecct out of registration skill object.
+            $applicant_skills = $this->registrationSkillsToApplicantSkillsObject($registration_skills,$applicantId); 
+            // Insert Applicant skills to the database.
+            $addApplicantSkills = $this->ApplicantModel->addApplicantSkills($applicant_skills);
+            if($addApplicantSkills === ERROR_CODE){
+                return ERROR_CODE;
+            }
+        }
         return SUCCESS_CODE;
     }
 }
