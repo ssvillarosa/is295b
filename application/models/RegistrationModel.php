@@ -53,6 +53,24 @@ Class RegistrationModel extends CI_Model{
     }
     
     /**
+    * Returns registration object if email exist in the database.
+    *
+    * @param    string     $email
+    * @return   registration object
+    */
+    public function getRegistrationByEmail($email){
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $this->db->where("email", trim($email));
+        $query = $this->db->get("registration");
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->row();
+    }
+    
+    /**
     * Adds registration to the database.
     *
     * @param    registration object     $registration

@@ -66,7 +66,7 @@ class Registration_test extends TestCase{
         $postData = [
             'last_name' => 'Controller',
             'first_name' => 'TestAdd',
-            'email' => 'testaddcontroller@test.com',
+            'email' => 'testregistercontroller@test.com',
             'password' => 'hello',
             'confirm_password' => 'hello',
             'primary_phone' => '0000',

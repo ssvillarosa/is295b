@@ -54,6 +54,24 @@ Class ApplicantModel extends CI_Model{
     }
     
     /**
+    * Returns applicant object if email exist in the database.
+    *
+    * @param    string     $email
+    * @return   applicant object
+    */
+    public function getApplicantByEmail($email){
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $this->db->where("email", trim($email));
+        $query = $this->db->get("applicant");
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->row();
+    }
+    
+    /**
     * Adds applicant to the database.
     *
     * @param    applicant object     $applicant

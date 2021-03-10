@@ -41,6 +41,14 @@ class ApplicantModel_seedtest extends UnitTestCase {
         $this->assertEquals($expected[$id], $applicant->last_name);
     }
     
+    public function test_getApplicantByEmail(){
+        $email = "steven@test.com";
+        $applicant = $this->obj->getApplicantByEmail($email);
+        $this->assertNotEquals($applicant,ERROR_CODE);
+        $this->assertNotEmpty($applicant);
+        $this->assertEquals("Villarosa", $applicant->last_name);
+    }
+    
     public function test_addApplicant(){
         $applicant = (object)[
             'last_name' => 'New',

@@ -41,6 +41,14 @@ class RegistrationModel_seedtest extends UnitTestCase {
         $this->assertEquals($expected[$id], $registration->last_name);
     }
     
+    public function test_getRegistrationByEmail(){
+        $email = "steven.registration@test.com";
+        $registration = $this->obj->getRegistrationByEmail($email);
+        $this->assertNotEquals($registration,ERROR_CODE);
+        $this->assertNotEmpty($registration);
+        $this->assertEquals("RegistrationVillarosa", $registration->last_name);
+    }
+    
     public function test_addRegistration(){
         $registration = (object)[
             'last_name' => 'New',

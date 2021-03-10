@@ -127,6 +127,31 @@ class Registration extends CI_Controller {
             $this->load->view('registration/registrationPage', $data);
             return;
         }
+        // Check if email already exist in the registration table.
+        $r = $this->RegistrationModel->getRegistrationByEmail($registration->email);
+        if($r === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            $this->load->view('registration/registrationPage', $data);
+            return;
+        }
+        if($r){
+            $data["error_message"] = "Email is pending for approval.";
+            $this->load->view('registration/registrationPage', $data);
+            return;
+        }
+        // Check if email already exist in the applicant table.
+        $a = $this->ApplicantModel->getApplicantByEmail($registration->email);
+        if($a === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            $this->load->view('registration/registrationPage', $data);
+            return;
+        }
+        if($a){
+            $data["error_message"] = "Email already exist.";
+            print_r($a);
+            $this->load->view('registration/registrationPage', $data);
+            return;
+        }
         // Add registration details.
         $newRegistrationId = $this->RegistrationModel->addRegistration($registration);
         if($newRegistrationId === ERROR_CODE){
