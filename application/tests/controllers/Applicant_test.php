@@ -97,6 +97,7 @@ class Applicant_test extends TestCase{
             'last_name' => 'Controller',
             'first_name' => 'TestAdd',
             'email' => 'testaddcontroller@test.com',
+            'status' => '1',
             'primary_phone' => '0000',
             'secondary_phone' => '1122',
             'work_phone' => '2233',
@@ -121,6 +122,7 @@ class Applicant_test extends TestCase{
             'last_name' => 'Del',
             'first_name' => 'Del',
             'email' => 'del@test.com',
+            'status' => '1',
             'primary_phone' => '0000',
             'secondary_phone' => '1122',
             'work_phone' => '2233',
@@ -158,5 +160,33 @@ class Applicant_test extends TestCase{
     public function test_search(){
         $output = $this->request('GET','applicant/searchResult?condition_last_name=E&value_last_name=Villarosa&display_last_name=on');
         $this->assertContains('Villarosa', $output);
+    }
+    
+    public function test_block(){
+        $postData = [
+            'applicantIds' => '2',
+        ];
+        $success = $this->request(
+            'POST',
+            'applicant/block',
+            $postData
+        );
+        $this->assertContains('Success', $success);
+        $page = $this->request('GET','applicant/view?id=2');
+        $this->assertContains('>Activate<', $page);
+    }
+    
+    public function test_activate(){
+        $postData = [
+            'applicantIds' => '2',
+        ];
+        $success = $this->request(
+            'POST',
+            'applicant/activate',
+            $postData
+        );
+        $this->assertContains('Success', $success);
+        $page = $this->request('GET','applicant/view?id=2');
+        $this->assertContains('>Block<', $page);
     }
 }

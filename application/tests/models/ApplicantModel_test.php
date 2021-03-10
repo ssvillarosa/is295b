@@ -28,6 +28,18 @@ class ApplicantModel_seedtest extends UnitTestCase {
         }
     }
     
+    public function test_blockApplicant(){
+        $this->obj->blockApplicant(1);
+        $applicant  = $this->obj->getApplicantById(1);
+        $this->assertEquals(APPLICANT_STATUS_BLOCKED, $applicant->status);        
+    }
+    
+    public function test_activateApplicant(){
+        $this->obj->activateApplicant(1);
+        $applicant  = $this->obj->getApplicantById(1);
+        $this->assertEquals(APPLICANT_STATUS_ACTIVE, $applicant->status);        
+    }
+    
     public function test_getApplicantById(){
         $id = 1;
         $expected = [

@@ -72,6 +72,42 @@ Class ApplicantModel extends CI_Model{
     }
     
     /**
+    * Sets the applicant status to APPLICANT_STATUS_BLOCKED and returns true if success.
+    *
+    * @param    int     $applicantId
+    * @return   boolean
+    */
+    public function blockApplicant($applicantIds){
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $this->db->where_in('id', $applicantIds);
+        $success = $this->db->update('applicant', array('status' => APPLICANT_STATUS_BLOCKED));
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return true;
+    }
+    
+    /**
+    * Sets the applicant status to APPLICANT_STATUS_ACTIVE and returns true if success.
+    *
+    * @param    int     $applicantId
+    * @return   boolean
+    */
+    public function activateApplicant($applicantIds){
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $this->db->where_in('id', $applicantIds);
+        $success = $this->db->update('applicant', array('status' => APPLICANT_STATUS_ACTIVE));
+        if(!$success){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return false;
+        }
+        return true;
+    }
+    
+    /**
     * Adds applicant to the database.
     *
     * @param    applicant object     $applicant

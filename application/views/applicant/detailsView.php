@@ -38,6 +38,7 @@
                     <?php endif; ?>
                     <?php echo form_open('applicant/update','id="updateApplicantForm"'); ?>
                         <input type="hidden" value="<?php echo $applicant->id; ?>" id="applicantId" name="applicantId">
+                        <input type="hidden" value="<?php echo $applicant->status; ?>" id="status" name="status">
                         <h5 class="mb-1 section-head">Personal Information: </h5>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
@@ -186,6 +187,11 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="text-left">
+                                <?php if($applicant->status == APPLICANT_STATUS_ACTIVE): ?>
+                                    <button type="button" class="btn btn-secondary" onclick="showBlockDialog()">Block</button>
+                                <?php else: ?>
+                                    <button type="button" class="btn btn-warning" onclick="activateApplicant()">Activate</button>
+                                <?php endif; ?>
                                 <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
                             </div>
                             <div class="text-right">
@@ -202,3 +208,10 @@
 
 <?php $this->view('common/skillDialog'); ?>
 <?php $this->view('applicant/detailsPageDelete'); ?>
+<?php 
+if($applicant->status == APPLICANT_STATUS_ACTIVE){
+    $this->view('applicant/detailsPageBlock');
+}else{
+    $this->view('applicant/detailsPageActivate');
+}
+?>

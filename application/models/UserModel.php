@@ -60,7 +60,7 @@ Class UserModel extends CI_Model{
     }
     
     /**
-    * Sets the user status to USER_STATUS_BLOCKED(1) and returns true if success.
+    * Sets the user status to USER_STATUS_BLOCKED and returns true if success.
     *
     * @param    int     $userId
     * @return   boolean

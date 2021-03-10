@@ -97,6 +97,11 @@ define('USER_STATUS_ACTIVE_TEXT','Active');
 define('USER_STATUS_BLOCKED_TEXT','Blocked');
 define('USER_STATUS_DELETED_TEXT','Deleted');
 
+define('APPLICANT_STATUS_ACTIVE',1);
+define('APPLICANT_STATUS_BLOCKED',2);
+define('APPLICANT_STATUS_ACTIVE_TEXT','Active');
+define('APPLICANT_STATUS_BLOCKED_TEXT','Blocked');
+
 define('USER_ROLE_ADMIN',1);
 define('USER_ROLE_RECRUITER',2);
 define('USER_ROLE_ADMIN_TEXT','Admin');

@@ -37,6 +37,7 @@
                         <?php return; ?>
                     <?php endif; ?>
                     <?php echo form_open('applicant/add','id="addApplicantForm"'); ?>
+                        <input type="hidden" value="1" id="status" name="status">
                         <h5 class="mb-1 section-head">Personal Information: </h5>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">

@@ -148,7 +148,6 @@ class Registration extends CI_Controller {
         }
         if($a){
             $data["error_message"] = "Email already exist.";
-            print_r($a);
             $this->load->view('registration/registrationPage', $data);
             return;
         }

@@ -195,6 +195,48 @@ class Applicant extends CI_Controller {
                 "Deleted applicant ID : ".$this->input->post('delApplicantIds'));
         echo 'Success';
     }
+    
+    /**
+    * Block applicant.
+    */
+    public function block(){
+        if(!$this->input->post('applicantIds')){
+            echo 'Invalid Applicant ID';
+            return;
+        }
+        $applicantIds = explode(",", $this->input->post('applicantIds'));
+        $success = $this->ApplicantModel->blockApplicant($applicantIds);
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Blocked applicant ID : ".$this->input->post('applicantIds'));
+        echo 'Success';
+    }
+    
+    /**
+    * Activate applicant.
+    */
+    public function activate(){
+        if(!$this->input->post('applicantIds')){
+            echo 'Invalid Applicant ID';
+            return;
+        }
+        $applicantIds = explode(",", $this->input->post('applicantIds'));
+        $success = $this->ApplicantModel->activateApplicant($applicantIds);
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->ActivityModel->saveUserActivity(
+                $this->session->userdata(SESS_USER_ID),
+                "Activated applicant ID : ".$this->input->post('applicantIds'));
+        echo 'Success';
+    }
         
     /**
     * Search page.
@@ -289,6 +331,7 @@ class Applicant extends CI_Controller {
             'birthday' => $post ? $this->input->post('birthday'): '',
             'civil_status' => $post ? $this->input->post('civil_status'): '',
             'email' => $post ? $this->input->post('email'): '',
+            'status' => $post ? $this->input->post('status'): '',
             'primary_phone' => $post ? $this->input->post('primary_phone'): '',
             'secondary_phone' => $post ? $this->input->post('secondary_phone'): '',
             'work_phone' => $post ? $this->input->post('work_phone'): '',
