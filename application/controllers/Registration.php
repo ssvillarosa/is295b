@@ -134,7 +134,7 @@ class Registration extends CI_Controller {
             $this->load->view('registration/registrationPage', $data);
             return;
         }
-        if($r){
+        if($r && $r->status != REGISTRATION_STATUS_APPROVED){
             $data["error_message"] = "Email is pending for approval.";
             $this->load->view('registration/registrationPage', $data);
             return;
@@ -387,6 +387,7 @@ class Registration extends CI_Controller {
             'birthday' => $registration->birthday,
             'civil_status' => $registration->civil_status,
             'email' => $registration->email,
+            'password' => $registration->password,
             'primary_phone' => $registration->primary_phone,
             'secondary_phone' => $registration->secondary_phone,
             'work_phone' => $registration->work_phone,

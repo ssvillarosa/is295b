@@ -72,6 +72,17 @@ Class ApplicantModel extends CI_Model{
     }
     
     /**
+    * Increments failed_login count.
+    *
+    * @param    int     $applicantId
+    */
+    public function addLoginFailed($applicantId){
+        $this->db->where("id", $applicantId);
+        $this->db->set('failed_login', 'failed_login+1', FALSE);
+        $this->db->update('applicant');
+    }
+    
+    /**
     * Sets the applicant status to APPLICANT_STATUS_BLOCKED and returns true if success.
     *
     * @param    int     $applicantId
@@ -171,6 +182,17 @@ Class ApplicantModel extends CI_Model{
             return ERROR_CODE;
         }
         return SUCCESS_CODE;
+    }
+    
+    /**
+    * Resets failed_login count.
+    *
+    * @param    int     $applicantId
+    */
+    public function resetLoginFailed($applicantId){
+        $this->db->where("id", $applicantId);
+        $this->db->set('failed_login', 0);
+        $this->db->update('applicant');
     }
     
     /**

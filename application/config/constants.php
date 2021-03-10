@@ -148,6 +148,12 @@ define('SESS_USER_EMAIL','user_email');
 define('SESS_USER_FULL_NAME','user_full_name');
 define('SESS_IS_LOGGED_IN','is_logged_in');
 
+define('SESS_APPLICANT_ID','applicant_id');
+define('SESS_APPLICANT_EMAIL','applicant_email');
+define('SESS_APPLICANT_LAST_NAME','applicant_last_name');
+define('SESS_APPLICANT_FIRST_NAME','applicant_first_name');
+define('SESS_IS_APPLICANT_LOGGED_IN','is_applicant_logged_in');
+
 define('COOKIE_USER_ROWS_PER_PAGE','user_rows_per_page');
 define('COOKIE_USER_SEARCH_ROWS_PER_PAGE','user_search_rows_per_page');
 define('COOKIE_ACTIVITY_ROWS_PER_PAGE','activity_rows_per_page');

@@ -16,23 +16,23 @@ class ApplicantAuth extends CI_Controller {
     */
     function __construct() {
         parent::__construct();
-        $this->load->model('UserModel');
+        $this->load->model('ApplicantModel');
     }
     
     /**
-    * Initializes the login page and validates username and password.
+    * Initializes the login page and validates email and password.
     */
     public function login(){
-        $this->form_validation->set_rules('username', 'Username',
+        $this->form_validation->set_rules('email', 'Email',
                 'trim|required|max_length[50]');
         $this->form_validation->set_rules('password', 'Password',
                 'trim|required|max_length[50]');
         if ($this->form_validation->run() == FALSE){
             $this->displayLoginForm();
         }else{
-            $username = $this->input->post('username');
+            $email = $this->input->post('email');
             $password = $this->input->post('password');
-            if(!$this->isLoginValid($username,$password)) return;
+            if(!$this->isLoginValid($email,$password)) return;
             // Get the referrer parameter.
             $loginReferrer = $this->input->post('referrer');
             // Redirect to referrer URL.
@@ -46,81 +46,74 @@ class ApplicantAuth extends CI_Controller {
     }
     
     /**
-    * Destroys session and redirects user to login page.
+    * Destroys session and redirects applicant to login page.
     */
     public function logout(){
-        $this->ActivityModel->saveUserActivity(
-                $this->session->userdata(SESS_USER_ID),"Logged out.");
         $sessionData = array(
-            SESS_USER_ID,
-            SESS_USERNAME,
-            SESS_USER_ROLE,
-            SESS_USER_EMAIL,
-            SESS_USER_FULL_NAME,
-            SESS_IS_LOGGED_IN
+            SESS_APPLICANT_ID,
+            SESS_APPLICANT_EMAIL,
+            SESS_APPLICANT_LAST_NAME,
+            SESS_APPLICANT_FIRST_NAME,
+            SESS_IS_APPLICANT_LOGGED_IN
         );
         $this->session->unset_userdata($sessionData);
-        redirect('auth/login');
+        redirect('applicantAuth/login');
     }
     
     /**
     * Returns true if the login credentials are valid and creates session. 
     * It also increment failed_login when credentials are not valid.
     *
-    * @param    string  $username   Username string
+    * @param    string  $email      Email string
     * @param    string  $password   Password string
     * @return   boolean
     */
-    private function isLoginValid($username,$password){
-        $user = $this->UserModel->getUserByUsername($username);
-        // Check if the username is valid.
-        if(!$user){
-            $this->displayLoginForm('Invalid username/password.');
+    private function isLoginValid($email,$password){
+        $applicant = $this->ApplicantModel->getApplicantByEmail($email);
+        // Check if the email is valid.
+        if(!$applicant){
+            $this->displayLoginForm('Invalid email/password.');
             return false;
         }
-        // Check if username is blocked.
-        if($user->status == USER_STATUS_BLOCKED){
-            echo "User is blocked. Please contact the administrator.";
+        // Check if applicant is blocked.
+        if($applicant->status == USER_STATUS_BLOCKED){
+            echo "Applicant is blocked. Please contact the administrator.";
             return false;
         }
         // Check if password is correct
-        if(!password_verify($password,$user->password)){
+        if(!password_verify($password,$applicant->password)){
             // Increment login_failed.
-            $this->UserModel->addLoginFailed($user->id);
-            // Log user's invalid attempt.
-            $this->ActivityModel->saveUserActivity($user->id,"Login Failed.");
-            if($user->failed_login >= MAX_LOGIN_ATTEMPT - 1){
-                // Block User if failed login attempt is reached.
-                $this->UserModel->blockUser($user->id);
-                echo "User is blocked. Please contact the administrator.";
+            $this->ApplicantModel->addLoginFailed($applicant->id);
+            if($applicant->failed_login >= MAX_LOGIN_ATTEMPT - 1){
+                // Block Applicant if failed login attempt is reached.
+                $this->ApplicantModel->blockApplicant($applicant->id);
+                echo "Applicant is blocked. Please contact the administrator.";
                 return false;
             }
-            $rem_attemp = MAX_LOGIN_ATTEMPT - $user->failed_login - 1;
-            $this->displayLoginForm("Invalid username/password.<br/> $rem_attemp"
+            $rem_attemp = MAX_LOGIN_ATTEMPT - $applicant->failed_login - 1;
+            $this->displayLoginForm("Invalid email/password.<br/> $rem_attemp"
                     . " Remaining attempt/s.");
             return false;
         }
-        // Log user successful login.
-        $this->ActivityModel->saveUserActivity($user->id,"Login Success.");
         // Reset invalid login attempt.
-        $this->UserModel->resetLoginFailed($user->id);
-        // Create user session
-        $this->createSession($user);
+        $this->ApplicantModel->resetLoginFailed($applicant->id);
+        // Create applicant session
+        $this->createSession($applicant);
         return true;
     }
     
      /**
-    * Creates user session.
+    * Creates applicant session.
     *
-    * @param    string  $user   User object.
+    * @param    string  $applicant   Applicant object.
     */
-    private function createSession($user){
+    private function createSession($applicant){
         $sessionData = array(
-            SESS_USER_ID        => $user->id,
-            SESS_USERNAME       => $user->username,
-            SESS_USER_ROLE      => $user->role,
-            SESS_USER_EMAIL     => $user->email,
-            SESS_USER_FULL_NAME => $user->name,
+            SESS_USER_ID        => $applicant->id,
+            SESS_USERNAME       => $applicant->email,
+            SESS_USER_ROLE      => $applicant->role,
+            SESS_USER_EMAIL     => $applicant->email,
+            SESS_USER_FULL_NAME => $applicant->name,
             SESS_IS_LOGGED_IN   => TRUE
         );
         $this->session->set_userdata($sessionData);
@@ -145,9 +138,9 @@ class ApplicantAuth extends CI_Controller {
         if($referrer){
             $data["login_referrer"]=$referrer;
         }
-        $data["username"] = $this->input->get_post('username');
+        $data["email"] = $this->input->get_post('email');
         $data["password"] = $this->input->get_post('password');
-        $this->load->view('auth/login',$data);
+        $this->load->view('applicant_auth/login',$data);
         $this->load->view('common/footer');
     }
 }
