@@ -41,7 +41,7 @@ class ApplicantAuth extends CI_Controller {
                 return;              
             }
             // Otherwise, redirect to homepage.
-            redirect('dashboard/overview');
+            redirect('dashboard/applicantOverview');
         }
     }
     
@@ -109,12 +109,11 @@ class ApplicantAuth extends CI_Controller {
     */
     private function createSession($applicant){
         $sessionData = array(
-            SESS_USER_ID        => $applicant->id,
-            SESS_USERNAME       => $applicant->email,
-            SESS_USER_ROLE      => $applicant->role,
-            SESS_USER_EMAIL     => $applicant->email,
-            SESS_USER_FULL_NAME => $applicant->name,
-            SESS_IS_LOGGED_IN   => TRUE
+            SESS_APPLICANT_ID        => $applicant->id,
+            SESS_APPLICANT_EMAIL       => $applicant->email,
+            SESS_APPLICANT_LAST_NAME      => $applicant->last_name,
+            SESS_APPLICANT_FIRST_NAME     => $applicant->first_name,
+            SESS_IS_APPLICANT_LOGGED_IN   => TRUE,
         );
         $this->session->set_userdata($sessionData);
         // TODO: Store session ID in cookie to resume later.
