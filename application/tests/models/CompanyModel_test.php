@@ -85,4 +85,30 @@ class CompanyModel_seedtest extends UnitTestCase {
         $newCount  = $this->obj->getCompanyCount();
         $this->assertEquals($newCount, $companyCount-1);    
     }
+    
+    public function test_searchCompany(){
+        $searchParam = [
+            (object)[
+                "field" => "name",
+                "condition" => "E",
+                "value" => "BBS",
+                "show" => 1,
+            ]
+        ];
+        $company  = $this->obj->searchCompany($searchParam,["name"]);
+        $this->assertEquals($company[0]["name"], "BBS");
+    }
+    
+    public function test_searchCompanyCount(){
+        $searchParam = [
+            (object)[
+                "field" => "name",
+                "condition" => "E",
+                "value" => "BBS",
+                "show" => 1,
+            ]
+        ];
+        $company  = $this->obj->searchCompanyCount($searchParam);
+        $this->assertEquals(count($company), 1);
+    }
 }

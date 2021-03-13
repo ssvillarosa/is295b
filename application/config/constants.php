@@ -97,6 +97,11 @@ define('USER_STATUS_ACTIVE_TEXT','Active');
 define('USER_STATUS_BLOCKED_TEXT','Blocked');
 define('USER_STATUS_DELETED_TEXT','Deleted');
 
+define('APPLICANT_STATUS_ACTIVE',1);
+define('APPLICANT_STATUS_BLOCKED',2);
+define('APPLICANT_STATUS_ACTIVE_TEXT','Active');
+define('APPLICANT_STATUS_BLOCKED_TEXT','Blocked');
+
 define('USER_ROLE_ADMIN',1);
 define('USER_ROLE_RECRUITER',2);
 define('USER_ROLE_ADMIN_TEXT','Admin');
@@ -114,6 +119,23 @@ define('JOB_ORDER_STATUS_OPEN_TEXT','Open');
 define('JOB_ORDER_STATUS_ON_HOLD_TEXT','On hold');
 define('JOB_ORDER_STATUS_CLOSED_TEXT','Closed');
 
+define('APPLICANT_CAN_RELOCATE_TRUE','1');
+define('APPLICANT_CAN_RELOCATE_TRUE_TEXT','Yes');
+define('APPLICANT_CAN_RELOCATE_FALSE','0');
+define('APPLICANT_CAN_RELOCATE_FALSE_TEXT','No');
+
+define('APPLICANT_CIVIL_STATUS_SINGLE',1);
+define('APPLICANT_CIVIL_STATUS_SINGLE_TEXT','Single');
+define('APPLICANT_CIVIL_STATUS_MARRIED',2);
+define('APPLICANT_CIVIL_STATUS_MARRIED_TEXT','Married');
+define('APPLICANT_CIVIL_STATUS_WIDOWED',3);
+define('APPLICANT_CIVIL_STATUS_WIDOWED_TEXT','Widowed');
+
+define('REGISTRATION_STATUS_PENDING',1);
+define('REGISTRATION_STATUS_PENDING_TEXT','Pending');
+define('REGISTRATION_STATUS_APPROVED',2);
+define('REGISTRATION_STATUS_APPROVED_TEXT','Approved');
+
 define('MAX_LOGIN_ATTEMPT',5);
 
 define('IS_DELETED_TRUE','1');
@@ -126,13 +148,24 @@ define('SESS_USER_EMAIL','user_email');
 define('SESS_USER_FULL_NAME','user_full_name');
 define('SESS_IS_LOGGED_IN','is_logged_in');
 
+define('SESS_APPLICANT_ID','applicant_id');
+define('SESS_APPLICANT_EMAIL','applicant_email');
+define('SESS_APPLICANT_LAST_NAME','applicant_last_name');
+define('SESS_APPLICANT_FIRST_NAME','applicant_first_name');
+define('SESS_IS_APPLICANT_LOGGED_IN','is_applicant_logged_in');
+
 define('COOKIE_USER_ROWS_PER_PAGE','user_rows_per_page');
 define('COOKIE_USER_SEARCH_ROWS_PER_PAGE','user_search_rows_per_page');
 define('COOKIE_ACTIVITY_ROWS_PER_PAGE','activity_rows_per_page');
 define('COOKIE_COMPANY_ROWS_PER_PAGE','company_rows_per_page');
 define('COOKIE_COMPANY_SEARCH_ROWS_PER_PAGE','company_search_rows_per_page');
+define('COOKIE_JOB_ORDER_ROWS_PER_PAGE','job_order_rows_per_page');
 define('COOKIE_JOB_ORDER_SEARCH_ROWS_PER_PAGE','job_order_search_rows_per_page');
 define('COOKIE_JOB_ORDER_AJAX_ROWS_PER_PAGE','job_order_ajax_rows_per_page');
+define('COOKIE_APPLICANT_ROWS_PER_PAGE','applicant_rows_per_page');
+define('COOKIE_APPLICANT_SEARCH_ROWS_PER_PAGE','applicant_search_rows_per_page');
+define('COOKIE_REGISTRATION_ROWS_PER_PAGE','registration_rows_per_page');
+define('COOKIE_REGISTRATION_SEARCH_ROWS_PER_PAGE','registration_search_rows_per_page');
 
 define('CONDITION_EQUALS','E');
 define('CONDITION_NOT_EQUAL','NE');
@@ -142,3 +175,5 @@ define('CONDITION_CONTAINS','C');
 define('CONDITION_LESS_THAN','B');
 define('CONDITION_GREATER_THAN','A');
 define('CONDITION_RANGE','R');
+
+define('SENDER_EMAIL','no-reply@m2mjhrconsulting.com');

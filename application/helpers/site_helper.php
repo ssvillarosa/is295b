@@ -14,6 +14,20 @@ if(!function_exists('checkUserLogin')){
     }
 }
 
+if(!function_exists('checkApplicantLogin')){
+    /**
+    * Checks if checkApplicantLogin if logged in. If not, add url to query param and redirect 
+    * the user to login page..
+    */
+    function checkApplicantLogin(){
+        $ci = &get_instance();
+        if(!$ci->session->has_userdata(SESS_IS_APPLICANT_LOGGED_IN)){
+            $referrer_value = getFullUrl();
+            redirect('applicantAuth/login?referrer='.$referrer_value);
+        }
+    }
+}
+
 if(!function_exists('getFullUrl')){
     /**
     * Returns the full URL including parameters.
@@ -336,6 +350,22 @@ if(!function_exists('renderPage')){
     function renderPage($ctx,$data,$page){
         $ctx->load->view('common/header');
         $ctx->load->view('common/nav');
+        $ctx->load->view($page, $data);
+        $ctx->load->view('common/footer');        
+    }
+}
+
+if(!function_exists('renderApplicantPage')){
+    /**
+    * Renders applicant page.
+    * 
+    * @param    int  $ctx    The context of the page.   
+    * @param    int  $data   The data bind to the page.
+    * @param    int  $page   The active page.
+    */
+    function renderApplicantPage($ctx,$data,$page){
+        $ctx->load->view('common/applicantHeader');
+        $ctx->load->view('common/applicantNav');
         $ctx->load->view($page, $data);
         $ctx->load->view('common/footer');        
     }

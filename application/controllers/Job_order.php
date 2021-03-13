@@ -30,7 +30,7 @@ class Job_order extends CI_Controller {
     * Display list of job orders.
     */
     public function jobOrderList(){
-        $rowsPerPage = getRowsPerPage($this,COOKIE_COMPANY_ROWS_PER_PAGE);
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_ROWS_PER_PAGE);
         $totalCount = $this->JobOrderModel->getJobOrderCount();
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
@@ -233,7 +233,7 @@ class Job_order extends CI_Controller {
                 "Updated job order ".$job_order->title." details.");
     }
     
-     /**
+    /**
     * Delete job order.
     */
     public function delete(){
@@ -484,6 +484,9 @@ class Job_order extends CI_Controller {
                 ,'required|integer');
     }
     
+    /**
+    * Updates the data variable using pass as reference.
+    */
     private function setData(&$data){
         $companies = $this->CompanyModel->getCompanies(0,0,"name","asc");
         if($companies === ERROR_CODE){

@@ -21,10 +21,18 @@ class Dashboard extends CI_Controller {
     /**
     * Shows overview of dashboard.
     */
-    public function overview(){
-        $this->load->view('common/header');
-        $this->load->view('common/nav');
-        $this->load->view('dashboard/overview');
-        $this->load->view('common/footer');	
-    }    
+    public function adminOverview(){
+        checkUserLogin();
+        $data = [];
+        renderPage($this,$data,'dashboard/adminOverview');	
+    }
+    
+    /**
+    * Shows overview of dashboard.
+    */
+    public function applicantOverview(){
+        checkApplicantLogin();
+        $data = [];
+        renderApplicantPage($this,$data,'dashboard/adminOverview');
+    }
 }
