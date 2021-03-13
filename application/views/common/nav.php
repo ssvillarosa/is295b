@@ -4,7 +4,7 @@
         <nav id="nav">
             <ul>
                 <li class="<?php if($this->uri->segment(1)=="dashboard") echo "active"; ?>">
-                    <a href="<?php echo site_url('dashboard/overview') ?>">Dashboard</a>
+                    <a href="<?php echo site_url('dashboard/adminOverview') ?>">Dashboard</a>
                 </li>
                 <li class="<?php if($this->uri->segment(1)=="job_order") echo "active"; ?>">                
                     <a href="<?php echo site_url('job_order/jobOrderList') ?>">Job Orders</a>

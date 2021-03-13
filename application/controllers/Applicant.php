@@ -18,13 +18,13 @@ class Applicant extends CI_Controller {
         parent::__construct();
         $this->load->model('ApplicantModel');
         $this->load->model('SkillCategoryModel');
-        checkUserLogin();
     }
     
     /**
     * Display list of applicants.
     */
     public function applicantList(){
+        checkUserLogin();
         $rowsPerPage = getRowsPerPage($this,COOKIE_APPLICANT_ROWS_PER_PAGE);
         $totalCount = $this->ApplicantModel->getApplicantCount();
         // Current page is set to 1 if currentPage is not in URL.
@@ -44,6 +44,7 @@ class Applicant extends CI_Controller {
     * Display applicant details.
     */
     public function view(){
+        checkUserLogin();
         $applicantId = $this->input->get('id');
         if(!$applicantId){
             $data["error_message"] = "Error occured.";
@@ -76,6 +77,7 @@ class Applicant extends CI_Controller {
     * Updates applicant details.
     */
     public function update(){
+        checkUserLogin();
         $this->setValidationDetails();
         $this->form_validation->set_rules('applicantId','Applicant ID'
                 ,'required|integer');
@@ -126,6 +128,7 @@ class Applicant extends CI_Controller {
     * Adds applicant details.
     */
     public function add(){
+        checkUserLogin();
         $this->setValidationDetails();
         // Create applicant objects and its sub items.
         $applicant = $this->createApplicantObject(true);
@@ -178,6 +181,7 @@ class Applicant extends CI_Controller {
     * Delete applicant.
     */
     public function delete(){
+        checkUserLogin();
         if(!$this->input->post('delApplicantIds')){
             echo 'Invalid Applicant ID';
             return;
@@ -200,6 +204,7 @@ class Applicant extends CI_Controller {
     * Block applicant.
     */
     public function block(){
+        checkUserLogin();
         if(!$this->input->post('applicantIds')){
             echo 'Invalid Applicant ID';
             return;
@@ -221,6 +226,7 @@ class Applicant extends CI_Controller {
     * Activate applicant.
     */
     public function activate(){
+        checkUserLogin();
         if(!$this->input->post('applicantIds')){
             echo 'Invalid Applicant ID';
             return;
@@ -242,6 +248,7 @@ class Applicant extends CI_Controller {
     * Search page.
     */
     public function search(){
+        checkUserLogin();
         renderPage($this,null,'applicant/search');        
     }
     
@@ -249,6 +256,7 @@ class Applicant extends CI_Controller {
     * Search results page.
     */
     public function searchResult(){
+        checkUserLogin();
         // Create search parameters for each field.
         $searchParams = [];
         $fields = [
@@ -316,6 +324,84 @@ class Applicant extends CI_Controller {
         }
         $data['entries'] = $applicants;
         renderPage($this,$data,'common/searchResult');
+    }
+    
+    /**
+    * Display applicant profile.
+    */
+    public function profile(){
+        checkApplicantLogin();
+        $applicantId = $this->session->userdata(SESS_APPLICANT_ID);
+        if(!$applicantId){
+            $data["error_message"] = "Error occured.";
+            renderApplicantPage($this,$data,'applicant/profile');
+            return;
+        }
+        $result = $this->ApplicantModel->getApplicantById($applicantId);
+        if($result === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderApplicantPage($this,$data,'applicant/profile');
+            return;
+        }
+        $data['applicant'] = $result;
+        if($this->setData($data) === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderApplicantPage($this,$data,'applicant/profile');
+            return;
+        }
+        $applicant_skills = $this->ApplicantModel->getApplicantSkill($applicantId);
+        if($applicant_skills === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderApplicantPage($this,$data,'applicant/profile');
+            return;
+        }
+        $data["applicant_skills"] = $applicant_skills;
+        renderApplicantPage($this,$data,'applicant/profile');
+    }
+    
+    /**
+    * profileUpdate updates applicant profile.
+    */
+    public function profileUpdate(){
+        checkApplicantLogin();
+        $this->setValidationDetails();
+        $applicant = $this->createApplicantObject(true);
+        $applicantId = $this->session->userdata(SESS_APPLICANT_ID);
+        $applicant->id = $applicantId;
+        $data["applicant"] = $applicant;
+        $applicant_skills = $this->createApplicantSkillObject($applicantId);
+        $data["applicant_skills"] = $applicant_skills;
+        if($this->setData($data) === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderApplicantPage($this,$data,'applicant/profile');
+            return;
+        }
+        if ($this->form_validation->run() == FALSE){
+            renderApplicantPage($this,$data,'applicant/profile');
+            return;
+        }
+        // Update applicant details
+        $updateApplicant = $this->ApplicantModel->updateApplicant($applicant,$applicantId);
+        if($updateApplicant === ERROR_CODE){
+            // Set error message.
+            $data["error_message"] = "Error occured.";     
+            renderApplicantPage($this,$data,'applicant/profile');
+            return;
+        }
+        // Batch insert skills into applicant skills table.
+        if($applicant_skills){
+            $updateApplicantSkills = $this->ApplicantModel->deleteApplicantSkills($applicantId)
+                    && $this->ApplicantModel->addApplicantSkills($applicant_skills);
+            if($updateApplicantSkills === ERROR_CODE){
+                // Set error message.
+                $data["error_message"] = "Error occured.";     
+                renderApplicantPage($this,$data,'applicant/profile');
+                return;
+            }
+        }
+        // Display form with success message.
+        $data["success_message"] = "Profile successfully updated!";
+        renderApplicantPage($this,$data,'applicant/profile');
     }
     
     /**

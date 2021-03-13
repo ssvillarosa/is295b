@@ -189,4 +189,58 @@ class Applicant_test extends TestCase{
         $page = $this->request('GET','applicant/view?id=2');
         $this->assertContains('>Block<', $page);
     }
+    
+    public function test_profile(){
+        // Login as applicant.
+        $this->request(
+            'POST',
+            'applicantAuth/login',
+            [
+                'email' => 'steven@test.com',
+                'password' => 'hello',
+            ]
+        );
+        $profilePage = $this->request(
+            'GET',
+            'applicant/profile'
+        );
+        $this->assertContains('steven@test.com', $profilePage);
+        $this->assertContains('Villarosa', $profilePage);
+        $this->assertContains('Steven', $profilePage);
+    }
+    
+    public function test_profileUpdate(){
+        // Login as applicant.
+        $this->request(
+            'POST',
+            'applicantAuth/login',
+            [
+                'email' => 'steven@test.com',
+                'password' => 'hello',
+            ]
+        );
+        // Update details.
+        $updateRequest = $this->request(
+            'POST',
+            'applicant/profileUpdate',
+            [
+                'email' => 'steven.villarosa@test.com',
+                'first_name' => 'Stephen',
+                'last_name' => 'Villardo',
+                'primary_phone' => '0990',
+                'address' => 'Canada',
+            ]
+        );
+        $this->assertContains('Profile successfully updated!', $updateRequest);
+        // View profile.
+        $profilePage = $this->request(
+            'GET',
+            'applicant/profile'
+        );
+        $this->assertContains('steven.villarosa@test.com', $profilePage);
+        $this->assertContains('Villardo', $profilePage);
+        $this->assertContains('Stephen', $profilePage);
+        $this->assertContains('0990', $profilePage);
+        $this->assertContains('Canada', $profilePage);
+    }
 }
