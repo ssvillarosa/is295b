@@ -243,4 +243,13 @@ class Applicant_test extends TestCase{
         $this->assertContains('0990', $profilePage);
         $this->assertContains('Canada', $profilePage);
     }
+    
+    public function test_confirmEmail(){
+        // Confirm registration.
+        $confirmationPage = $this->request(
+            'GET',
+            'registration/confirmEmail?id=1'
+        );
+        $this->assertContains('Your email has been confirmed. Thank you.', $confirmationPage);
+    }
 }
