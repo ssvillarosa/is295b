@@ -19,6 +19,7 @@ class Registration extends CI_Controller {
         $this->load->model('RegistrationModel');
         $this->load->model('SkillCategoryModel');
         $this->load->model('ApplicantModel');
+        $this->load->library('email');
     }
     
     /**
@@ -169,6 +170,8 @@ class Registration extends CI_Controller {
                 return;
             }
         }
+        // Send confirmation email.
+        $this->sendConfirmationEmail($registration->email,$newRegistrationId);        
         // Clear data and display form with success message.
         $empty_registration = $this->createRegistrationObject(false);
         $data["registration"] = $empty_registration;
@@ -455,5 +458,15 @@ class Registration extends CI_Controller {
             }
         }
         return SUCCESS_CODE;
+    }
+    
+    private function sendConfirmationEmail($email,$newRegistrationId){
+        $this->email->from(SENDER_EMAIL, 'M2MJ HR Consulting');
+        $this->email->to($email);
+        $this->email->subject('Confirm Registration');
+        $this->email->message('Welcom to M2MJ HR Consulting. Please click <a href="'.
+                site_url('registration/confirmEmail').'?id='.$newRegistrationId
+                .'">here</a> to confirm your email.');
+        $this->email->send();
     }
 }

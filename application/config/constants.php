@@ -175,3 +175,5 @@ define('CONDITION_CONTAINS','C');
 define('CONDITION_LESS_THAN','B');
 define('CONDITION_GREATER_THAN','A');
 define('CONDITION_RANGE','R');
+
+define('SENDER_EMAIL','no-reply@m2mjhrconsulting.com');
