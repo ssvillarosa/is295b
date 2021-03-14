@@ -153,7 +153,7 @@ class User extends CI_Controller {
         $data["user"] = $user;
         renderPage($this,$data,'user/detailsView');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Updated user ".$user->username." details.");
     }
@@ -177,7 +177,7 @@ class User extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted user.");
         echo 'Success';
@@ -210,7 +210,7 @@ class User extends CI_Controller {
         $data["user"] = $this->createUserObject(false);
         renderPage($this,$data,'user/add');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Created user ".$user->username.".");
     }
@@ -321,7 +321,7 @@ class User extends CI_Controller {
             // Set success message.
             $data["success_message"] = "Profile successfully updated!";
             // Log user activity.
-            $this->ActivityModel->saveUserActivity(
+            $this->UserLogModel->saveUserLog(
                     $userId, "Updated profile.");
         }
         // Display form.
@@ -344,7 +344,7 @@ class User extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Blocked user.");
         echo 'Success';
@@ -365,7 +365,7 @@ class User extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Activated user.");
         echo 'Success';
@@ -408,7 +408,7 @@ class User extends CI_Controller {
         }else{
             $data["success_message"] = "Password successfully changed.";
             // Log user activity.
-            $this->ActivityModel->saveUserActivity(
+            $this->UserLogModel->saveUserLog(
                     $userId, "Changed password.");
         }
         renderPage($this,$data,'user/updatePassword');        
@@ -426,18 +426,18 @@ class User extends CI_Controller {
             return;
         }
         $rowsPerPage = getRowsPerPage($this,COOKIE_ACTIVITY_ROWS_PER_PAGE);
-        $totalCount = $this->ActivityModel->getUserActivityCount($userId);
+        $totalCount = $this->UserLogModel->getUserLogCount($userId);
         // Current page is set to 1 if currentPage is not in URL.
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
         $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
-        $activities = $this->ActivityModel->getUserActivities($userId,
+        $user_logs = $this->UserLogModel->getUserLogs($userId,
                 $rowsPerPage,$data['offset']);
-        if($activities === -1){
+        if($user_logs === -1){
             $data["error_message"] = "Error occured";
             return;
         }
-        $data["activities"] = $activities;
+        $data["user_logs"] = $user_logs;
         renderPage($this,$data,'user/log');
     }
 }

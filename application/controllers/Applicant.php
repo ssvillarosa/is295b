@@ -119,7 +119,7 @@ class Applicant extends CI_Controller {
         $data["success_message"] = "Applicant successfully updated!";
         renderPage($this,$data,'applicant/detailsView');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Updated applicant ".$applicant->last_name.",".$applicant->first_name." details.");
     }
@@ -171,7 +171,7 @@ class Applicant extends CI_Controller {
         $data["success_message"] = "Candidate successfully added!";
         renderPage($this,$data,'applicant/add');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Added applicant ".$applicant->last_name.
                 ",".$applicant->first_name.".");
@@ -194,7 +194,7 @@ class Applicant extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted applicant ID : ".$this->input->post('delApplicantIds'));
         echo 'Success';
@@ -216,7 +216,7 @@ class Applicant extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Blocked applicant ID : ".$this->input->post('applicantIds'));
         echo 'Success';
@@ -238,7 +238,7 @@ class Applicant extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Activated applicant ID : ".$this->input->post('applicantIds'));
         echo 'Success';

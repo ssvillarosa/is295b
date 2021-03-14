@@ -102,7 +102,7 @@ class Registration extends CI_Controller {
             }
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Approved registration ID : ".$this->input->post('approveRegistrationIds'));
         echo 'Success';
@@ -197,7 +197,7 @@ class Registration extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted registration ID : ".$this->input->post('delRegistrationIds'));
         echo 'Success';

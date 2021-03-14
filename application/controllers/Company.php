@@ -90,7 +90,7 @@ class Company extends CI_Controller {
         // Display form.
         renderPage($this,$data,'company/detailsView');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Updated company ".$company->name." details.");
     }
@@ -122,7 +122,7 @@ class Company extends CI_Controller {
             // Set success message.
             $data["success_message"] = "Company successfully added!";
             // Log user activity.
-            $this->ActivityModel->saveUserActivity(
+            $this->UserLogModel->saveUserLog(
                     $this->session->userdata(SESS_USER_ID),
                     "Added company ".$company->name.".");
             $company = $this->createCompanyObject(FALSE);
@@ -222,7 +222,7 @@ class Company extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted company.");
         echo 'Success';

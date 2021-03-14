@@ -155,7 +155,7 @@ class Job_order extends CI_Controller {
         $data["success_message"] = "Job order successfully added!";
         renderPage($this,$data,'job_order/add');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Added job order ".$job_order->title.".");
         
@@ -228,7 +228,7 @@ class Job_order extends CI_Controller {
         $data["success_message"] = "Job order successfully updated!";
         renderPage($this,$data,'job_order/detailsView');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Updated job order ".$job_order->title." details.");
     }
@@ -253,7 +253,7 @@ class Job_order extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted job order ID : ".$this->input->post('delJobOrderIds'));
         echo 'Success';

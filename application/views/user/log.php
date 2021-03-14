@@ -13,13 +13,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($activities as $activity): ?>
-                                <tr id="activity-<?php echo $activity->id; ?>" class="activity-row-item">
+                            <?php foreach ($user_logs as $user_log): ?>
+                                <tr id="activity-<?php echo $user_log->id; ?>" class="activity-row-item">
                                     <td class="text-left usr-username">
-                                        <?php echo $activity->timestamp; ?>
+                                        <?php echo $user_log->timestamp; ?>
                                     </td>
                                     <td class="text-left">
-                                        <?php echo $activity->activity; ?>
+                                        <?php echo $user_log->activity; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

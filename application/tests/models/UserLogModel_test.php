@@ -1,6 +1,6 @@
 <?php
 
-class ActivityModel_seedtest extends UnitTestCase {
+class UserLogModel_seedtest extends UnitTestCase {
     
     public static function setUpBeforeClass(){
         parent::setUpBeforeClass();
@@ -11,16 +11,16 @@ class ActivityModel_seedtest extends UnitTestCase {
     }
         
     public function setUp(){
-        $this->obj = $this->newModel('ActivityModel');
+        $this->obj = $this->newModel('UserLogModel');
     }
 
-    public function test_saveUserActivity(){
-        $success = $this->obj->saveUserActivity(1,'test');
+    public function test_saveUserUserLog(){
+        $success = $this->obj->saveUserLog(1,'test');
         $this->assertTrue($success);
     }
     
     public function test_getUserActivities(){
-        $activities = $this->obj->getUserActivities(1);
+        $activities = $this->obj->getUserLogs(1);
         $this->assertEquals($activities[0]->activity,'test');
     }
 }

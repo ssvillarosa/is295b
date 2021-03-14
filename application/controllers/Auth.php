@@ -49,7 +49,7 @@ class Auth extends CI_Controller {
     * Destroys session and redirects user to login page.
     */
     public function logout(){
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),"Logged out.");
         $sessionData = array(
             SESS_USER_ID,
@@ -88,7 +88,7 @@ class Auth extends CI_Controller {
             // Increment login_failed.
             $this->UserModel->addLoginFailed($user->id);
             // Log user's invalid attempt.
-            $this->ActivityModel->saveUserActivity($user->id,"Login Failed.");
+            $this->UserLogModel->saveUserLog($user->id,"Login Failed.");
             if($user->failed_login >= MAX_LOGIN_ATTEMPT - 1){
                 // Block User if failed login attempt is reached.
                 $this->UserModel->blockUser($user->id);
@@ -101,7 +101,7 @@ class Auth extends CI_Controller {
             return false;
         }
         // Log user successful login.
-        $this->ActivityModel->saveUserActivity($user->id,"Login Success.");
+        $this->UserLogModel->saveUserLog($user->id,"Login Success.");
         // Reset invalid login attempt.
         $this->UserModel->resetLoginFailed($user->id);
         // Create user session

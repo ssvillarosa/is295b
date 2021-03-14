@@ -1,13 +1,13 @@
 <?php
 /**
- * ActivityModel
+ * UserLogModel
  *
- * Model class for Activity entity.
+ * Model class for UserLog entity.
  * 
  * @category    Model
  * @author      Steven Villarosa
  */
-Class ActivityModel extends CI_Model{
+Class UserLogModel extends CI_Model{
     
     /**
     * Class constructor.
@@ -17,27 +17,27 @@ Class ActivityModel extends CI_Model{
     }
     
     /**
-    * Insert user log to table activity.
+    * Insert user log to table user_log.
     *
     * @param    int     $userId
     * @param    string  $activity
     */
-    public function saveUserActivity($userId,$activity){
+    public function saveUserLog($userId,$activity){
         $this->db->set('timestamp', 'NOW()', FALSE);
         $this->db->set('user_id', $userId);
         $this->db->set('activity', $activity);
-        return $this->db->insert('activity');
+        return $this->db->insert('user_log');
     }
        
     /**
     * Get list of user activities
     *
-    * @return   array of activity object
+    * @return   array of user_log object
     */
-    public function getUserActivities($userId,$limit=25,$offset=0){
+    public function getUserLogs($userId,$limit=25,$offset=0){
         $this->db->order_by('timestamp', 'DESC');
         $this->db->where("user_id", $userId);
-        $query = $this->db->get('activity',$limit,$offset);
+        $query = $this->db->get('user_log',$limit,$offset);
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
@@ -51,9 +51,9 @@ Class ActivityModel extends CI_Model{
     *
     * @param    int     $userId
     */
-    public function getUserActivityCount($userId){
+    public function getUserLogCount($userId){
         $this->db->where("user_id", $userId);
-        $this->db->from('activity');
+        $this->db->from('user_log');
         return $this->db->count_all_results(); 
     }
 }

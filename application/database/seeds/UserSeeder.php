@@ -7,7 +7,7 @@ class UserSeeder extends Seeder {
     public function run()
     {
         $this->db->query("SET FOREIGN_KEY_CHECKS = 0;");
-        $this->db->query("TRUNCATE table activity;");
+        $this->db->query("TRUNCATE table user_log;");
         $this->db->query("TRUNCATE table user;");
         $this->db->query("SET FOREIGN_KEY_CHECKS = 1;");
 
