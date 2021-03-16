@@ -171,6 +171,6 @@ class ApplicantModel_seedtest extends UnitTestCase {
             ]
         ];
         $applicant  = $this->obj->searchApplicantCount($searchParam);
-        $this->assertEquals(count($applicant), 1);
+        $this->assertEquals($applicant, 1);
     }
 }
