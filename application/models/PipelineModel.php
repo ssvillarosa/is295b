@@ -19,14 +19,49 @@ Class PipelineModel extends CI_Model{
     /**
     * Returns pipeline objects.
     *
-    * @param    int     $limit  Limit count
-    * @param    int     $offset Offset value
+    * @param    int        $limit   Limit count
+    * @param    int        $offset  Offset value
+    * @param    string     $orderBy order by column value
+    * @param    string     $order   order value
     * @return   array of pipeline objects
     */
     public function getPipelines($limit=25,$offset=0,$orderBy='id',$order='asc'){
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $this->db->order_by($orderBy,$order);
-        $query = $this->db->get('pipeline',$limit,$offset);
+        if($limit === 0){
+            $query = $this->db->get('pipeline_list');        
+        }else{
+            $query = $this->db->get('pipeline_list',$limit,$offset);       
+        }
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
+
+    /**
+    * Returns pipeline objects.
+    *
+    * @param    int        $limit           Limit count
+    * @param    int        $offset          Offset value
+    * @param    int        $job_order_id    Job order id value
+    * @param    string     $orderBy         Order by column value
+    * @param    string     $order           Order value
+    * @return   array of pipeline objects
+    */
+    public function getPipelinesByJobOrder($limit=25,$offset=0,$job_order_id=0,$orderBy='id',$order='asc'){
+        $this->db->order_by($orderBy,$order);
+        $this->db->where("job_order_id", $job_order_id);
+        if($limit === 0){
+            $query = $this->db->get('pipeline_list');        
+        }else{
+            $query = $this->db->get('pipeline_list',$limit,$offset);       
+        }
+        if(!$job_order_id){
+            log_message('error', "$job_order_id value : ".$job_order_id);
+            return ERROR_CODE;
+        }
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());

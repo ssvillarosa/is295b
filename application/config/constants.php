@@ -166,6 +166,8 @@ define('COOKIE_APPLICANT_ROWS_PER_PAGE','applicant_rows_per_page');
 define('COOKIE_APPLICANT_SEARCH_ROWS_PER_PAGE','applicant_search_rows_per_page');
 define('COOKIE_REGISTRATION_ROWS_PER_PAGE','registration_rows_per_page');
 define('COOKIE_REGISTRATION_SEARCH_ROWS_PER_PAGE','registration_search_rows_per_page');
+define('COOKIE_PIPELINE_SEARCH_ROWS_PER_PAGE','pipeline_search_rows_per_page');
+define('COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE','pipeline_ajax_rows_per_page');
 
 define('CONDITION_EQUALS','E');
 define('CONDITION_NOT_EQUAL','NE');

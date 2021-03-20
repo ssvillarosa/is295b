@@ -20,44 +20,36 @@ class PipelineModel_seedtest extends UnitTestCase {
                 'id' => '1',
                 'job_order_id' => '1',
                 'applicant_id' => '1',
-                'status' => strval(SOURCED),
+                'status' => SOURCED_TEXT,
                 'assigned_to' => '1',
                 'rating' => '5',
-                'created_by' => '1',
-                'created_time' => '2021-03-16 11:52:00',
-                'is_deleted' => '0',
-                'deleted_by' => null,
-                'deleted_time' => null,
             ],(object)[
                 'id' => '2',
                 'job_order_id' => '1',
                 'applicant_id' => '2',
-                'status' => strval(FOR_SCREENING),
+                'status' => FOR_SCREENING_TEXT,
                 'assigned_to' => '1',
                 'rating' => '4',
-                'created_by' => '1',
-                'created_time' => '2021-03-16 11:53:00',
-                'is_deleted' => '0',
-                'deleted_by' => null,
-                'deleted_time' => null,
             ],(object)[
                 'id' => '3',
                 'job_order_id' => '1',
                 'applicant_id' => '3',
-                'status' => strval(AWAITING_CV),
+                'status' => AWAITING_CV_TEXT,
                 'assigned_to' => '1',
                 'rating' => '3',
-                'created_by' => '1',
-                'created_time' => '2021-03-16 11:54:00',
-                'is_deleted' => '0',
-                'deleted_by' => null,
-                'deleted_time' => null,
             ]
         ];
         $pipelines = $this->obj->getPipelines();
         $this->assertNotEquals($pipelines,ERROR_CODE);
         $this->assertNotEmpty($pipelines);
-        $this->assertEquals($expected, $pipelines);
+        foreach ($pipelines as $index=>$pipeline) {
+                $this->assertEquals($expected[$index]->id, $pipeline->id);
+                $this->assertEquals($expected[$index]->job_order_id, $pipeline->job_order_id);
+                $this->assertEquals($expected[$index]->applicant_id, $pipeline->applicant_id);
+                $this->assertEquals($expected[$index]->status, $pipeline->status);
+                $this->assertEquals($expected[$index]->assigned_to, $pipeline->assigned_to);
+                $this->assertEquals($expected[$index]->rating, $pipeline->rating);
+        }
     }
     
     public function test_getPipelineById(){
