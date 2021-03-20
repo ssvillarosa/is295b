@@ -195,6 +195,7 @@ if(!function_exists('createDateCondition')){
                         <select name='condition_$id' id='condition_$id' class='custom-select date-field-select'>
                             <option value=''>Select Condition</option>
                             <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_NOT_EQUAL."'>".getConditionDictionary(CONDITION_NOT_EQUAL)."</option>
                             <option value='".CONDITION_LESS_THAN."'>".getConditionDictionary(CONDITION_LESS_THAN)."</option>
                             <option value='".CONDITION_GREATER_THAN."'>".getConditionDictionary(CONDITION_GREATER_THAN)."</option>
                             <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
@@ -225,6 +226,7 @@ if(!function_exists('createNumberCondition')){
                         <select name='condition_$id' id='condition_$id' class='custom-select number-field-select'>
                             <option value=''>Select Condition</option>
                             <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_NOT_EQUAL."'>".getConditionDictionary(CONDITION_NOT_EQUAL)."</option>
                             <option value='".CONDITION_LESS_THAN."'>".getConditionDictionary(CONDITION_LESS_THAN)."</option>
                             <option value='".CONDITION_GREATER_THAN."'>".getConditionDictionary(CONDITION_GREATER_THAN)."</option>
                             <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
@@ -381,7 +383,7 @@ if(!function_exists('getSearchParam')){
     */
     function getSearchParam($ctx,$field){
         if($ctx->input->get("condition_$field") && 
-                $ctx->input->get("value_$field")){
+                $ctx->input->get("value_$field") !== null){
             $condition = strval($ctx->input->get("condition_$field"));
             $value = strval($ctx->input->get("value_$field"));
             $value2 = strval($ctx->input->get("value_{$field}_2"));
@@ -421,7 +423,7 @@ if(!function_exists('setWhereParams')){
     */
     function setWhereParams($ctx,$searchParams){
         foreach ($searchParams as $param){
-            if(empty($param->value) || empty($param->condition)){
+            if(!isset($param->value) || empty($param->condition)){
                 continue;
             }
             switch (strval($param->condition)){

@@ -40,6 +40,7 @@
                         <input type="hidden" value="<?php echo $applicant->id; ?>" id="applicantId" name="applicantId">
                         <input type="hidden" value="<?php echo $applicant->status; ?>" id="status" name="status">
                         <h5 class="mb-1 section-head">Personal Information: </h5>
+                        <h6 class="mb-1">Candidate ID: <?php if(isset($applicant)) echo $applicant->id; ?></h6>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="last_name" class="form-label">Last Name</label>

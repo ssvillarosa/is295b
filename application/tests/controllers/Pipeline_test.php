@@ -26,7 +26,7 @@ class Pipeline_test extends TestCase{
     }
     
     public function test_applicantPipelinePage(){
-        $output = $this->request('GET','pipeline/getApplicantsByJobOrder?job_order_id=1');
+        $output = $this->request('GET','pipeline/applicantPipelineTable?job_order_id=1');
         $this->assertContains('Steven Villarosa', $output);
         $this->assertContains('Theresa San Jose', $output);
     }

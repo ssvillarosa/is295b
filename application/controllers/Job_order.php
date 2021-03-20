@@ -82,8 +82,7 @@ class Job_order extends CI_Controller {
         }
         $data["job_order_users"] = $job_order_users;
         // Set data for applicant pipeline ajax.
-        $job_order_id = $jobOrderId;
-        $data['job_order_id'] = $job_order_id;
+        $data['job_order_id'] = $jobOrderId;
         $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
         $data['rowsPerPage'] = $rowsPerPage;
         
@@ -232,6 +231,12 @@ class Job_order extends CI_Controller {
         }
         // Display form with success message.
         $data["success_message"] = "Job order successfully updated!";
+        
+        // Set data for applicant pipeline ajax.
+        $data['job_order_id'] = $jobOrderId;
+        $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $data['rowsPerPage'] = $rowsPerPage;
+        
         renderPage($this,$data,'job_order/detailsView');
         // Log user activity.
         $this->UserLogModel->saveUserLog(

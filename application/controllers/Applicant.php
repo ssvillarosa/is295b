@@ -121,7 +121,7 @@ class Applicant extends CI_Controller {
         // Log user activity.
         $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
-                "Updated applicant ".$applicant->last_name.",".$applicant->first_name." details.");
+                "Updated applicant details with ID : ".$applicant->id.".");
     }
     
     /**
@@ -260,6 +260,7 @@ class Applicant extends CI_Controller {
         // Create search parameters for each field.
         $searchParams = [];
         $fields = [
+            "id",
             "last_name",
             "first_name",
             "birthday",
@@ -318,7 +319,7 @@ class Applicant extends CI_Controller {
         
         if($this->input->get("exportResult")){
             $applicants = $this->ApplicantModel->searchApplicant($searchParams,$shownFields,0);
-            exportCSV($this->input->get("exportResult"),$applicants,$columnHeaders);
+            exportCSV($this->input->get("exportResult"),$applicants,$columnHeaders,[]);
         }else{
             $applicants = $this->ApplicantModel->searchApplicant($searchParams,$shownFields,$rowsPerPage,$data['offset']);
         }

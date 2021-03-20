@@ -24,6 +24,7 @@
                         <thead>
                             <tr>
                                 <th class="text-left"></th>
+                                <th class="text-center">ID</th>
                                 <th class="text-left">Last Name</th>
                                 <th class="text-center">First Name</th>
                                 <th class="text-center">Email</th>
@@ -35,6 +36,9 @@
                                 <tr id="applicant-<?php echo $applicant->id; ?>" class="applicant-row-item">
                                     <td class="text-left">
                                         <input type="checkbox" class="chk" value="<?php echo $applicant->id; ?>">
+                                    </td>
+                                    <td class="text-center" onClick="viewApplicant(<?php echo $applicant->id; ?>)">
+                                        <?php echo $applicant->id; ?>
                                     </td>
                                     <td class="text-left" onClick="viewApplicant(<?php echo $applicant->id; ?>)">
                                         <?php echo $applicant->last_name; ?>

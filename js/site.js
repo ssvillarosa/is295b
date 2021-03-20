@@ -19,9 +19,9 @@ $( document ).ready(function() {
     });
     
     /**
-    * Creates clone of date field when user selects From condition.
+    * Creates clone of date field when user selects Range condition.
     */
-    $("[id^=date_field_] .date-field-select").change(function(){
+    $("[id^=date_field_] .date-field-select,[id^=number_field_] .number-field-select").change(function(){
         $mainDiv = $(this).parent().parent();
         if($(this).val()=='R'){
             $dateField = $mainDiv.find("[id^=value_]");
