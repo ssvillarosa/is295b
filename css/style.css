@@ -384,7 +384,7 @@ body {
         border-radius: 0px 0px 4px 4px;
         min-height: 300px;
     }
-    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item, .applicant-row-item, .registration-row-item {
+    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item, .applicant-row-item, .registration-row-item, .star-rating {
         cursor: pointer;
     }
     
@@ -433,4 +433,10 @@ body {
     .pill-button-removable:hover{
         background-color: #dc3545;
         border-color: #dc3545;
+    }
+    
+    /* Pipeline page */
+    .star-rating{
+        height: 20px;
+        width: 20px;
     }

@@ -220,3 +220,5 @@ define('KEEP_PROFILE',19);
 define('KEEP_PROFILE_TEXT','Keep profile');
 define('CLOSED',20);
 define('CLOSED_TEXT','Closed');
+
+define('MAX_RATING',5);

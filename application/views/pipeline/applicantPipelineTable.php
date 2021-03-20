@@ -26,7 +26,13 @@
                         <input type="checkbox" class="chk" value="<?php echo $pipeline->id; ?>">
                     </td>
                     <td class="text-left">
-                        <?php echo $pipeline->rating; ?>
+                        <?php for($ctr=0;$ctr<MAX_RATING;$ctr++) {
+                            if(intval($pipeline->rating) > $ctr){
+                                echo "<img class='star-rating yellow-star' src='".base_url()."images/yellow-star.svg'>";
+                            }else{
+                                echo "<img class='star-rating black-star' src='".base_url()."images/black-star.svg'>";
+                            }
+                        } ?>
                     </td>
                     <td class="text-left">
                         <?php echo $pipeline->first_name." ".$pipeline->last_name; ?>
