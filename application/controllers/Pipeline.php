@@ -32,7 +32,7 @@ class Pipeline extends CI_Controller {
         $this->load->view('pipeline/applicantPipelinePage', $data);
     }
     
-    public function getApplicantsByJobOrder(){
+    public function applicantPipelineTable(){
         $job_order_id = $this->input->get("job_order_id");
         $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
         $totalCount = count($this->PipelineModel->getPipelinesByJobOrder(0,0,$job_order_id));
@@ -45,7 +45,6 @@ class Pipeline extends CI_Controller {
         }
         $data['pipelines'] = $applicants;
         $data['job_order_id'] = $job_order_id;
-        $data['module'] = 'pipeline/applicantPipelinePage';
         $this->load->view('pipeline/applicantPipelineTable', $data);
     }
 }

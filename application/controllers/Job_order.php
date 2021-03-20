@@ -81,6 +81,12 @@ class Job_order extends CI_Controller {
             return;
         }
         $data["job_order_users"] = $job_order_users;
+        // Set data for applicant pipeline ajax.
+        $job_order_id = $jobOrderId;
+        $data['job_order_id'] = $job_order_id;
+        $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $data['rowsPerPage'] = $rowsPerPage;
+        
         renderPage($this,$data,'job_order/detailsView');
     }
     

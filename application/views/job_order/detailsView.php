@@ -34,9 +34,10 @@
 <div id="job_order-details-page" class="job_order-details-page">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <section id="content" >
-                    <h5 class="mb-1">Job order ID: <?php if(isset($job_order)) echo $job_order->id; ?></h5>
+                    <h5 class="mb-1 text-center">Job order Details</h5>
+                    <h6 class="mb-1">Job order ID: <?php if(isset($job_order)) echo $job_order->id; ?></h6>
                     <?php if(isset($success_message)): ?>
                         <div class="alert alert-success" role="alert">
                             <?php echo $success_message; ?>
@@ -198,6 +199,7 @@
                     </form>
                 </section>
             </div>
+            <?php $this->view('job_order/candidate_pipeline'); ?>
         </div>
     </div>	
 </div>
