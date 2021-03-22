@@ -115,7 +115,7 @@ class JobOrderSeeder extends Seeder {
                 'user_id' => 1,
             ],
             [
-                'job_order_id' => 1,
+                'job_order_id' => 2,
                 'user_id' => 2,
             ],
             [

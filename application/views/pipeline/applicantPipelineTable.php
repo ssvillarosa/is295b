@@ -1,11 +1,14 @@
 <?php if(isset($error_message)): ?>
     <div class="alert alert-danger" role="alert">
         <?php echo $error_message; ?>
+        <?php return; ?>
     </div>
 <?php endif; ?>
 <div class="table_toolbar d-flex">
-    <a href="<?php echo site_url('pipeline/add') ?>" class="btn btn-primary">New</a>
-    <button onclick="showDeleteDialog()" class="btn btn-secondary ml-1">Delete</button>
+    <?php if(isset($user_has_access) && $user_has_access) : ?>
+        <a href="<?php echo site_url('pipeline/add') ?>" class="btn btn-primary">Add Candidate</a>
+        <button onclick="showDeleteDialog()" class="btn btn-secondary ml-1">Delete</button>
+    <?php endif; ?>
     <a href="<?php echo site_url('pipeline/search') ?>" class="btn btn-success ml-1">Search</a>
 </div>
 <div class="table-responsive pipeline-table h-100">

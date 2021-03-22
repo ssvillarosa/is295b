@@ -13,7 +13,7 @@ class Pipeline_test extends TestCase{
         $CI->seeder->call('PipelineSeeder');
     }
     
-    public function setUp(){        
+    public function setUp(){    
         // Login as admin.
         $this->request(
             'POST',
@@ -29,5 +29,22 @@ class Pipeline_test extends TestCase{
         $output = $this->request('GET','pipeline/applicantPipelineTable?job_order_id=1');
         $this->assertContains('Steven Villarosa', $output);
         $this->assertContains('Theresa San Jose', $output);
+        $this->assertContains('Add Candidate', $output);
+    }
+    
+    public function test_userNoAccess(){
+        // Login as updateProfTest.
+        $login = $this->request(
+            'POST',
+            'auth/login',
+            [
+                'username' => 'steven',
+                'password' => 'stevenpw',
+            ]
+        );
+        $output = $this->request('GET','pipeline/applicantPipelineTable?job_order_id=1');
+        $this->assertContains('Steven Villarosa', $output);
+        $this->assertContains('Theresa San Jose', $output);
+        $this->assertNotContains('Add Candidate', $output);
     }
 }
