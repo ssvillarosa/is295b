@@ -9,7 +9,7 @@
             var userNames = [];
             $('#skills > button').each(function() {
                 var skillId = $(this).attr('id').replace("skill-", "");
-                if(skillId != "add_skill"){
+                if(skillId != "add_skill_button"){
                     skillIds.push(skillId);
                     var span = $(this).find('.pill-text');
                     yearsOfExperiences.push(span.text().trim());
@@ -18,7 +18,7 @@
             });
             $('#users > button').each(function() {
                 var userId = $(this).attr('id').replace("user-", "");
-                if(userId != "add_user"){
+                if(userId != "add_user_button"){
                     userIds.push(userId);
                     userNames.push($(this).find('.pill-button-text').text().trim());
                 }
@@ -140,7 +140,7 @@
                                                     $job_order_skill->years_of_experience,
                                                     true);
                                         } ?>
-                                        <button type="button" id="add_skill" class="btn btn-outline-primary btn-sm" onclick="$('#skills_dialog').fadeIn();">+</button>
+                                        <button type="button" id="add_skill_button" class="btn btn-outline-primary btn-sm" onclick="$('#skills_dialog').fadeIn();">+</button>
                                     </div>
                                     <input type="hidden" name="skillIds" id="skillIds">
                                     <input type="hidden" name="skillNames" id="skillNames">
@@ -157,7 +157,7 @@
                                                     '',
                                                     true);
                                         } ?>
-                                        <button type="button" id="add_user" class="btn btn-outline-primary btn-sm" onclick="$('#users_dialog').fadeIn();">+</button>
+                                        <button type="button" id="add_user_button" class="btn btn-outline-primary btn-sm" onclick="$('#users_dialog').fadeIn();">+</button>
                                     </div>
                                     <input type="hidden" name="userIds" id="userIds">
                                     <input type="hidden" name="userNames" id="userNames">
