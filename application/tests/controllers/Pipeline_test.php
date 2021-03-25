@@ -45,6 +45,6 @@ class Pipeline_test extends TestCase{
         $output = $this->request('GET','pipeline/applicantPipelineTable?job_order_id=1');
         $this->assertContains('Steven Villarosa', $output);
         $this->assertContains('Theresa San Jose', $output);
-        $this->assertNotContains('Add Candidate', $output);
+        $this->assertNotContains('>Add Candidate<', $output);
     }
 }

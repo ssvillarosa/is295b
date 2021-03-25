@@ -25,3 +25,7 @@
         </div>
     </div>	
 </div>
+
+<?php if(isset($header_on)){
+    $this->load->view('common/footer');
+}?>

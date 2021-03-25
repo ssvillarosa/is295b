@@ -205,7 +205,7 @@ Class ApplicantModel extends CI_Model{
     public function searchApplicant($searchParams,$columns,$limit=25,$offset=0){
         if(!count($columns)){
             log_message('error', "ApplicantModel->searchApplicant: No columns to display");
-            return false;
+            return ERROR_CODE;
         }
         // Set select columns
         $this->db->select("id");
@@ -222,7 +222,7 @@ Class ApplicantModel extends CI_Model{
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
-            return false;
+            return ERROR_CODE;
         }
         return $query->result_array();
     }

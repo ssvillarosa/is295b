@@ -6,7 +6,7 @@
 <?php endif; ?>
 <div class="table_toolbar d-flex">
     <?php if(isset($user_has_access) && $user_has_access) : ?>
-        <a href="<?php echo site_url('pipeline/add') ?>" class="btn btn-primary">Add Candidate</a>
+        <button onclick="$('#add_candidate_dialog').fadeIn();" class="btn btn-primary">Add Candidate</button>
         <button onclick="showDeleteDialog()" class="btn btn-secondary ml-1">Delete</button>
     <?php endif; ?>
     <a href="<?php echo site_url('pipeline/search') ?>" class="btn btn-success ml-1">Search</a>
@@ -70,3 +70,5 @@
         Showing <?php echo ($offset+1) ?>-<?php echo ($rowsPerPage*$currentPage < $totalCount) ? ($rowsPerPage*$currentPage): $totalCount; ?> out of <?php echo $totalCount; ?>
     </div>
 </div>
+
+<?php $this->view('pipeline/addApplicant');

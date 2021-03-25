@@ -440,3 +440,12 @@ body {
         height: 20px;
         width: 20px;
     }
+    
+    #add_candidate_dialog .m2mj-modal-content{
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    #add_candidate_dialog .search{
+        padding: 6px 4px;
+    }
