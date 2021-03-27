@@ -24,7 +24,7 @@
         </thead>
         <tbody>
             <?php foreach ($pipelines as $pipeline): ?>
-                <tr id="job_order-<?php echo $pipeline->id; ?>" class="job_order-row-item">
+                <tr id="pipeline-<?php echo $pipeline->id; ?>" class="pipeline-row-item">
                     <td class="text-left comp-chk">
                         <input type="checkbox" class="chk" value="<?php echo $pipeline->id; ?>">
                     </td>

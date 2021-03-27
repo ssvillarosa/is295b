@@ -96,6 +96,7 @@ Class PipelineModel extends CI_Model{
     */
     public function addPipeline($pipeline){
         $this->db->set('created_time', 'NOW()', FALSE);
+        $this->db->set('is_deleted',0);
         $success = $this->db->insert('pipeline', $pipeline);
         if(!$success){
             logArray('error',$this->db->error());

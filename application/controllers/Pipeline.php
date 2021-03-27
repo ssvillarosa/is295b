@@ -61,9 +61,54 @@ class Pipeline extends CI_Controller {
             $this->load->view('pipeline/applicantPipelineTable', $data);
             return;
         }
+        $users = $this->JobOrderUserModel->getUsersByJobOrderId($job_order_id);
+        if($users === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            $this->load->view('pipeline/applicantPipelineTable', $data);
+            return;
+        }
+        $data["users"] = $users;
         $data['pipelines'] = $applicants;
         $data['job_order_id'] = $job_order_id;
         $this->load->view('pipeline/applicantPipelineTable', $data);
+    }
+    
+    public function add(){
+        $job_order_id = $this->input->post('job_order_id');
+        if(!$job_order_id){
+            echo 'Invalid Job Order';
+            return;
+        }
+        $applicant_id = $this->input->post('applicant_id');
+        if(!$applicant_id){
+            echo 'Please select a candidate.';
+            return;
+        }
+        $pipeline = $this->createPipelineObject(true);
+        // If the logged in user is not admin, assign the assigned_to to that user.
+        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
+            $pipeline->assigned_to = $this->session->userdata(SESS_USER_ID);
+        }
+        $pipeline->status = PIPELINE_STATUS_UNSET;
+        $pipeline->created_by = $this->session->userdata(SESS_USER_ID);
+        $pipeline->rating = 0;
+        // Check if candidate is already added to pipeline.
+        $pipelineExist = $this->checkPipelineExist($job_order_id,$applicant_id);
+        if($pipelineExist === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        if($pipelineExist){
+            echo 'Candidate is already added in the pipeline.';
+            return;
+        }
+        // Add entry to pipeline.
+        $id = $this->PipelineModel->addPipeline($pipeline);
+        if($id === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        echo 'Success';
     }
     
     /**
@@ -89,5 +134,44 @@ class Pipeline extends CI_Controller {
             }
         }
         return false;
+    }
+    
+    /**
+    * Checks if the candidate is already added to pipeline. If applicant and
+    * job order exist, return true. Otherwise, return false.
+    * 
+    * @param    integer     $job_order_id   Value of job order ID.
+    * @param    integer     $candidate_id   Value of candidate ID.
+    * @return   boolean
+    */
+    private function checkPipelineExist($job_order_id,$applicant_id){
+        $pipelines = $this->PipelineModel->getPipelinesByJobOrder(0,0,$job_order_id);
+        if($pipelines === ERROR_CODE){
+            return ERROR_CODE;
+        }
+        foreach ($pipelines as $pipeline){
+            if(strval($pipeline->applicant_id) === strval($applicant_id)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+    * Creates pipeline object.
+    * 
+    * @param    boolean  $post          If true, it will create object from post data. Otherwise, it will create object with properties but values are blank.
+    * @return   pipeline object
+    */
+    private function createPipelineObject($post){
+        $pipeline = (object)[
+            'job_order_id' => $post ? $this->input->post('job_order_id'): '',
+            'applicant_id' => $post ? $this->input->post('applicant_id'): '',
+            'status' => $post ? $this->input->post('status'): '',
+            'assigned_to' => $post ? $this->input->post('assigned_to'): '',
+            'rating' => $post ? $this->input->post('rating'): '',
+            'created_by' => $post ? $this->input->post('created_by'): '',
+        ];
+        return $pipeline;
     }
 }

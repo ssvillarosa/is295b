@@ -449,3 +449,9 @@ body {
     #add_candidate_dialog .search{
         padding: 6px 4px;
     }
+    
+    #add_candidate_dialog .applicant-table{
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #dee2e6;
+    }
