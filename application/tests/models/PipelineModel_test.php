@@ -20,21 +20,21 @@ class PipelineModel_seedtest extends UnitTestCase {
                 'id' => '1',
                 'job_order_id' => '1',
                 'applicant_id' => '1',
-                'status' => SOURCED_TEXT,
+                'status' => PIPELINE_STATUS_SOURCED_TEXT,
                 'assigned_to' => '1',
                 'rating' => '5',
             ],(object)[
                 'id' => '2',
                 'job_order_id' => '1',
                 'applicant_id' => '2',
-                'status' => FOR_SCREENING_TEXT,
+                'status' => PIPELINE_STATUS_FOR_SCREENING_TEXT,
                 'assigned_to' => '1',
                 'rating' => '4',
             ],(object)[
                 'id' => '3',
                 'job_order_id' => '1',
                 'applicant_id' => '3',
-                'status' => AWAITING_CV_TEXT,
+                'status' => PIPELINE_STATUS_AWAITING_CV_TEXT,
                 'assigned_to' => '1',
                 'rating' => '3',
             ]
@@ -58,7 +58,7 @@ class PipelineModel_seedtest extends UnitTestCase {
             'id' => '1',
             'job_order_id' => '1',
             'applicant_id' => '1',
-            'status' => strval(SOURCED),
+            'status' => strval(PIPELINE_STATUS_SOURCED),
             'assigned_to' => '1',
             'rating' => '5',
             'created_by' => '1',
@@ -77,7 +77,7 @@ class PipelineModel_seedtest extends UnitTestCase {
         $pipeline = (object)[
             'job_order_id' => 2,
             'applicant_id' => 2,
-            'status' => SOURCED,
+            'status' => PIPELINE_STATUS_SOURCED,
             'assigned_to' => 1,
             'rating' => 5,
             'created_by' => 1,
@@ -99,7 +99,7 @@ class PipelineModel_seedtest extends UnitTestCase {
         $pipeline = (object)[
             'job_order_id' => 2,
             'applicant_id' => 1,
-            'status' => SOURCED,
+            'status' => PIPELINE_STATUS_SOURCED,
             'assigned_to' => 1,
             'rating' => 5,
         ];
