@@ -109,7 +109,7 @@
                 <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
                     <div class="mt-2">
                         <label for="assigned_to" class="form-label">Assigned To:</label>
-                        <select name="assigned_to" id="assigned_to" class="custom-select">
+                        <select name="assigned_to" id="assigned_to" class="custom-select" required>
                             <option value="">Select Assignee</option>
                             <?php foreach($users as $user): ?>
                                 <option value="<?php echo $user->user_id; ?>">

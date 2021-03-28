@@ -41,7 +41,7 @@ class Pipeline extends CI_Controller {
         $job_order_id = $this->input->get("job_order_id");
         // Set pagination details.
         $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
-        $totalCount = count($this->PipelineModel->getPipelinesByJobOrder(0,0,$job_order_id));
+        $totalCount = count($this->PipelineModel->getPipelinesByJobOrder(0,0,$job_order_id,'id','desc'));
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
         $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
@@ -82,6 +82,10 @@ class Pipeline extends CI_Controller {
         $applicant_id = $this->input->post('applicant_id');
         if(!$applicant_id){
             echo 'Please select a candidate.';
+            return;
+        }
+        if(!$this->input->post('assigned_to')){
+            echo 'Please select an assignee.';
             return;
         }
         $pipeline = $this->createPipelineObject(true);
