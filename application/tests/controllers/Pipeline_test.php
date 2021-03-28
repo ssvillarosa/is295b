@@ -47,4 +47,17 @@ class Pipeline_test extends TestCase{
         $this->assertContains('Theresa San Jose', $output);
         $this->assertNotContains('>Add Candidate<', $output);
     }
+    
+    public function test_add(){
+        $output = $this->request(
+            'POST',
+            'pipeline/add',
+            [
+                'job_order_id' => '2',
+                'applicant_id' => '3',
+                'assigned_to' => '1',
+            ]
+        );
+        $this->assertContains('Success', $output);
+    }
 }

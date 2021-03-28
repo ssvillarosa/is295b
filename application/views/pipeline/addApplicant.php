@@ -3,7 +3,8 @@
         $("#add_candidate_dialog .m2mj-dialog-close,#add_candidate_dialog .dialog-background").click(function(){
             $(".m2mj-dialog").fadeOut();
         });
-        $("#searchCandidate").click(function(){
+        $("#searchCandidateForm").submit(function(e){
+            e.preventDefault();
             var url = "<?php echo site_url('applicant/searchAjax'); ?>?display_id=on&display_last_name=on&display_first_name=on";
             var isValid = false;
             if($("#value_id").val()){
@@ -70,16 +71,14 @@
 <div class="m2mj-dialog" id="add_candidate_dialog">
     <div class="dialog-background"></div>
     <div class="m2mj-modal-content">
-        <?php echo form_open('pipeline/add','id="form_add_candidate_to_pipeline"'); ?>
-            <input type="hidden" value="<?php echo $job_order_id; ?>" name="job_order_id" id="job_order_id">
-            <div class="modal-body">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Candidate to Pipeline</h5>
-                    <button type="button" class="close m2mj-dialog-close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                
+        <div class="modal-body">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Candidate to Pipeline</h5>
+                <button type="button" class="close m2mj-dialog-close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <?php echo form_open('applicant/searchAjax','id="searchCandidateForm"'); ?>
                 <div class="form-row" class="col-md-12">
                     <div class="col-md-1"></div>
                     <div class="col-md-1 mb-3">
@@ -95,9 +94,12 @@
                         <input type="text" name="value_skills" id="value_skills" class="form-control" placeholder="Skills">
                     </div>
                     <div class="col-md-1 mb-3">
-                        <button id="searchCandidate" type="button" class="btn btn-success search">Search</button>
+                        <button id="searchCandidate" type="submit" class="btn btn-success search">Search</button>
                     </div>
                 </div>
+            </form>
+            <?php echo form_open('pipeline/add','id="form_add_candidate_to_pipeline"'); ?>
+                <input type="hidden" value="<?php echo $job_order_id; ?>" name="job_order_id" id="job_order_id">
                 <div class="table-responsive applicant-table">
                     <table class="table table-hover applicant-pipeline-dialog" id="applicant_table">
                         <tbody>
@@ -120,12 +122,12 @@
                     <input type="hidden" id="assigned_to" name="assigned_to" 
                            value="<?php echo $this->session->userdata(SESS_USER_ID); ?>">
                 <?php endif; ?>
-            </div>
-            <div class="modal-footer p-2">
-              <button type="button" class="btn btn-secondary m2mj-dialog-close">Close</button>
-              <button type="submit" class="btn btn-primary" id="add_pipeline_confirm">Add</button>
-            </div>
-        </form>
+                <div class="modal-footer p-2">
+                  <button type="button" class="btn btn-secondary m2mj-dialog-close">Close</button>
+                  <button type="submit" class="btn btn-primary" id="add_pipeline_confirm">Add</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
