@@ -15,7 +15,7 @@
     }
 </script>
 <div class="col-md-6">
-    <section id="content" style="height: 82%;">
+    <section id="content" style="height: 75%;">
         <h5 class="mb-1 text-center">Candidate Pipeline</h5><br/>
             <div id="pipeline-page" class="pipeline-page h-100">
                 <div class="container h-100">
