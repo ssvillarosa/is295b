@@ -58,7 +58,7 @@ class PipelineModel_seedtest extends UnitTestCase {
             'id' => '1',
             'job_order_id' => '1',
             'applicant_id' => '1',
-            'status' => strval(PIPELINE_STATUS_SOURCED),
+            'status' => PIPELINE_STATUS_SOURCED_TEXT,
             'assigned_to' => '1',
             'rating' => '5',
             'created_by' => '1',
@@ -70,7 +70,12 @@ class PipelineModel_seedtest extends UnitTestCase {
         $pipeline = $this->obj->getPipelineById($id);
         $this->assertNotEquals($pipeline,ERROR_CODE);
         $this->assertNotEmpty($pipeline);
-        $this->assertEquals($expected, $pipeline);
+        $this->assertEquals($expected->id, $pipeline->id);
+        $this->assertEquals($expected->job_order_id, $pipeline->job_order_id);
+        $this->assertEquals($expected->applicant_id, $pipeline->applicant_id);
+        $this->assertEquals($expected->status, $pipeline->status);
+        $this->assertEquals($expected->assigned_to, $pipeline->assigned_to);
+        $this->assertEquals($expected->rating, $pipeline->rating);
     }
     
     public function test_addPipeline(){
@@ -89,10 +94,9 @@ class PipelineModel_seedtest extends UnitTestCase {
         $this->assertNotNull($newPipeline);
         $this->assertEquals($newPipeline->job_order_id, $pipeline->job_order_id);
         $this->assertEquals($newPipeline->applicant_id, $pipeline->applicant_id);
-        $this->assertEquals($newPipeline->status, $pipeline->status);
+        $this->assertEquals($newPipeline->status, PIPELINE_STATUS_SOURCED_TEXT);
         $this->assertEquals($newPipeline->assigned_to, $pipeline->assigned_to);
         $this->assertEquals($newPipeline->rating, $pipeline->rating);
-        $this->assertEquals($newPipeline->created_by, $pipeline->created_by);
     }
     
     public function test_updatePipeline(){
@@ -110,7 +114,7 @@ class PipelineModel_seedtest extends UnitTestCase {
         $updatedPipeline1 = $this->obj->getPipelineById(2);
         $this->assertEquals($updatedPipeline1->job_order_id,$pipeline->job_order_id); 
         $this->assertEquals($updatedPipeline1->applicant_id,$pipeline->applicant_id); 
-        $this->assertEquals($updatedPipeline1->status,$pipeline->status); 
+        $this->assertEquals($updatedPipeline1->status,PIPELINE_STATUS_SOURCED_TEXT); 
         $this->assertEquals($updatedPipeline1->assigned_to,$pipeline->assigned_to); 
         $this->assertEquals($updatedPipeline1->rating,$pipeline->rating);   
     }
