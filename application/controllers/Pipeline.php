@@ -73,6 +73,30 @@ class Pipeline extends CI_Controller {
         $this->load->view('pipeline/applicantPipelineTable', $data);
     }
     
+    /**
+    * Display pipeline details.
+    */
+    public function view(){
+        checkUserLogin();
+        $pipelineId = $this->input->get('id');
+        if(!$pipelineId){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'pipeline/detailsView');
+            return;
+        }
+        $pipeline = $this->PipelineModel->getPipelineById($pipelineId);
+        if($pipeline === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'pipeline/detailsView');
+            return;
+        }
+        $data['pipeline'] = $pipeline;
+        renderPage($this,$data,'pipeline/detailsView');
+    }
+    
+    /**
+    * Add pipeline entry.
+    */
     public function add(){
         $job_order_id = $this->input->post('job_order_id');
         if(!$job_order_id){
@@ -113,6 +137,31 @@ class Pipeline extends CI_Controller {
             return;
         }
         echo 'Success';
+    }
+    
+    /**
+    * Add pipeline entry.
+    */
+    public function addActivity(){
+        checkUserLogin();
+        $pipelineId = $this->input->get('id');
+        if(!$pipelineId){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'pipeline/detailsView');
+            return;
+        }
+        $pipeline = $this->PipelineModel->getPipelineById($pipelineId);
+        if($pipeline === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'pipeline/detailsView');
+            return;
+        }
+        $data['pipeline'] = $pipeline;
+        if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN){
+            $recruiters = $this->UserModel->getUsers(0);
+            $data["recruiters"] = $recruiters;
+        }
+        renderPage($this,$data,'pipeline/addActivity');
     }
     
     /**

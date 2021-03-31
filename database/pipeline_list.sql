@@ -6,6 +6,7 @@ SELECT
     p.applicant_id,
     a.last_name,
     a.first_name,
+    a.email AS applicant_email,
 CASE
     WHEN p.status=1 THEN 'Unset'
     WHEN p.status=2 THEN 'Sourced'
@@ -32,6 +33,7 @@ CASE
 END AS status,
     p.assigned_to,
     u.username,
+    u.email as user_email,
     u.name,
     p.rating
 FROM pipeline p

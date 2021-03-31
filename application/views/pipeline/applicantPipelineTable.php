@@ -1,3 +1,9 @@
+<script>    
+    // Redirect to details view.
+    function viewPipelineDetails(id){
+        window.location.href = '<?php echo site_url('pipeline/view') ?>?id='+id;
+    }
+</script>
 <?php if(isset($error_message)): ?>
     <div class="alert alert-danger" role="alert">
         <?php echo $error_message; ?>
@@ -15,7 +21,6 @@
     <table class="table table-hover" id="pipeline_table">
         <thead>
             <tr>
-                <th class="text-left"></th>
                 <th class="text-left">Rating</th>
                 <th class="text-left">Applicant</th>
                 <th class="text-center">Status</th>
@@ -25,10 +30,7 @@
         <tbody>
             <?php foreach ($pipelines as $pipeline): ?>
                 <tr id="pipeline-<?php echo $pipeline->id; ?>" class="pipeline-row-item">
-                    <td class="text-left comp-chk">
-                        <input type="checkbox" class="chk" value="<?php echo $pipeline->id; ?>">
-                    </td>
-                    <td class="text-left">
+                    <td class="text-left" onclick="viewPipelineDetails(<?php echo $pipeline->id; ?>)">
                         <?php for($ctr=0;$ctr<MAX_RATING;$ctr++) {
                             if(intval($pipeline->rating) > $ctr){
                                 echo "<img class='star-rating yellow-star' src='".base_url()."images/yellow-star.svg'>";
@@ -37,14 +39,14 @@
                             }
                         } ?>
                     </td>
-                    <td class="text-left">
+                    <td class="text-left" onclick="viewPipelineDetails(<?php echo $pipeline->id; ?>)">
                         <?php echo $pipeline->first_name." ".$pipeline->last_name; ?>
                     </td>
-                    <td class="text-center">
+                    <td class="text-center" onclick="viewPipelineDetails(<?php echo $pipeline->id; ?>)">
                         <?php echo $pipeline->status; ?>
                     </td>
-                    <td class="text-center">
-                        <?php echo $pipeline->username; ?>
+                    <td class="text-center" onclick="viewPipelineDetails(<?php echo $pipeline->id; ?>)">
+                        <?php echo $pipeline->name; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

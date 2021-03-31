@@ -77,9 +77,8 @@ Class PipelineModel extends CI_Model{
     * @return   pipeline object
     */
     public function getPipelineById($pipelineId){
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $this->db->where("id", $pipelineId);
-        $query = $this->db->get("pipeline");
+        $query = $this->db->get("pipeline_list");
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());

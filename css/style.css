@@ -392,7 +392,7 @@ body {
         border-radius: 0px 0px 4px 4px;
         min-height: 300px;
     }
-    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item, .applicant-row-item, .registration-row-item, .star-rating {
+    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item, .applicant-row-item, .registration-row-item, .pipeline-row-item {
         cursor: pointer;
     }
     
@@ -462,4 +462,11 @@ body {
         height: 300px;
         overflow-y: auto;
         border: 1px solid #dee2e6;
+    }
+    
+    /* Pipeline details page */
+    #log_activitiy_dialog .m2mj-modal-content{
+        width: 650px;
+        transform: none;
+        top: 10%;
     }
