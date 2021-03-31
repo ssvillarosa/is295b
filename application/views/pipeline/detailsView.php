@@ -48,7 +48,7 @@
                             $this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to): ?>
                         <div class="d-flex justify-content-between">
                             <div class="text-right">
-                                <a href="<?php echo site_url('pipeline/addActivity').'?id='.$pipeline->id; ?>" class="btn btn-primary">Log Activity</a>
+                                <a href="<?php echo site_url('activity/add').'?pipelineId='.$pipeline->id; ?>" class="btn btn-primary">Log Activity</a>
                                 <button type="button" class="btn btn-danger">Delete</button>
                             </div>
                         </div>

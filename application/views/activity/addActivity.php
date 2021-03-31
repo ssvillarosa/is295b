@@ -14,6 +14,17 @@
             <div class="col-md-9 update-component">
                 <section id="content" >
                     <h5 class="modal-title">Log Activity</h5>
+                    <?php if(isset($success_message)): ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo $success_message; ?>
+                        </div>
+                    <?php endif; ?>
+                    <?php if(isset($error_message)): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <?php echo $error_message; ?>
+                        </div>
+                        <?php return; ?>
+                    <?php endif; ?>
                     <?php echo form_open('pipeline/add','id="form_add_candidate_to_pipeline"'); ?>
                         <input type="hidden" value="<?php echo $pipeline->id; ?>" id="pipelineId" name="pipelineId">
                         <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>

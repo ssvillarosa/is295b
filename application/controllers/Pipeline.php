@@ -140,31 +140,6 @@ class Pipeline extends CI_Controller {
     }
     
     /**
-    * Add pipeline entry.
-    */
-    public function addActivity(){
-        checkUserLogin();
-        $pipelineId = $this->input->get('id');
-        if(!$pipelineId){
-            $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'pipeline/detailsView');
-            return;
-        }
-        $pipeline = $this->PipelineModel->getPipelineById($pipelineId);
-        if($pipeline === ERROR_CODE){
-            $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'pipeline/detailsView');
-            return;
-        }
-        $data['pipeline'] = $pipeline;
-        if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN){
-            $recruiters = $this->UserModel->getUsers(0);
-            $data["recruiters"] = $recruiters;
-        }
-        renderPage($this,$data,'pipeline/addActivity');
-    }
-    
-    /**
     * Checks if user has access to job order. If user has admin role or user 
     * is assigned to job order, return true. Otherwise, return false.
     * 
