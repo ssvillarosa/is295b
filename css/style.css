@@ -470,3 +470,10 @@ body {
         transform: none;
         top: 10%;
     }
+    
+    /* Activity page */
+    #add_activity_page{
+        border: 1px solid rgb(206, 212, 218);
+        padding: 10px 20px;
+        border-radius: 0px 0px 3px 3px;
+    }

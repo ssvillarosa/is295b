@@ -6,11 +6,29 @@
         $('#send_copy_div').hide();
         $('#assigned_to_div').hide();
         $('#event_div').hide();
+        
+        $("#form_add_activity").submit(function(e){
+            e.preventDefault();
+            $.post('<?php echo site_url('activity/add') ?>', 
+                $(this).serialize(),
+                function(data) {
+                    if(data.trim() === "Success"){
+                        showToast("Activity Added Successfully.",3000);
+                        setTimeout(function () {
+                            location.reload(true);
+                        }, 1000);
+                        return;
+                    }
+                    showToast(data,3000);
+            }).fail(function() {
+                showToast("Error occurred.",3000);
+            });
+        });
     });
 </script>
 <div id="add_activity_page" class="add-activity-page">
     <section id="content" >
-        <h5 class="modal-title">Log Activity</h5>
+        <h5 class="modal-title mb-3">Log Activity</h5>
         <?php if(isset($success_message)): ?>
             <div class="alert alert-success" role="alert">
                 <?php echo $success_message; ?>
@@ -27,19 +45,22 @@
             <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
                 <div class="form-row">
                     <div class="col-md-3 mb-1">
-                        <label for="assigned_to" class="form-label ml-5">Assigned To</label>
+                        <label for="assigned_to" class="form-label ml-4">Assign To</label>
                     </div>
                     <div class="col-md-9 mb-1">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="check_assigned_to" 
+                            <input class="form-check-input" type="checkbox" id="check_assigned_to" name="check_assigned_to"
                                    onchange="$('#check_assigned_to').is(':checked')?$('#assigned_to_div').show():$('#assigned_to_div').hide();">
                             <label class="form-check-label" for="check_assigned_to">Change Assignment</label>
                         </div>
                         <div id="assigned_to_div">
-                            <select name="user_select" id="user_select" class="custom-select" required>
+                            <select name="user_select" id="user_select" class="custom-select">
                                 <option value="">Select User</option>
                                 <?php foreach($recruiters as $recruiter): ?>
-                                    <option value="<?php echo $recruiter->id; ?>">
+                                    <?php if($recruiter->user_id == $pipeline->assigned_to): ?>
+                                        <?php continue; ?>
+                                    <?php endif; ?>
+                                    <option value="<?php echo $recruiter->user_id; ?>">
                                         <?php echo $recruiter->name; ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -50,11 +71,11 @@
             <?php endif; ?>
             <div class="form-row">
                 <div class="col-md-3 mb-1">
-                    <label for="assigned_to" class="form-label ml-5">Status</label>
+                    <label for="assigned_to" class="form-label ml-4">Status</label>
                 </div>
                 <div class="col-md-9 mb-1">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_status" 
+                        <input class="form-check-input" type="checkbox" id="check_status" name="check_status" 
                                onchange="$('#check_status').is(':checked')?$('#status_div').show():$('#status_div').hide();">
                         <label class="form-check-label" for="check_status">Change Status</label>
                     </div>
@@ -72,11 +93,11 @@
             </div>
             <div class="form-row">
                 <div class="col-md-3 mb-1">
-                    <label for="assigned_to" class="form-label ml-5">Activity</label>
+                    <label for="assigned_to" class="form-label ml-4">Activity</label>
                 </div>
                 <div class="col-md-9 mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_notes"
+                        <input class="form-check-input" type="checkbox" id="check_notes" name="check_notes"
                                onchange="$('#check_notes').is(':checked')?$('#activity_notes_div').show():$('#activity_notes_div').hide();">
                         <label class="form-check-label" for="check_notes">Log an Activity</label>
                     </div>
@@ -88,11 +109,11 @@
             </div>
             <div class="form-row">
                 <div class="col-md-3 mb-1">
-                    <label for="assigned_to" class="form-label ml-5">Email</label>
+                    <label for="assigned_to" class="form-label ml-4">Email</label>
                 </div>
                 <div class="col-md-9 mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_email" 
+                        <input class="form-check-input" type="checkbox" id="check_email" name="check_email" 
                                onchange="$('#check_email').is(':checked')?$('#email_details_div').show():$('#email_details_div').hide();">
                         <label class="form-check-label" for="check_email">Send an E-mail</label>
                     </div>
@@ -115,7 +136,7 @@
                             </div>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="check_copy"
+                            <input class="form-check-input" type="checkbox" id="check_copy" name="check_copy"
                                    onchange="$('#check_copy').is(':checked')?$('#send_copy_div').show():$('#send_copy_div').hide();">
                             <label class="form-check-label" for="check_copy">Send me a copy</label>
                         </div>
@@ -138,11 +159,11 @@
             </div>
             <div class="form-row">
                 <div class="col-md-3 mb-1">
-                    <label for="assigned_to" class="form-label ml-5">Event</label>
+                    <label for="assigned_to" class="form-label ml-4">Event</label>
                 </div>
                 <div class="col-md-9 mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check_event"
+                        <input class="form-check-input" type="checkbox" id="check_event" name="check_event"
                                onchange="$('#check_event').is(':checked')?$('#event_div').show():$('#event_div').hide();">
                         <label class="form-check-label" for="check_event">Schedule an Event</label>
                     </div>
@@ -170,8 +191,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer p-2">
-              <button type="submit" class="btn btn-primary" id="log_activitiy_confirm">Save</button>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary mr-1" id="log_activitiy_confirm">Save</button>
               <button type="button" class="btn btn-secondary m2mj-dialog-close" onclick="$('#add_activity_page').slideUp();">Cancel</button>
             </div>
         </form>
