@@ -1,3 +1,8 @@
+<script>
+    $(document).ready(function() {
+        $('#add_activity_page').hide();
+    });
+</script>
 <?php $this->view('pipeline/detailsView'); ?>
 <div id="activity-page" class="activity-page">
     <div class="container">
@@ -8,9 +13,20 @@
                         <?php echo $error_message; ?>
                     </div>
                 <?php endif; ?>
+                <?php if($this->session->userdata(SESS_USER_ROLE)== USER_ROLE_ADMIN ||
+                        $this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to): ?>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-danger mb-3">Delete</button>
+                    </div>
+                <?php endif; ?>
                 <div class="table_toolbar">
+                    <?php if($this->session->userdata(SESS_USER_ROLE)== USER_ROLE_ADMIN ||
+                            $this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to): ?>
+                        <button class="btn btn-primary" onclick="$('#add_activity_page').slideDown();">Log Activity</button>
+                    <?php endif; ?>
                     <a href="<?php echo site_url('activity/search') ?>" class="btn btn-success">Search</a>
                 </div>
+                <?php $this->view('activity/addActivity'); ?>
                 <div class="table-responsive activity-table">
                     <table class="table table-hover" id="activity_table">
                         <thead>

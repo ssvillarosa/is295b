@@ -54,6 +54,9 @@ class Activity extends CI_Controller {
             return;
         }
         $data['activities'] = $activities;
+        // Get list of users.
+        $recruiters = $this->UserModel->getUsers(0);
+        $data["recruiters"] = $recruiters;
         renderPage($this,$data,'activity/activityList');
     }
     
@@ -61,22 +64,5 @@ class Activity extends CI_Controller {
     * Add pipeline entry.
     */
     public function add(){
-        checkUserLogin();
-        $pipelineId = $this->input->get('pipelineId');
-        if(!$pipelineId){
-            $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'activity/addActivity');
-            return;
-        }
-        $pipeline = $this->PipelineModel->getPipelineById($pipelineId);
-        if($pipeline === ERROR_CODE){
-            $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'activity/addActivity');
-            return;
-        }
-        $data['pipeline'] = $pipeline;
-        $recruiters = $this->UserModel->getUsers(0);
-        $data["recruiters"] = $recruiters;
-        renderPage($this,$data,'activity/addActivity');
     }
 }
