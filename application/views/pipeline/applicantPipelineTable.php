@@ -1,7 +1,7 @@
 <script>    
     // Redirect to details view.
     function viewPipelineDetails(id){
-        window.location.href = '<?php echo site_url('pipeline/view') ?>?id='+id;
+        window.location.href = '<?php echo site_url('activity/activityListByPipeline') ?>?pipelineId='+id;
     }
 </script>
 <?php if(isset($error_message)): ?>

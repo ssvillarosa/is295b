@@ -87,6 +87,24 @@ if(!function_exists('getStatusDictionary')){
     }
 }
 
+if(!function_exists('getActivityTypeDictionary')){
+    /**
+    * Returns the equivalent text of an activity type.
+     * 
+    * @param    int     $activityType   Activity type integer.
+    * @return   string
+    */
+    function getActivityTypeDictionary($activityType){
+        switch($activityType){
+            case ACTIVITY_TYPE_CHANGE_ASSIGNMENT: return ACTIVITY_TYPE_CHANGE_ASSIGNMENT_TEXT;
+            case ACTIVITY_TYPE_STATUS_UPDATE: return ACTIVITY_TYPE_STATUS_UPDATE_TEXT;
+            case ACTIVITY_TYPE_NOTE: return ACTIVITY_TYPE_NOTE_TEXT;
+            case ACTIVITY_TYPE_EMAIL: return ACTIVITY_TYPE_EMAIL_TEXT;
+            case ACTIVITY_TYPE_SCHEDULE_EVENTS: return ACTIVITY_TYPE_SCHEDULE_EVENTS_TEXT;
+        }
+    }
+}
+
 if(!function_exists('hashThis')){
     /**
     * Returns the hashed value of the string using default algorithm.

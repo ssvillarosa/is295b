@@ -168,6 +168,7 @@ define('COOKIE_REGISTRATION_ROWS_PER_PAGE','registration_rows_per_page');
 define('COOKIE_REGISTRATION_SEARCH_ROWS_PER_PAGE','registration_search_rows_per_page');
 define('COOKIE_PIPELINE_SEARCH_ROWS_PER_PAGE','pipeline_search_rows_per_page');
 define('COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE','pipeline_ajax_rows_per_page');
+define('COOKIE_ACTIVITY_AJAX_ROWS_PER_PAGE','activity_ajax_rows_per_page');
 
 define('CONDITION_EQUALS','E');
 define('CONDITION_NOT_EQUAL','NE');
@@ -247,3 +248,13 @@ define('PIPELINE_STATUSES',serialize([
 ]));
 
 define('MAX_RATING',5);
+define('ACTIVITY_TYPE_CHANGE_ASSIGNMENT',1);
+define('ACTIVITY_TYPE_CHANGE_ASSIGNMENT_TEXT','Change assignment');
+define('ACTIVITY_TYPE_STATUS_UPDATE',2);
+define('ACTIVITY_TYPE_STATUS_UPDATE_TEXT','Status update');
+define('ACTIVITY_TYPE_NOTE',3);
+define('ACTIVITY_TYPE_NOTE_TEXT','Note');
+define('ACTIVITY_TYPE_EMAIL',4);
+define('ACTIVITY_TYPE_EMAIL_TEXT','Email');
+define('ACTIVITY_TYPE_SCHEDULE_EVENTS',5);
+define('ACTIVITY_TYPE_SCHEDULE_EVENTS_TEXT','Event');

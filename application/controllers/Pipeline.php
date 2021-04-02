@@ -74,27 +74,6 @@ class Pipeline extends CI_Controller {
     }
     
     /**
-    * Display pipeline details.
-    */
-    public function view(){
-        checkUserLogin();
-        $pipelineId = $this->input->get('id');
-        if(!$pipelineId){
-            $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'pipeline/detailsView');
-            return;
-        }
-        $pipeline = $this->PipelineModel->getPipelineById($pipelineId);
-        if($pipeline === ERROR_CODE){
-            $data["error_message"] = "Error occured.";
-            renderPage($this,$data,'pipeline/detailsView');
-            return;
-        }
-        $data['pipeline'] = $pipeline;
-        renderPage($this,$data,'pipeline/detailsView');
-    }
-    
-    /**
     * Add pipeline entry.
     */
     public function add(){

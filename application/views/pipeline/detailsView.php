@@ -46,7 +46,7 @@
                     </div>
                     <?php if($this->session->userdata(SESS_USER_ROLE)== USER_ROLE_ADMIN ||
                             $this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to): ?>
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between mb-3">
                             <div class="text-right">
                                 <a href="<?php echo site_url('activity/add').'?pipelineId='.$pipeline->id; ?>" class="btn btn-primary">Log Activity</a>
                                 <button type="button" class="btn btn-danger">Delete</button>
