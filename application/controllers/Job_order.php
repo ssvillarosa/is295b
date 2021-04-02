@@ -208,9 +208,9 @@ class Job_order extends CI_Controller {
             return;
         }
         // Batch insert skills into job order skills table.
+        $this->JobOrderSkillModel->deleteJobOrderSkills($jobOrderId);
         if($job_order_skills){
-            $updateJobOrderSkills = $this->JobOrderSkillModel->deleteJobOrderSkills($jobOrderId)
-                    && $this->JobOrderSkillModel->addJobOrderSkills($job_order_skills);
+            $updateJobOrderSkills = $this->JobOrderSkillModel->addJobOrderSkills($job_order_skills);
             if($updateJobOrderSkills === ERROR_CODE){
                 // Set error message.
                 $data["error_message"] = "Error occured.";     
@@ -219,9 +219,9 @@ class Job_order extends CI_Controller {
             }
         }
         // Batch insert users into job order user table.
+        $this->JobOrderUserModel->deleteJobOrderUsers($jobOrderId);
         if($job_order_users){
-            $updateJobOrderUsers = $this->JobOrderUserModel->deleteJobOrderUsers($jobOrderId)
-                    && $this->JobOrderUserModel->addJobOrderUsers($job_order_users);
+            $updateJobOrderUsers = $this->JobOrderUserModel->addJobOrderUsers($job_order_users);
             if($updateJobOrderUsers === ERROR_CODE){
                 // Set error message.
                 $data["error_message"] = "Error occured.";     

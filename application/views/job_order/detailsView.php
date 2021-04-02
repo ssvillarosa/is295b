@@ -268,8 +268,8 @@
                 </div>
                 <div class="form-row">
                     <div class="col-md-12 mb-1">
-                        <label for="skills" class="form-label">Skills:</label>
-                        <div id="skills">
+                        <label class="form-label">Skills:</label>
+                        <div>
                             <?php foreach($job_order_skills as $job_order_skill){
                                 echo createPill('skill-'.$job_order_skill->skill_id,
                                         $job_order_skill->name,
@@ -281,8 +281,8 @@
                 </div>
                 <div class="form-row">
                     <div class="col-md-12 mb-1">
-                        <label for="users" class="form-label">Recruiters:</label>
-                        <div id="users">
+                        <label class="form-label">Recruiters:</label>
+                        <div>
                             <?php foreach($job_order_users as $job_order_user){
                                 echo createPill('user-'.$job_order_user->user_id,
                                         $job_order_user->name,
