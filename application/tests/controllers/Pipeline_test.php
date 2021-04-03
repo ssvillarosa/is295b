@@ -60,4 +60,25 @@ class Pipeline_test extends TestCase{
         );
         $this->assertContains('Success', $output);
     }
+    
+    public function test_delete(){
+        $output = $this->request(
+            'POST',
+            'pipeline/add',
+            [
+                'job_order_id' => '2',
+                'applicant_id' => '1',
+                'assigned_to' => '2',
+            ]
+        );
+        $this->assertContains('Success', $output);
+        $output = $this->request(
+            'POST',
+            'pipeline/delete',
+            [
+                'delPipelineIds' => '6',
+            ]
+        );
+        $this->assertContains('Success', $output);
+    }
 }

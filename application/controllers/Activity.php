@@ -71,6 +71,11 @@ class Activity extends CI_Controller {
             echo "Error occured.";
             return;
         }
+        if(!$this->session->userdata(SESS_USER_ROLE)== USER_ROLE_ADMIN ||
+                !$this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to){
+            echo "Invalid Access.";
+            return;
+        }
         $timestamp = date('Y-m-d H:i:s');
         if($this->input->post('check_assigned_to')){
             $assigntToUserId = $this->input->post("user_select");

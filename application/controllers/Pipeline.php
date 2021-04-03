@@ -119,6 +119,28 @@ class Pipeline extends CI_Controller {
     }
     
     /**
+    * Delete pipeline.
+    */
+    public function delete(){
+        if(!$this->input->post('delPipelineIds')){
+            echo 'Invalid Pipeline ID';
+            return;
+        }
+        $pipelineIds = explode(",", $this->input->post('delPipelineIds'));
+        $success = $this->PipelineModel->deletePipeline($pipelineIds,
+                $this->session->userdata(SESS_USER_ID));
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->UserLogModel->saveUserLog(
+                $this->session->userdata(SESS_USER_ID),
+                "Deleted pipeline ID : ".$this->input->post('delPipelineIds'));
+        echo 'Success';
+    }
+    
+    /**
     * Checks if user has access to job order. If user has admin role or user 
     * is assigned to job order, return true. Otherwise, return false.
     * 
