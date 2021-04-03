@@ -31,9 +31,10 @@
                     <table class="table table-hover" id="activity_table">
                         <thead>
                             <tr>
-                                <th class="text-left">Timestamp</th>
-                                <th class="text-left">Activity Type</th>
-                                <th class="text-left">Activity</th>
+                                <th class="text-left timestamp">Timestamp</th>
+                                <th class="text-left logged-by">Logged By</th>
+                                <th class="text-left activity-type">Activity Type</th>
+                                <th class="text-left activity">Activity</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,6 +42,9 @@
                                 <tr id="activity-<?php echo $activity->id; ?>" class="activity-row-item">
                                     <td class="text-left">
                                         <?php echo $activity->timestamp; ?>
+                                    </td>
+                                    <td class="text-left">
+                                        <?php echo $activity->name; ?>
                                     </td>
                                     <td class="text-left">
                                         <?php echo getActivityTypeDictionary($activity->activity_type); ?>

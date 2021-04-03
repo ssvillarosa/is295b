@@ -17,7 +17,14 @@
                     <?php endif; ?>
                     <div class="form-row">
                         <div class="col-md-6 mb-1">
-                            <label for="title" class="form-label">Rating: <?php echo $pipeline->rating; ?></label>
+                            <label for="title" class="form-label">Rating: </label>
+                            <?php for($ctr=0;$ctr<MAX_RATING;$ctr++) {
+                                if(intval($pipeline->rating) > $ctr){
+                                    echo "<img class='star-rating yellow-star' src='".base_url()."images/yellow-star.svg'>";
+                                }else{
+                                    echo "<img class='star-rating black-star' src='".base_url()."images/black-star.svg'>";
+                                }
+                            } ?>
                         </div>
                     </div>
                     <div class="form-row">

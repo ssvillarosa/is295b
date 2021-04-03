@@ -77,6 +77,15 @@ class Activity extends CI_Controller {
             return;
         }
         $timestamp = date('Y-m-d H:i:s');
+        // Perform update rating.
+        if($this->input->post('check_rating')){
+            $result = $this->updateRating($timestamp,$pipeline);
+            if($result === ERROR_CODE){
+                echo "Error occured.";
+                return;
+            }
+        }
+        // Perform change assignment.
         if($this->input->post('check_assigned_to')){
             $result = $this->changeAssignment($timestamp,$pipeline);
             if($result === ERROR_CODE){
@@ -84,6 +93,7 @@ class Activity extends CI_Controller {
                 return;
             }
         }
+        // Peform change status.
         if($this->input->post('check_status')){
             $result = $this->updateStatus($timestamp,$pipeline);
             if($result === ERROR_CODE){
@@ -95,12 +105,38 @@ class Activity extends CI_Controller {
     }
     
     /**
+    * Update the rating field of the pipeline object.
+    * 
+    * @param    string              $timestamp      String represenstation of current time stamp.
+    * @param    pipeline object     $pipeline       Pipeline object containing the current pipeline details.
+    */
+    private function updateRating($timestamp,$pipeline){
+        $newRating = $this->input->post("rateScore");
+        if(!$newRating){
+            return ERROR_CODE;
+        }
+        $pipelineUpdates = (object)["rating"=>$newRating];
+        // Update pipeline status value.
+        $result = $this->PipelineModel->updatePipeline($pipelineUpdates,$pipeline->id);
+        if($result === ERROR_CODE){
+            return ERROR_CODE;
+        }
+        // Add activity.
+        $activity = (object)[
+            'timestamp' => $timestamp,
+            'pipeline_id' => $pipeline->id,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_TYPE_RATING_UPDATE,
+            'activity' => 'Change rating from '.$pipeline->rating.' stars to '.$newRating.' stars.',
+        ];
+        return $this->ActivityModel->addActivity($activity);
+    }
+    
+    /**
     * Update the assigned_to field of the pipeline object.
     * 
     * @param    string              $timestamp      String represenstation of current time stamp.
     * @param    pipeline object     $pipeline       Pipeline object containing the current pipeline details.
-    * 
-    * @return dataobject $data  Contains all information about page including search results and pagination. 
     */
     private function changeAssignment($timestamp,$pipeline){
         $assigntToUserId = $this->input->post("user_select");
@@ -120,7 +156,7 @@ class Activity extends CI_Controller {
             'pipeline_id' => $pipeline->id,
             'updated_by' => $this->session->userdata(SESS_USER_ID),
             'activity_type' => ACTIVITY_TYPE_CHANGE_ASSIGNMENT,
-            'activity' => 'Change assignment from '.$pipeline->name.' to '.$newUser->name,
+            'activity' => 'Change assignment from '.$pipeline->name.' to '.$newUser->name.'.',
         ];
         return $this->ActivityModel->addActivity($activity);
     }
@@ -130,8 +166,6 @@ class Activity extends CI_Controller {
     * 
     * @param    string              $timestamp      String represenstation of current time stamp.
     * @param    pipeline object     $pipeline       Pipeline object containing the current pipeline details.
-    * 
-    * @return dataobject $data  Contains all information about page including search results and pagination. 
     */
     private function updateStatus($timestamp,$pipeline){
         $newStatus = $this->input->post("status");
@@ -150,7 +184,8 @@ class Activity extends CI_Controller {
             'pipeline_id' => $pipeline->id,
             'updated_by' => $this->session->userdata(SESS_USER_ID),
             'activity_type' => ACTIVITY_TYPE_STATUS_UPDATE,
-            'activity' => 'Change status from '.$pipeline->status.' to '.getPipelineStatusDictionary($newStatus),
+            'activity' => 'Change status from '.$pipeline->status.' to '.
+            getPipelineStatusDictionary($newStatus).'.',
         ];
         return $this->ActivityModel->addActivity($activity);
     }

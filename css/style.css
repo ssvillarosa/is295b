@@ -477,3 +477,36 @@ body {
         padding: 10px 20px;
         border-radius: 0px 0px 3px 3px;
     }
+    
+    #activity_table .timestamp{
+        width: 25%;
+    }
+    
+    #activity_table .logged-by{
+        width: 20%;
+    }
+    
+    #activity_table .activity-type{
+        width: 20%;
+    }
+    
+    #activity_table .activity{
+        width: 35%;
+    }
+    
+    #form_add_activity .star-rating{
+        height: 25px;
+        width: 25px;
+        margin-right: 5px;
+        background-size: cover;
+        border: 0px;
+        outline: none;
+    }
+    
+    #form_add_activity .yellow-star{
+        background-image: url('../images/yellow-star.svg');
+    }
+    
+    #form_add_activity .black-star{
+        background-image: url('../images/black-star.svg');
+    }

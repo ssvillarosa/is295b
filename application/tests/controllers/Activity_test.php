@@ -82,4 +82,17 @@ class Activity_test extends TestCase{
         );
         $this->assertContains('Status: For screening', $page);        
     }
+    
+    public function test_add_updateRating(){
+        $result = $this->request(
+            'POST',
+            'activity/add',
+            [
+                'pipelineId' => 1,
+                'check_rating' => 'on',
+                'rateScore' => 1,
+            ]
+        );
+        $this->assertContains('Success', $result);      
+    }
 }

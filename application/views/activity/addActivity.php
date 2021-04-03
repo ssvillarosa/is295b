@@ -1,5 +1,6 @@
 <script>
     $(document).ready(function() {
+        $('#rating_div').hide();
         $('#status_div').hide();
         $('#activity_notes_div').hide();
         $('#email_details_div').hide();
@@ -24,7 +25,34 @@
                 showToast("Error occurred.",3000);
             });
         });
+        
+        $("#form_add_activity .star-rating").mouseenter(function(){
+            var yellowCount = $(this).attr("id").replace("star-","");
+            updateStarsColor(yellowCount);
+        });
+        
+        $("#form_add_activity .star-rating").mouseleave(function(){
+            var defaultScore = $("#rateScore").val();
+            updateStarsColor(defaultScore);
+        });
     });
+    
+    function starhover(score){
+        $("#rateScore").val(score);
+        updateStarsColor(score);
+    }
+    
+    function updateStarsColor(yellowCount){
+        for(ctr=1;ctr<=<?php echo MAX_RATING?>;ctr++){
+            if(yellowCount >= ctr){
+                $("#star-"+ctr).removeClass("black-star");
+                $("#star-"+ctr).addClass("yellow-star");
+            }else{
+                $("#star-"+ctr).removeClass("yellow-star");
+                $("#star-"+ctr).addClass("black-star");
+            }
+        }
+    }
 </script>
 <div id="add_activity_page" class="add-activity-page">
     <section id="content" >
@@ -42,6 +70,28 @@
         <?php endif; ?>
         <?php echo form_open('activity/add','id="form_add_activity"'); ?>
             <input type="hidden" value="<?php echo $pipeline->id; ?>" id="pipelineId" name="pipelineId">
+            <div class="form-row">
+                <div class="col-md-3 mb-1">
+                    <label class="form-label ml-4">Rating</label>
+                </div>
+                <div class="col-md-9 mb-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_rating" name="check_rating" 
+                               onchange="$('#check_rating').is(':checked')?$('#rating_div').show():$('#rating_div').hide();">
+                        <label class="form-check-label" for="check_rating">Update Rating</label>
+                    </div>
+                    <div id="rating_div" class="m-3">
+                        <input type="hidden" id="rateScore" name="rateScore" value="<?php echo $pipeline->rating; ?>">
+                        <?php for($ctr=0;$ctr<MAX_RATING;$ctr++) {
+                            if(intval($pipeline->rating) > $ctr){
+                                echo "<button type='button' class='star-rating yellow-star' id='star-".($ctr+1)."' onclick='starhover(".($ctr+1).")'/>";
+                            }else{
+                                echo "<button type='button' class='star-rating black-star' id='star-".($ctr+1)."' onclick='starhover(".($ctr+1).")'/>";
+                            }
+                        } ?>
+                    </div>
+                </div>
+            </div>
             <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
                 <div class="form-row">
                     <div class="col-md-3 mb-1">

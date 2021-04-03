@@ -1,4 +1,13 @@
 CREATE VIEW activity_list AS
 SELECT
-    * 
-FROM `activity` a;
+    a.id,
+    a.timestamp,
+    a.pipeline_id,
+    a.updated_by,
+    u.name,
+    u.username,
+    a.activity_type,
+    a.activity
+FROM activity a
+JOIN user u
+    ON a.updated_by = u.id;
