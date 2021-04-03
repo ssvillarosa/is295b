@@ -73,13 +73,21 @@ class Activity extends CI_Controller {
         }
         $timestamp = date('Y-m-d H:i:s');
         if($this->input->post('check_assigned_to')){
-            $this->changeAssignment($timestamp,$pipeline);
+            $assigntToUserId = $this->input->post("user_select");
+            if(!$assigntToUserId){
+                echo "Error occured.";
+                return;
+            }
+            $result = $this->changeAssignment($timestamp,$pipeline,$assigntToUserId);
+            if($result === ERROR_CODE){
+                echo "Error occured.";
+                return;
+            }
         }
         echo "Success";
     }
     
-    private function changeAssignment($timestamp,$pipeline){
-        $assigntToUserId = $this->input->post("user_select");
+    private function changeAssignment($timestamp,$pipeline, $assigntToUserId){
         $pipelineUpdates = (object)["assigned_to"=>$assigntToUserId];
         // Update pipeline assigned_to value.
         $result = $this->PipelineModel->updatePipeline($pipelineUpdates,$pipeline->id);
