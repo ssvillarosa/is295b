@@ -105,6 +105,23 @@ if(!function_exists('getActivityTypeDictionary')){
     }
 }
 
+if(!function_exists('getPipelineStatusDictionary')){
+    /**
+    * Returns the equivalent text of a pipeline status.
+     * 
+    * @param    int     $status   Status integer.
+    * @return   string
+    */
+    function getPipelineStatusDictionary($status){
+        foreach(unserialize(PIPELINE_STATUSES) as $pipeline_status){
+            if(strval($pipeline_status['value']) === strval($status)){
+                return $pipeline_status['text'];
+            }
+        }
+        return "UNKNOWN";
+    }
+}
+
 if(!function_exists('hashThis')){
     /**
     * Returns the hashed value of the string using default algorithm.

@@ -60,4 +60,26 @@ class Activity_test extends TestCase{
         );
         $this->assertContains('Assigned To: Your guest', $page);        
     }
+    
+    public function test_add_updateStatus(){
+        $result = $this->request(
+            'POST',
+            'activity/add',
+            [
+                'pipelineId' => 1,
+                'check_status' => 'on',
+                'status' => 3,
+            ]
+        );
+        $this->assertContains('Success', $result); 
+        
+        $page = $this->request(
+            'GET',
+            'activity/activityListByPipeline',
+            [
+                'pipelineId' => 1,
+            ]
+        );
+        $this->assertContains('Status: For screening', $page);        
+    }
 }

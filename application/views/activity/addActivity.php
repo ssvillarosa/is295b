@@ -83,6 +83,9 @@
                         <select name="status" id="status" class="custom-select">
                             <option value="">Select Status</option>
                             <?php foreach(unserialize(PIPELINE_STATUSES) as $status): ?>
+                                <?php if($pipeline->status == $status['text']): ?>
+                                    <?php continue; ?>
+                                <?php endif; ?>
                                 <option value="<?php echo $status['value']; ?>">
                                     <?php echo $status['text']; ?>
                                 </option>
