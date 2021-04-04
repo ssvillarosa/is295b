@@ -7,6 +7,7 @@ class Activity_test extends TestCase{
 
         $CI =& get_instance();
         $CI->load->library('Seeder');
+        $CI->seeder->call('PipelineSeeder');
         $CI->seeder->call('ActivitySeeder');
     }
     
@@ -94,5 +95,27 @@ class Activity_test extends TestCase{
             ]
         );
         $this->assertContains('Success', $result);      
+    }
+    
+    public function test_add_addNote(){
+        $result = $this->request(
+            'POST',
+            'activity/add',
+            [
+                'pipelineId' => 1,
+                'check_notes' => 'on',
+                'activity_notes' => 'this is a note.',
+            ]
+        );
+        $this->assertContains('Success', $result);
+        
+        $page = $this->request(
+            'GET',
+            'activity/activityListByPipeline',
+            [
+                'pipelineId' => 1,
+            ]
+        );
+        $this->assertContains('this is a note.', $page);    
     }
 }

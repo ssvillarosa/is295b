@@ -146,13 +146,13 @@
             </div>
             <div class="form-row">
                 <div class="col-md-3 mb-1">
-                    <label for="assigned_to" class="form-label ml-4">Activity</label>
+                    <label for="assigned_to" class="form-label ml-4">Notes</label>
                 </div>
                 <div class="col-md-9 mb-3">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="check_notes" name="check_notes"
                                onchange="$('#check_notes').is(':checked')?$('#activity_notes_div').show():$('#activity_notes_div').hide();">
-                        <label class="form-check-label" for="check_notes">Log an Activity</label>
+                        <label class="form-check-label" for="check_notes">Add Note</label>
                     </div>
                     <div id="activity_notes_div">
                         <label for="activity_notes" class="form-label">Activity Notes</label>

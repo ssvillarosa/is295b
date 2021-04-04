@@ -101,6 +101,14 @@ class Activity extends CI_Controller {
                 return;
             }
         }
+        // Add note activity.
+        if($this->input->post('check_notes')){
+            $result = $this->addNote($timestamp,$pipeline);
+            if($result === ERROR_CODE){
+                echo "Error occured.";
+                return;
+            }
+        }
         echo "Success";
     }
     
@@ -186,6 +194,28 @@ class Activity extends CI_Controller {
             'activity_type' => ACTIVITY_TYPE_STATUS_UPDATE,
             'activity' => 'Change status from '.$pipeline->status.' to '.
             getPipelineStatusDictionary($newStatus).'.',
+        ];
+        return $this->ActivityModel->addActivity($activity);
+    }
+    
+    /**
+    * Adds a note activity.
+    * 
+    * @param    string              $timestamp      String represenstation of current time stamp.
+    * @param    pipeline object     $pipeline       Pipeline object containing the current pipeline details.
+    */
+    private function addNote($timestamp,$pipeline){
+        $notes = $this->input->post("activity_notes");
+        if(!$notes){
+            return ERROR_CODE;
+        }
+        // Add activity.
+        $activity = (object)[
+            'timestamp' => $timestamp,
+            'pipeline_id' => $pipeline->id,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_TYPE_NOTE,
+            'activity' => $notes,
         ];
         return $this->ActivityModel->addActivity($activity);
     }
