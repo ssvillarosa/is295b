@@ -118,4 +118,37 @@ class Activity_test extends TestCase{
         );
         $this->assertContains('this is a note.', $page);    
     }
+    
+    public function test_add_sendEmail(){
+        $result = $this->request(
+            'POST',
+            'activity/add',
+            [
+                'pipelineId' => 1,
+                'check_email' => 'on',
+                'check_copy' => 'on',
+                'email_subject' => 'Subject Test',
+                'email_from' => 'From@Test.com',
+                'email_to' => 'To@Test.com',
+                'email_cc' => 'Cc@Test.com',
+                'email_reply_to' => 'ReplyTo@Test.com',
+                'email_message' => 'Message Test',
+            ]
+        );
+        $this->assertContains('Success', $result);
+        
+        $page = $this->request(
+            'GET',
+            'activity/activityListByPipeline',
+            [
+                'pipelineId' => 1,
+            ]
+        );
+        $this->assertContains('Subject Test', $page);
+        $this->assertContains('From@Test.com', $page);
+        $this->assertContains('To@Test.com', $page);
+        $this->assertContains('Cc@Test.com', $page);
+        $this->assertContains('ReplyTo@Test.com', $page);
+        $this->assertContains('Message Test', $page);
+    }
 }

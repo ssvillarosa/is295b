@@ -179,7 +179,7 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="email_to" class="form-label">From</label>
-                                <input class="form-control" type="email" id="email_to" name="email_from"
+                                <input class="form-control" type="email" id="email_from" name="email_from"
                                        value="<?php echo SENDER_EMAIL; ?>">
                             </div>
                             <div class="col-md-6 mb-1">
@@ -196,12 +196,12 @@
                         <div class="form-row" id="send_copy_div">
                             <div class="col-md-6 mb-3">
                                 <label for="email_to" class="form-label">Cc</label>
-                                <input class="form-control" type="email" id="email_to" name="email_cc"
+                                <input class="form-control" type="email" id="email_cc" name="email_cc"
                                        value="<?php echo $this->session->userdata(SESS_USER_EMAIL); ?>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="email_to" class="form-label">Reply To</label>
-                                <input class="form-control" type="email" id="email_to" name="email_reply_to"
+                                <input class="form-control" type="email" id="email_reply_to" name="email_reply_to"
                                        value="<?php echo $pipeline->user_email; ?>">
                             </div>
                         </div>

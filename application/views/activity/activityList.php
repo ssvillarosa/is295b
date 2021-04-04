@@ -31,26 +31,26 @@
                     <table class="table table-hover" id="activity_table">
                         <thead>
                             <tr>
-                                <th class="text-left timestamp">Timestamp</th>
-                                <th class="text-left logged-by">Logged By</th>
-                                <th class="text-left activity-type">Activity Type</th>
+                                <th class="text-center timestamp">Timestamp</th>
+                                <th class="text-center logged-by">Logged By</th>
+                                <th class="text-center activity-type">Activity Type</th>
                                 <th class="text-left activity">Activity</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($activities as $activity): ?>
                                 <tr id="activity-<?php echo $activity->id; ?>" class="activity-row-item">
-                                    <td class="text-left">
-                                        <?php echo $activity->timestamp; ?>
+                                    <td class="text-center">
+                                        <?php echo date_format(date_create($activity->timestamp),"M j, Y g:i:s a"); ?>
                                     </td>
-                                    <td class="text-left">
+                                    <td class="text-center">
                                         <?php echo $activity->name; ?>
                                     </td>
-                                    <td class="text-left">
+                                    <td class="text-center">
                                         <?php echo getActivityTypeDictionary($activity->activity_type); ?>
                                     </td>
                                     <td class="text-left">
-                                        <?php echo $activity->activity; ?>
+                                        <?php echo nl2br($activity->activity); ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
