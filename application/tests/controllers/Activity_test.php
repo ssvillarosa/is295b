@@ -151,4 +151,33 @@ class Activity_test extends TestCase{
         $this->assertContains('ReplyTo@Test.com', $page);
         $this->assertContains('Message Test', $page);
     }
+    
+    public function test_add_scheduleEvent(){
+        $dateTime = '2021-04-06 21:29:00';
+        $dateTimeText = date_format(date_create($dateTime),"M j, Y g:i:s a");
+        $result = $this->request(
+            'POST',
+            'activity/add',
+            [
+                'pipelineId' => 1,
+                'check_event' => 'on',
+                'event_title' => 'Test add event',
+                'is_public' => 'on',
+                'event_time' => '2021-04-06 21:29:00',
+                'event_description' => 'Test add event description.',
+            ]
+        );
+        $this->assertContains('Success', $result);
+        
+        $page = $this->request(
+            'GET',
+            'activity/activityListByPipeline',
+            [
+                'pipelineId' => 1,
+            ]
+        );
+        $this->assertContains('Test add event(Public)', $page);
+        $this->assertContains('Test add event description', $page);
+        $this->assertContains($dateTimeText, $page);
+    }
 }

@@ -479,19 +479,15 @@ body {
     }
     
     #activity_table .timestamp{
-        width: 25%;
+        min-width: 15%;
     }
     
     #activity_table .logged-by{
-        width: 20%;
+        min-width: 15%;
     }
     
     #activity_table .activity-type{
-        width: 20%;
-    }
-    
-    #activity_table .activity{
-        width: 35%;
+        min-width: 15%;
     }
     
     #form_add_activity .star-rating{

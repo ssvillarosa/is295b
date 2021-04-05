@@ -221,21 +221,17 @@
                         <label class="form-check-label" for="check_event">Schedule an Event</label>
                     </div>
                     <div id="event_div">
-                        <div class="form-row mb-3">
+                        <div class="form-row mb-2">
                             <label for="event_title" class="form-label col-md-3">Title</label>
                             <input class="form-control" id="event_title" name="event_title">
                         </div>
                         <div class="form-check mb-2">
-                            <input class="form-check-input mt-3" type="radio" name="schedule" value="timed" id="timed_schedule"
-                                    onchange="$('#event_time').prop('disabled',false);" checked>
-                            <div>
-                                <input type="datetime-local" class="form-control" id="event_time" name="event_time">
-                            </div>
+                            <input class="form-check-input" type="checkbox" name="is_public" id="is_public">
+                            <label class="form-check-label" for="is_public">Public Event</label>
                         </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="schedule" value="all_day" id="all_day_schedule"
-                                    onchange="$('#event_time').prop('disabled',true);">
-                            <label class="form-check-label" for="all_day_schedule">All Day/No Specific Time</label>
+                        <div class="form-row mb-2">
+                            <label class="form-check-label" for="event_time">Date/Time</label>
+                            <input type="datetime-local" class="form-control" id="event_time" name="event_time">
                         </div>
                         <div class="form-row">
                             <label for="event_description" class="form-label">Description</label>

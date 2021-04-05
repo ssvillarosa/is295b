@@ -20,6 +20,7 @@ class Activity extends CI_Controller {
         $this->load->model('PipelineModel');
         $this->load->model('UserModel');
         $this->load->model('JobOrderUserModel');
+        $this->load->model('EventModel');
         $this->load->library('email');
     }
     
@@ -113,6 +114,14 @@ class Activity extends CI_Controller {
         // Add email activity.
         if($this->input->post('check_email')){
             $result = $this->sendEmail($timestamp,$pipeline);
+            if($result === ERROR_CODE){
+                echo "Error occured.";
+                return;
+            }
+        }
+        // Schedule event.
+        if($this->input->post('check_event')){
+            $result = $this->scheduleEvent($timestamp,$pipeline);
             if($result === ERROR_CODE){
                 echo "Error occured.";
                 return;
@@ -277,5 +286,48 @@ class Activity extends CI_Controller {
         ];
         echo $email_details;
         return $this->ActivityModel->addActivity($activity);
+    }
+    
+    /**
+    * Schedule an event activity.
+    * 
+    * @param    string              $timestamp      String represenstation of current time stamp.
+    * @param    pipeline object     $pipeline       Pipeline object containing the current pipeline details.
+    */
+    private function scheduleEvent($timestamp,$pipeline){
+        $title = $this->input->post("event_title");
+        $isPublic = $this->input->post("is_public") ? 1 : 0;
+        $event_time = $this->input->post("event_time");
+        $description = $this->input->post("event_description");
+        if(!$title || !$event_time || !$description){
+            return ERROR_CODE;
+        }
+        $event_details = "Event Details: ";
+        $event_details .= "\n Title: ".$title;
+        $event_details .= $isPublic? "(Public)" : "";
+        $event_details .= "\n Date/Time: ".date_format(date_create($event_time),"M j, Y g:i:s a");
+        $event_details .= "\n Description: ".$description;
+        // Add activity.
+        $activity = (object)[
+            'timestamp' => $timestamp,
+            'pipeline_id' => $pipeline->id,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_TYPE_SCHEDULE_EVENTS,
+            'activity' => $event_details,
+        ];
+        $activityId = $this->ActivityModel->addActivity($activity);
+        if($activityId === ERROR_CODE){
+            return ERROR_CODE;
+        }
+        // Add event.
+        $event = (object)[
+            'title' => $title,
+            'event_time' => $event_time,
+            'description' => $description,
+            'is_public' => $isPublic,
+            'activity_id' => $activityId,
+            'is_deleted' => 0,
+        ];
+        return $this->EventModel->addEvent($event);
     }
 }
