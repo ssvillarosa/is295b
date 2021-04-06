@@ -1,0 +1,15 @@
+INSERT INTO `skill_category` (`id`, `name`, `is_deleted`) VALUES
+(1, 'Accounting/Finance', 0),
+(2, 'Human Resource', 0),
+(3, 'Sales/Marketing', 0),
+(4, 'Arts/Media/Communications', 0),
+(5, 'Services', 0),
+(6, 'Hotel/Restaurant', 0),
+(7, 'Education/Training', 0),
+(8, 'Information Technology', 0),
+(9, 'Engineering', 0),
+(10, 'Manufacturing', 0),
+(11, 'Building/Construction', 0),
+(12, 'Sciences', 0),
+(13, 'Heathcare', 0),
+(14, 'Others', 0);
