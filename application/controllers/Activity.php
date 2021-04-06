@@ -22,6 +22,7 @@ class Activity extends CI_Controller {
         $this->load->model('JobOrderUserModel');
         $this->load->model('EventModel');
         $this->load->library('email');
+        $this->load->helper('directory');
     }
     
     /**
@@ -60,6 +61,9 @@ class Activity extends CI_Controller {
         // Get list of users assigned to the job order.
         $recruiters = $this->JobOrderUserModel->getUsersByJobOrderId($pipeline->job_order_id);
         $data["recruiters"] = $recruiters;
+        // Get list of uploaded files.
+        $map = directory_map(UPLOAD_DIRECTORY.'/'.$pipeline->id.'/',1);
+        $data["uploaded_files"] = $map ? $map : [];
         renderPage($this,$data,'activity/activityList');
     }
     
@@ -127,7 +131,36 @@ class Activity extends CI_Controller {
                 return;
             }
         }
+        // Upload file.
+        if($this->input->post('check_upload')){
+            $result = $this->fileUpload($timestamp,$pipeline);
+            if($result === ERROR_CODE){
+                echo "Error occured.";
+                return;
+            }
+            if($result === UPLOAD_ERROR_CODE){
+                echo $this->upload->display_errors();
+                return;
+            }
+        }
         echo "Success";
+    }
+    
+    /**
+    * Download attachment in this activity.
+    */
+    public function download(){
+        $this->load->helper('download');
+        $filename = $this->input->get("filename");
+        $pipelineId = $this->input->get("pipelineId");
+        if(!$filename || !$pipelineId){
+            return;
+        }
+        $filepath = UPLOAD_DIRECTORY.'/'.$pipelineId.'/'.$filename;
+        if (file_exists ( $filepath )) {
+            force_download($filepath, NULL);
+            return;
+        }
     }
     
     /**
@@ -329,5 +362,38 @@ class Activity extends CI_Controller {
             'is_deleted' => 0,
         ];
         return $this->EventModel->addEvent($event);
+    }
+    
+    /**
+    * Uploads a file attachment.
+    * 
+    * @param    string              $timestamp      String represenstation of current time stamp.
+    * @param    pipeline object     $pipeline       Pipeline object containing the current pipeline details.
+    */
+    private function fileUpload($timestamp,$pipeline){
+        // Configure upload.
+        $upload_path = UPLOAD_DIRECTORY.'/'.$pipeline->id.'/';
+        if(!is_dir($upload_path)){
+           mkdir($upload_path);
+        }
+        $config['upload_path']          = $upload_path;
+        $config['allowed_types']        = 'doc|docx|pdf';
+        $config['max_size']             = 2000;
+        $this->load->library('upload', $config);
+        
+        $file = $this->upload->do_upload("file_attachment");
+        if(!$file){
+            return UPLOAD_ERROR_CODE;
+        }
+        $filename = $this->upload->data()['file_name'];
+        // Add activity.
+        $activity = (object)[
+            'timestamp' => $timestamp,
+            'pipeline_id' => $pipeline->id,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_TYPE_FILE_UPLOAD,
+            'activity' => 'Uploaded file: '.$filename,
+        ];
+        return $this->ActivityModel->addActivity($activity);
     }
 }

@@ -102,6 +102,7 @@ if(!function_exists('getActivityTypeDictionary')){
             case ACTIVITY_TYPE_EMAIL: return ACTIVITY_TYPE_EMAIL_TEXT;
             case ACTIVITY_TYPE_SCHEDULE_EVENTS: return ACTIVITY_TYPE_SCHEDULE_EVENTS_TEXT;
             case ACTIVITY_TYPE_RATING_UPDATE: return ACTIVITY_TYPE_RATING_UPDATE_TEXT;
+            case ACTIVITY_TYPE_FILE_UPLOAD: return ACTIVITY_TYPE_FILE_UPLOAD_TEXT;
         }
     }
 }

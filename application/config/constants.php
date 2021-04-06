@@ -89,6 +89,9 @@ define('COOKIE_EXPIRATION',86500);
 
 define('ERROR_CODE',-1);
 define('SUCCESS_CODE',1);
+define('UPLOAD_ERROR_CODE',-2);
+
+define('UPLOAD_DIRECTORY','./uploads');
 
 define('USER_STATUS_ACTIVE',1);
 define('USER_STATUS_BLOCKED',2);
@@ -260,3 +263,5 @@ define('ACTIVITY_TYPE_SCHEDULE_EVENTS',5);
 define('ACTIVITY_TYPE_SCHEDULE_EVENTS_TEXT','Event');
 define('ACTIVITY_TYPE_RATING_UPDATE',6);
 define('ACTIVITY_TYPE_RATING_UPDATE_TEXT','Rate assessment');
+define('ACTIVITY_TYPE_FILE_UPLOAD',7);
+define('ACTIVITY_TYPE_FILE_UPLOAD_TEXT','File upload');

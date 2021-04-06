@@ -51,6 +51,18 @@
                             <label for="title" class="form-label">Status: <?php echo $pipeline->status; ?></label>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-1">
+                            <?php if($uploaded_files): ?>
+                                <label for="title" class="form-label">Uploaded Files:</label>
+                                <?php foreach ($uploaded_files as $item => $value):?>
+                                    <a href="<?php echo site_url('activity/download') ?>?pipelineId=<?php echo $pipeline->id; ?>&filename=<?php echo $value;?>">
+                                        <li><?php echo $value;?></li>
+                                    </a>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>

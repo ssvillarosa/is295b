@@ -7,12 +7,17 @@
         $('#send_copy_div').hide();
         $('#assigned_to_div').hide();
         $('#event_div').hide();
+        $('#file_upload_div').hide();
         
         $("#form_add_activity").submit(function(e){
             e.preventDefault();
-            $.post('<?php echo site_url('activity/add') ?>', 
-                $(this).serialize(),
-                function(data) {
+            $.ajax({
+                url:'<?php echo site_url('activity/add') ?>', 
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
+                success: function(data) {
                     if(data.trim() === "Success"){
                         showToast("Activity Added Successfully.",3000);
                         setTimeout(function () {
@@ -21,8 +26,10 @@
                         return;
                     }
                     showToast(data,3000);
-            }).fail(function() {
-                showToast("Error occurred.",3000);
+                },
+                error: function() {
+                    showToast("Error occurred.",3000);
+                },
             });
         });
         
@@ -68,7 +75,7 @@
             </div>
             <?php return; ?>
         <?php endif; ?>
-        <?php echo form_open('activity/add','id="form_add_activity"'); ?>
+        <?php echo form_open_multipart('activity/add','id="form_add_activity"'); ?>
             <input type="hidden" value="<?php echo $pipeline->id; ?>" id="pipelineId" name="pipelineId">
             <div class="form-row">
                 <div class="col-md-3 mb-1">
@@ -237,6 +244,21 @@
                             <label for="event_description" class="form-label">Description</label>
                             <textarea class="form-control" id="event_description" name="event_description" rows="3"></textarea>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-3 mb-1">
+                    <label class="form-label ml-4">File</label>
+                </div>
+                <div class="col-md-9 mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check_upload" name="check_upload"
+                               onchange="$('#check_upload').is(':checked')?$('#file_upload_div').show():$('#file_upload_div').hide();">
+                        <label class="form-check-label" for="check_upload">Upload File</label>
+                    </div>
+                    <div id="file_upload_div" class="mt-3">
+                        <input type="file" class="form-control-file" id="file_attachment" name="file_attachment">
                     </div>
                 </div>
             </div>

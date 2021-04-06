@@ -180,4 +180,34 @@ class Activity_test extends TestCase{
         $this->assertContains('Test add event description', $page);
         $this->assertContains($dateTimeText, $page);
     }
+    
+    public function test_add_fileUpload(){
+        $filename = 'test.docx';
+        $filepath = APPPATH.'tests/testfiles/'.$filename;
+        $files = [
+                'file_attachment' => [
+                        'name'     => $filename,
+                        'tmp_name' => $filepath,
+                ],
+        ];
+        $this->request->setFiles($files);
+        $result = $this->request(
+            'POST',
+            'activity/add',
+            [
+                'pipelineId' => 1,
+                'check_upload' => 'on',
+            ]
+        );
+        $this->assertContains('Success', $result);
+        
+        $page = $this->request(
+            'GET',
+            'activity/activityListByPipeline',
+            [
+                'pipelineId' => 1,
+            ]
+        );
+        $this->assertContains('test.docx', $page);
+    }
 }
