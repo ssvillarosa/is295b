@@ -13,9 +13,7 @@
 <div class="table_toolbar d-flex">
     <?php if(isset($user_has_access) && $user_has_access) : ?>
         <button onclick="$('#add_candidate_dialog').fadeIn();" class="btn btn-primary">Add Candidate</button>
-        <button onclick="showDeleteDialog()" class="btn btn-secondary ml-1">Delete</button>
     <?php endif; ?>
-    <a href="<?php echo site_url('pipeline/search') ?>" class="btn btn-success ml-1">Search</a>
 </div>
 <div class="table-responsive pipeline-table h-100">
     <table class="table table-hover" id="pipeline_table">

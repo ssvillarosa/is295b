@@ -54,6 +54,20 @@ function hideDialog(){
 }
 
 /**
+* Shows loading.
+*/
+function showLoading(){
+    $("#site_loading_dialog").fadeIn();  
+}
+
+/**
+* Hides loading.
+*/
+function hideLoading(){
+    $("#site_loading_dialog").fadeOut();    
+}
+
+/**
  * Creates toast message.
  *
  * @param {string}  message     The message to display.

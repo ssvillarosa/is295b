@@ -115,6 +115,13 @@ class Pipeline extends CI_Controller {
             echo 'Error occured.';
             return;
         }
+        
+        // Log user activity.
+        $this->UserLogModel->saveUserLog(
+                $this->session->userdata(SESS_USER_ID),
+                "Added candidate ID: ".$applicant_id.
+                " to Job Order ID: ".$job_order_id.".");
+        
         echo 'Success';
     }
     

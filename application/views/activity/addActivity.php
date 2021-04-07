@@ -11,6 +11,7 @@
         
         $("#form_add_activity").submit(function(e){
             e.preventDefault();
+            showLoading();
             $.ajax({
                 url:'<?php echo site_url('activity/add') ?>', 
                 type: 'POST',
@@ -18,6 +19,7 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
+                    hideLoading();
                     if(data.trim() === "Success"){
                         showToast("Activity Added Successfully.",3000);
                         setTimeout(function () {
@@ -28,6 +30,7 @@
                     showToast(data,3000);
                 },
                 error: function() {
+                    hideLoading();
                     showToast("Error occurred.",3000);
                 },
             });

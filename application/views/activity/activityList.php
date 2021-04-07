@@ -24,7 +24,6 @@
                             $this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to): ?>
                         <button class="btn btn-primary" onclick="$('#add_activity_page').slideDown();">Log Activity</button>
                     <?php endif; ?>
-                    <a href="<?php echo site_url('activity/search') ?>" class="btn btn-success">Search</a>
                 </div>
                 <?php $this->view('activity/addActivity'); ?>
                 <div class="table-responsive activity-table">
