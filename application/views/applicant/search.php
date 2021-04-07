@@ -23,6 +23,7 @@
                                 <label class="text-center">Show</label>
                             </div>
                         </div>
+                        <?php createNumberCondition("ID") ?>
                         <?php createTextFilter("Last Name") ?>
                         <?php createTextFilter("First Name") ?>
                         <?php createDateCondition("Birthday") ?>

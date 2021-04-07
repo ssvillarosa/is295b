@@ -6,7 +6,8 @@
                 <li class="<?php if($this->uri->segment(1)=="dashboard") echo "active"; ?>">
                     <a href="<?php echo site_url('dashboard/adminOverview') ?>">Dashboard</a>
                 </li>
-                <li class="<?php if($this->uri->segment(1)=="job_order") echo "active"; ?>">                
+                <li class="<?php if($this->uri->segment(1)=="job_order" || 
+                        $this->uri->segment(1)=="activity") echo "active"; ?>">                
                     <a href="<?php echo site_url('job_order/jobOrderList') ?>">Job Orders</a>
                 </li>
                 <li class="<?php if($this->uri->segment(1)=="applicant" || 

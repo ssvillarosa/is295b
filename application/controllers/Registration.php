@@ -102,7 +102,7 @@ class Registration extends CI_Controller {
             }
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Approved registration ID : ".$this->input->post('approveRegistrationIds'));
         echo 'Success';
@@ -197,7 +197,7 @@ class Registration extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted registration ID : ".$this->input->post('delRegistrationIds'));
         echo 'Success';
@@ -459,7 +459,10 @@ class Registration extends CI_Controller {
         }
         return SUCCESS_CODE;
     }
-    
+        
+    /**
+    * Sends a confirmation email upon registration.
+    */
     private function sendConfirmationEmail($email,$newRegistrationId){
         $this->email->from(SENDER_EMAIL, 'M2MJ HR Consulting');
         $this->email->to($email);
@@ -467,6 +470,29 @@ class Registration extends CI_Controller {
         $this->email->message('Welcom to M2MJ HR Consulting. Please click <a href="'.
                 site_url('registration/confirmEmail').'?id='.$newRegistrationId
                 .'">here</a> to confirm your email.');
-        $this->email->send();
+        // Send email except in test env.
+        if(strpos(ENVIRONMENT, "test")){
+            $this->email->send();
+        }
+    }
+    
+    /**
+    * Page where confirmation link sent to applicant email lands.
+    */
+    public function confirmEmail(){
+        if(!$this->input->get('id')){
+            echo 'Invalid Registration ID';
+            return;
+        }
+        $registrationId = $this->input->get('id');
+        // Update status of the registration to approved.
+        $result = $this->RegistrationModel->updateRegistration((object)[
+            'is_email_confirmed' => 1,
+            'confirmed_time' => date('Y-m-d H:i:s'),
+        ],$registrationId);
+        if($result == ERROR_CODE){
+            echo 'Error occured.';
+        }
+        $this->load->view('registration/confirmationSuccess');
     }
 }

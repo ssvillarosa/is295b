@@ -87,6 +87,43 @@ if(!function_exists('getStatusDictionary')){
     }
 }
 
+if(!function_exists('getActivityTypeDictionary')){
+    /**
+    * Returns the equivalent text of an activity type.
+     * 
+    * @param    int     $activityType   Activity type integer.
+    * @return   string
+    */
+    function getActivityTypeDictionary($activityType){
+        switch($activityType){
+            case ACTIVITY_TYPE_CHANGE_ASSIGNMENT: return ACTIVITY_TYPE_CHANGE_ASSIGNMENT_TEXT;
+            case ACTIVITY_TYPE_STATUS_UPDATE: return ACTIVITY_TYPE_STATUS_UPDATE_TEXT;
+            case ACTIVITY_TYPE_NOTE: return ACTIVITY_TYPE_NOTE_TEXT;
+            case ACTIVITY_TYPE_EMAIL: return ACTIVITY_TYPE_EMAIL_TEXT;
+            case ACTIVITY_TYPE_SCHEDULE_EVENTS: return ACTIVITY_TYPE_SCHEDULE_EVENTS_TEXT;
+            case ACTIVITY_TYPE_RATING_UPDATE: return ACTIVITY_TYPE_RATING_UPDATE_TEXT;
+            case ACTIVITY_TYPE_FILE_UPLOAD: return ACTIVITY_TYPE_FILE_UPLOAD_TEXT;
+        }
+    }
+}
+
+if(!function_exists('getPipelineStatusDictionary')){
+    /**
+    * Returns the equivalent text of a pipeline status.
+     * 
+    * @param    int     $status   Status integer.
+    * @return   string
+    */
+    function getPipelineStatusDictionary($status){
+        foreach(unserialize(PIPELINE_STATUSES) as $pipeline_status){
+            if(strval($pipeline_status['value']) === strval($status)){
+                return $pipeline_status['text'];
+            }
+        }
+        return "UNKNOWN";
+    }
+}
+
 if(!function_exists('hashThis')){
     /**
     * Returns the hashed value of the string using default algorithm.
@@ -195,6 +232,7 @@ if(!function_exists('createDateCondition')){
                         <select name='condition_$id' id='condition_$id' class='custom-select date-field-select'>
                             <option value=''>Select Condition</option>
                             <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_NOT_EQUAL."'>".getConditionDictionary(CONDITION_NOT_EQUAL)."</option>
                             <option value='".CONDITION_LESS_THAN."'>".getConditionDictionary(CONDITION_LESS_THAN)."</option>
                             <option value='".CONDITION_GREATER_THAN."'>".getConditionDictionary(CONDITION_GREATER_THAN)."</option>
                             <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
@@ -225,6 +263,7 @@ if(!function_exists('createNumberCondition')){
                         <select name='condition_$id' id='condition_$id' class='custom-select number-field-select'>
                             <option value=''>Select Condition</option>
                             <option value='".CONDITION_EQUALS."'>".getConditionDictionary(CONDITION_EQUALS)."</option>
+                            <option value='".CONDITION_NOT_EQUAL."'>".getConditionDictionary(CONDITION_NOT_EQUAL)."</option>
                             <option value='".CONDITION_LESS_THAN."'>".getConditionDictionary(CONDITION_LESS_THAN)."</option>
                             <option value='".CONDITION_GREATER_THAN."'>".getConditionDictionary(CONDITION_GREATER_THAN)."</option>
                             <option value='".CONDITION_RANGE."'>".getConditionDictionary(CONDITION_RANGE)."</option>
@@ -381,7 +420,7 @@ if(!function_exists('getSearchParam')){
     */
     function getSearchParam($ctx,$field){
         if($ctx->input->get("condition_$field") && 
-                $ctx->input->get("value_$field")){
+                $ctx->input->get("value_$field") !== null){
             $condition = strval($ctx->input->get("condition_$field"));
             $value = strval($ctx->input->get("value_$field"));
             $value2 = strval($ctx->input->get("value_{$field}_2"));
@@ -421,7 +460,7 @@ if(!function_exists('setWhereParams')){
     */
     function setWhereParams($ctx,$searchParams){
         foreach ($searchParams as $param){
-            if(empty($param->value) || empty($param->condition)){
+            if(!isset($param->value) || empty($param->condition)){
                 continue;
             }
             switch (strval($param->condition)){

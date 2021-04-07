@@ -119,9 +119,9 @@ class Applicant extends CI_Controller {
         $data["success_message"] = "Applicant successfully updated!";
         renderPage($this,$data,'applicant/detailsView');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
-                "Updated applicant ".$applicant->last_name.",".$applicant->first_name." details.");
+                "Updated applicant details with ID : ".$applicant->id.".");
     }
     
     /**
@@ -171,7 +171,7 @@ class Applicant extends CI_Controller {
         $data["success_message"] = "Candidate successfully added!";
         renderPage($this,$data,'applicant/add');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Added applicant ".$applicant->last_name.
                 ",".$applicant->first_name.".");
@@ -194,7 +194,7 @@ class Applicant extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted applicant ID : ".$this->input->post('delApplicantIds'));
         echo 'Success';
@@ -216,7 +216,7 @@ class Applicant extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Blocked applicant ID : ".$this->input->post('applicantIds'));
         echo 'Success';
@@ -238,7 +238,7 @@ class Applicant extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Activated applicant ID : ".$this->input->post('applicantIds'));
         echo 'Success';
@@ -257,9 +257,8 @@ class Applicant extends CI_Controller {
     */
     public function searchResult(){
         checkUserLogin();
-        // Create search parameters for each field.
-        $searchParams = [];
         $fields = [
+            "id",
             "last_name",
             "first_name",
             "birthday",
@@ -281,25 +280,65 @@ class Applicant extends CI_Controller {
             "professional_experience",
             "seminars_and_trainings"
             ];
+        $data = $this->searchApplicant($fields);
+        if(!$this->input->get("exportResult")){
+            renderPage($this,$data,'common/searchResult');
+        }
+    }
+    
+    /**
+    * Returns search result as JSON.
+    */
+    public function searchAjax(){
+        checkUserLogin();
+        $fields = [
+            "id",
+            "last_name",
+            "first_name",
+            "skills",
+            ];
+        $data = $this->searchApplicant($fields,$fields);
+        if(isset($data['error_message'])){
+            echo $data['error_message'];
+            return;
+        }
+        echo json_encode($data["entries"]);
+    }
+    
+    /**
+    * Do the actual search function.
+    * 
+    * @param    array of strings    $fields     Each item corresponds to one column in the database table.
+    * @param    array of string     $sf         Each item correspond to field which will be shown.
+    * 
+    * @return dataobject $data  Contains all information about page including search results and pagination. 
+    */
+    private function searchApplicant($fields,$sf=null){
+        $searchParams = [];
+        // Create search parameters for each field.
         foreach ($fields as $field){
             $param = getSearchParam($this,$field);
             $param ? array_push($searchParams, $param):'';            
         }
         
-        // Create array to store fields to be shown
-        $shownFields = [];
+        // If sf is null, create shownFields from searchParams.
+        $shownFields = $sf;
+        if(is_null($shownFields)){
+            $shownFields = [];
+        }
         // Create column header for the table.
         $columnHeaders = [];
         foreach ($searchParams as $param){
             if($param->show){
-                array_push($shownFields, $param->field);   
                 array_push($columnHeaders, ucwords(str_replace("_", " ", $param->field)));   
+            }
+            if($param->show && is_null($sf)){
+                array_push($shownFields, $param->field);
             }
         }
         if(!$shownFields){
             $data['error_message'] = "Select at least one field to be displayed.";
-            renderPage($this,$data,'applicant/searchResult');
-            return;
+            return $data;
         }
         
         $rowsPerPage = getRowsPerPage($this,COOKIE_APPLICANT_SEARCH_ROWS_PER_PAGE);
@@ -318,12 +357,18 @@ class Applicant extends CI_Controller {
         
         if($this->input->get("exportResult")){
             $applicants = $this->ApplicantModel->searchApplicant($searchParams,$shownFields,0);
-            exportCSV($this->input->get("exportResult"),$applicants,$columnHeaders);
+            if($applicants === ERROR_CODE){
+                $data['error_message'] = "Error occured.";
+            }
+            exportCSV($this->input->get("exportResult"),$applicants,$columnHeaders,[]);
         }else{
             $applicants = $this->ApplicantModel->searchApplicant($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+            if($applicants === ERROR_CODE){
+                $data['error_message'] = "Error occured.";
+            }
         }
         $data['entries'] = $applicants;
-        renderPage($this,$data,'common/searchResult');
+        return $data;
     }
     
     /**

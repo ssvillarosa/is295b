@@ -1,5 +1,7 @@
 <script>
     $(document).ready(function() {
+        // Hide update panel.
+        $(".update-component").hide();
         // Add skills to post request.
         $("#updateForm").submit(function(e){
             var skillIds = [];
@@ -9,7 +11,7 @@
             var userNames = [];
             $('#skills > button').each(function() {
                 var skillId = $(this).attr('id').replace("skill-", "");
-                if(skillId != "add_skill"){
+                if(skillId != "add_skill_button"){
                     skillIds.push(skillId);
                     var span = $(this).find('.pill-text');
                     yearsOfExperiences.push(span.text().trim());
@@ -18,7 +20,7 @@
             });
             $('#users > button').each(function() {
                 var userId = $(this).attr('id').replace("user-", "");
-                if(userId != "add_user"){
+                if(userId != "add_user_button"){
                     userIds.push(userId);
                     userNames.push($(this).find('.pill-button-text').text().trim());
                 }
@@ -30,13 +32,22 @@
             $("#userNames").val(userNames);
         });
     });
+    function showUpdatePanel(){
+        $(".update-component").show();
+        $(".view-component").hide();
+    }
+    function showViewPanel(){
+        $(".view-component").show();
+        $(".update-component").hide();
+    }
 </script>
 <div id="job_order-details-page" class="job_order-details-page">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+        <div class="row justify-content-center ml-2">
+            <div class="col-md-6 update-component">
                 <section id="content" >
-                    <h5 class="mb-1">Job order ID: <?php if(isset($job_order)) echo $job_order->id; ?></h5>
+                    <h5 class="mb-3">Job order Details</h5>
+                    <h6 class="mb-2">Job order ID: <?php if(isset($job_order)) echo $job_order->id; ?></h6>
                     <?php if(isset($success_message)): ?>
                         <div class="alert alert-success" role="alert">
                             <?php echo $success_message; ?>
@@ -101,7 +112,7 @@
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="custom-select" required>
                                     <option value="<?php echo JOB_ORDER_STATUS_OPEN; ?>" 
-                                        <?php if($job_order->status===JOB_ORDER_STATUS_OPEN) echo "selected"; ?> >
+                                        <?php if($job_order->status==JOB_ORDER_STATUS_OPEN) echo "selected"; ?> >
                                         <?php echo JOB_ORDER_STATUS_OPEN_TEXT; ?>
                                     </option>
                                     <option value="<?php echo JOB_ORDER_STATUS_ON_HOLD; ?>" 
@@ -140,7 +151,7 @@
                                                 $job_order_skill->years_of_experience,
                                                 true);
                                     } ?>
-                                    <button type="button" id="add_skill" class="btn btn-outline-primary btn-sm" onclick="$('#skills_dialog').fadeIn();">+</button>
+                                    <button type="button" id="add_skill_button" class="btn btn-outline-primary btn-sm" onclick="$('#skills_dialog').fadeIn();">+</button>
                                 </div>
                                 <input type="hidden" name="skillIds" id="skillIds">
                                 <input type="hidden" name="skillNames" id="skillNames">
@@ -157,7 +168,7 @@
                                                 '',
                                                 true);
                                     } ?>
-                                    <button type="button" id="add_user" class="btn btn-outline-primary btn-sm" onclick="$('#users_dialog').fadeIn();">+</button>
+                                    <button type="button" id="add_user_button" class="btn btn-outline-primary btn-sm" onclick="$('#users_dialog').fadeIn();">+</button>
                                 </div>
                                 <input type="hidden" name="userIds" id="userIds">
                                 <input type="hidden" name="userNames" id="userNames">
@@ -181,25 +192,132 @@
                                 <input type="number" value="<?php echo $job_order->priority_level; ?>" class="form-control form-control-sm" id="priority_level" name="priority_level" min="1" max="10" required>
                                 <?php echo form_error('priority_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
-                        </div>
+                        </div>                        
                         <div class="d-flex justify-content-between">
-                            <div class="text-left">
-                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                                    <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
-                                <?php endif; ?>
-                            </div>
                             <div class="text-right">
-                                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                <?php endif; ?>
-                                <a href="<?php echo site_url('job_order/jobOrderList') ?>" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <button type="button" class="btn btn-secondary" onclick="showViewPanel()">Cancel</button>
                             </div>
                         </div>
                     </form>
                 </section>
             </div>
+            
+            <div class="col-md-6 view-component">
+                <h5 class="mb-3">Job order Details</h5>
+                <h6 class="mb-3">Job order ID: <?php if(isset($job_order)) echo $job_order->id; ?></h6>
+                <div class="form-row">
+                    <div class="col-md-6 mb-1">
+                        <label for="title" class="form-label">Title: <?php echo $job_order->title; ?></label>
+                    </div>
+                    <div class="col-md-6 mb-1">
+                        <label for="company_id" class="form-label">Company: 
+                            <?php foreach($companies as $company){
+                                if($company->id === $job_order->company_id){
+                                    echo $company->name;
+                                }
+                            }?>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-1">
+                        <label for="min_salary" class="form-label">Min. Salary: <?php echo $job_order->min_salary; ?></label>
+                    </div>
+                    <div class="col-md-6 mb-1">
+                        <label for="max_salary" class="form-label">Max. Salary: <?php echo $job_order->max_salary; ?></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-1">
+                        <label for="employment_type">Employment Type: 
+                            <?php if($job_order->employment_type==JOB_ORDER_TYPE_REGULAR){
+                                echo JOB_ORDER_TYPE_REGULAR_TEXT;
+                            }else if($job_order->employment_type==JOB_ORDER_TYPE_CONTRACTUAL){
+                                echo JOB_ORDER_TYPE_CONTRACTUAL_TEXT;
+                            }?>
+                        </label>
+                    </div>
+                    <div class="col-md-6 mb-1">
+                        <label for="status">Status: 
+                            <?php if($job_order->status==JOB_ORDER_STATUS_OPEN){
+                                echo JOB_ORDER_STATUS_OPEN_TEXT;
+                            }else if($job_order->status==JOB_ORDER_STATUS_ON_HOLD){
+                                echo JOB_ORDER_STATUS_ON_HOLD_TEXT;
+                            }else if($job_order->status==JOB_ORDER_STATUS_CLOSED){
+                                echo JOB_ORDER_STATUS_CLOSED_TEXT; 
+                            }?>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-1">
+                        <label for="job_function" class="form-label">Job Function: </label>
+                        <div class="text-area-view">
+                            <p><?php echo $job_order->job_function; ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-1">
+                        <label for="requirement" class="form-label">Requirement: </label>
+                        <div class="text-area-view">
+                            <p><?php echo $job_order->requirement; ?></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-1">
+                        <label class="form-label">Skills:</label>
+                        <div>
+                            <?php foreach($job_order_skills as $job_order_skill){
+                                echo createPill('skill-'.$job_order_skill->skill_id,
+                                        $job_order_skill->name,
+                                        $job_order_skill->years_of_experience,
+                                        false);
+                            } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-1">
+                        <label class="form-label">Recruiters:</label>
+                        <div>
+                            <?php foreach($job_order_users as $job_order_user){
+                                echo createPill('user-'.$job_order_user->user_id,
+                                        $job_order_user->name,
+                                        '',
+                                        false);
+                            } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-1">
+                        <label for="location" class="form-label">Location: <?php echo $job_order->location; ?></label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="slots_available" class="form-label">Slots Available: <?php echo $job_order->slots_available; ?></label>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="priority_level" class="form-label">Priority Level: <?php echo $job_order->priority_level; ?></label>
+                    </div>
+                </div>
+                <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                    <div class="d-flex justify-content-end">
+                        <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                            <button type="button" class="btn btn-primary mr-1" onclick="showUpdatePanel()">Update</button>
+                            <button type="button" class="btn btn-danger" onclick="showDeleteDialog()">Delete</button>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+            
+            <?php $this->view('job_order/candidate_pipeline'); ?>
         </div>
-    </div>	
+    </div>
 </div>
 
 <?php $this->view('common/skillDialog'); ?>

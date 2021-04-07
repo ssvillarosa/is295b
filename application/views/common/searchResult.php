@@ -25,6 +25,7 @@
                     <div class="alert alert-danger" role="alert">
                         <?php echo $error_message; ?>
                     </div>
+                    <?php return; ?>
                 <?php endif; ?>
                 <?php if (isset($entries) && count($entries)>0): ?> 
                     <div class="table-responsive entry-search-result-table">

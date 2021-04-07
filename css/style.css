@@ -205,6 +205,14 @@ body {
     margin-left: -15px;
 }
 
+.text-area-view{
+    border: 1px solid #c6c8ca;
+    min-height: 75px;
+    max-height: 200px;
+    padding: 5px 10px;
+    overflow: auto;
+}
+
 /*********************************************************************************/
 /* Header                                                                        */
 /*********************************************************************************/
@@ -384,7 +392,7 @@ body {
         border-radius: 0px 0px 4px 4px;
         min-height: 300px;
     }
-    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item, .applicant-row-item, .registration-row-item {
+    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item, .applicant-row-item, .registration-row-item, .pipeline-row-item {
         cursor: pointer;
     }
     
@@ -433,4 +441,68 @@ body {
     .pill-button-removable:hover{
         background-color: #dc3545;
         border-color: #dc3545;
+    }
+    
+    /* Pipeline page */
+    .star-rating{
+        height: 20px;
+        width: 20px;
+    }
+    
+    #add_candidate_dialog .m2mj-modal-content{
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    #add_candidate_dialog .search{
+        padding: 6px 4px;
+    }
+    
+    #add_candidate_dialog .applicant-table{
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #dee2e6;
+    }
+    
+    /* Pipeline details page */
+    #log_activitiy_dialog .m2mj-modal-content{
+        width: 650px;
+        transform: none;
+        top: 10%;
+    }
+    
+    /* Activity page */
+    #add_activity_page{
+        border: 1px solid rgb(206, 212, 218);
+        padding: 10px 20px;
+        border-radius: 0px 0px 3px 3px;
+    }
+    
+    #activity_table .timestamp{
+        min-width: 15%;
+    }
+    
+    #activity_table .logged-by{
+        min-width: 15%;
+    }
+    
+    #activity_table .activity-type{
+        min-width: 15%;
+    }
+    
+    #form_add_activity .star-rating{
+        height: 25px;
+        width: 25px;
+        margin-right: 5px;
+        background-size: cover;
+        border: 0px;
+        outline: none;
+    }
+    
+    #form_add_activity .yellow-star{
+        background-image: url('../images/yellow-star.svg');
+    }
+    
+    #form_add_activity .black-star{
+        background-image: url('../images/black-star.svg');
     }

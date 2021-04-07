@@ -81,6 +81,11 @@ class Job_order extends CI_Controller {
             return;
         }
         $data["job_order_users"] = $job_order_users;
+        // Set data for applicant pipeline ajax.
+        $data['job_order_id'] = $jobOrderId;
+        $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $data['rowsPerPage'] = $rowsPerPage;
+        
         renderPage($this,$data,'job_order/detailsView');
     }
     
@@ -155,7 +160,7 @@ class Job_order extends CI_Controller {
         $data["success_message"] = "Job order successfully added!";
         renderPage($this,$data,'job_order/add');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Added job order ".$job_order->title.".");
         
@@ -203,9 +208,9 @@ class Job_order extends CI_Controller {
             return;
         }
         // Batch insert skills into job order skills table.
+        $this->JobOrderSkillModel->deleteJobOrderSkills($jobOrderId);
         if($job_order_skills){
-            $updateJobOrderSkills = $this->JobOrderSkillModel->deleteJobOrderSkills($jobOrderId)
-                    && $this->JobOrderSkillModel->addJobOrderSkills($job_order_skills);
+            $updateJobOrderSkills = $this->JobOrderSkillModel->addJobOrderSkills($job_order_skills);
             if($updateJobOrderSkills === ERROR_CODE){
                 // Set error message.
                 $data["error_message"] = "Error occured.";     
@@ -214,9 +219,9 @@ class Job_order extends CI_Controller {
             }
         }
         // Batch insert users into job order user table.
+        $this->JobOrderUserModel->deleteJobOrderUsers($jobOrderId);
         if($job_order_users){
-            $updateJobOrderUsers = $this->JobOrderUserModel->deleteJobOrderUsers($jobOrderId)
-                    && $this->JobOrderUserModel->addJobOrderUsers($job_order_users);
+            $updateJobOrderUsers = $this->JobOrderUserModel->addJobOrderUsers($job_order_users);
             if($updateJobOrderUsers === ERROR_CODE){
                 // Set error message.
                 $data["error_message"] = "Error occured.";     
@@ -226,9 +231,15 @@ class Job_order extends CI_Controller {
         }
         // Display form with success message.
         $data["success_message"] = "Job order successfully updated!";
+        
+        // Set data for applicant pipeline ajax.
+        $data['job_order_id'] = $jobOrderId;
+        $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $data['rowsPerPage'] = $rowsPerPage;
+        
         renderPage($this,$data,'job_order/detailsView');
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Updated job order ".$job_order->title." details.");
     }
@@ -253,7 +264,7 @@ class Job_order extends CI_Controller {
             return;
         }
         // Log user activity.
-        $this->ActivityModel->saveUserActivity(
+        $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted job order ID : ".$this->input->post('delJobOrderIds'));
         echo 'Success';
