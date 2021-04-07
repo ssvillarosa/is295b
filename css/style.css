@@ -83,6 +83,34 @@ body {
     opacity: .5;
 }
 
+#site_loading_dialog {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    outline: 0;
+}
+
+#site_loading_dialog .loading-modal-content{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#site_loading_dialog .dialog-background {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    opacity: .5;
+}
+
 #toast{
     display: none;
     min-width: 250px;

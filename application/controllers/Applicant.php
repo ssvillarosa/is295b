@@ -121,7 +121,7 @@ class Applicant extends CI_Controller {
         // Log user activity.
         $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
-                "Updated applicant details with ID : ".$applicant->id.".");
+                "Updated candidate details with ID : ".$applicant->id.".");
     }
     
     /**
@@ -173,7 +173,7 @@ class Applicant extends CI_Controller {
         // Log user activity.
         $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
-                "Added applicant ".$applicant->last_name.
+                "Added candidate ".$applicant->last_name.
                 ",".$applicant->first_name.".");
     }
     
@@ -196,7 +196,7 @@ class Applicant extends CI_Controller {
         // Log user activity.
         $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
-                "Deleted applicant ID : ".$this->input->post('delApplicantIds'));
+                "Deleted candidate ID : ".$this->input->post('delApplicantIds'));
         echo 'Success';
     }
     
@@ -218,7 +218,7 @@ class Applicant extends CI_Controller {
         // Log user activity.
         $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
-                "Blocked applicant ID : ".$this->input->post('applicantIds'));
+                "Blocked candidate ID : ".$this->input->post('applicantIds'));
         echo 'Success';
     }
     
@@ -240,7 +240,7 @@ class Applicant extends CI_Controller {
         // Log user activity.
         $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
-                "Activated applicant ID : ".$this->input->post('applicantIds'));
+                "Activated candidate ID : ".$this->input->post('applicantIds'));
         echo 'Success';
     }
         
