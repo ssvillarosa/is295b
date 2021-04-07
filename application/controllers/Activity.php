@@ -306,7 +306,7 @@ class Activity extends CI_Controller {
             $this->email->reply_to($reply_to);
         }
         // Send email if not in test env.
-        if(strpos(ENVIRONMENT, "test")){
+        if(!strpos(ENVIRONMENT, "test")){
             $this->email->send();
         }
         // Add activity.
@@ -317,7 +317,6 @@ class Activity extends CI_Controller {
             'activity_type' => ACTIVITY_TYPE_EMAIL,
             'activity' => $email_details,
         ];
-        echo $email_details;
         return $this->ActivityModel->addActivity($activity);
     }
     

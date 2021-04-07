@@ -157,6 +157,7 @@ class Job_order extends CI_Controller {
         $empty_job_order = $this->createJobOrderObject(false);
         $data["job_order"] = $empty_job_order;
         $data["job_order_skills"] = [];
+        $data["job_order_users"] = [];
         $data["success_message"] = "Job order successfully added!";
         renderPage($this,$data,'job_order/add');
         // Log user activity.
