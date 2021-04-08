@@ -471,7 +471,7 @@ class Registration extends CI_Controller {
                 site_url('registration/confirmEmail').'?id='.$newRegistrationId
                 .'">here</a> to confirm your email.');
         // Send email except in test env.
-        if(!strpos(ENVIRONMENT, "test")){
+        if(ENVIRONMENT!=="testing"){
             $this->email->send();
         }
     }

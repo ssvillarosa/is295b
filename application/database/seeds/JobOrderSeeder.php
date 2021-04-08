@@ -8,6 +8,9 @@ class JobOrderSeeder extends Seeder {
 
     public function run()
     {
+        $this->load->library('Seeder');
+        $this->seeder->call('SkillSeeder');
+        $this->seeder->call('UserSeeder');
         $this->db->query("SET FOREIGN_KEY_CHECKS = 0;");
         $this->db->query("TRUNCATE table {$this->job_order_table};");
         $this->db->query("TRUNCATE table {$this->job_order_skill_table};");

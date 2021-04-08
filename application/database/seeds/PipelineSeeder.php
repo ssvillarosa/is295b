@@ -6,6 +6,9 @@ class PipelineSeeder extends Seeder {
 
     public function run()
     {
+        $this->load->library('Seeder');
+        $this->seeder->call('JobOrderSeeder');
+        $this->seeder->call('ApplicantSeeder');
         $this->db->query("SET FOREIGN_KEY_CHECKS = 0;");
         $this->db->query("TRUNCATE table {$this->pipeline_table};");
         $this->db->query("SET FOREIGN_KEY_CHECKS = 1;");
