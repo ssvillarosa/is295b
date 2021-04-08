@@ -7,8 +7,16 @@ class Activity_test extends TestCase{
 
         $CI =& get_instance();
         $CI->load->library('Seeder');
+        $CI->load->helper('directory');
         $CI->seeder->call('PipelineSeeder');
         $CI->seeder->call('ActivitySeeder');
+        // Delete all attachments.
+        $path=UPLOAD_DIRECTORY."/1";
+        $CI->load->helper("file");
+        delete_files($path, true);
+        if(!is_dir($path)){
+           mkdir($path);
+        }
     }
     
     public function setUp(){        
