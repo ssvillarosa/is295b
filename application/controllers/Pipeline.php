@@ -61,7 +61,7 @@ class Pipeline extends CI_Controller {
             $this->load->view('pipeline/applicantPipelineTable', $data);
             return;
         }
-        $users = $this->JobOrderUserModel->getUsersByJobOrderId($job_order_id);
+        $users = $this->UserModel->getUsers(0);
         if($users === ERROR_CODE){
             $data["error_message"] = "Error occured.";
             $this->load->view('pipeline/applicantPipelineTable', $data);
@@ -71,6 +71,48 @@ class Pipeline extends CI_Controller {
         $data['pipelines'] = $applicants;
         $data['job_order_id'] = $job_order_id;
         $this->load->view('pipeline/applicantPipelineTable', $data);
+    }
+    
+    /**
+    * List of pipelines grouped by job order designed for full page of pipeline module.
+    */
+    public function jobOrderPipelinePage(){
+        $applicant_id = $this->input->get("applicant_id");
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $data['applicant_id'] = $applicant_id;
+        $data['rowsPerPage'] = $rowsPerPage;
+        $data['header_on'] = true;
+        $this->load->view('pipeline/jobOrderPipelinePage', $data);
+    }
+    
+    /**
+    * List of pipelines grouped by job order designed for ajax request.
+    */
+    public function jobOrderPipelineTable(){
+        $applicant_id = $this->input->get("applicant_id");
+        // Set pagination details.
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $totalCount = count($this->PipelineModel->getPipelinesByApplicant(0,0,$applicant_id,'id','desc'));
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        // Set data and display view.
+        $job_orders = $this->PipelineModel->getPipelinesByApplicant($rowsPerPage,$data['offset'], $applicant_id);        
+        if($job_orders === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            $this->load->view('pipeline/jobOrderPipelineTable', $data);
+            return;
+        }
+        $users = $this->UserModel->getUsers(0);
+        if($users === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            $this->load->view('pipeline/jobOrderPipelineTable', $data);
+            return;
+        }
+        $data["users"] = $users;
+        $data['pipelines'] = $job_orders;
+        $data['applicant_id'] = $applicant_id;
+        $this->load->view('pipeline/jobOrderPipelineTable', $data);
     }
     
     /**
@@ -95,6 +137,27 @@ class Pipeline extends CI_Controller {
         // If the logged in user is not admin, assign the assigned_to to that user.
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
             $pipeline->assigned_to = $this->session->userdata(SESS_USER_ID);
+        }
+        // Check if user has access to job order.
+        $userHasAccess = $this->checkUserAccessToJobOrder($job_order_id,
+                $pipeline->assigned_to);
+        if($userHasAccess === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        // If user doesn't have access, assign user to the job order.
+        if(!$userHasAccess){
+            $job_order_user = (object)[
+                'job_order_id' => $job_order_id,
+                'user_id' => $pipeline->assigned_to,
+            ];
+            $addJobOrderUsers = $this->JobOrderUserModel->addJobOrderUsers([$job_order_user]);
+            if($addJobOrderUsers === ERROR_CODE){
+                // Set error message.
+                $data["error_message"] = "Error occured.";     
+                renderPage($this,$data,'job_order/detailsView');
+                return;
+            }
         }
         $pipeline->status = PIPELINE_STATUS_UNSET;
         $pipeline->created_by = $this->session->userdata(SESS_USER_ID);

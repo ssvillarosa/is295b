@@ -25,11 +25,16 @@ class Pipeline_test extends TestCase{
         );
     }
     
-    public function test_applicantPipelinePage(){
+    public function test_applicantPipelineTable(){
         $output = $this->request('GET','pipeline/applicantPipelineTable?job_order_id=1');
         $this->assertContains('Steven Villarosa', $output);
         $this->assertContains('Theresa San Jose', $output);
         $this->assertContains('Add Candidate', $output);
+    }
+    
+    public function test_jobOrderPipelineTable(){
+        $output = $this->request('GET','pipeline/jobOrderPipelineTable?applicant_id=1');
+        $this->assertContains('Software Developer', $output);
     }
     
     public function test_userNoAccess(){

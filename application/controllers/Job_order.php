@@ -282,8 +282,6 @@ class Job_order extends CI_Controller {
     * Search results page.
     */
     public function searchResult(){
-        // Create search parameters for each field.
-        $searchParams = [];
         $fields = [
             "id",
             "title",
@@ -301,24 +299,63 @@ class Job_order extends CI_Controller {
             "skills",
             "recruiters"
             ];
+        $data = $this->searchJobOrder($fields);
+        if(!$this->input->get("exportResult")){
+            renderPage($this,$data,'common/searchResult');
+        }
+    }
+    
+    /**
+    * Returns search result as JSON.
+    */
+    public function searchAjax(){
+        checkUserLogin();
+        $fields = [
+            "id",
+            "title",
+            "skills",
+            ];
+        $data = $this->searchJobOrder($fields,$fields);
+        if(isset($data['error_message'])){
+            echo $data['error_message'];
+            return;
+        }
+        echo json_encode($data["entries"]);
+    }
+    
+    /**
+    * Do the actual search function.
+    * 
+    * @param    array of strings    $fields     Each item corresponds to one column in the database table.
+    * @param    array of string     $sf         Each item correspond to field which will be shown.
+    * 
+    * @return dataobject $data  Contains all information about page including search results and pagination. 
+    */
+    private function searchJobOrder($fields,$sf=null){
+        // Create search parameters for each field.
+        $searchParams = [];
         foreach ($fields as $field){
             $param = getSearchParam($this,$field);
             $param ? array_push($searchParams, $param):'';            
         }
         
         // Create array to store fields to be shown
-        $shownFields = [];
+        $shownFields = $sf;
+        if(is_null($shownFields)){
+            $shownFields = [];
+        }
         // Create column header for the table.
         $columnHeaders = [];
         foreach ($searchParams as $param){
             if($param->show){
-                array_push($shownFields, $param->field);   
                 array_push($columnHeaders, ucwords(str_replace("_", " ", $param->field)));   
+            }
+            if($param->show && is_null($sf)){
+                array_push($shownFields, $param->field);
             }
         }
         if(!$shownFields){
             $data['error_message'] = "Select at least one field to be displayed.";
-            renderPage($this,$data,'job_order/searchResult');
             return;
         }
         
@@ -338,12 +375,18 @@ class Job_order extends CI_Controller {
         
         if($this->input->get("exportResult")){
             $job_orders = $this->JobOrderModel->searchJobOrder($searchParams,$shownFields,0);
+            if($job_orders === ERROR_CODE){
+                $data['error_message'] = "Error occured.";
+            }
             exportCSV($this->input->get("exportResult"),$job_orders,$columnHeaders,[]);
         }else{
             $job_orders = $this->JobOrderModel->searchJobOrder($searchParams,$shownFields,$rowsPerPage,$data['offset']);
+            if($job_orders === ERROR_CODE){
+                $data['error_message'] = "Error occured.";
+            }
         }
         $data['entries'] = $job_orders;
-        renderPage($this,$data,'common/searchResult');
+        return $data;
     }
     
     /**

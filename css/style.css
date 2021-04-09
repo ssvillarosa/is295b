@@ -534,3 +534,15 @@ body {
     #form_add_activity .black-star{
         background-image: url('../images/black-star.svg');
     }
+    
+    /* Applicant details page. */
+    #add_job_order_dialog .m2mj-modal-content{
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    #add_job_order_dialog .job_order-table{
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #dee2e6;
+    }
