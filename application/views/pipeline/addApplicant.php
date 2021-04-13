@@ -15,7 +15,7 @@
                 url += "&condition_first_name=SW&value_first_name="+$("#value_first_name").val();
                 isValid = true;
             }
-            if($("#value_first_name").val()){
+            if($("#value_last_name").val()){
                 url += "&condition_last_name=SW&value_last_name="+$("#value_last_name").val();
                 isValid = true;
             }
@@ -85,10 +85,10 @@
                         <input type="text" name="value_id" id="value_id" class="form-control" placeholder="ID">
                     </div>
                     <div class="col-md-3 mb-3">
-                        <input type="text" name="value_first_name" id="value_first_name" class="form-control" placeholder="First Name">
+                        <input type="text" name="value_last_name" id="value_last_name" class="form-control" placeholder="Last Name">
                     </div>
                     <div class="col-md-3 mb-3">
-                        <input type="text" name="value_last_name" id="value_last_name" class="form-control" placeholder="Last Name">
+                        <input type="text" name="value_first_name" id="value_first_name" class="form-control" placeholder="First Name">
                     </div>
                     <div class="col-md-3 mb-3">
                         <input type="text" name="value_skills" id="value_skills" class="form-control" placeholder="Skills">

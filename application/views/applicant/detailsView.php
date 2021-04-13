@@ -23,7 +23,7 @@
 <div id="applicant-details-page" class="applicant-details-page">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-6 update-component">
                 <section id="content" >
                     <?php if(isset($success_message)): ?>
                         <div class="alert alert-success" role="alert">
@@ -203,6 +203,8 @@
                     </form>
                 </section>
             </div>
+            
+            <?php $this->view('applicant/job_order_pipeline'); ?>
         </div>
     </div>	
 </div>

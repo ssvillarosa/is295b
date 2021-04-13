@@ -20,6 +20,7 @@ class Pipeline extends CI_Controller {
         $this->load->model('PipelineModel');
         $this->load->model('JobOrderUserModel');
         $this->load->model('UserModel');
+        $this->load->model('ActivityModel');
     }
     
     /**
@@ -175,6 +176,20 @@ class Pipeline extends CI_Controller {
         // Add entry to pipeline.
         $id = $this->PipelineModel->addPipeline($pipeline);
         if($id === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        
+        // Add activity.
+        $activity = (object)[
+            'timestamp' => date('Y-m-d H:i:s'),
+            'pipeline_id' => $id,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_TYPE_ADDED_TO_PIPELINE,
+            'activity' => "Added to pipeline by ".$this->session->userdata(SESS_USER_FULL_NAME),
+        ];
+        $result =  $this->ActivityModel->addActivity($activity);
+        if($result === ERROR_CODE){
             echo 'Error occured.';
             return;
         }
