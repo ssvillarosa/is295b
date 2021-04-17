@@ -23,7 +23,8 @@ Class JobOrderModel extends CI_Model{
     * @param    int     $offset Offset value
     * @return   array of job order objects
     */
-    public function getJobOrders($limit=25,$offset=0){
+    public function getJobOrders($limit=25,$offset=0,$orderBy='id',$order='asc'){
+        $this->db->order_by($orderBy,$order);
         $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         $query = $this->db->get('job_order_list',$limit,$offset);
         if(!$query){

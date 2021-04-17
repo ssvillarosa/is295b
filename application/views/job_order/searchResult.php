@@ -56,7 +56,9 @@
                                                             echo "</script>";
                                                         }
                                                     }else{
-                                                        echo $entry[$field];
+                                                        echo strlen($entry[$field]) > 50 ? 
+                                                        substr($entry[$field],0,50)."..." : 
+                                                        $entry[$field];
                                                     }
                                                 ?>
                                             </td>
