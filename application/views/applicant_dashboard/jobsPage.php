@@ -83,8 +83,9 @@
                                 $job_order->job_function; ?>
                         </p>
                         <div class="d-flex justify-content-end">
-                            <a href="#" class="card-link btn btn-primary">View Details</a>
-                            <a href="#" class="card-link btn btn-secondary">Apply</a>
+                            <a href="<?php echo site_url('applicant_dashboard/viewJob').'?id='.$job_order->id; ?>" 
+                               class="card-link btn btn-primary">View Details</a>
+                            <a href="#" class="ml-1 btn btn-secondary">Apply</a>
                         </div>
                     </div>
                 </div>

@@ -556,3 +556,8 @@ body {
     .applicant-jobs-page .table_footer {
         border-radius: 4px;
     }
+    
+    /* Applicant job details page. */
+    #jobs_details_page .job-function, #jobs_details_page .requirment{
+        text-align: justify;
+    }

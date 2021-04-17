@@ -17,13 +17,15 @@ class Applicant_dashboard extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->model('JobOrderModel');
+        $this->load->model('CompanyModel');
+        $this->load->model('JobOrderSkillModel');
+        checkApplicantLogin();
     }
     
     /**
     * Shows overview of applicant_dashboard.
     */
     public function jobs(){
-        checkApplicantLogin();
         $data = [];
         $rowsPerPage = getRowsPerPage($this,COOKIE_APPLICANT_JOB_ORDER_ROWS_PER_PAGE);
         $totalCount = $this->JobOrderModel->getJobOrderCount();
@@ -43,12 +45,14 @@ class Applicant_dashboard extends CI_Controller {
     * Shows list of applicant's submitted applications.
     */
     public function myApplications(){
-        checkApplicantLogin();
         renderApplicantPage($this,[],'applicant_dashboard/myApplications');
     }
     
+    
+    /**
+    * Shows list of search result.
+    */
     public function searchJobResult(){
-        checkApplicantLogin();
         $fields = [
             "id",
             "title",
@@ -145,5 +149,31 @@ class Applicant_dashboard extends CI_Controller {
         $data['filters'] = generateTextForFilters($searchParams);
         $data['fullUrl'] = site_url('applicant_dashboard/searchJobResult').'?'.getQueryParams(["rowsPerPage","currentPage"]);
         renderApplicantPage($this,$data,'applicant_dashboard/jobsPage');
+    }
+    
+    /**
+    * Shows details of a job order.
+    */
+    public function viewJob(){
+        $jobOrderId = $this->input->get('id');
+        if(!$jobOrderId){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant_dashboard/jobDetails');
+            return;
+        }
+        $job_order = $this->JobOrderModel->getJobOrderById($jobOrderId);
+        if($job_order === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant_dashboard/jobDetails');
+            return;
+        }
+        $data["job_order"] = $job_order;
+        $companies = $this->CompanyModel->getCompanies(0,0,"name","asc");
+        if($companies === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant_dashboard/jobDetails');
+        }
+        $data["companies"] = $companies;
+        renderApplicantPage($this,$data,'applicant_dashboard/jobDetails');
     }
 }
