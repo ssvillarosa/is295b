@@ -173,6 +173,7 @@ define('COOKIE_PIPELINE_SEARCH_ROWS_PER_PAGE','pipeline_search_rows_per_page');
 define('COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE','pipeline_ajax_rows_per_page');
 define('COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE','job_order_pipeline_ajax_rows_per_page');
 define('COOKIE_ACTIVITY_AJAX_ROWS_PER_PAGE','activity_ajax_rows_per_page');
+define('COOKIE_APPLICANT_JOB_ORDER_ROWS_PER_PAGE','applicant_job_order_rows_per_page');
 
 define('CONDITION_EQUALS','E');
 define('CONDITION_NOT_EQUAL','NE');

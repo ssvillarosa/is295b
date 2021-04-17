@@ -546,3 +546,13 @@ body {
         overflow-y: auto;
         border: 1px solid #dee2e6;
     }
+    
+    /* Applicant dashboard jobs page. */
+    .applicant-jobs-page .side-bar{
+        background: #0d447d;
+        border-radius: 5px;
+    }
+    
+    .applicant-jobs-page .table_footer {
+        border-radius: 4px;
+    }
