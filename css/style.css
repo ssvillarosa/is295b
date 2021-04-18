@@ -558,11 +558,39 @@ body {
         border-radius: 5px;
     }
     
-    .applicant-jobs-page .table_footer {
+    .applicant-jobs-page .table_footer{
         border-radius: 4px;
     }
     
     /* Applicant job details page. */
     #jobs_details_page .job-function, #jobs_details_page .requirment{
         text-align: justify;
+    }
+    
+    /* Applicant submitted jobs page. */
+    .applicant-submissions-page .side-bar{
+        background: #0d447d;
+        border-radius: 5px;
+    }
+    
+    .applicant-submissions-page .table-footer {
+        border-radius: 4px;
+    }
+    
+    .applicant-submissions-page .card {
+        width: 18rem;
+        min-width: 314px;
+        height: 230px;
+    }
+    
+    .applicant-submissions-page .card-container{
+        flex-wrap: wrap;
+    }
+    
+    .applicant-submissions-page .card-title{
+        color: #004085;
+    }
+    
+    .card-container .upper {
+        justify-content: normal;
     }

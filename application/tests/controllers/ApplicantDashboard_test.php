@@ -28,4 +28,10 @@ class ApplicantDashboard_test extends TestCase{
         $this->assertContains('BGC', $output);
         $this->assertContains('Regular', $output);
     }
+    
+    public function test_myApplications(){
+        $output = $this->request('GET','applicant_dashboard/myApplications');
+        $this->assertContains('Software Developer', $output);
+        $this->assertContains('BBS', $output);
+    }
 }

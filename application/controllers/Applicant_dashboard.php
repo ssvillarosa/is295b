@@ -18,6 +18,7 @@ class Applicant_dashboard extends CI_Controller {
         parent::__construct();
         $this->load->model('JobOrderModel');
         $this->load->model('CompanyModel');
+        $this->load->model('PipelineModel');
         $this->load->model('JobOrderSkillModel');
         checkApplicantLogin();
     }
@@ -45,7 +46,22 @@ class Applicant_dashboard extends CI_Controller {
     * Shows list of applicant's submitted applications.
     */
     public function myApplications(){
-        renderApplicantPage($this,[],'applicant_dashboard/myApplications');
+        $applicant_id = $this->session->userdata(SESS_APPLICANT_ID);
+        // Set pagination details.
+        $rowsPerPage = getRowsPerPage($this,COOKIE_APPLICANT_SUBMISSIONS_ROWS_PER_PAGE);
+        $totalCount = count($this->PipelineModel->getPipelinesByApplicant(0,0,$applicant_id,'created_time','desc'));
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        // Get list of applicant submissions.
+        $result = $this->PipelineModel->getPipelinesByApplicant($rowsPerPage,$data['offset'], $applicant_id);        
+        if($result === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            $this->load->view('pipeline/jobOrderPipelineTable', $data);
+            return;
+        }
+        $data['applied_jobs'] = $result;
+        renderApplicantPage($this,$data,'applicant_dashboard/myApplications');
     }
     
     
