@@ -52,10 +52,12 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary mr-1" onclick="showUpdatePanel()">Apply</button>
+                    <button type="button" class="btn btn-primary mr-1" 
+                            onclick="openApplicationForm(<?php echo $job_order->id; ?>)">Apply</button>
                     <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<?php $this->view('applicant_dashboard/applyJob');

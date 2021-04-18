@@ -73,6 +73,11 @@ body {
     text-transform: capitalize;
 }
 
+.m2mj-dialog .modal-header{
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
 .dialog-background {
     position: fixed;
     top: 0;

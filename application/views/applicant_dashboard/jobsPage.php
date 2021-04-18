@@ -85,7 +85,8 @@
                         <div class="d-flex justify-content-end">
                             <a href="<?php echo site_url('applicant_dashboard/viewJob').'?id='.$job_order->id; ?>" 
                                class="card-link btn btn-primary">View Details</a>
-                            <a href="#" class="ml-1 btn btn-secondary">Apply</a>
+                            <button type="button" class="btn btn-secondary ml-1" 
+                                    onclick="openApplicationForm(<?php echo $job_order->id; ?>)">Apply</button>
                         </div>
                     </div>
                 </div>
@@ -129,3 +130,4 @@
         </div>
     </div>
 </div>
+<?php $this->view('applicant_dashboard/applyJob');

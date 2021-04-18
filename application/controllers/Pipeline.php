@@ -225,6 +225,61 @@ class Pipeline extends CI_Controller {
         echo 'Success';
     }
     
+    /** 
+     * Add candidate application to pipeline.
+     */
+    public function applicantSubmitAjax(){
+        checkApplicantLogin();
+        $job_order_id = $this->input->post('job_order_id');
+        if(!$job_order_id){
+            echo 'Invalid Job Order.';
+            return;
+        }
+        $applicant_id = $this->session->userdata(SESS_APPLICANT_ID);
+        if(!$applicant_id){
+            echo 'Invalid Session.';
+            return;
+        }
+        if (empty($_FILES['file_attachment']['name'])) {
+            echo 'Invalid file.';
+            return;
+        }
+        $pipeline = (object)[
+            'job_order_id' => $job_order_id,
+            'applicant_id' => $applicant_id,
+            'status' => PIPELINE_STATUS_UNSET,
+            'rating' => 0,
+        ];
+        // Check if candidate is already added to pipeline.
+        $pipelineExist = $this->checkPipelineExist($job_order_id,$applicant_id);
+        if($pipelineExist === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        if($pipelineExist){
+            echo 'Duplicate entry error.';
+            return;
+        }
+        // Add entry to pipeline.
+        $id = $this->PipelineModel->addPipeline($pipeline);
+        if($id === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        // Upload attachmet and add activity.
+        $timestamp = date('Y-m-d H:i:s');
+        $result = $this->fileUploadAddActivity($timestamp,$id);
+        if($result === ERROR_CODE){
+            echo "Error occured.";
+            return;
+        }
+        if($result === UPLOAD_ERROR_CODE){
+            echo $this->upload->display_errors();
+            return;
+        }
+        echo "Success";
+    }
+    
     /**
     * Checks if user has access to job order. If user has admin role or user 
     * is assigned to job order, return true. Otherwise, return false.
@@ -287,5 +342,44 @@ class Pipeline extends CI_Controller {
             'created_by' => $post ? $this->input->post('created_by'): '',
         ];
         return $pipeline;
+    }
+    
+    /**
+    * Uploads a file attachment.
+    * 
+    * @param    string              $timestamp      String represenstation of current time stamp.
+    * @param    pipeline object     $pipeline       Pipeline object containing the current pipeline details.
+    */
+    private function fileUploadAddActivity($timestamp,$pipelineId){
+        // Configure upload.
+        $upload_path = UPLOAD_DIRECTORY.'/'.$pipelineId.'/';
+        if(!is_dir($upload_path)){
+           mkdir($upload_path);
+        }
+        $config['upload_path']          = $upload_path;
+        $config['allowed_types']        = 'doc|docx|pdf';
+        $config['max_size']             = 2000;
+        $this->load->library('upload', $config);
+        
+        $file = $this->upload->do_upload("file_attachment");
+        if(!$file){
+            return UPLOAD_ERROR_CODE;
+        }
+        $filename = $this->upload->data()['file_name'];
+        $message = $this->input->post('message');
+        $activity_message = "";
+        if($message){
+            $activity_message .= "Applicant Message: \n".$message."\n\n";
+        }
+        $activity_message .= 'Uploaded file: '.$filename;
+        // Add activity.
+        $activity = (object)[
+            'timestamp' => $timestamp,
+            'pipeline_id' => $pipelineId,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_CANDIDATE_SUBMIT_APPLICATION,
+            'activity' => $activity_message,
+        ];
+        return $this->ActivityModel->addActivity($activity);
     }
 }

@@ -86,4 +86,43 @@ class Pipeline_test extends TestCase{
         );
         $this->assertContains('Success', $output);
     }
+    
+    public function test_applicantSubmitAjax(){
+        $this->request(
+            'POST',
+            'applicantAuth/login',
+            [
+                'email' => 'steven@test.com',
+                'password' => 'hello',
+            ]
+        );
+        $filename = 'test.docx';
+        $filepath = APPPATH.'tests/testfiles/'.$filename;
+        $files = [
+                'file_attachment' => [
+                        'name'     => $filename,
+                        'tmp_name' => $filepath,
+                ],
+        ];
+        $this->request->setFiles($files);
+        $result = $this->request(
+            'POST',
+            'pipeline/applicantSubmitAjax',
+            [
+                'job_order_id' => 3,
+            ]
+        );
+        $this->assertContains('Success', $result);
+        
+        $page = $this->request(
+            'GET',
+            'activity/activityListByPipeline',
+            [
+                'pipelineId' => 7,
+            ]
+        );
+        $this->assertContains('Job Order Title: Quality Assurance', $page);
+        $this->assertContains('Candidate Full Name: Steven Villarosa', $page);
+        $this->assertContains('test.docx', $page);
+    }
 }

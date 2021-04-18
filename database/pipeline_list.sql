@@ -34,10 +34,14 @@ END AS status,
     p.assigned_to,
     u.username,
     u.email as user_email,
-    u.name,
+CASE
+    WHEN u.name is NULL THEN 'Unassigned'
+    ELSE u.name
+END as name,
     p.rating
 FROM pipeline p
 JOIN job_order jo ON p.job_order_id=jo.id
 JOIN applicant a ON p.applicant_id=a.id
-JOIN user u ON p.assigned_to=u.id
-WHERE p.is_deleted != 1;
+LEFT JOIN user u ON p.assigned_to=u.id
+WHERE p.is_deleted != 1
+ORDER BY p.id ASC;
