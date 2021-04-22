@@ -20,7 +20,6 @@ class Applicant_dashboard extends CI_Controller {
         $this->load->model('CompanyModel');
         $this->load->model('PipelineModel');
         $this->load->model('JobOrderSkillModel');
-        checkApplicantLogin();
     }
     
     /**
@@ -46,6 +45,7 @@ class Applicant_dashboard extends CI_Controller {
     * Shows list of applicant's submitted applications.
     */
     public function myApplications(){
+        checkApplicantLogin();
         $applicant_id = $this->session->userdata(SESS_APPLICANT_ID);
         // Set pagination details.
         $rowsPerPage = getRowsPerPage($this,COOKIE_APPLICANT_SUBMISSIONS_ROWS_PER_PAGE);

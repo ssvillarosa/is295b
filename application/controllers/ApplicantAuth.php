@@ -57,7 +57,7 @@ class ApplicantAuth extends CI_Controller {
             SESS_IS_APPLICANT_LOGGED_IN
         );
         $this->session->unset_userdata($sessionData);
-        redirect('applicantAuth/login');
+        redirect(base_url());
     }
     
     /**

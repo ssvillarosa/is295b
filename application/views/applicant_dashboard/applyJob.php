@@ -30,8 +30,12 @@
     });
     
     function openApplicationForm(jobOrderId){
-        $("#job_order_id").val(jobOrderId);
-        $('#apply_job_dialog').fadeIn();
+        <?php if($this->session->has_userdata(SESS_IS_APPLICANT_LOGGED_IN)) : ?>
+            $("#job_order_id").val(jobOrderId);
+            $('#apply_job_dialog').fadeIn();
+        <?php else: ?>
+            window.location.replace("<?php echo site_url('applicantAuth/login?referrer='.getFullUrl()); ?>");
+        <?php endif; ?>
     }
 </script>
 <div class="m2mj-dialog" id="apply_job_dialog">

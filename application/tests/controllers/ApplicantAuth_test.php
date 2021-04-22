@@ -86,7 +86,7 @@ class ApplicantAuth_test extends TestCase{
         );
         $this->assertRedirect('applicant_dashboard/jobs', 302);
         $this->request('GET','applicantAuth/logout');
-        $this->assertRedirect('applicantAuth/login', 302);
+        $this->assertRedirect(base_url(), 302);
     }
 
     public function test_method_404(){
