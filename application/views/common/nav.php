@@ -3,8 +3,8 @@
     <div class="container">
         <nav id="nav">
             <ul>
-                <li class="<?php if($this->uri->segment(1)=="dashboard") echo "active"; ?>">
-                    <a href="<?php echo site_url('dashboard/adminOverview') ?>">Dashboard</a>
+                <li class="<?php if($this->uri->segment(1)=="admin_dashboard") echo "active"; ?>">
+                    <a href="<?php echo site_url('admin_dashboard/overview') ?>">Dashboard</a>
                 </li>
                 <li class="<?php if($this->uri->segment(1)=="job_order" || 
                         $this->uri->segment(1)=="activity") echo "active"; ?>">                

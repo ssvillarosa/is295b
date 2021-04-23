@@ -156,4 +156,9 @@ class PipelineModel_seedtest extends UnitTestCase {
         $pipeline  = $this->obj->searchPipelineCount($searchParam);
         $this->assertEquals($pipeline, 2);
     }
+    
+    public function test_getPipelinesByUser(){
+        $pipeline  = $this->obj->getPipelinesByUser(0,0,1);
+        $this->assertEquals(count($pipeline), 3);        
+    }
 }

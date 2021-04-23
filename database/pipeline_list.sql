@@ -4,6 +4,7 @@ SELECT
     p.created_time,
     p.job_order_id,
     jo.title,
+    jo.priority_level,
     p.applicant_id,
     a.last_name,
     a.first_name,

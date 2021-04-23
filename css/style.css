@@ -425,7 +425,11 @@ body {
         border-radius: 0px 0px 4px 4px;
         min-height: 300px;
     }
-    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item, .applicant-row-item, .registration-row-item, .pipeline-row-item {
+    .user-table tr, .company-table tr, 
+    .job_order-table tr, 
+    #entry_search_result_table .entry-row-item, 
+    .applicant-row-item, .registration-row-item, 
+    .pipeline-row-item, .user_pipeline-row-item {
         cursor: pointer;
     }
     

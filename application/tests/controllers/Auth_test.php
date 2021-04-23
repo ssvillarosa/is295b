@@ -22,7 +22,7 @@ class Auth_test extends TestCase{
         );
         
         // Check if admin successfully logged in.
-        $this->assertRedirect('dashboard/adminOverview', 302);
+        $this->assertRedirect('admin_dashboard/overview', 302);
         
         // Check if admin can access user module.
         $adminPage = $this->request('GET', 'user/userList');
@@ -40,7 +40,7 @@ class Auth_test extends TestCase{
                 'password' => 'stevenpw',
             ]
         );
-        $this->assertRedirect('dashboard/adminOverview', 302);
+        $this->assertRedirect('admin_dashboard/overview', 302);
         $recruiterPage = $this->request('GET', 'user/userList');
         $this->assertNotContains('admin-only', $recruiterPage);
     }
@@ -104,7 +104,7 @@ class Auth_test extends TestCase{
                 'password' => 'stevenpw',
             ]
         );
-        $this->assertRedirect('dashboard/adminOverview', 302);
+        $this->assertRedirect('admin_dashboard/overview', 302);
         $this->request('GET','auth/logout');
         $this->assertRedirect('auth/login', 302);
     }
