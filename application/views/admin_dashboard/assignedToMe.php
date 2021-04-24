@@ -19,10 +19,11 @@
         <table class="table table-hover" id="user_pipeline_table">
             <thead>
                 <tr>
-                    <th class="text-left">Applicant</th>
-                    <th class="text-left">Job Order</th>
-                    <th class="text-center">Status</th>
-                    <th class="text-center">Rating</th>
+                    <?php createSortableHeader('Applicant','applicant-header text-left',$orderBy, $order, 'first_name' ,'loadAssignedToMePage'); ?>
+                    <?php createSortableHeader('Job Order','applicant-header text-left',$orderBy, $order, 'title' ,'loadAssignedToMePage'); ?>
+                    <?php createSortableHeader('Status','applicant-header text-center',$orderBy, $order, 'status' ,'loadAssignedToMePage'); ?>
+                   <?php createSortableHeader('Rating','applicant-header text-center',$orderBy, $order, 'rating' ,'loadAssignedToMePage'); ?>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -63,9 +64,9 @@
                     <?php echo $rowsPerPage; ?>
                 </button> Items per page
                 <div id="user_pipeline_rows_dropdown" class="dropdown-content dropdown-menu">
-                    <button class="dropdown-item" onclick="loadAssignedToMePage(1,1)">1</button>
-                    <button class="dropdown-item" onclick="loadAssignedToMePage(1,50)">50</button>
-                    <button class="dropdown-item" onclick="loadAssignedToMePage(1,100)">100</button>
+                    <button class="dropdown-item" onclick="loadAssignedToMePage(1,5)">5</button>
+                    <button class="dropdown-item" onclick="loadAssignedToMePage(1,15)">15</button>
+                    <button class="dropdown-item" onclick="loadAssignedToMePage(1,30)">30</button>
                 </div>
             </div>
         </div>

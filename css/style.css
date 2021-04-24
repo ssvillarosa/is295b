@@ -354,6 +354,36 @@ body {
     vertical-align: middle;
 }
 
+.arrow-up {
+    background-image: url('../images/sort-up.svg');
+    height: 20px;
+    width: 20px;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+    margin-left: 10px;
+}
+
+.arrow-down {
+    background-image: url('../images/sort-down.svg');
+    height: 20px;
+    width: 20px;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+    margin-left: 10px;
+}
+
+.arrow-up-down {
+    background-image: url('../images/unsorted.svg');
+    height: 20px;
+    width: 20px;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+    margin-left: 10px;
+}
+
 /*********************************************************************************/
 /* Footer                                                                        */
 /*********************************************************************************/
@@ -597,4 +627,9 @@ body {
     
     .card-container .upper {
         justify-content: normal;
+    }
+    
+    /* Admin dashboard*/
+    #user_pipeline-page .table thead th{
+        cursor: pointer;
     }
