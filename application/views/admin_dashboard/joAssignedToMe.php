@@ -12,8 +12,9 @@
             <?php return; ?>
         </div>
     <?php endif; ?>
-    <div class="table_toolbar d-flex">
+    <div class="table_toolbar d-flex justify-content-between">
         <h5 class="h5 text-white">Job Orders Assigned To Me</h5>
+        <div class="arrow-up mt-2 mr-2"></div>
     </div>
     <div class="table-responsive job_order-table">
         <table class="table table-hover" id="job_order_table">
@@ -45,7 +46,7 @@
         </table>
     </div>
 
-    <div class="table_footer d-flex justify-content-between align-items-center">
+    <div class="table_footer">
         <div class="row-per-page">
             <div class="usr-icon" onclick="$('#job_order_rows_dropdown').toggle();">
                 <button class="btn btn-secondary dropdown-toggle btn-sm" href="#">

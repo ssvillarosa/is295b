@@ -21,6 +21,7 @@
                 showToast("Error occurred.",3000);
             }
             $("#admin-dashboard-page #loadAssignedToMeContainer").html(data);
+            applyCollapsible("#admin-dashboard-page #loadAssignedToMeContainer");
         }).fail(function() {
             showToast("Error occurred.",3000);
         });
@@ -40,6 +41,7 @@
                 showToast("Error occurred.",3000);
             }
             $("#admin-dashboard-page #loadUnassignedContainer").html(data);
+            applyCollapsible("#admin-dashboard-page #loadUnassignedContainer");
         }).fail(function() {
             showToast("Error occurred.",3000);
         });
@@ -59,6 +61,7 @@
                 showToast("Error occurred.",3000);
             }
             $("#admin-dashboard-page #loadJoAssignedToMeContainer").html(data);
+            applyCollapsible("#admin-dashboard-page #loadJoAssignedToMeContainer");
         }).fail(function() {
             showToast("Error occurred.",3000);
         });
@@ -78,6 +81,7 @@
                 showToast("Error occurred.",3000);
             }
             $("#admin-dashboard-page #loadEventsContainer").html(data);
+            applyCollapsible("#admin-dashboard-page #loadEventsContainer");
         }).fail(function() {
             showToast("Error occurred.",3000);
         });
@@ -97,8 +101,24 @@
                 showToast("Error occurred.",3000);
             }
             $("#admin-dashboard-page #loadPublicEventsContainer").html(data);
+            applyCollapsible("#admin-dashboard-page #loadPublicEventsContainer");
         }).fail(function() {
             showToast("Error occurred.",3000);
+        });
+    }
+    
+    function applyCollapsible(container){
+        $(container+" .table_toolbar").click(function(){
+            $(this).next(".table-responsive").slideToggle(function(){
+                if($(this).is(':visible')){
+                    $(container+" .table_toolbar div").removeClass("arrow-down")
+                    $(container+" .table_toolbar div").addClass("arrow-up")
+                    return;
+                }
+                $(container+" .table_toolbar div").removeClass("arrow-up")
+                $(container+" .table_toolbar div").addClass("arrow-down")
+            });
+            $(this).next(".table-responsive").next(".table_footer").slideToggle();
         });
     }
 </script>

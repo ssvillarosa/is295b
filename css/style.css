@@ -637,3 +637,12 @@ body {
     #admin-dashboard-page .job_order-table .job-order-header{
         width: 33%;
     }
+
+    #admin-dashboard-page .table_toolbar .arrow-up,#admin-dashboard-page .table_toolbar .arrow-down{
+        filter: invert(1);
+    }
+    #admin-dashboard-page .table_footer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }

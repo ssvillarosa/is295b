@@ -12,8 +12,9 @@
             <?php return; ?>
         </div>
     <?php endif; ?>
-    <div class="table_toolbar d-flex">
+    <div class="table_toolbar d-flex justify-content-between">
         <h5 class="h5 text-white">Applications Assigned To Me</h5>
+        <div class="arrow-up mt-2 mr-2"></div>
     </div>
     <div class="table-responsive user_pipeline-table">
         <table class="table table-hover" id="user_pipeline_table">
@@ -57,7 +58,7 @@
         </table>
     </div>
 
-    <div class="table_footer d-flex justify-content-between align-items-center">
+    <div class="table_footer">
         <div class="row-per-page">
             <div class="usr-icon" onclick="$('#user_pipeline_rows_dropdown').toggle();">
                 <button class="btn btn-secondary dropdown-toggle btn-sm" href="#">
