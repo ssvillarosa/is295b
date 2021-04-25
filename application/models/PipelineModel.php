@@ -105,6 +105,31 @@ Class PipelineModel extends CI_Model{
     *
     * @param    int        $limit           Limit count
     * @param    int        $offset          Offset value
+    * @param    string     $orderBy         Order by column value
+    * @param    string     $order           Order value
+    * @return   array of pipeline objects
+    */
+    public function getUnassignedPipeline($limit=25,$offset=0,$orderBy='id',$order='asc'){
+        $this->db->order_by($orderBy,$order);
+        $this->db->where("assigned_to is NULL", null, false);
+        if($limit === 0){
+            $query = $this->db->get('pipeline_list');        
+        }else{
+            $query = $this->db->get('pipeline_list',$limit,$offset);       
+        }
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
+
+    /**
+    * Returns pipeline objects.
+    *
+    * @param    int        $limit           Limit count
+    * @param    int        $offset          Offset value
     * @param    int        $applicant_id    Applicant id value
     * @param    string     $orderBy         Order by column value
     * @param    string     $order           Order value

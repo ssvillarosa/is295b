@@ -49,7 +49,6 @@ class PipelineSeeder extends Seeder {
                 'job_order_id' => 1,
                 'applicant_id' => 3,
                 'status' => PIPELINE_STATUS_AWAITING_CV,
-                'assigned_to' => 1,
                 'rating' => 3,
                 'created_by' => 1,
                 'created_time' => '2021-03-16 11:54:00',

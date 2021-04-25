@@ -36,4 +36,37 @@ class AdminDashboard_test extends TestCase{
         $output = $this->request('GET','admin_dashboard/getJoAssignedToMe');
         $this->assertContains('Software Developer', $output);
     }
+    
+    public function test_getUnassigned(){
+        // Submit application tru applicant account.
+        $this->request(
+            'POST',
+            'applicantAuth/login',
+            [
+                'email' => 'steven@test.com',
+                'password' => 'hello',
+            ]
+        );
+        $filename = 'test.docx';
+        $filepath = APPPATH.'tests/testfiles/'.$filename;
+        $files = [
+                'file_attachment' => [
+                        'name'     => $filename,
+                        'tmp_name' => $filepath,
+                ],
+        ];
+        $this->request->setFiles($files);
+        $result = $this->request(
+            'POST',
+            'pipeline/applicantSubmitAjax',
+            [
+                'job_order_id' => 3,
+            ]
+        );
+        $this->assertContains('Success', $result);
+        // Check submission
+        $output = $this->request('GET','admin_dashboard/getUnassigned');
+        $this->assertContains('Steven Villarosa', $output);
+        $this->assertContains('Quality Assurance', $output);
+    }
 }

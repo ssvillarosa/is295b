@@ -54,6 +54,33 @@ class Admin_dashboard extends CI_Controller {
     }
     
     /**
+    * Returns list of unassigned applications.
+    */
+    public function getUnassigned(){
+        $userId = $this->session->userdata(SESS_USER_ID);
+        // Set pagination details.
+        $rowsPerPage = getRowsPerPage($this,COOKIE_DASHBOARD_ASSIGNED_TO_ME);
+        $orderBy = getOrderBy($this,COOKIE_DASHBOARD_ASSIGNED_TO_ME_ORDER_BY);
+        $order = getOrder($this,COOKIE_DASHBOARD_ASSIGNED_TO_ME_ORDER);
+        $totalCount = count($this->PipelineModel->getUnassignedPipeline(0,0,$orderBy,$order));
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage,$orderBy,$order);
+        $userPipelines = $this->PipelineModel->
+                getUnassignedPipeline($rowsPerPage,$data['offset'],$orderBy,$order);
+        if($userPipelines === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            echo 'Error';
+            return;
+        }
+        $data["user_pipelines"] = $userPipelines;
+//        echo '<pre>';
+//        print_r($data);
+//        echo '</pre>';
+        $this->load->view('admin_dashboard/unassigned',$data);
+    }
+    
+    /**
     * Returns list of job orders assigned to the logged in user.
     */
     public function getJoAssignedToMe(){
@@ -74,9 +101,6 @@ class Admin_dashboard extends CI_Controller {
             return;
         }
         $data["job_orders"] = $userPipelines;
-//        echo '<pre>';
-//        print_r($data);
-//        echo '</pre>';
         $this->load->view('admin_dashboard/joAssignedToMe',$data);
     }
 }

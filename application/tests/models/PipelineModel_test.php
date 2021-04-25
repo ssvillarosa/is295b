@@ -161,4 +161,20 @@ class PipelineModel_seedtest extends UnitTestCase {
         $pipeline  = $this->obj->getPipelinesByUser(0,0,1);
         $this->assertEquals(count($pipeline), 3);        
     }
+    
+    public function test_getUnassignedPipeline(){
+        $pipeline = (object)[
+            'job_order_id' => 2,
+            'applicant_id' => 1,
+            'status' => PIPELINE_STATUS_SOURCED,
+            'rating' => 5,
+            'created_by' => 1,
+            'is_deleted' => 0,
+        ];
+        $inserted_id = $this->obj->addPipeline($pipeline);
+        $unassignedPipeline  = $this->obj->getUnassignedPipeline();
+        $this->assertEquals(count($unassignedPipeline),1);
+        $this->assertEquals($unassignedPipeline[0]->id,$inserted_id);
+        $this->assertNull($unassignedPipeline[0]->assigned_to);
+    }
 }
