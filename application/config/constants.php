@@ -181,6 +181,9 @@ define('COOKIE_DASHBOARD_ASSIGNED_TO_ME_ORDER','dashboard_assigned_to_me_order')
 define('COOKIE_DASHBOARD_JO_ASSIGNED_TO_ME','dashboard_jo_assigned_to_me');
 define('COOKIE_DASHBOARD_JO_ASSIGNED_TO_ME_ORDER_BY','dashboard_jo_assigned_to_me_order_by');
 define('COOKIE_DASHBOARD_JO_ASSIGNED_TO_ME_ORDER','dashboard_jo_assigned_to_me_order');
+define('COOKIE_DASHBOARD_EVENTS','dashboard_events');
+define('COOKIE_DASHBOARD_EVENTS_ORDER_BY','dashboard_order_by');
+define('COOKIE_DASHBOARD_EVENTS_ORDER','dashboard_order');
 
 define('ORDER_ASC','asc');
 define('ORDER_DESC','desc');

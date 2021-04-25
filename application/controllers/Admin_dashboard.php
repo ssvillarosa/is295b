@@ -19,6 +19,7 @@ class Admin_dashboard extends CI_Controller {
         $this->load->model('UserModel');
         $this->load->model('PipelineModel');
         $this->load->model('JobOrderModel');
+        $this->load->model('EventModel');
         checkUserLogin();
     }
     
@@ -74,9 +75,6 @@ class Admin_dashboard extends CI_Controller {
             return;
         }
         $data["user_pipelines"] = $userPipelines;
-//        echo '<pre>';
-//        print_r($data);
-//        echo '</pre>';
         $this->load->view('admin_dashboard/unassigned',$data);
     }
     
@@ -102,5 +100,54 @@ class Admin_dashboard extends CI_Controller {
         }
         $data["job_orders"] = $userPipelines;
         $this->load->view('admin_dashboard/joAssignedToMe',$data);
+    }
+    
+    /**
+    * Returns list of events created by user.
+    */
+    public function getEvents(){
+        $userId = $this->session->userdata(SESS_USER_ID);
+        $where = array(
+            'event_time >= ' => date('Y-m-d H:i:s'),
+            'created_by_user_id' => $userId,
+            'is_public !=' => 1);
+        $this->getEventsFuction($where);
+    }
+    
+    /**
+    * Returns list of events created by user.
+    */
+    public function getPublicEvents(){
+        $userId = $this->session->userdata(SESS_USER_ID);
+        $where = array(
+            'event_time >= ' => date('Y-m-d H:i:s'),
+            'is_public' => 1);
+        $this->getEventsFuction($where);
+    }
+    
+    /**
+    * Returns list of events based on parameters.
+    */
+    private function getEventsFuction($where){
+        // Set pagination details.
+        $rowsPerPage = getRowsPerPage($this,COOKIE_DASHBOARD_EVENTS);
+        $orderBy = getOrderBy($this,COOKIE_DASHBOARD_EVENTS_ORDER_BY);
+        $order = getOrder($this,COOKIE_DASHBOARD_EVENTS_ORDER);
+        $totalCount = count($this->EventModel->getEvents(0,0,$orderBy,$order,$where));
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage,$orderBy,$order);
+        $events = $this->EventModel->
+                getEvents($rowsPerPage,$data['offset'],$orderBy,$order,$where);
+        if($events === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            echo 'Error';
+            return;
+        }
+        $data["events"] = $events;
+//        echo '<pre>';
+//        print_r($data);
+//        echo '</pre>';
+        $this->load->view('admin_dashboard/events',$data);
     }
 }

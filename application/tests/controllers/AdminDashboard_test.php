@@ -69,4 +69,15 @@ class AdminDashboard_test extends TestCase{
         $this->assertContains('Steven Villarosa', $output);
         $this->assertContains('Quality Assurance', $output);
     }
+    
+    public function test_getEvents(){
+        $output = $this->request('GET','admin_dashboard/getEvents');
+        $this->assertContains('Event 1', $output);
+        $this->assertContains('Event 3', $output);
+    }
+    
+    public function test_getPublicEvents(){
+        $output = $this->request('GET','admin_dashboard/getPublicEvents');
+        $this->assertContains('Event 2', $output);
+    }
 }
