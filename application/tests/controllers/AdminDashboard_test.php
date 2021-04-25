@@ -31,4 +31,9 @@ class AdminDashboard_test extends TestCase{
         $this->assertContains('Software Developer', $output);
         $this->assertContains('Theresa San Jose', $output);
     }
+    
+    public function test_getJoAssignedToMe(){
+        $output = $this->request('GET','admin_dashboard/getJoAssignedToMe');
+        $this->assertContains('Software Developer', $output);
+    }
 }

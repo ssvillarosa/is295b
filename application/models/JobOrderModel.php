@@ -54,6 +54,28 @@ Class JobOrderModel extends CI_Model{
     }
     
     /**
+    * Returns job order object per user.
+    *
+    * @param    int     $userId
+    * @return   job order object
+    */
+    public function getJobOrderByUserId($userId,$limit=25,$offset=0,$orderBy='id',$order='asc'){
+        $this->db->order_by($orderBy,$order);
+        $this->db->where("user_id", $userId);
+        if($limit === 0){
+            $query = $this->db->get('job_order_user_list');        
+        }else{
+            $query = $this->db->get('job_order_user_list',$limit,$offset);       
+        }
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
+    
+    /**
     * Adds job order to the database.
     *
     * @param    job order object     $jobOrder
