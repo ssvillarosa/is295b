@@ -630,7 +630,7 @@ body {
     }
     
     /* Admin dashboard*/
-    #admin-dashboard-page .table thead th{
+    #admin-dashboard-page .table thead th, #admin-dashboard-page .event-row-item{
         cursor: pointer;
     }
     

@@ -111,18 +111,20 @@ class Admin_dashboard extends CI_Controller {
             'event_time >= ' => date('Y-m-d H:i:s'),
             'created_by_user_id' => $userId,
             'is_public !=' => 1);
-        $this->getEventsFuction($where);
+        $data = $this->getEventsFuction($where);
+        $this->load->view('admin_dashboard/events',$data);
     }
     
     /**
-    * Returns list of events created by user.
+    * Returns list of public.
     */
     public function getPublicEvents(){
         $userId = $this->session->userdata(SESS_USER_ID);
         $where = array(
             'event_time >= ' => date('Y-m-d H:i:s'),
             'is_public' => 1);
-        $this->getEventsFuction($where);
+        $data = $this->getEventsFuction($where);
+        $this->load->view('admin_dashboard/publicEvents',$data);
     }
     
     /**
@@ -145,9 +147,6 @@ class Admin_dashboard extends CI_Controller {
             return;
         }
         $data["events"] = $events;
-//        echo '<pre>';
-//        print_r($data);
-//        echo '</pre>';
-        $this->load->view('admin_dashboard/events',$data);
+        return $data;
     }
 }
