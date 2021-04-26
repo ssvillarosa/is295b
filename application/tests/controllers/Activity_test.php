@@ -40,8 +40,8 @@ class Activity_test extends TestCase{
             ]
         );
         
-        $this->assertContains('Job Order Title: Software Developer', $page);
-        $this->assertContains('Candidate Full Name: Steven Villarosa', $page);
+        $this->assertContains('Software Developer', $page);
+        $this->assertContains('Steven Villarosa', $page);
         $this->assertContains('Assigned To: Super Admin', $page);
         $this->assertContains('Change assignment activity', $page);
         $this->assertContains('Status update activity', $page);

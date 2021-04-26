@@ -121,8 +121,8 @@ class Pipeline_test extends TestCase{
                 'pipelineId' => 7,
             ]
         );
-        $this->assertContains('Job Order Title: Quality Assurance', $page);
-        $this->assertContains('Candidate Full Name: Steven Villarosa', $page);
+        $this->assertContains('Quality Assurance', $page);
+        $this->assertContains('Steven Villarosa', $page);
         $this->assertContains('test.docx', $page);
     }
 }

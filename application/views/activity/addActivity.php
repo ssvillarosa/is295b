@@ -116,12 +116,12 @@
                         <div id="assigned_to_div">
                             <select name="user_select" id="user_select" class="custom-select">
                                 <option value="">Select User</option>
-                                <?php foreach($recruiters as $recruiter): ?>
-                                    <?php if($recruiter->user_id == $pipeline->assigned_to): ?>
+                                <?php foreach($users as $user): ?>
+                                    <?php if($user->id == $pipeline->assigned_to): ?>
                                         <?php continue; ?>
                                     <?php endif; ?>
-                                    <option value="<?php echo $recruiter->user_id; ?>">
-                                        <?php echo $recruiter->name; ?>
+                                    <option value="<?php echo $user->id; ?>">
+                                        <?php echo $user->name; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
