@@ -17,6 +17,9 @@
                 <li class="<?php if($this->uri->segment(1)=="company") echo "active"; ?>">
                     <a href="<?php echo site_url('company/companyList') ?>">Companies</a>
                 </li>
+                <li class="<?php if($this->uri->segment(1)=="skill") echo "active"; ?>">
+                    <a href="<?php echo site_url('skill/skillList') ?>">Skills</a>
+                </li>
                 <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
                     <li class="admin-only <?php if($this->uri->segment(1)=="user") echo "active"; ?>">
                         <a href="<?php echo site_url('user/userList') ?>">Users</a>
