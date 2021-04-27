@@ -6,10 +6,10 @@
             $.post('<?php echo site_url('skill/update') ?>', 
             $(this).serialize(),
             function(data) {
-                hideDialog();
                 if(data.trim() === "Success"){
                     showToast("Updated Successfully.",3000);
                     location.reload();
+                    hideDialog();
                     return;
                 }
                 showToast(data,3000);

@@ -6,10 +6,12 @@
             $.post('<?php echo site_url('skill/add') ?>', 
             $(this).serialize(),
             function(data) {
-                hideDialog();
                 if(data.trim() === "Success"){
                     showToast("Added Successfully.",3000);
-                    location.reload();
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
+                    hideDialog();
                     return;
                 }
                 showToast(data,3000);

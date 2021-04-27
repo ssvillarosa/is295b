@@ -148,4 +148,28 @@ class Skill_test extends TestCase{
         );
         $this->assertEquals($page,'Success');
     }
+    
+    public function test_addCategory(){
+        $page = $this->request(
+            'POST',
+            'skill/addCategory'
+        );
+        $this->assertEquals($page,'Error occured');
+        $page = $this->request(
+            'POST',
+            'skill/addCategory',
+            [
+                'category_name' => 'Accounting',
+            ]
+        );
+        $this->assertEquals($page,'Category already exist');
+        $page = $this->request(
+            'POST',
+            'skill/addCategory',
+            [
+                'category_name' => 'Hotel/Restaurant Management',
+            ]
+        );
+        $this->assertEquals($page,'Success');
+    }
 }

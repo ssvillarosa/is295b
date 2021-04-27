@@ -7,7 +7,7 @@
 <div id="skill-page" class="skill-page">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <?php if(isset($error_message)): ?>
                     <div class="alert alert-danger" role="alert">
                         <?php echo $error_message; ?>
@@ -16,7 +16,7 @@
                 <div class="table_toolbar">
                     <button onclick="showAddDialog()" class="btn btn-primary">New</button>
                     <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
-                    <a href="<?php echo site_url('skill/search') ?>" class="btn btn-success">Search</a>
+                    <button onclick="showAddCategoryDialog()" class="btn btn-success float-right">Add Category</button>
                 </div>
                 <div class="table-responsive skill-table">
                     <table class="table table-hover" id="skill_table">
@@ -76,3 +76,4 @@
 <?php $this->view('skill/listPageDelete'); ?>
 <?php $this->view('skill/add'); ?>
 <?php $this->view('skill/update'); ?>
+<?php $this->view('skill/addCategory'); ?>

@@ -6,12 +6,12 @@
             $.post('<?php echo site_url('skill/delete') ?>', 
             $(this).serialize(),
             function(data) {
-                hideDialog();
                 if(data.trim() === "Success"){
                     showToast("Deleted Successfully.",3000);
                     setTimeout(function(){
                         location.reload();
                     }, 1000);
+                    hideDialog();
                     return;
                 }
                 showToast("Error occurred.",3000);

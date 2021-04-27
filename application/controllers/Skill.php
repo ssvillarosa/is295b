@@ -61,6 +61,7 @@ class Skill extends CI_Controller {
     * Add a new skill.
     */
     public function add(){
+        checkUserLogin();
         $skill_name = $this->input->post('skill_name');
         if(!$skill_name){
             echo 'Skill name is required';
@@ -96,6 +97,7 @@ class Skill extends CI_Controller {
     * Delete skills.
     */
     public function delete(){
+        checkUserLogin();
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
             echo 'Invalid access.';
             return;
@@ -128,6 +130,7 @@ class Skill extends CI_Controller {
     * Update skill details.
     */
     public function update(){
+        checkUserLogin();
         $skill_id = $this->input->post('skill_id');
         if(!$skill_id){
             echo 'Error occured';
@@ -159,6 +162,32 @@ class Skill extends CI_Controller {
         $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
                 "Updated skill '".$skill_name."'");
+        echo 'Success';
+    }
+    
+    public function addCategory(){
+        checkUserLogin();
+        $category_name = $this->input->post('category_name');
+        if(!$category_name){
+            echo 'Error occured';
+            return;
+        }
+        if($this->SkillCategoryModel->skillCategoryExist($category_name)){
+            echo 'Category already exist';
+            return;
+        }
+        $skillCategory = (object)[
+            'name' => $category_name,
+        ];
+        $success = $this->SkillCategoryModel->addSkillCategory($skillCategory);
+        if(!$success){
+            echo 'Error';
+            return;
+        }
+        // Log user activity.
+        $this->UserLogModel->saveUserLog(
+                $this->session->userdata(SESS_USER_ID),
+                "Added skill category '".$category_name."'");
         echo 'Success';
     }
 }
