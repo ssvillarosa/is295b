@@ -8,8 +8,7 @@
                     if(data.trim() === "Success"){
                         showToast("Deleted Successfully.",3000);
                         setTimeout(function () {
-                            window.location.href = '<?php echo site_url('job_order/view')
-                            .'?id='.$pipeline->job_order_id; ?>';
+                            window.history.back();
                         }, 1000);
                         return;
                     }

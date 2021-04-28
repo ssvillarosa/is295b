@@ -70,6 +70,11 @@ class Applicant extends CI_Controller {
             return;
         }
         $data["applicant_skills"] = $applicant_skills;
+        // Set data for job order pipeline ajax.
+        $data['applicant_id'] = $applicantId;
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $data['rowsPerPage'] = $rowsPerPage;
+        
         renderPage($this,$data,'applicant/detailsView');
     }
     
@@ -115,6 +120,10 @@ class Applicant extends CI_Controller {
                 return;
             }
         }
+        // Set data for job order pipeline ajax.
+        $data['applicant_id'] = $applicantId;
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $data['rowsPerPage'] = $rowsPerPage;
         // Display form with success message.
         $data["success_message"] = "Applicant successfully updated!";
         renderPage($this,$data,'applicant/detailsView');

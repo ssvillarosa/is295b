@@ -73,6 +73,11 @@ body {
     text-transform: capitalize;
 }
 
+.m2mj-dialog .modal-header{
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
 .dialog-background {
     position: fixed;
     top: 0;
@@ -349,6 +354,36 @@ body {
     vertical-align: middle;
 }
 
+.arrow-up {
+    background-image: url('../images/sort-up.svg');
+    height: 20px;
+    width: 20px;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+    margin-left: 10px;
+}
+
+.arrow-down {
+    background-image: url('../images/sort-down.svg');
+    height: 20px;
+    width: 20px;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+    margin-left: 10px;
+}
+
+.arrow-up-down {
+    background-image: url('../images/unsorted.svg');
+    height: 20px;
+    width: 20px;
+    background-size: contain;
+    display: inline-block;
+    vertical-align: sub;
+    margin-left: 10px;
+}
+
 /*********************************************************************************/
 /* Footer                                                                        */
 /*********************************************************************************/
@@ -420,7 +455,11 @@ body {
         border-radius: 0px 0px 4px 4px;
         min-height: 300px;
     }
-    .user-table tr, .company-table tr, .job_order-table tr, #entry_search_result_table .entry-row-item, .applicant-row-item, .registration-row-item, .pipeline-row-item {
+    .user-table tr, .company-table tr, 
+    .job_order-table tr, 
+    #entry_search_result_table .entry-row-item, 
+    .applicant-row-item, .registration-row-item, 
+    .pipeline-row-item, .user_pipeline-row-item {
         cursor: pointer;
     }
     
@@ -533,4 +572,81 @@ body {
     
     #form_add_activity .black-star{
         background-image: url('../images/black-star.svg');
+    }
+    
+    /* Applicant details page. */
+    #add_job_order_dialog .m2mj-modal-content{
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    #add_job_order_dialog .job_order-table{
+        height: 300px;
+        overflow-y: auto;
+        border: 1px solid #dee2e6;
+    }
+    
+    /* Applicant dashboard jobs page. */
+    .applicant-jobs-page .side-bar{
+        background: #0d447d;
+        border-radius: 5px;
+    }
+    
+    .applicant-jobs-page .table_footer{
+        border-radius: 4px;
+    }
+    
+    /* Applicant job details page. */
+    #jobs_details_page .job-function, #jobs_details_page .requirment{
+        text-align: justify;
+    }
+    
+    /* Applicant submitted jobs page. */
+    .applicant-submissions-page .side-bar{
+        background: #0d447d;
+        border-radius: 5px;
+    }
+    
+    .applicant-submissions-page .table-footer {
+        border-radius: 4px;
+    }
+    
+    .applicant-submissions-page .card {
+        width: 18rem;
+        min-width: 314px;
+        height: 230px;
+    }
+    
+    .applicant-submissions-page .card-container{
+        flex-wrap: wrap;
+    }
+    
+    .applicant-submissions-page .card-title{
+        color: #004085;
+    }
+    
+    .card-container .upper {
+        justify-content: normal;
+    }
+    
+    /* Admin dashboard*/
+    #admin-dashboard-page .table thead th, #admin-dashboard-page .event-row-item{
+        cursor: pointer;
+    }
+    
+    #admin-dashboard-page .job_order-table .job-order-header{
+        width: 33%;
+    }
+    
+    #admin-dashboard-page .table_toolbar{
+        cursor: pointer;
+    }
+
+    #admin-dashboard-page .table_toolbar .arrow-up,#admin-dashboard-page .table_toolbar .arrow-down{
+        filter: invert(1);
+    }
+    #admin-dashboard-page .table_footer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }

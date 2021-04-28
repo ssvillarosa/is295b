@@ -33,11 +33,11 @@
                                     JOB_ORDER_STATUS_ON_HOLD =>JOB_ORDER_STATUS_ON_HOLD_TEXT,
                                     JOB_ORDER_STATUS_CLOSED => JOB_ORDER_STATUS_CLOSED_TEXT,
                                     )); ?>
-                        <?php createSelectionFilter('Employent Type',
+                        <?php createSelectionFilter('Employment Type',
                                 array(
                                     ''=>'Select Type',
-                                    JOB_ORDER_TYPE_REGULAR =>JOB_ORDER_TYPE_REGULAR_TEXT,
-                                    JOB_ORDER_TYPE_CONTRACTUAL =>JOB_ORDER_TYPE_CONTRACTUAL_TEXT
+                                    JOB_ORDER_TYPE_REGULAR_TEXT =>JOB_ORDER_TYPE_REGULAR_TEXT,
+                                    JOB_ORDER_TYPE_CONTRACTUAL_TEXT =>JOB_ORDER_TYPE_CONTRACTUAL_TEXT
                                     )); ?>
                         <?php createTextFilter("Job Function") ?>
                         <?php createTextFilter("Requirement") ?>

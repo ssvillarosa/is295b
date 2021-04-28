@@ -103,6 +103,8 @@ if(!function_exists('getActivityTypeDictionary')){
             case ACTIVITY_TYPE_SCHEDULE_EVENTS: return ACTIVITY_TYPE_SCHEDULE_EVENTS_TEXT;
             case ACTIVITY_TYPE_RATING_UPDATE: return ACTIVITY_TYPE_RATING_UPDATE_TEXT;
             case ACTIVITY_TYPE_FILE_UPLOAD: return ACTIVITY_TYPE_FILE_UPLOAD_TEXT;
+            case ACTIVITY_TYPE_ADDED_TO_PIPELINE: return ACTIVITY_TYPE_ADDED_TO_PIPELINE_TEXT;
+            case ACTIVITY_CANDIDATE_SUBMIT_APPLICATION: return ACTIVITY_CANDIDATE_SUBMIT_APPLICATION_TEXT;
         }
     }
 }
@@ -354,6 +356,46 @@ if(!function_exists('getRowsPerPage')){
     }
 }
 
+if(!function_exists('getOrderBy')){
+    /**
+    * Returns the value of order by.
+    * 
+    * @return   int value
+    */
+    function getOrderBy($ctx,$module){        
+        // Default order by(25) is set if orderBy is not changed.
+        $getOrderBy = $ctx->input->cookie($module)?
+                $ctx->input->cookie($module) : 'id';
+        // If user changes the number of orderBy, store it into cookie
+        if($ctx->input->get('orderBy')){
+            set_cookie($module, $ctx->input->get('orderBy'),
+                    COOKIE_EXPIRATION);
+            $getOrderBy = $ctx->input->get('orderBy');
+        }
+        return $getOrderBy;
+    }
+}
+
+if(!function_exists('getOrder')){
+    /**
+    * Returns the value of order.
+    * 
+    * @return   int value
+    */
+    function getOrder($ctx,$module){        
+        // Default order by(25) is set if order is not changed.
+        $getOrder = $ctx->input->cookie($module)?
+                $ctx->input->cookie($module) : 'asc';
+        // If user changes the number of order, store it into cookie
+        if($ctx->input->get('order')){
+            set_cookie($module, $ctx->input->get('order'),
+                    COOKIE_EXPIRATION);
+            $getOrder = $ctx->input->get('order');
+        }
+        return $getOrder;
+    }
+}
+
 if(!function_exists('setPaginationData')){
     /**
     * Creates pagination data.
@@ -363,7 +405,7 @@ if(!function_exists('setPaginationData')){
     * @param    int  $currentPage   The active page.
     * @return   object(field,condition,value[,value_2])
     */
-    function setPaginationData($totalCount,$rowsPerPage,$currentPage){        
+    function setPaginationData($totalCount,$rowsPerPage,$currentPage,$orderBy='id',$order='asc'){        
         $totalPage = floor($totalCount/$rowsPerPage);
         if($totalCount%$rowsPerPage != 0){
             $totalPage++;
@@ -374,6 +416,12 @@ if(!function_exists('setPaginationData')){
         $data['currentPage'] = $currentPage;
         $data['totalCount'] = $totalCount;
         $data['offset'] = $offset;
+        if($orderBy){
+            $data['orderBy'] = $orderBy;
+        }
+        if($order){
+            $data['order'] = $order;
+        }
         return $data;
     }
 }
@@ -537,5 +585,35 @@ if(!function_exists('createPill')){
             $pillBtn .= $pillText ? "<span id='skill-".$buttonText."' class='badge badge-light badge-pill pill-text'>".$pillText."</span>" : "";
             $pillBtn .= "</button>";
         return $pillBtn;
+    }
+}
+
+if(!function_exists('createSortableHeader')){
+    /**
+    * Creates a sortable header to a table.
+     *
+     * @param {string}  headerText  The text of the header.
+     * @param {string}  class       The class applied to the header.
+     * @param {string}  orderBy     Order by value.
+     * @param {string} order        Order value.
+     * @param {string} field        Field correspondin to this header.
+     */
+    function createSortableHeader($headerText, $class, $orderBy, $order, $field, $functionCall){
+        $onclick = '';
+        if($orderBy == $field){
+            if($order === ORDER_ASC){
+                $arrow = '<div class="arrow-up"></div>';
+                $onclick = ' onclick="'.$functionCall.'(1,0,\''.$field.'\',\''.ORDER_DESC.'\')"';
+            }else{
+                $arrow = '<div class="arrow-down"></div>';
+                $onclick = ' onclick="'.$functionCall.'(1,0,\'id\',\''.ORDER_ASC.'\')"';
+            }
+        }else{
+            $arrow = '<div class="arrow-up-down"></div>';
+            $onclick = ' onclick="'.$functionCall.'(1,0,\''.$field.'\',\''.ORDER_ASC.'\')"';
+        }
+        $openTag = '<th class="'.$class.'" '.$onclick.'>';
+        $closeTag = '</th>';
+        echo $openTag.$headerText.$arrow.$closeTag;
     }
 }

@@ -19,12 +19,18 @@ Class EventModel extends CI_Model{
     /**
     * Returns event objects.
     *
-    * @param    int     $limit  Limit count
-    * @param    int     $offset Offset value
+    * @param    int         $limit      Limit count
+    * @param    int         $offset     Offset value
+    * @param    string      $orderBy    Order by column
+    * @param    string      $order      Order value
+    * @param    array map   $where      array of where values
     * @return   array of event objects
     */
-    public function getEvents($limit=25,$offset=0,$orderBy='id',$order='asc'){
+    public function getEvents($limit=25,$offset=0,$orderBy='id',$order='asc', $where=[]){
         $this->db->order_by($orderBy,$order);
+        if($where){
+            $this->db->where($where);
+        }
         if($limit === 0){
             $query = $this->db->get('event_list');            
         }else{ 

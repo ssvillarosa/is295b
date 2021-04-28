@@ -25,11 +25,10 @@ Class SkillModel extends CI_Model{
     */
     public function getSkills($limit=25,$offset=0,$orderBy='id',$order='asc'){
         $this->db->order_by($orderBy,$order);
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
         if($limit === 0){ 
-            $query = $this->db->get('skill');          
+            $query = $this->db->get('skill_list');          
         }else{
-            $query = $this->db->get('skill',$limit,$offset);         
+            $query = $this->db->get('skill_list',$limit,$offset);         
         }
         if(!$query){
             logArray('error',$this->db->error());
@@ -47,8 +46,7 @@ Class SkillModel extends CI_Model{
     */
     public function getSkillById($skillId){
         $this->db->where("id", $skillId);
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
-        $query = $this->db->get("skill");
+        $query = $this->db->get("skill_list");
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
@@ -65,8 +63,7 @@ Class SkillModel extends CI_Model{
     */
     public function getSkillByCategoryId($skillCategoryId){
         $this->db->where("category_id", $skillCategoryId);
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
-        $query = $this->db->get("skill");
+        $query = $this->db->get("skill_list");
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());
@@ -113,8 +110,7 @@ Class SkillModel extends CI_Model{
     * Returns the total count of skills that are not deleted.
     */
     public function getSkillCount(){
-        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
-        $this->db->from('skill');
+        $this->db->from('skill_list');
         return $this->db->count_all_results(); 
     }
     
@@ -137,5 +133,26 @@ Class SkillModel extends CI_Model{
             return ERROR_CODE;
         }
         return SUCCESS_CODE;
+    }
+    
+    /**
+    * Checks whether skill already exist in the database.
+    *
+    * @param    string      $name           Name of the skill.
+    * @param    int         $category_id    ID of the category.
+    * @return   boolean
+    */
+    public function skillExist($name,$category_id=''){
+        $this->db->where("name", $name);
+        if($category_id){
+            $this->db->where("category_id", $category_id);
+        }
+        $query = $this->db->get("skill_list");
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return count($query->result()) > 0 ? true : false;
     }
 }

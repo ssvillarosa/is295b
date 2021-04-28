@@ -41,7 +41,7 @@ class Auth extends CI_Controller {
                 return;              
             }
             // Otherwise, redirect to homepage.
-            redirect('dashboard/adminOverview');
+            redirect('admin_dashboard/overview');
         }
     }
     

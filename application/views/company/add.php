@@ -55,7 +55,7 @@
                             <div class="form-row">
                                 <div class="col-md-12 mb-3">
                                     <label for="address" class="form-label">Address</label>
-                                    <input type="text" value="<?php echo $company->address; ?>" class="form-control" id="address" name="address" maxLength="50">
+                                    <input type="text" value="<?php echo $company->address; ?>" class="form-control" id="address" name="address" maxLength="255">
                                     <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
                                 </div>
                             </div>

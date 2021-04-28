@@ -20,6 +20,7 @@ class Pipeline extends CI_Controller {
         $this->load->model('PipelineModel');
         $this->load->model('JobOrderUserModel');
         $this->load->model('UserModel');
+        $this->load->model('ActivityModel');
     }
     
     /**
@@ -61,7 +62,7 @@ class Pipeline extends CI_Controller {
             $this->load->view('pipeline/applicantPipelineTable', $data);
             return;
         }
-        $users = $this->JobOrderUserModel->getUsersByJobOrderId($job_order_id);
+        $users = $this->UserModel->getUsers(0);
         if($users === ERROR_CODE){
             $data["error_message"] = "Error occured.";
             $this->load->view('pipeline/applicantPipelineTable', $data);
@@ -71,6 +72,48 @@ class Pipeline extends CI_Controller {
         $data['pipelines'] = $applicants;
         $data['job_order_id'] = $job_order_id;
         $this->load->view('pipeline/applicantPipelineTable', $data);
+    }
+    
+    /**
+    * List of pipelines grouped by job order designed for full page of pipeline module.
+    */
+    public function jobOrderPipelinePage(){
+        $applicant_id = $this->input->get("applicant_id");
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $data['applicant_id'] = $applicant_id;
+        $data['rowsPerPage'] = $rowsPerPage;
+        $data['header_on'] = true;
+        $this->load->view('pipeline/jobOrderPipelinePage', $data);
+    }
+    
+    /**
+    * List of pipelines grouped by job order designed for ajax request.
+    */
+    public function jobOrderPipelineTable(){
+        $applicant_id = $this->input->get("applicant_id");
+        // Set pagination details.
+        $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE);
+        $totalCount = count($this->PipelineModel->getPipelinesByApplicant(0,0,$applicant_id,'id','desc'));
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        // Set data and display view.
+        $job_orders = $this->PipelineModel->getPipelinesByApplicant($rowsPerPage,$data['offset'], $applicant_id);        
+        if($job_orders === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            $this->load->view('pipeline/jobOrderPipelineTable', $data);
+            return;
+        }
+        $users = $this->UserModel->getUsers(0);
+        if($users === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            $this->load->view('pipeline/jobOrderPipelineTable', $data);
+            return;
+        }
+        $data["users"] = $users;
+        $data['pipelines'] = $job_orders;
+        $data['applicant_id'] = $applicant_id;
+        $this->load->view('pipeline/jobOrderPipelineTable', $data);
     }
     
     /**
@@ -96,6 +139,27 @@ class Pipeline extends CI_Controller {
         if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
             $pipeline->assigned_to = $this->session->userdata(SESS_USER_ID);
         }
+        // Check if user has access to job order.
+        $userHasAccess = $this->checkUserAccessToJobOrder($job_order_id,
+                $pipeline->assigned_to);
+        if($userHasAccess === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        // If user doesn't have access, assign user to the job order.
+        if(!$userHasAccess){
+            $job_order_user = (object)[
+                'job_order_id' => $job_order_id,
+                'user_id' => $pipeline->assigned_to,
+            ];
+            $addJobOrderUsers = $this->JobOrderUserModel->addJobOrderUsers([$job_order_user]);
+            if($addJobOrderUsers === ERROR_CODE){
+                // Set error message.
+                $data["error_message"] = "Error occured.";     
+                renderPage($this,$data,'job_order/detailsView');
+                return;
+            }
+        }
         $pipeline->status = PIPELINE_STATUS_UNSET;
         $pipeline->created_by = $this->session->userdata(SESS_USER_ID);
         $pipeline->rating = 0;
@@ -112,6 +176,20 @@ class Pipeline extends CI_Controller {
         // Add entry to pipeline.
         $id = $this->PipelineModel->addPipeline($pipeline);
         if($id === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        
+        // Add activity.
+        $activity = (object)[
+            'timestamp' => date('Y-m-d H:i:s'),
+            'pipeline_id' => $id,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_TYPE_ADDED_TO_PIPELINE,
+            'activity' => "Added to pipeline by ".$this->session->userdata(SESS_USER_FULL_NAME),
+        ];
+        $result =  $this->ActivityModel->addActivity($activity);
+        if($result === ERROR_CODE){
             echo 'Error occured.';
             return;
         }
@@ -145,6 +223,61 @@ class Pipeline extends CI_Controller {
                 $this->session->userdata(SESS_USER_ID),
                 "Deleted pipeline ID : ".$this->input->post('delPipelineIds'));
         echo 'Success';
+    }
+    
+    /** 
+     * Add candidate application to pipeline.
+     */
+    public function applicantSubmitAjax(){
+        checkApplicantLogin();
+        $job_order_id = $this->input->post('job_order_id');
+        if(!$job_order_id){
+            echo 'Invalid Job Order.';
+            return;
+        }
+        $applicant_id = $this->session->userdata(SESS_APPLICANT_ID);
+        if(!$applicant_id){
+            echo 'Invalid Session.';
+            return;
+        }
+        if (empty($_FILES['file_attachment']['name'])) {
+            echo 'Invalid file.';
+            return;
+        }
+        $pipeline = (object)[
+            'job_order_id' => $job_order_id,
+            'applicant_id' => $applicant_id,
+            'status' => PIPELINE_STATUS_UNSET,
+            'rating' => 0,
+        ];
+        // Check if candidate is already added to pipeline.
+        $pipelineExist = $this->checkPipelineExist($job_order_id,$applicant_id);
+        if($pipelineExist === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        if($pipelineExist){
+            echo 'Duplicate entry error.';
+            return;
+        }
+        // Add entry to pipeline.
+        $id = $this->PipelineModel->addPipeline($pipeline);
+        if($id === ERROR_CODE){
+            echo 'Error occured.';
+            return;
+        }
+        // Upload attachmet and add activity.
+        $timestamp = date('Y-m-d H:i:s');
+        $result = $this->fileUploadAddActivity($timestamp,$id);
+        if($result === ERROR_CODE){
+            echo "Error occured.";
+            return;
+        }
+        if($result === UPLOAD_ERROR_CODE){
+            echo $this->upload->display_errors();
+            return;
+        }
+        echo "Success";
     }
     
     /**
@@ -209,5 +342,44 @@ class Pipeline extends CI_Controller {
             'created_by' => $post ? $this->input->post('created_by'): '',
         ];
         return $pipeline;
+    }
+    
+    /**
+    * Uploads a file attachment.
+    * 
+    * @param    string              $timestamp      String represenstation of current time stamp.
+    * @param    pipeline object     $pipeline       Pipeline object containing the current pipeline details.
+    */
+    private function fileUploadAddActivity($timestamp,$pipelineId){
+        // Configure upload.
+        $upload_path = UPLOAD_DIRECTORY.'/'.$pipelineId.'/';
+        if(!is_dir($upload_path)){
+           mkdir($upload_path);
+        }
+        $config['upload_path']          = $upload_path;
+        $config['allowed_types']        = 'doc|docx|pdf';
+        $config['max_size']             = 2000;
+        $this->load->library('upload', $config);
+        
+        $file = $this->upload->do_upload("file_attachment");
+        if(!$file){
+            return UPLOAD_ERROR_CODE;
+        }
+        $filename = $this->upload->data()['file_name'];
+        $message = $this->input->post('message');
+        $activity_message = "";
+        if($message){
+            $activity_message .= "Applicant Message: \n".$message."\n\n";
+        }
+        $activity_message .= 'Uploaded file: '.$filename;
+        // Add activity.
+        $activity = (object)[
+            'timestamp' => $timestamp,
+            'pipeline_id' => $pipelineId,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_CANDIDATE_SUBMIT_APPLICATION,
+            'activity' => $activity_message,
+        ];
+        return $this->ActivityModel->addActivity($activity);
     }
 }

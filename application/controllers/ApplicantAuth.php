@@ -41,7 +41,7 @@ class ApplicantAuth extends CI_Controller {
                 return;              
             }
             // Otherwise, redirect to homepage.
-            redirect('dashboard/applicantOverview');
+            redirect('applicant_dashboard/jobs');
         }
     }
     
@@ -57,7 +57,7 @@ class ApplicantAuth extends CI_Controller {
             SESS_IS_APPLICANT_LOGGED_IN
         );
         $this->session->unset_userdata($sessionData);
-        redirect('applicantAuth/login');
+        redirect(base_url());
     }
     
     /**

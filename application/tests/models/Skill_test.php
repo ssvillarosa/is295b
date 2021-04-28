@@ -71,4 +71,13 @@ class SkillModel_seedtest extends UnitTestCase {
         $newCount  = $this->obj->getSkillCount();
         $this->assertEquals($newCount, $skillCount-1);    
     }
+    
+    public function test_skillExist(){
+        // Same skill name, same category.
+        $skill1Exists = $this->obj->skillExist('Javascript',1); 
+        $this->assertTrue($skill1Exists);
+        // Same skill name, different category.
+        $skill2Exists = $this->obj->skillExist('Javascript',2); 
+        $this->assertNotTrue($skill2Exists);
+    }
 }

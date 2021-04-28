@@ -116,4 +116,21 @@ Class SkillCategoryModel extends CI_Model{
         }
         return SUCCESS_CODE;
     }
+    
+    /**
+    * Checks whether skill category already exist in the database.
+    *
+    * @param    string      $name           Name of the skill.
+    * @return   boolean
+    */
+    public function skillCategoryExist($name){
+        $this->db->where("name", $name);
+        $query = $this->db->get("skill_category");
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return count($query->result()) > 0 ? true : false;
+    }
 }

@@ -29,18 +29,34 @@
                     </div>
                     <div class="form-row">
                         <div class="col-md-6 mb-1">
-                            <label for="title" class="form-label">Job Order ID: <?php echo $pipeline->job_order_id; ?></label>
+                            <label for="title" class="form-label">Job Order ID: 
+                                <a href="<?php echo site_url('job_order/view').'?id='.$pipeline->job_order_id; ?>">
+                                    <?php echo $pipeline->job_order_id; ?>
+                                </a>
+                            </label>
                         </div>
                         <div class="col-md-6 mb-1">
-                            <label for="title" class="form-label">Candidate ID: <?php echo $pipeline->applicant_id; ?></label>
+                            <label for="title" class="form-label">Candidate ID: 
+                                <a href="<?php echo site_url('applicant/view').'?id='.$pipeline->applicant_id; ?>">
+                                    <?php echo $pipeline->applicant_id; ?>
+                                </a>
+                            </label>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-md-6 mb-1">
-                            <label for="title" class="form-label">Job Order Title: <?php echo $pipeline->title; ?></label>
+                            <label for="title" class="form-label">Job Order Title: 
+                                <a href="<?php echo site_url('job_order/view').'?id='.$pipeline->job_order_id; ?>">
+                                    <?php echo $pipeline->title; ?>
+                                </a>
+                            </label>
                         </div>
                         <div class="col-md-6 mb-1">
-                            <label for="title" class="form-label">Candidate Full Name: <?php echo $pipeline->first_name.' '.$pipeline->last_name; ?></label>
+                            <label for="title" class="form-label">Candidate Full Name: 
+                                <a href="<?php echo site_url('applicant/view').'?id='.$pipeline->applicant_id; ?>">
+                                    <?php echo $pipeline->first_name.' '.$pipeline->last_name; ?>
+                                </a>
+                            </label>
                         </div>
                     </div>
                     <div class="form-row">

@@ -42,7 +42,10 @@
                                     <tr class="entry-row-item" onClick="viewEntry(<?php echo $entry["id"]; ?>)">
                                         <?php foreach ($shownFields as $field): ?>
                                             <td>
-                                                <?php echo $entry[$field]; ?>
+                                                <?php echo strlen($entry[$field]) > 100 ? 
+                                                        substr($entry[$field],0,100)."..." : 
+                                                        $entry[$field]; 
+                                                ?>
                                             </td>
                                         <?php endforeach; ?>
                                     </tr>

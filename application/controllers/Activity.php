@@ -58,9 +58,9 @@ class Activity extends CI_Controller {
             return;
         }
         $data['activities'] = $activities;
-        // Get list of users assigned to the job order.
-        $recruiters = $this->JobOrderUserModel->getUsersByJobOrderId($pipeline->job_order_id);
-        $data["recruiters"] = $recruiters;
+        // Get list of users.
+        $users = $this->UserModel->getUsers(0);;
+        $data["users"] = $users;
         // Get list of uploaded files.
         $map = directory_map(UPLOAD_DIRECTORY.'/'.$pipeline->id.'/',1);
         $data["uploaded_files"] = $map ? $map : [];
@@ -77,10 +77,12 @@ class Activity extends CI_Controller {
             echo "Error occured.";
             return;
         }
-        if(!$this->session->userdata(SESS_USER_ROLE)== USER_ROLE_ADMIN ||
-                !$this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to){
-            echo "Invalid Access.";
-            return;
+        if($pipeline->assigned_to){
+            if(!$this->session->userdata(SESS_USER_ROLE)== USER_ROLE_ADMIN ||
+                    !$this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to){
+                echo "Invalid Access.";
+                return;
+            }
         }
         $timestamp = date('Y-m-d H:i:s');
         // Perform update rating.

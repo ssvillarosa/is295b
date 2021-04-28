@@ -7,8 +7,16 @@ class Activity_test extends TestCase{
 
         $CI =& get_instance();
         $CI->load->library('Seeder');
+        $CI->load->helper('directory');
         $CI->seeder->call('PipelineSeeder');
         $CI->seeder->call('ActivitySeeder');
+        // Delete all attachments.
+        $path=UPLOAD_DIRECTORY."/1";
+        $CI->load->helper("file");
+        delete_files($path, true);
+        if(!is_dir($path)){
+           mkdir($path);
+        }
     }
     
     public function setUp(){        
@@ -32,8 +40,8 @@ class Activity_test extends TestCase{
             ]
         );
         
-        $this->assertContains('Job Order Title: Software Developer', $page);
-        $this->assertContains('Candidate Full Name: Steven Villarosa', $page);
+        $this->assertContains('Software Developer', $page);
+        $this->assertContains('Steven Villarosa', $page);
         $this->assertContains('Assigned To: Super Admin', $page);
         $this->assertContains('Change assignment activity', $page);
         $this->assertContains('Status update activity', $page);

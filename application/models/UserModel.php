@@ -37,7 +37,7 @@ Class UserModel extends CI_Model{
     * @return   array of user objects
     */
     public function getUsers($limit=25,$offset=0){
-        $this->db->where("status !=", USER_STATUS_DELETED);
+        $this->db->where("status =", USER_STATUS_ACTIVE);
         if($limit === 0){
             $query = $this->db->get('user');        
         }else{

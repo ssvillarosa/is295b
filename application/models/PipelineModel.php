@@ -51,6 +51,10 @@ Class PipelineModel extends CI_Model{
     * @return   array of pipeline objects
     */
     public function getPipelinesByJobOrder($limit=25,$offset=0,$job_order_id=0,$orderBy='id',$order='asc'){
+        if(!$job_order_id){
+            log_message('error', "Job order ID value is required.");
+            return ERROR_CODE;
+        }
         $this->db->order_by($orderBy,$order);
         $this->db->where("job_order_id", $job_order_id);
         if($limit === 0){
@@ -58,9 +62,90 @@ Class PipelineModel extends CI_Model{
         }else{
             $query = $this->db->get('pipeline_list',$limit,$offset);       
         }
-        if(!$job_order_id){
-            log_message('error', "$job_order_id value : ".$job_order_id);
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
             return ERROR_CODE;
+        }
+        return $query->result();
+    }
+
+    /**
+    * Returns pipeline objects.
+    *
+    * @param    int        $limit           Limit count
+    * @param    int        $offset          Offset value
+    * @param    int        $user_id         Job order id value
+    * @param    string     $orderBy         Order by column value
+    * @param    string     $order           Order value
+    * @return   array of pipeline objects
+    */
+    public function getPipelinesByUser($limit=25,$offset=0,$user_id=0,$orderBy='id',$order='asc'){
+        if(!$user_id){
+            log_message('error', "User ID value is required.");
+            return ERROR_CODE;
+        }
+        $this->db->order_by($orderBy,$order);
+        $this->db->where("assigned_to", $user_id);
+        if($limit === 0){
+            $query = $this->db->get('pipeline_list');        
+        }else{
+            $query = $this->db->get('pipeline_list',$limit,$offset);       
+        }
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
+
+    /**
+    * Returns pipeline objects.
+    *
+    * @param    int        $limit           Limit count
+    * @param    int        $offset          Offset value
+    * @param    string     $orderBy         Order by column value
+    * @param    string     $order           Order value
+    * @return   array of pipeline objects
+    */
+    public function getUnassignedPipeline($limit=25,$offset=0,$orderBy='id',$order='asc'){
+        $this->db->order_by($orderBy,$order);
+        $this->db->where("assigned_to is NULL", null, false);
+        if($limit === 0){
+            $query = $this->db->get('pipeline_list');        
+        }else{
+            $query = $this->db->get('pipeline_list',$limit,$offset);       
+        }
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
+
+    /**
+    * Returns pipeline objects.
+    *
+    * @param    int        $limit           Limit count
+    * @param    int        $offset          Offset value
+    * @param    int        $applicant_id    Applicant id value
+    * @param    string     $orderBy         Order by column value
+    * @param    string     $order           Order value
+    * @return   array of pipeline objects
+    */
+    public function getPipelinesByApplicant($limit=25,$offset=0,$applicant_id=0,$orderBy='id',$order='asc'){
+        if(!$applicant_id){
+            log_message('error', "Applicant ID is required ");
+            return ERROR_CODE;
+        }
+        $this->db->order_by($orderBy,$order);
+        $this->db->where("applicant_id", $applicant_id);
+        if($limit === 0){
+            $query = $this->db->get('pipeline_list');        
+        }else{
+            $query = $this->db->get('pipeline_list',$limit,$offset);       
         }
         if(!$query){
             logArray('error',$this->db->error());
