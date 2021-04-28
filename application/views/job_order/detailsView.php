@@ -253,17 +253,13 @@
                 <div class="form-row">
                     <div class="col-md-12 mb-1">
                         <label for="job_function" class="form-label">Job Function: </label>
-                        <div class="text-area-view">
-                            <p><?php echo $job_order->job_function; ?></p>
-                        </div>
+                        <div class="text-area-view"><?php echo $job_order->job_function; ?></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-12 mb-1">
                         <label for="requirement" class="form-label">Requirement: </label>
-                        <div class="text-area-view">
-                            <p><?php echo $job_order->requirement; ?></p>
-                        </div>
+                        <div class="text-area-view"><?php echo $job_order->requirement; ?></div>
                     </div>
                 </div>
                 <div class="form-row">

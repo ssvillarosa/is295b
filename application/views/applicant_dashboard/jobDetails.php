@@ -38,17 +38,13 @@
                 <div class="form-row">
                     <div class="col-md-12 mb-1">
                         <label for="job-function" class="form-label font-weight-bold">Job Function: </label>
-                        <div class="job-function">
-                            <p><?php echo $job_order->job_function; ?></p>
-                        </div>
+                        <div class="job-function"><?php echo $job_order->job_function; ?></div>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-12 mb-4">
                         <label for="requirement" class="form-label font-weight-bold">Requirements: </label>
-                        <div class="requirment">
-                            <p><?php echo $job_order->requirement; ?></p>
-                        </div>
+                        <div class="requirement"><?php echo $job_order->requirement; ?></div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-center">

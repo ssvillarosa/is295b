@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS skill_list;
 CREATE VIEW skill_list AS
 SELECT 
     s.id,

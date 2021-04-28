@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS user_search_table;
 CREATE VIEW user_search_table AS
 SELECT `id`, `username`, `password`, 
 CASE 
