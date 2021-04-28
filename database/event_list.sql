@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS event_list;
 CREATE VIEW event_list AS
 SELECT
     e.id,

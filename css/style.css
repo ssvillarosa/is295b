@@ -645,8 +645,15 @@ body {
     #admin-dashboard-page .table_toolbar .arrow-up,#admin-dashboard-page .table_toolbar .arrow-down{
         filter: invert(1);
     }
+    
     #admin-dashboard-page .table_footer{
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+    
+    #job_order-details-page .text-area-view,
+    #jobs_details_page .requirement,
+    #jobs_details_page .job-function{
+        white-space: pre-wrap;
     }

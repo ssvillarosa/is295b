@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS registration_list;
 CREATE VIEW registration_list AS
 SELECT 
     r.id,

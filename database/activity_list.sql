@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS activity_list;
 CREATE VIEW activity_list AS
 SELECT
     a.id,

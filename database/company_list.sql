@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS company_list;
 CREATE VIEW company_list AS
 SELECT 
     c.id,

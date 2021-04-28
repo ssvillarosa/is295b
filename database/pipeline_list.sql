@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS pipeline_list;
 CREATE VIEW pipeline_list AS
 SELECT
     p.id,

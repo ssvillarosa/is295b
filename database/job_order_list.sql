@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS job_order_list;
 CREATE VIEW job_order_list AS
 SELECT 
     jo.id,

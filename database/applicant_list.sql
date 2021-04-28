@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS applicant_list;
 CREATE VIEW applicant_list AS
 SELECT 
     a.id,
