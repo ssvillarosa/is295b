@@ -93,11 +93,6 @@ class Job_order extends CI_Controller {
     * Adds job order details.
     */
     public function add(){
-        if($this->session->userdata(SESS_USER_ROLE)!=USER_ROLE_ADMIN){
-            $data["error_message"] = 'Invalid access.';
-            renderPage($this,$data,'job_order/add');
-            return;
-        }
         $this->setValidationDetails();
         // Create job order objects and its sub items.
         $job_order = $this->createJobOrderObject(true);
@@ -163,7 +158,7 @@ class Job_order extends CI_Controller {
         // Log user activity.
         $this->UserLogModel->saveUserLog(
                 $this->session->userdata(SESS_USER_ID),
-                "Added job order ".$job_order->title.".");
+                "Added job order ".$job_order->title."(ID:".$newJobOrderId.").");
         
         // If referrer is set, redirect to referrer.
         if($referrer){

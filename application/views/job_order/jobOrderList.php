@@ -14,8 +14,8 @@
                     </div>
                 <?php endif; ?>
                 <div class="table_toolbar">
+                    <a href="<?php echo site_url('job_order/add') ?>" class="btn btn-primary">New</a>
                     <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                        <a href="<?php echo site_url('job_order/add') ?>" class="btn btn-primary">New</a>
                         <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
                     <?php endif; ?>
                     <a href="<?php echo site_url('job_order/search') ?>" class="btn btn-success">Search</a>
@@ -29,6 +29,7 @@
                                 <th class="text-left">Title</th>
                                 <th class="text-left">Company</th>
                                 <th class="text-center">Status</th>
+                                <th class="text-center">Priority Level</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,6 +49,9 @@
                                     </td>
                                     <td class="text-center" onClick="viewJobOrder(<?php echo $job_order->id; ?>)">
                                         <?php echo $job_order->status; ?>
+                                    </td>
+                                    <td class="text-center" onClick="viewJobOrder(<?php echo $job_order->id; ?>)">
+                                        <?php echo $job_order->priority_level; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
