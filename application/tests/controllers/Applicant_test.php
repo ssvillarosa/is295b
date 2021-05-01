@@ -248,8 +248,8 @@ class Applicant_test extends TestCase{
         // Confirm registration.
         $confirmationPage = $this->request(
             'GET',
-            'registration/confirmEmail?id=1'
+            'registration/confirmEmail?id=e051d9dd7def75ca3c1e9672129d580c84cc29c3b56c3f2f32cc677a4ae02e2f82029add19fb2bf80b247b74dd5d458b3daf9bbdbd8c3ebce623d15c00804395whRmyaPpjEThPtE15O4ciDr8nQoy9RDwtrJKZvRuCHc='
         );
-        $this->assertContains('Your email has been confirmed. Thank you.', $confirmationPage);
+        $this->assertContains('Your email has been confirmed.', $confirmationPage);
     }
 }

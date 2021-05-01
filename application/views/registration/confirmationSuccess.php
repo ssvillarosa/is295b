@@ -5,7 +5,7 @@
             <div class="col-md-8">
                 <section id="content" >
                     <div class="alert alert-success" role="alert">
-                        Your email has been confirmed. Thank you.
+                        Your email has been confirmed. Please <a href="<?php echo site_url('applicantAuth/login'); ?>">login</a>.
                     </div>
                 </section>
             </div>

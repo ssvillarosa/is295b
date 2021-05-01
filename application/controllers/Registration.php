@@ -20,6 +20,7 @@ class Registration extends CI_Controller {
         $this->load->model('SkillCategoryModel');
         $this->load->model('ApplicantModel');
         $this->load->library('email');
+        $this->load->library('encryption');
     }
     
     /**
@@ -136,7 +137,7 @@ class Registration extends CI_Controller {
             return;
         }
         if($r && $r->status != REGISTRATION_STATUS_APPROVED){
-            $data["error_message"] = "Email is pending for approval.";
+            $data["error_message"] = "Email is pending for confirmation.";
             $this->load->view('registration/registrationPage', $data);
             return;
         }
@@ -176,7 +177,7 @@ class Registration extends CI_Controller {
         $empty_registration = $this->createRegistrationObject(false);
         $data["registration"] = $empty_registration;
         $data["registration_skills"] = [];
-        $data["success_message"] = "Thank you for your registration. Your entry is subject for approval. You can start you submission once approved.";
+        $data["success_message"] = "Thank you for your registration. Please complete your registration by confirming your email we sent to your email address.";
         $this->load->view('registration/successPage', $data);
     }
     
@@ -464,12 +465,15 @@ class Registration extends CI_Controller {
     * Sends a confirmation email upon registration.
     */
     private function sendConfirmationEmail($email,$newRegistrationId){
+        $encryptedId = $this->encryption->encrypt($newRegistrationId);
         $this->email->from(SENDER_EMAIL, 'M2MJ HR Consulting');
         $this->email->to($email);
         $this->email->subject('Confirm Registration');
         $this->email->message('Welcom to M2MJ HR Consulting. Please click <a href="'.
-                site_url('registration/confirmEmail').'?id='.$newRegistrationId
+                site_url('registration/confirmEmail').'?id='.$encryptedId
                 .'">here</a> to confirm your email.');
+        // encrypt here
+        $this->email->set_mailtype("html");
         // Send email except in test env.
         if(ENVIRONMENT!=="testing"){
             $this->email->send();
@@ -484,7 +488,12 @@ class Registration extends CI_Controller {
             echo 'Invalid Registration ID';
             return;
         }
-        $registrationId = $this->input->get('id');
+        $encryptedId = $this->input->get('id');
+        $registrationId = $this->encryption->decrypt($encryptedId);
+        if(!$registrationId){
+            echo 'Error occured.';
+            return;
+        }
         // Update status of the registration to approved.
         $result = $this->RegistrationModel->updateRegistration((object)[
             'is_email_confirmed' => 1,
@@ -492,6 +501,12 @@ class Registration extends CI_Controller {
         ],$registrationId);
         if($result == ERROR_CODE){
             echo 'Error occured.';
+            return;
+        }
+        $this->insertRegistrationToApplicant($registrationId);
+        if($result == ERROR_CODE){
+            echo 'Error occured.';
+            return;
         }
         $this->load->view('registration/confirmationSuccess');
     }

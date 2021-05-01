@@ -43,5 +43,6 @@ SELECT
     r.seminars_and_trainings
 FROM `registration` r
 WHERE 
-    r.status = 1
+    r.status = 1 
+    AND r.is_email_confirmed != 1 
     AND r.is_deleted != 1;
