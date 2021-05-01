@@ -84,7 +84,7 @@ class Registration_test extends TestCase{
             'yearsOfExperiences' => '8,6,5',
         ];
         $output = $this->request('POST','registration/register',$postData);
-        $this->assertContains('Thank you for your registration. Your entry is subject for approval. You can start you submission once approved.', $output);
+        $this->assertContains('Thank you for your registration. Please complete your registration by confirming your email we sent to your email address.', $output);
     }
     
     public function test_delete(){
@@ -110,7 +110,7 @@ class Registration_test extends TestCase{
             'yearsOfExperiences' => '8,6,5',
         ];
         $output = $this->request('POST','registration/register',$postData);
-        $this->assertContains('Thank you for your registration. Your entry is subject for approval. You can start you submission once approved.', $output);
+        $this->assertContains('Thank you for your registration. Please complete your registration by confirming your email we sent to your email address.', $output);
         
         $page1 = $this->request('GET','registration/registrationList');
         $rowCount = substr_count($page1,'registration-row-item');
