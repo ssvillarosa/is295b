@@ -94,7 +94,7 @@ class Registration extends CI_Controller {
             }
             // Update status of the registration to approved.
             $result = $this->RegistrationModel->updateRegistration((object)[
-                'status' => 2,
+                'status' => REGISTRATION_STATUS_APPROVED,
                 'approved_by' => $this->session->userdata(SESS_USER_ID),
                 'approved_time' => date('Y-m-d H:i:s'),
             ],$registrationId);
@@ -500,6 +500,7 @@ class Registration extends CI_Controller {
         // Update status of the registration to approved.
         $result = $this->RegistrationModel->updateRegistration((object)[
             'is_email_confirmed' => 1,
+            'status' => REGISTRATION_STATUS_APPROVED,
             'confirmed_time' => date('Y-m-d H:i:s'),
         ],$registrationId);
         if($result == ERROR_CODE){
