@@ -15,6 +15,7 @@ class Activity_test extends TestCase{
         $CI->load->helper("file");
         delete_files($path, true);
         mkdir($path."/1");
+        write_file($path.'/.gitkeep', '');
     }
     
     public function setUp(){        
