@@ -11,6 +11,7 @@
                 <?php if(isset($error_message)): ?>
                     <div class="alert alert-danger" role="alert">
                         <?php echo $error_message; ?>
+                        <?php return; ?>
                     </div>
                 <?php endif; ?>
                 <?php if($this->session->userdata(SESS_USER_ROLE)== USER_ROLE_ADMIN ||

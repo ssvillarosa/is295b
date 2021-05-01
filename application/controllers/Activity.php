@@ -44,7 +44,7 @@ class Activity extends CI_Controller {
             return;
         }
         $pipeline = $this->PipelineModel->getPipelineById($pipelineId);
-        if($pipeline === ERROR_CODE){
+        if($pipeline === ERROR_CODE || !count($pipeline)){
             $data["error_message"] = "Error occured.";
             renderPage($this,$data,'activity/activityList');
             return;

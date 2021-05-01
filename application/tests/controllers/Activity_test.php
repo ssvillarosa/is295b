@@ -11,12 +11,10 @@ class Activity_test extends TestCase{
         $CI->seeder->call('PipelineSeeder');
         $CI->seeder->call('ActivitySeeder');
         // Delete all attachments.
-        $path=UPLOAD_DIRECTORY."/1";
+        $path=UPLOAD_DIRECTORY;
         $CI->load->helper("file");
         delete_files($path, true);
-        if(!is_dir($path)){
-           mkdir($path);
-        }
+        mkdir($path."/1");
     }
     
     public function setUp(){        
