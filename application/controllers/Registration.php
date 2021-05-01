@@ -434,7 +434,11 @@ class Registration extends CI_Controller {
         // Get registration object.
         $registration = $this->RegistrationModel->getRegistrationById($registrationId);
         if($registration === ERROR_CODE){
-            echo "Error occured.";
+            return ERROR_CODE;
+        }
+        // Check if email already exist in the applicant table.
+        $a = $this->ApplicantModel->getApplicantByEmail($registration->email);
+        if($a === ERROR_CODE || count($a)){
             return ERROR_CODE;
         }
         // Create applicant object out of registration object.
@@ -472,7 +476,6 @@ class Registration extends CI_Controller {
         $this->email->message('Welcom to M2MJ HR Consulting. Please click <a href="'.
                 site_url('registration/confirmEmail').'?id='.$encryptedId
                 .'">here</a> to confirm your email.');
-        // encrypt here
         $this->email->set_mailtype("html");
         // Send email except in test env.
         if(ENVIRONMENT!=="testing"){
@@ -503,7 +506,7 @@ class Registration extends CI_Controller {
             echo 'Error occured.';
             return;
         }
-        $this->insertRegistrationToApplicant($registrationId);
+        $result = $this->insertRegistrationToApplicant($registrationId);
         if($result == ERROR_CODE){
             echo 'Error occured.';
             return;
