@@ -248,8 +248,7 @@ class Applicant_test extends TestCase{
         // Confirm registration.
         $confirmationPage = $this->request(
             'GET',
-            'registration/confirmEmail?id=e051d9dd7def75ca3c1e9672129d580c84cc29c3b56c3f2f32cc677a4ae02e2f82029add19fb2bf80b247b74dd5d458b3daf9bbdbd8c3ebce623d15c00804395whRmyaPpjEThPtE15O4ciDr8nQoy9RDwtrJKZvRuCHc='
-        );
+            'registration/confirmEmail?id=b53f96679e3c47c2830c9fe87c4682f7d8234323cb696974eb204b4344a086ba357c300313a3c07a27bfefcbf1fb1ef0d0b5630de93b4fb06b98c056bddd3a97tkk0UwLpUBSB17h8779VBg2fwHE7I57sHvPA1LHB9ds=');
         $this->assertContains('Your email has been confirmed.', $confirmationPage);
     }
 }
