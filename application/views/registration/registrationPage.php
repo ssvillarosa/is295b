@@ -49,12 +49,12 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="password" class="form-label required">Password</label>
-                                <input type="password" value="<?php echo $registration->password; ?>" class="form-control form-control-sm" id="password" name="password" maxLength="255" required>
+                                <input type="password" value="<?php echo html_escape($registration->password); ?>" class="form-control form-control-sm" id="password" name="password" maxLength="255" required>
                                 <?php echo form_error('password','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-1">
                                 <label for="confirm_password" class="form-label required" required>Confirm Password</label>
-                                <input type="password" value="<?php echo $registration->confirm_password; ?>" class="form-control form-control-sm" id="confirm_password" name="confirm_password" maxLength="255" required>
+                                <input type="password" value="<?php echo html_escape($registration->confirm_password); ?>" class="form-control form-control-sm" id="confirm_password" name="confirm_password" maxLength="255" required>
                                 <?php echo form_error('confirm_password','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>

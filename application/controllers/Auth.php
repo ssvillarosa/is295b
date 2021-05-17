@@ -34,7 +34,7 @@ class Auth extends CI_Controller {
             $password = $this->input->post('password');
             if(!$this->isLoginValid($username,$password)) return;
             // Get the referrer parameter.
-            $loginReferrer = $this->input->post('referrer');
+            $loginReferrer = html_escape($this->input->post('referrer'));
             // Redirect to referrer URL.
             if($loginReferrer){
                 redirect($loginReferrer);
@@ -137,7 +137,7 @@ class Auth extends CI_Controller {
         // On the first load, referrer url will be read from GET request.
         // Referrer value will be embedded into hidden field.
         // This will include the referrer url to a form for POST request.
-        $referrer = $this->input->get_post('referrer');
+        $referrer = html_escape($this->input->get_post('referrer'));
         $data = array();
         if($error_message){
             $data["error_message"]=$error_message;
@@ -145,8 +145,8 @@ class Auth extends CI_Controller {
         if($referrer){
             $data["login_referrer"]=$referrer;
         }
-        $data["username"] = $this->input->get_post('username');
-        $data["password"] = $this->input->get_post('password');
+        $data["username"] = html_escape($this->input->get_post('username'));
+        $data["password"] = html_escape($this->input->get_post('password'));
         $this->load->view('auth/login',$data);
         $this->load->view('common/footer');
     }
