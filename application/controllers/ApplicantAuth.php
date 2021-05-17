@@ -41,7 +41,7 @@ class ApplicantAuth extends CI_Controller {
                 return;              
             }
             // Otherwise, redirect to homepage.
-            redirect('applicant_dashboard/jobs');
+            redirect('applicant_dashboard/recommendations');
         }
     }
     
