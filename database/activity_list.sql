@@ -10,5 +10,5 @@ SELECT
     a.activity_type,
     a.activity
 FROM activity a
-JOIN user u
+LEFT JOIN user u
     ON a.updated_by = u.id;

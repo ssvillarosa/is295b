@@ -16,7 +16,6 @@ class Pipeline extends CI_Controller {
     */
     function __construct() {
         parent::__construct();
-        checkUserLogin();
         $this->load->model('PipelineModel');
         $this->load->model('JobOrderUserModel');
         $this->load->model('UserModel');
@@ -27,6 +26,7 @@ class Pipeline extends CI_Controller {
     * List of pipelines grouped by job order designed for full page of pipeline module.
     */
     public function applicantPipelinePage(){
+        checkUserLogin();
         $job_order_id = $this->input->get("job_order_id");
         $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
         $data['job_order_id'] = $job_order_id;
@@ -39,6 +39,7 @@ class Pipeline extends CI_Controller {
     * List of pipelines grouped by job order designed for ajax request.
     */
     public function applicantPipelineTable(){
+        checkUserLogin();
         $job_order_id = $this->input->get("job_order_id");
         // Set pagination details.
         $rowsPerPage = getRowsPerPage($this,COOKIE_PIPELINE_AJAX_ROWS_PER_PAGE);
@@ -78,6 +79,7 @@ class Pipeline extends CI_Controller {
     * List of pipelines grouped by job order designed for full page of pipeline module.
     */
     public function jobOrderPipelinePage(){
+        checkUserLogin();
         $applicant_id = $this->input->get("applicant_id");
         $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE);
         $data['applicant_id'] = $applicant_id;
@@ -90,6 +92,7 @@ class Pipeline extends CI_Controller {
     * List of pipelines grouped by job order designed for ajax request.
     */
     public function jobOrderPipelineTable(){
+        checkUserLogin();
         $applicant_id = $this->input->get("applicant_id");
         // Set pagination details.
         $rowsPerPage = getRowsPerPage($this,COOKIE_JOB_ORDER_PIPELINE_AJAX_ROWS_PER_PAGE);
@@ -120,6 +123,7 @@ class Pipeline extends CI_Controller {
     * Add pipeline entry.
     */
     public function add(){
+        checkUserLogin();
         $job_order_id = $this->input->post('job_order_id');
         if(!$job_order_id){
             echo 'Invalid Job Order';
@@ -207,6 +211,7 @@ class Pipeline extends CI_Controller {
     * Delete pipeline.
     */
     public function delete(){
+        checkUserLogin();
         if(!$this->input->post('delPipelineIds')){
             echo 'Invalid Pipeline ID';
             return;

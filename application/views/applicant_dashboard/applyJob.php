@@ -48,7 +48,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <?php echo form_open('pipeline/add','id="form_submit_application"'); ?>
+            <?php echo form_open('pipeline/applicantSubmitAjax','id="form_submit_application"'); ?>
                 <input type="hidden" value="1" name="job_order_id" id="job_order_id">
                 <div class="form-row mb-2">
                     <label for="job_function" class="form-label" required>Message</label>
