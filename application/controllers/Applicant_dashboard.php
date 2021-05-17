@@ -20,6 +20,7 @@ class Applicant_dashboard extends CI_Controller {
         $this->load->model('CompanyModel');
         $this->load->model('PipelineModel');
         $this->load->model('JobOrderSkillModel');
+        $this->load->model('ApplicantModel');
     }
     
     /**
@@ -33,7 +34,51 @@ class Applicant_dashboard extends CI_Controller {
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
         $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
-        $result = $this->JobOrderModel->getJobOrders($rowsPerPage,$data['offset']);        
+        $result = $this->JobOrderModel->getJobOrders($rowsPerPage,$data['offset'],'id','desc');
+        if($result === ERROR_CODE){
+            $data["error_message"] = "Error occured.";        
+        }
+        $data['job_orders'] = $result;
+        renderApplicantPage($this,$data,'applicant_dashboard/jobsPage');
+    }
+    
+     /**
+    * Shows recommended jobs for the signed in applicant.
+    */
+    public function recommendations(){
+        checkApplicantLogin();
+        $data = [];
+        $rowsPerPage = getRowsPerPage($this,COOKIE_APPLICANT_JOB_ORDER_ROWS_PER_PAGE);
+        $totalCount = $this->JobOrderModel->getJobOrderCount();
+        // Current page is set to 1 if currentPage is not in URL.
+        $currentPage = $this->input->get('currentPage') 
+                ? $this->input->get('currentPage') : 1;
+        $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        // Get skills of the current applicant.
+        $applicantId = $this->session->userdata(SESS_APPLICANT_ID);
+        $applicant_skills = $this->ApplicantModel->getApplicantSkill($applicantId);
+        if($applicant_skills === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'applicant/detailsView');
+            return;
+        }
+        $skill_ids = [];
+        foreach ($applicant_skills as $applicant_skill){
+          array_push($skill_ids,$applicant_skill->skill_id);
+        }
+        $data["applicant_skills"] = $applicant_skills;
+        // Get job orders IDs with the applicant's skills.
+        $jos = $this->JobOrderModel->getJobOrdersBySkills($skill_ids,$rowsPerPage,$data['offset'],'id','desc');
+        if($jos === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+        }
+        $ids = [];
+        foreach ($jos as $jo){
+          array_push($ids,$jo->job_order_id);
+        }
+        $jo_ids = array_unique($ids);
+        // Get the actual job orders.
+        $result = $this->JobOrderModel->getJobOrdersByIds($jo_ids,$rowsPerPage,$data['offset'],'id','desc');
         if($result === ERROR_CODE){
             $data["error_message"] = "Error occured.";        
         }

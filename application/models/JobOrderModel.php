@@ -54,6 +54,41 @@ Class JobOrderModel extends CI_Model{
     }
     
     /**
+    * Returns job order objects if jobOrderId exist in the database.
+    *
+    * @param    int     $jobOrderIds
+    * @return   job order object array
+    */
+    public function getJobOrdersByIds($jobOrderIds,$limit=25,$offset=0,$orderBy='id',$order='asc'){
+        $this->db->where_in('id', $jobOrderIds);
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $query = $this->db->get('job_order_list',$limit,$offset);
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
+    
+    /**
+    * Returns job order objects if jobOrderId exist in the database.
+    *
+    * @param    int     $jobOrderIds
+    * @return   job order object array
+    */
+    public function getJobOrdersBySkills($skillIds,$limit=25,$offset=0,$orderBy='id',$order='asc'){
+        $this->db->where_in('skill_id', $skillIds);
+        $query = $this->db->get('job_order_skill',$limit,$offset);
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
+    
+    /**
     * Returns job order object per user.
     *
     * @param    int     $userId

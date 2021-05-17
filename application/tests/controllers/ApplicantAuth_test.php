@@ -22,7 +22,7 @@ class ApplicantAuth_test extends TestCase{
         );
         
         // Check if admin successfully logged in.
-        $this->assertRedirect('applicant_dashboard/jobs', 302);
+        $this->assertRedirect('applicant_dashboard/recommendations', 302);
     }
     
     public function test_invalidLoginCred(){
@@ -84,7 +84,7 @@ class ApplicantAuth_test extends TestCase{
                 'password' => 'hello',
             ]
         );
-        $this->assertRedirect('applicant_dashboard/jobs', 302);
+        $this->assertRedirect('applicant_dashboard/recommendations', 302);
         $this->request('GET','applicantAuth/logout');
         $this->assertRedirect(base_url(), 302);
     }

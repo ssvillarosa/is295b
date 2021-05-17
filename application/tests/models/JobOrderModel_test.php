@@ -38,10 +38,26 @@ class JobOrderModel_seedtest extends UnitTestCase {
             2 => 'Business Analyst',
             3 => 'Quality Assurance',
         ];
-        $company = $this->obj->getJobOrderById($id);
-        $this->assertNotEquals($company,ERROR_CODE);
-        $this->assertNotEmpty($company);
-        $this->assertEquals($expected[$id], $company->title);
+        $job_order = $this->obj->getJobOrderById($id);
+        $this->assertNotEquals($job_order,ERROR_CODE);
+        $this->assertNotEmpty($job_order);
+        $this->assertEquals($expected[$id], $job_order->title);
+    }
+    
+    public function test_getJobOrdersByIds(){
+        $ids = [1,2,3];
+        $job_orders = $this->obj->getJobOrdersByIds($ids);
+        $this->assertNotEquals($job_orders,ERROR_CODE);
+        $this->assertNotEmpty($job_orders);
+        $this->assertEquals(3,count($job_orders));
+    }
+    
+    public function test_getJobOrdersBySkills(){
+        $skillIds = [1];
+        $job_orders = $this->obj->getJobOrdersByIds($skillIds);
+        $this->assertNotEquals($job_orders,ERROR_CODE);
+        $this->assertNotEmpty($job_orders);
+        $this->assertEquals(1,count($job_orders));
     }
     
     public function test_addJobOrder(){
