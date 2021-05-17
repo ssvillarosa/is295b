@@ -332,7 +332,7 @@ if(!function_exists('generateTextForFilters')){
             $textFilter = "$field $condition ".$param->value;
             array_push($textFilters, $textFilter);   
         }
-        return $textFilters;
+        return html_escape($textFilters);
     }
 }
 
@@ -352,7 +352,7 @@ if(!function_exists('getRowsPerPage')){
                     COOKIE_EXPIRATION);
             $rowsPerPage = $ctx->input->get('rowsPerPage');
         }
-        return $rowsPerPage;
+        return html_escape($rowsPerPage);
     }
 }
 

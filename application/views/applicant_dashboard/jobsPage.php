@@ -6,13 +6,13 @@
                     <div class="form-row my-2">
                         <label for="title">Title</label>
                         <input type="text" class="form-control" 
-                               value="<?php if(isset($title)) echo $title; ?>" 
+                               value="<?php if(isset($title)) echo html_escape($title); ?>" 
                                id="title" name="title" placeholder="Title">
                     </div>
                     <div class="form-row my-2">
                         <label for="title">Company</label>
                         <input type="text" class="form-control" 
-                               value="<?php if(isset($company)) echo $company; ?>"
+                               value="<?php if(isset($company)) echo html_escape($company); ?>"
                                id="company" name="company" placeholder="Company">
                     </div>
                     <div class="form-row my-2">
@@ -21,12 +21,12 @@
                     <div class="form-row my-2">
                         <div class="col">
                             <input type="text" class="form-control" 
-                                   value="<?php if(isset($min_salary)) echo $min_salary; ?>"
+                                   value="<?php if(isset($min_salary)) echo html_escape($min_salary); ?>"
                                    id="min-salary" name="min_salary" placeholder="Min. Salary">
                         </div>
                         <div class="col">
                             <input type="text" class="form-control" 
-                                   value="<?php if(isset($max_salary)) echo $max_salary; ?>"
+                                   value="<?php if(isset($max_salary)) echo html_escape($max_salary); ?>"
                                    id="max-salary" name="max_salary" placeholder="Max. Salary">
                         </div>
                     </div>
@@ -47,7 +47,7 @@
                     <div class="form-row my-2">
                         <label for="title">Location</label>
                         <input type="text" class="form-control" 
-                               value="<?php if(isset($location)) echo $location; ?>"
+                               value="<?php if(isset($location)) echo html_escape($location); ?>"
                                id="location" name="location" placeholder="Location">
                     </div>
                     <div class="form-row mt-3 mb-2">
