@@ -42,7 +42,7 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="email" class="form-label required">Email</label>
-                                <input type="email" value="<?php echo $registration->email; ?>" class="form-control form-control-sm" id="email" name="email" maxLength="255" required>
+                                <input type="email" value="<?php echo html_escape($registration->email); ?>" class="form-control form-control-sm" id="email" name="email" maxLength="255" required>
                                 <?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -62,19 +62,19 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="last_name" class="form-label required">Last Name</label>
-                                <input type="text" value="<?php echo $registration->last_name; ?>" class="form-control form-control-sm" id="last_name" name="last_name" maxLength="255" required>
+                                <input type="text" value="<?php echo html_escape($registration->last_name); ?>" class="form-control form-control-sm" id="last_name" name="last_name" maxLength="255" required>
                                 <?php echo form_error('last_name','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-1">
                                 <label for="first_name" class="form-label required">First Name</label>
-                                <input type="text" value="<?php echo $registration->first_name; ?>" class="form-control form-control-sm" id="first_name" name="first_name" maxLength="255" required>
+                                <input type="text" value="<?php echo html_escape($registration->first_name); ?>" class="form-control form-control-sm" id="first_name" name="first_name" maxLength="255" required>
                                 <?php echo form_error('first_name','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label">Birthday</label>
-                                <input type="date" value="<?php echo $registration->birthday; ?>" class="form-control form-control-sm" id="birthday" name="birthday" maxLength="50">
+                                <input type="date" value="<?php echo html_escape($registration->birthday); ?>" class="form-control form-control-sm" id="birthday" name="birthday" maxLength="50">
                                 <?php echo form_error('birthday','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -92,31 +92,31 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="primary_phone" class="form-label required">Primary Phone</label>
-                                <input type="text" value="<?php echo $registration->primary_phone; ?>" class="form-control form-control-sm" id="primary_phone" name="primary_phone" maxLength="255" required>
+                                <input type="text" value="<?php echo html_escape($registration->primary_phone); ?>" class="form-control form-control-sm" id="primary_phone" name="primary_phone" maxLength="255" required>
                                 <?php echo form_error('primary_phone','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-1">
                                 <label for="best_time_to_call" class="form-label">Best Time to Call</label>
-                                <input type="text" value="<?php echo $registration->best_time_to_call; ?>" class="form-control form-control-sm" id="best_time_to_call" name="best_time_to_call" maxLength="255">
+                                <input type="text" value="<?php echo html_escape($registration->best_time_to_call); ?>" class="form-control form-control-sm" id="best_time_to_call" name="best_time_to_call" maxLength="255">
                                 <?php echo form_error('best_time_to_call','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="secondary_phone" class="form-label">Secondary Phone</label>
-                                <input type="text" value="<?php echo $registration->secondary_phone; ?>" class="form-control form-control-sm" id="secondary_phone" name="secondary_phone" maxLength="255">
+                                <input type="text" value="<?php echo html_escape($registration->secondary_phone); ?>" class="form-control form-control-sm" id="secondary_phone" name="secondary_phone" maxLength="255">
                                 <?php echo form_error('secondary_phone','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-1">
                                 <label for="work_phone" class="form-label">Work Phone</label>
-                                <input type="text" value="<?php echo $registration->work_phone; ?>" class="form-control form-control-sm" id="work_phone" name="work_phone" maxLength="255">
+                                <input type="text" value="<?php echo html_escape($registration->work_phone); ?>" class="form-control form-control-sm" id="work_phone" name="work_phone" maxLength="255">
                                 <?php echo form_error('work_phone','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-1">
                                 <label for="address" class="form-label required">Address</label>
-                                <input type="text" value="<?php echo $registration->address; ?>" class="form-control form-control-sm" id="address" name="address" maxLength="255" required>
+                                <input type="text" value="<?php echo html_escape($registration->address); ?>" class="form-control form-control-sm" id="address" name="address" maxLength="255" required>
                                 <?php echo form_error('address','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="custom-control custom-checkbox mr-sm-2  mb-2">
@@ -130,24 +130,24 @@
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="current_employer" class="form-label">Current Employer</label>
-                                <input type="text" value="<?php echo $registration->current_employer; ?>" class="form-control form-control-sm" id="current_employer" name="current_employer" maxLength="255">
+                                <input type="text" value="<?php echo html_escape($registration->current_employer); ?>" class="form-control form-control-sm" id="current_employer" name="current_employer" maxLength="255">
                                 <?php echo form_error('current_employer','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-1">
                                 <label for="source" class="form-label">Source</label>
-                                <input type="text" value="<?php echo $registration->source; ?>" class="form-control form-control-sm" id="source" name="source" maxLength="255">
+                                <input type="text" value="<?php echo html_escape($registration->source); ?>" class="form-control form-control-sm" id="source" name="source" maxLength="255">
                                 <?php echo form_error('source','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6 mb-1">
                                 <label for="current_pay" class="form-label">Current Pay</label>
-                                <input type="number" value="<?php echo $registration->current_pay; ?>" class="form-control form-control-sm" id="current_pay" name="current_pay" maxLength="255">
+                                <input type="number" value="<?php echo html_escape($registration->current_pay); ?>" class="form-control form-control-sm" id="current_pay" name="current_pay" maxLength="255">
                                 <?php echo form_error('current_pay','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="col-md-6 mb-1">
                                 <label for="desired_pay" class="form-label">Desired Pay</label>
-                                <input type="number" value="<?php echo $registration->desired_pay; ?>" class="form-control form-control-sm" id="desired_pay" name="desired_pay" maxLength="255">
+                                <input type="number" value="<?php echo html_escape($registration->desired_pay); ?>" class="form-control form-control-sm" id="desired_pay" name="desired_pay" maxLength="255">
                                 <?php echo form_error('desired_pay','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -172,28 +172,28 @@
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
                                 <label for="objectives" class="form-label">Objectives</label>
-                                <textarea class="form-control form-control-sm" id="objectives" name="objectives" rows="3"><?php echo $registration->objectives; ?></textarea>
+                                <textarea class="form-control form-control-sm" id="objectives" name="objectives" rows="3"><?php echo html_escape($registration->objectives); ?></textarea>
                                 <?php echo form_error('objectives','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
                                 <label for="objectives" class="form-label">Educational Background</label>
-                                <textarea class="form-control form-control-sm" id="educational_background" name="educational_background" rows="3"><?php echo $registration->educational_background; ?></textarea>
+                                <textarea class="form-control form-control-sm" id="educational_background" name="educational_background" rows="3"><?php echo html_escape($registration->educational_background); ?></textarea>
                                 <?php echo form_error('educational_background','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
                                 <label for="objectives" class="form-label">Professional Experience</label>
-                                <textarea class="form-control form-control-sm" id="professional_experience" name="professional_experience" rows="3"><?php echo $registration->professional_experience; ?></textarea>
+                                <textarea class="form-control form-control-sm" id="professional_experience" name="professional_experience" rows="3"><?php echo html_escape($registration->professional_experience); ?></textarea>
                                 <?php echo form_error('professional_experience','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
                                 <label for="objectives" class="form-label">Seminars and Trainings</label>
-                                <textarea class="form-control form-control-sm" id="seminars_and_trainings" name="seminars_and_trainings" rows="3"><?php echo $registration->seminars_and_trainings; ?></textarea>
+                                <textarea class="form-control form-control-sm" id="seminars_and_trainings" name="seminars_and_trainings" rows="3"><?php echo html_escape($registration->seminars_and_trainings); ?></textarea>
                                 <?php echo form_error('seminars_and_trainings','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
