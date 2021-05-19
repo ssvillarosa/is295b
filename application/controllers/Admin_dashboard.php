@@ -109,7 +109,7 @@ class Admin_dashboard extends CI_Controller {
         $userId = $this->session->userdata(SESS_USER_ID);
         $where = array(
             'event_time >= ' => date('Y-m-d H:i:s'),
-            'created_by_user_id' => $userId,
+            'assigned_to' => $userId,
             'is_public !=' => 1);
         $data = $this->getEventsFuction($where);
         $this->load->view('admin_dashboard/events',$data);

@@ -45,6 +45,7 @@ class EventModel_seedtest extends UnitTestCase {
     public function test_addEvent(){
         $event = (object)[
             'title' => 'Event 4',
+            'assigned_to' => 1,
             'event_time' => '2021-04-06 21:29:00',
             'description' => 'Event 4 description',
             'is_public' => 0,

@@ -169,6 +169,7 @@ class Activity_test extends TestCase{
                 'pipelineId' => 1,
                 'check_event' => 'on',
                 'event_title' => 'Test add event',
+                'event_assigned_to' => 1,
                 'is_public' => 'on',
                 'event_time' => '2021-04-06 21:29:00',
                 'event_description' => 'Test add event description.',
