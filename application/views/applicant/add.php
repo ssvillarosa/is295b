@@ -37,6 +37,15 @@
                         <?php return; ?>
                     <?php endif; ?>
                     <?php echo form_open('applicant/add','id="addApplicantForm"'); ?>
+                        <?php if(isset($confirm_message)): ?>
+                            <div class="alert alert-warning" role="alert">
+                                <?php echo $confirm_message; ?>
+                                <input type="hidden" value="1" id="confirmed" name="confirmed">
+                                <br/>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                                <a href="<?php echo site_url('applicant/applicantList') ?>" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        <?php endif; ?>
                         <input type="hidden" value="1" id="status" name="status">
                         <h5 class="mb-1 section-head">Personal Information: </h5>
                         <div class="form-row">

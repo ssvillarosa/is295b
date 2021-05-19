@@ -61,6 +61,22 @@ class ApplicantModel_seedtest extends UnitTestCase {
         $this->assertEquals("Villarosa", $applicant->last_name);
     }
     
+    public function test_getApplicantByFullName(){
+        $first_name = "Steven";
+        $last_name = "Villarosa";
+        $applicant = $this->obj->getApplicantByFullName($first_name,$last_name);
+        $this->assertNotEquals($applicant,ERROR_CODE);
+        $this->assertNotEmpty($applicant);
+        $this->assertEquals($first_name, $applicant->first_name);
+        $this->assertEquals($last_name, $applicant->last_name);
+        
+        $first_name2 = "Hiro";
+        $last_name2 = "Shima";
+        $applicant2 = $this->obj->getApplicantByFullName($first_name2,$last_name2);
+        $this->assertNotEquals($applicant2,ERROR_CODE);
+        $this->assertEmpty($applicant2);
+    }
+    
     public function test_addApplicant(){
         $applicant = (object)[
             'last_name' => 'New',

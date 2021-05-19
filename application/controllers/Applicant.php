@@ -155,6 +155,16 @@ class Applicant extends CI_Controller {
             renderPage($this,$data,'applicant/add');
             return;
         }
+        // Check if applicant already exist in the database.
+        $confirmed = $this->input->post("confirmed");
+        $a = $this->ApplicantModel->getApplicantByFullName
+                ($applicant->first_name, $applicant->last_name);
+        if($a && !$confirmed){
+            $data["confirm_message"] = "Applicant with the same name already exist in the database. Are you sure you want to save?";
+            renderPage($this,$data,'applicant/add');
+            return;
+        }
+        
         // Add applicant details.
         $newApplicantId = $this->ApplicantModel->addApplicant($applicant);
         if($newApplicantId === ERROR_CODE){
