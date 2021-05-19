@@ -72,6 +72,25 @@ Class ApplicantModel extends CI_Model{
     }
     
     /**
+    * Returns applicant object if first name and last name exist in the database.
+    *
+    * @param    string     $email
+    * @return   applicant object
+    */
+    public function getApplicantByFullName($first_name,$last_name){
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $this->db->where("first_name", trim($first_name));
+        $this->db->where("last_name", trim($last_name));
+        $query = $this->db->get("applicant");
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->row();
+    }
+    
+    /**
     * Increments failed_login count.
     *
     * @param    int     $applicantId

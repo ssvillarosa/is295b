@@ -235,6 +235,22 @@
                             <label for="event_title" class="form-label col-md-3">Title</label>
                             <input class="form-control" id="event_title" name="event_title">
                         </div>
+                        <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                            <div class="form-row mb-2">
+                                <label for="event_assigned_to" class="form-label col-md-3">Assign to:</label>
+                                <select name="event_assigned_to" id="event_assigned_to" class="custom-select">
+                                    <option value="">Select User</option>
+                                    <?php foreach($users as $user): ?>
+                                        <?php if($user->id == $pipeline->assigned_to 
+                                                || $user->id == $this->session->userdata(SESS_USER_ID)): ?>
+                                            <option value="<?php echo $user->id; ?>">
+                                                <?php echo $user->name; ?>
+                                            </option>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        <?php endif; ?>
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox" name="is_public" id="is_public">
                             <label class="form-check-label" for="is_public">Public Event</label>

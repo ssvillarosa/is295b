@@ -69,9 +69,8 @@
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $job_order->title; ?></h5>
                         <h6 class="card-subtitle mb-2">
-                            <?php echo $job_order->company; ?>
                             <?php if($job_order->location) :?>
-                                <span class="text-muted"> - <?php echo $job_order->location; ?></span>
+                                <?php echo $job_order->location; ?>
                             <?php endif; ?>
                         </h6>
                         <p>

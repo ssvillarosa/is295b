@@ -14,6 +14,7 @@ class EventSeeder extends Seeder {
             [
                 'id' => 1,
                 'title' => 'Event 1',
+                'assigned_to' => 1,
                 'event_time' => '2022-04-05 21:27:00',
                 'description' => 'Event 1 description',
                 'is_public' => 0,
@@ -22,6 +23,7 @@ class EventSeeder extends Seeder {
             ],[
                 'id' => 2,
                 'title' => 'Event 2',
+                'assigned_to' => 1,
                 'event_time' => '2022-04-05 21:28:00',
                 'description' => 'Event 2 description',
                 'is_public' => 1,
@@ -30,6 +32,7 @@ class EventSeeder extends Seeder {
             ],[
                 'id' => 3,
                 'title' => 'Event 3',
+                'assigned_to' => 1,
                 'event_time' => '2022-04-05 21:29:00',
                 'description' => 'Event 3 description',
                 'is_public' => 0,

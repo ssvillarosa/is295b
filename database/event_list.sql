@@ -3,6 +3,7 @@ CREATE VIEW event_list AS
 SELECT
     e.id,
     e.title,
+    e.assigned_to,
     e.description,
     e.is_public,
     a.timestamp,

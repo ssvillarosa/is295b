@@ -333,14 +333,23 @@ class Activity extends CI_Controller {
         $isPublic = $this->input->post("is_public") ? 1 : 0;
         $event_time = $this->input->post("event_time");
         $description = $this->input->post("event_description");
+        $assignedTo  = $this->session->userdata(SESS_USER_ID);
         if(!$title || !$event_time || !$description){
             return ERROR_CODE;
         }
+        if($this->session->userdata(SESS_USER_ROLE) == USER_ROLE_ADMIN){
+           $assignedTo = $this->input->post("event_assigned_to");
+            if(!$assignedTo){
+                return ERROR_CODE;
+            }
+        }
+        $assignedUser = $this->UserModel->getUserById($assignedTo);
         $event_details = "Event Details: ";
         $event_details .= "\n Title: ".$title;
         $event_details .= $isPublic? "(Public)" : "";
         $event_details .= "\n Date/Time: ".date_format(date_create($event_time),"M j, Y g:i:s a");
         $event_details .= "\n Description: ".$description;
+        $event_details .= "\n Assigned To: ".$assignedUser->name;
         // Add activity.
         $activity = (object)[
             'timestamp' => $timestamp,
@@ -356,6 +365,7 @@ class Activity extends CI_Controller {
         // Add event.
         $event = (object)[
             'title' => $title,
+            'assigned_to' => $assignedTo,
             'event_time' => $event_time,
             'description' => $description,
             'is_public' => $isPublic,
