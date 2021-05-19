@@ -177,7 +177,8 @@ class Applicant extends CI_Controller {
         $empty_applicant = $this->createApplicantObject(false);
         $data["applicant"] = $empty_applicant;
         $data["applicant_skills"] = [];
-        $data["success_message"] = "Candidate successfully added!";
+        $data["success_message"] = "Candidate successfully added! <a href=".
+                site_url('applicant/view')."?id=".$newApplicantId.">Go to Details</a>";
         renderPage($this,$data,'applicant/add');
         // Log user activity.
         $this->UserLogModel->saveUserLog(
