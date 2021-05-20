@@ -258,6 +258,11 @@ body {
 #header #logo {
     text-align: left;
     display: inline-block;
+    background-image: url('../images/logo.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 50px;
+    width: 150px;
 }
 
 #header #logo h1{
@@ -413,14 +418,14 @@ body {
         margin-bottom: 1em;
     }
 
-    #login-header #logo h1 a {
-        display: block;
-        letter-spacing: 1px;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-size: 1.2em;
-        font-weight: 900;
-        color: #323338;
+    #login-header #logo {
+        margin-top: 10px;
+        display: inline-block;
+        background-image: url(../images/logo.png);
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 80px;
+        width: 240px;
     }
 
     #login-header #logo span {

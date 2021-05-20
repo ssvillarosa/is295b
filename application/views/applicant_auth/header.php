@@ -15,10 +15,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="container"> 
 					
 					<!-- Logo -->
-					<div id="logo">
-						<h1><a href="<?php echo base_url(); ?>">M2MJ</a></h1>
-						<span>Human Resources Consulting</span>
-					</div>
+                                        <a href="<?php echo base_url(); ?>">
+                                            <div id="logo"></div>
+                                        </a>
 				</div>
 			</div>
 			<!-- /Header -->

@@ -15,10 +15,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div id="header">
         <div class="container d-flex justify-content-between bd-highlight mb-3"> 
             <!-- Logo -->
-            <div id="logo">
-                <h1><a href="<?php echo base_url(); ?>">M2MJ</a></h1>
-                    <span>Human Resources Consulting</span>
-            </div>
+            <a href="<?php echo base_url(); ?>">
+                <div id="logo"></div>
+            </a>
 
             <?php if($this->session->has_userdata(SESS_IS_APPLICANT_LOGGED_IN)) : ?>
                 <div class="usr-icon" onclick="$('#user_profile_dropdown').toggle();">
