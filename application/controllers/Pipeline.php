@@ -164,7 +164,7 @@ class Pipeline extends CI_Controller {
                 return;
             }
         }
-        $pipeline->status = PIPELINE_STATUS_UNSET;
+        $pipeline->status = 1;
         $pipeline->created_by = $this->session->userdata(SESS_USER_ID);
         $pipeline->rating = 0;
         // Check if candidate is already added to pipeline.
@@ -252,7 +252,7 @@ class Pipeline extends CI_Controller {
         $pipeline = (object)[
             'job_order_id' => $job_order_id,
             'applicant_id' => $applicant_id,
-            'status' => PIPELINE_STATUS_UNSET,
+            'status' => 1,
             'rating' => 0,
         ];
         // Check if candidate is already added to pipeline.

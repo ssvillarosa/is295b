@@ -20,21 +20,21 @@ class PipelineModel_seedtest extends UnitTestCase {
                 'id' => '1',
                 'job_order_id' => '1',
                 'applicant_id' => '1',
-                'status' => PIPELINE_STATUS_SOURCED_TEXT,
+                'status' => 'Call back',
                 'assigned_to' => '1',
                 'rating' => '5',
             ],(object)[
                 'id' => '2',
                 'job_order_id' => '1',
                 'applicant_id' => '2',
-                'status' => PIPELINE_STATUS_FOR_SCREENING_TEXT,
+                'status' => 'For screening',
                 'assigned_to' => '1',
                 'rating' => '4',
             ],(object)[
                 'id' => '3',
                 'job_order_id' => '1',
                 'applicant_id' => '3',
-                'status' => PIPELINE_STATUS_AWAITING_CV_TEXT,
+                'status' => 'Awaiting CV',
                 'assigned_to' => '1',
                 'rating' => '3',
             ]
@@ -58,7 +58,7 @@ class PipelineModel_seedtest extends UnitTestCase {
             'id' => '1',
             'job_order_id' => '1',
             'applicant_id' => '1',
-            'status' => PIPELINE_STATUS_SOURCED_TEXT,
+            'status' => 'Call back',
             'assigned_to' => '1',
             'rating' => '5',
             'created_by' => '1',
@@ -82,7 +82,7 @@ class PipelineModel_seedtest extends UnitTestCase {
         $pipeline = (object)[
             'job_order_id' => 2,
             'applicant_id' => 2,
-            'status' => PIPELINE_STATUS_SOURCED,
+            'status' => 2,
             'assigned_to' => 1,
             'rating' => 5,
             'created_by' => 1,
@@ -94,7 +94,7 @@ class PipelineModel_seedtest extends UnitTestCase {
         $this->assertNotNull($newPipeline);
         $this->assertEquals($newPipeline->job_order_id, $pipeline->job_order_id);
         $this->assertEquals($newPipeline->applicant_id, $pipeline->applicant_id);
-        $this->assertEquals($newPipeline->status, PIPELINE_STATUS_SOURCED_TEXT);
+        $this->assertEquals($newPipeline->status, 'Call back');
         $this->assertEquals($newPipeline->assigned_to, $pipeline->assigned_to);
         $this->assertEquals($newPipeline->rating, $pipeline->rating);
     }
@@ -103,7 +103,7 @@ class PipelineModel_seedtest extends UnitTestCase {
         $pipeline = (object)[
             'job_order_id' => 2,
             'applicant_id' => 1,
-            'status' => PIPELINE_STATUS_SOURCED,
+            'status' => 2,
             'assigned_to' => 1,
             'rating' => 5,
         ];
@@ -114,7 +114,7 @@ class PipelineModel_seedtest extends UnitTestCase {
         $updatedPipeline1 = $this->obj->getPipelineById(2);
         $this->assertEquals($updatedPipeline1->job_order_id,$pipeline->job_order_id); 
         $this->assertEquals($updatedPipeline1->applicant_id,$pipeline->applicant_id); 
-        $this->assertEquals($updatedPipeline1->status,PIPELINE_STATUS_SOURCED_TEXT); 
+        $this->assertEquals($updatedPipeline1->status,'Call back'); 
         $this->assertEquals($updatedPipeline1->assigned_to,$pipeline->assigned_to); 
         $this->assertEquals($updatedPipeline1->rating,$pipeline->rating);   
     }
@@ -166,7 +166,7 @@ class PipelineModel_seedtest extends UnitTestCase {
         $pipeline = (object)[
             'job_order_id' => 2,
             'applicant_id' => 1,
-            'status' => PIPELINE_STATUS_SOURCED,
+            'status' => 2,
             'rating' => 5,
             'created_by' => 1,
             'is_deleted' => 0,

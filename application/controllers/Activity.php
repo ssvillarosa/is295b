@@ -37,6 +37,13 @@ class Activity extends CI_Controller {
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
         $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
+        $pipeline_statuses = $this->PipelineModel->getPipelineStatuses();
+        if($pipeline_statuses === ERROR_CODE){
+            $data["error_message"] = "Error occured.";
+            renderPage($this,$data,'activity/activityList');
+            return;
+        }
+        $data['pipeline_statuses'] = $pipeline_statuses;
         // Get pipeline details.
         if(!$pipelineId){
             $data["error_message"] = "Error occured.";
@@ -239,6 +246,10 @@ class Activity extends CI_Controller {
         if($result === ERROR_CODE){
             return ERROR_CODE;
         }
+        $pipeline_statuses = $this->PipelineModel->getPipelineStatuses();
+        if($pipeline_statuses === ERROR_CODE){
+            return ERROR_CODE;
+        }
         // Add activity.
         $activity = (object)[
             'timestamp' => $timestamp,
@@ -246,7 +257,7 @@ class Activity extends CI_Controller {
             'updated_by' => $this->session->userdata(SESS_USER_ID),
             'activity_type' => ACTIVITY_TYPE_STATUS_UPDATE,
             'activity' => 'Change status from '.$pipeline->status.' to '.
-            getPipelineStatusDictionary($newStatus).'.',
+            getPipelineStatusDictionary($newStatus,$pipeline_statuses).'.',
         ];
         return $this->ActivityModel->addActivity($activity);
     }
