@@ -34,6 +34,26 @@ Class JobOrderModel extends CI_Model{
         }
         return $query->result();
     }
+
+    /**
+    * Returns job order objects.
+    *
+    * @param    int     $limit  Limit count
+    * @param    int     $offset Offset value
+    * @return   array of job order objects
+    */
+    public function getJobOrdersByStatus($status,$limit=25,$offset=0,$orderBy='id',$order='asc'){
+        $this->db->order_by($orderBy,$order);
+        $this->db->where_in("status", $status);
+        $this->db->where("is_deleted !=", IS_DELETED_TRUE);
+        $query = $this->db->get('job_order_list',$limit,$offset);
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
     
     /**
     * Returns job order object if jobOrderId exist in the database.
