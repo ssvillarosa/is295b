@@ -142,12 +142,12 @@
                     <div id="status_div">
                         <select name="status" id="status" class="custom-select">
                             <option value="">Select Status</option>
-                            <?php foreach(unserialize(PIPELINE_STATUSES) as $status): ?>
-                                <?php if($pipeline->status == $status['text']): ?>
+                            <?php foreach($pipeline_statuses as $ps): ?>
+                                <?php if($pipeline->status_id == $ps->id): ?>
                                     <?php continue; ?>
                                 <?php endif; ?>
-                                <option value="<?php echo $status['value']; ?>">
-                                    <?php echo $status['text']; ?>
+                                <option value="<?php echo $ps->id; ?>">
+                                    <?php echo $ps->status; ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>

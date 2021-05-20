@@ -16,10 +16,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<div class="container d-flex justify-content-between bd-highlight mb-3"> 
 					
 					<!-- Logo -->
-					<div id="logo">
-						<h1><a href="#">M2MJ</a></h1>
-						<span>Human Resources Consulting</span>
-					</div>
+                                        <a href="<?php echo base_url(); ?>">
+                                            <div id="logo"></div>
+                                        </a>
                         
                                         <div class="usr-icon" onclick="$('#user_profile_dropdown').toggle();">
                                             <a class="btn btn-secondary dropdown-toggle btn-sm" href="#">

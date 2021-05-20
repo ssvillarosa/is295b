@@ -282,4 +282,23 @@ Class PipelineModel extends CI_Model{
         $count = $this->db->count_all_results();
         return $count;
     }
+
+    /**
+    * Returns pipeline status objects.
+    *
+    * @param    string     $orderBy order by column value
+    * @param    string     $order   order value
+    * @return   array of pipeline status objects
+    */
+    public function getPipelineStatuses($orderBy='status',$order='asc'){
+        $this->db->order_by($orderBy,$order);
+        $this->db->where("is_deleted!=", 1);
+        $query = $this->db->get('pipeline_status');   
+        if(!$query){
+            logArray('error',$this->db->error());
+            log_message('error', "Query : ".$this->db->last_query());
+            return ERROR_CODE;
+        }
+        return $query->result();
+    }
 }

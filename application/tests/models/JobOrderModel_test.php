@@ -52,6 +52,13 @@ class JobOrderModel_seedtest extends UnitTestCase {
         $this->assertEquals(3,count($job_orders));
     }
     
+    public function test_getJobOrdersByStatus(){
+        $job_orders = $this->obj->getJobOrdersByStatus([JOB_ORDER_STATUS_OPEN_TEXT]);
+        $this->assertNotEquals($job_orders,ERROR_CODE);
+        $this->assertNotEmpty($job_orders);
+        $this->assertEquals(JOB_ORDER_STATUS_OPEN_TEXT,$job_orders[0]->status);
+    }
+    
     public function test_getJobOrdersBySkills(){
         $skillIds = [1];
         $job_orders = $this->obj->getJobOrdersByIds($skillIds);

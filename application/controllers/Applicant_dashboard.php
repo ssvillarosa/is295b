@@ -34,7 +34,9 @@ class Applicant_dashboard extends CI_Controller {
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
         $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
-        $result = $this->JobOrderModel->getJobOrders($rowsPerPage,$data['offset'],'id','desc');
+        $result = $this->JobOrderModel->getJobOrdersByStatus(
+                [JOB_ORDER_STATUS_OPEN_TEXT],
+                $rowsPerPage,$data['offset'],'id','desc');
         if($result === ERROR_CODE){
             $data["error_message"] = "Error occured.";        
         }

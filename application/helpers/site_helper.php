@@ -113,13 +113,14 @@ if(!function_exists('getPipelineStatusDictionary')){
     /**
     * Returns the equivalent text of a pipeline status.
      * 
-    * @param    int     $status   Status integer.
+    * @param    int                         $status     Status integer.
+    * @param    array of pipelinestatus     $statuses   Statuses.
     * @return   string
     */
-    function getPipelineStatusDictionary($status){
-        foreach(unserialize(PIPELINE_STATUSES) as $pipeline_status){
-            if(strval($pipeline_status['value']) === strval($status)){
-                return $pipeline_status['text'];
+    function getPipelineStatusDictionary($status,$statuses){
+        foreach($statuses as $pipeline_status){
+            if($pipeline_status->id === $status){
+                return $pipeline_status->status;
             }
         }
         return "UNKNOWN";

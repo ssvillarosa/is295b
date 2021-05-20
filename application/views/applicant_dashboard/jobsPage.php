@@ -10,12 +10,6 @@
                                id="title" name="title" placeholder="Title">
                     </div>
                     <div class="form-row my-2">
-                        <label for="title">Company</label>
-                        <input type="text" class="form-control" 
-                               value="<?php if(isset($company)) echo html_escape($company); ?>"
-                               id="company" name="company" placeholder="Company">
-                    </div>
-                    <div class="form-row my-2">
                         <label>Salary</label>
                     </div>
                     <div class="form-row my-2">
@@ -77,9 +71,9 @@
                             Php <?php echo $job_order->min_salary.'- Php '.$job_order->max_salary; ?>
                         </p>
                         <p class="card-text">
-                            <?php echo strlen($job_order->job_function) > 300 ? 
-                                substr($job_order->job_function,0,300)."..." : 
-                                $job_order->job_function; ?>
+                            <?php echo strlen($job_order->requirement) > 300 ? 
+                                substr($job_order->requirement,0,300)."..." : 
+                                $job_order->requirement; ?>
                         </p>
                         <div class="d-flex justify-content-end">
                             <a href="<?php echo site_url('applicant_dashboard/viewJob').'?id='.$job_order->id; ?>" 
