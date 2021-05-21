@@ -19,9 +19,8 @@
                                 </h5>
                                 <h5><?php echo $applied_job->title; ?></h5>
                                 <h6 class="card-subtitle mb-2">
-                                    <p class="mb-2"><?php echo $applied_job->company_name; ?></p>
                                     <?php if($applied_job->location) :?>
-                                        <p><?php echo $applied_job->location; ?></p>
+                                        <?php echo $applied_job->location; ?>
                                     <?php endif; ?>
                                 </h6>
                                 <div class="mt-auto">

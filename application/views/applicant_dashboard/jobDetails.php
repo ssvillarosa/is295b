@@ -15,13 +15,8 @@
                 </div>
                 <div class="form-row">
                     <h6>
-                        <?php foreach($companies as $company){
-                            if($company->id === $job_order->company_id){
-                                echo $company->name;
-                            }
-                        }?>
                         <?php if($job_order->location) :?>
-                            <span class="text-muted"> - <?php echo $job_order->location; ?></span>
+                            <?php echo $job_order->location; ?>
                         <?php endif; ?>
                     </h6>
                 </div>
