@@ -24,7 +24,6 @@ class ApplicantDashboard_test extends TestCase{
     public function test_viewJob(){
         $output = $this->request('GET','applicant_dashboard/viewJob?id=1');
         $this->assertContains('Software Developer', $output);
-        $this->assertContains('BBS', $output);
         $this->assertContains('BGC', $output);
         $this->assertContains('Regular', $output);
     }
@@ -37,6 +36,5 @@ class ApplicantDashboard_test extends TestCase{
     public function test_myApplications(){
         $output = $this->request('GET','applicant_dashboard/myApplications');
         $this->assertContains('Software Developer', $output);
-        $this->assertContains('BBS', $output);
     }
 }
