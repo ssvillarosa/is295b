@@ -12,11 +12,11 @@
                 isValid = true;
             }
             if($("#value_first_name").val()){
-                url += "&condition_first_name=SW&value_first_name="+$("#value_first_name").val();
+                url += "&condition_first_name=C&value_first_name="+$("#value_first_name").val();
                 isValid = true;
             }
             if($("#value_last_name").val()){
-                url += "&condition_last_name=SW&value_last_name="+$("#value_last_name").val();
+                url += "&condition_last_name=C&value_last_name="+$("#value_last_name").val();
                 isValid = true;
             }
             if($("#value_skills").val()){

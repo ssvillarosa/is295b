@@ -12,7 +12,7 @@
                 isValid = true;
             }
             if($("#value_title").val()){
-                url += "&condition_title=SW&value_title="+$("#value_title").val();
+                url += "&condition_title=C&value_title="+$("#value_title").val();
                 isValid = true;
             }
             if($("#value_skills").val()){
