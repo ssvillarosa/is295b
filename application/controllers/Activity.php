@@ -91,6 +91,7 @@ class Activity extends CI_Controller {
                 return;
             }
         }
+        date_default_timezone_set('Asia/Manila');
         $timestamp = date('Y-m-d H:i:s');
         // Perform update rating.
         if($this->input->post('check_rating')){
