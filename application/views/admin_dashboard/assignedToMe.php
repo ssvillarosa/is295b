@@ -1,10 +1,3 @@
-<script>    
-    // Redirect to details view.
-    function viewPipelineDetails(id){
-        window.location.href = '<?php echo site_url('activity/activityListByPipeline') ?>?pipelineId='+id;
-    }
-</script>
-
 <div class="col-md-9">
     <?php if(isset($error_message)): ?>
         <div class="alert alert-danger" role="alert">
@@ -30,20 +23,20 @@
             <tbody>
                 <?php foreach ($user_pipelines as $user_pipeline): ?>
                     <tr id="user_pipeline-<?php echo $user_pipeline->id; ?>" class="user_pipeline-row-item">
-                        <td class="text-left" onclick="viewPipelineDetails(<?php echo $user_pipeline->id; ?>)">
+                        <td class="text-left" onclick="viewPipeline(<?php echo $user_pipeline->id; ?>)">
                             <a href="<?php echo site_url('applicant/view').'?id='.$user_pipeline->applicant_id; ?>">
                                 <?php echo $user_pipeline->first_name." ".$user_pipeline->last_name; ?>
                             </a>
                         </td>
-                        <td class="text-left" onclick="viewPipelineDetails(<?php echo $user_pipeline->id; ?>)">
+                        <td class="text-left" onclick="viewPipeline(<?php echo $user_pipeline->id; ?>)">
                             <a href="<?php echo site_url('job_order/view').'?id='.$user_pipeline->job_order_id; ?>">
                                 <?php echo $user_pipeline->title; ?>
                             </a>
                         </td>
-                        <td class="text-center" onclick="viewPipelineDetails(<?php echo $user_pipeline->id; ?>)">
+                        <td class="text-center" onclick="viewPipeline(<?php echo $user_pipeline->id; ?>)">
                             <?php echo $user_pipeline->status; ?>
                         </td>
-                        <td class="text-center" onclick="viewPipelineDetails(<?php echo $user_pipeline->id; ?>)">
+                        <td class="text-center" onclick="viewPipeline(<?php echo $user_pipeline->id; ?>)">
                             <?php for($ctr=0;$ctr<MAX_RATING;$ctr++) {
                                 if(intval($user_pipeline->rating) > $ctr){
                                     echo "<img class='star-rating yellow-star' src='".base_url()."images/yellow-star.svg'>";

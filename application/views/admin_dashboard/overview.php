@@ -136,6 +136,10 @@
         var dateTime = date + 'T' + time;
         $('#event_dialog #event_time').val(dateTime);
     }
+    
+    function viewPipeline(id){
+        window.location.href = '<?php echo site_url('activity/activityListByPipeline') ?>?pipelineId='+id;
+    }
 </script>
 <div id="admin-dashboard-page" class="admin-dashboard-page">
     <div class="container">
