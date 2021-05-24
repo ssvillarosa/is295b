@@ -44,7 +44,7 @@ class Skill extends CI_Controller {
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
         $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
-        $result = $this->SkillModel->getSkills($rowsPerPage,$data['offset']);        
+        $result = $this->SkillModel->getSkills($rowsPerPage,$data['offset'],"category_name,name","asc");        
         if($result === ERROR_CODE){
             $data["error_message"] = "Error occured.";        
         }

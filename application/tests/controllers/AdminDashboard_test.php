@@ -11,6 +11,7 @@ class AdminDashboard_test extends TestCase{
         $CI->seeder->call('JobOrderSeeder');
         $CI->seeder->call('ApplicantSeeder');
         $CI->seeder->call('PipelineSeeder');
+        $CI->seeder->call('EventSeeder');
     }
     
     public function setUp(){        
@@ -72,7 +73,6 @@ class AdminDashboard_test extends TestCase{
     
     public function test_getEvents(){
         $output = $this->request('GET','admin_dashboard/getEvents');
-        $this->assertContains('Event 1', $output);
         $this->assertContains('Event 3', $output);
     }
     

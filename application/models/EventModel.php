@@ -52,7 +52,7 @@ Class EventModel extends CI_Model{
     */
     public function getEventById($eventId){
         $this->db->where("id", $eventId);
-        $query = $this->db->get("event");
+        $query = $this->db->get("event_list");
         if(!$query){
             logArray('error',$this->db->error());
             log_message('error', "Query : ".$this->db->last_query());

@@ -662,3 +662,8 @@ body {
     #jobs_details_page .job-function{
         white-space: pre-wrap;
     }
+    
+    /* Events dashboard */
+    #event_dialog .m2mj-modal-content {
+        width: 500px;
+    }

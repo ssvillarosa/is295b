@@ -17,7 +17,7 @@
                 <?php if($this->session->userdata(SESS_USER_ROLE)== USER_ROLE_ADMIN ||
                         $this->session->userdata(SESS_USER_ID) == $pipeline->assigned_to): ?>
                     <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-danger mb-3" onclick="$('#delete_dialog').fadeIn();">Delete</button>
+                        <button type="button" class="btn btn-danger mb-3" onclick="$('#delete_dialog').fadeIn();">Delete this pipeline</button>
                     </div>
                 <?php endif; ?>
                 <div class="table_toolbar">

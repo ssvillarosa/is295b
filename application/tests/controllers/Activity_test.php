@@ -218,4 +218,44 @@ class Activity_test extends TestCase{
         );
         $this->assertContains('test.docx', $page);
     }
+    
+    public function test_updateEvent(){
+        $dateTime = '2021-05-24 10:23:00';
+        $dateTimeText = date_format(date_create($dateTime),"M j, Y g:i:s a");
+        $result = $this->request(
+            'POST',
+            'activity/updateEvent',
+            [
+                'eventId' => 1,
+                'event_title' => 'Test update event',
+                'event_assigned_to' => 1,
+                'public' => '1',
+                'event_time' => '2021-05-24 10:23:00',
+                'event_description' => 'Test update event description.',
+            ]
+        );
+        $this->assertContains('Success', $result);
+        
+        $page = $this->request(
+            'GET',
+            'activity/activityListByPipeline',
+            [
+                'pipelineId' => 1,
+            ]
+        );
+        $this->assertContains('Test update event(Public)', $page);
+        $this->assertContains('Test update event description', $page);
+        $this->assertContains($dateTimeText, $page);
+    }
+    
+    public function test_deleteEvent(){
+        $result = $this->request(
+            'POST',
+            'activity/deleteEvent',
+            [
+                'eventId' => 1,
+            ]
+        );
+        $this->assertContains('Success', $result);
+    }
 }
