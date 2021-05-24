@@ -1,6 +1,6 @@
 <script>
     function viewPipelineDetails(){
-        let id = $("#eventId").val();
+        let id = $("#pipelineId").val();
         window.location.href = '<?php echo site_url('activity/activityListByPipeline') ?>?pipelineId='+id;
     }
     
@@ -58,6 +58,7 @@
     <div class="m2mj-modal-content">
         <?php echo form_open('event/update','id="form_event_dialog"'); ?>     
             <input type="hidden" id="eventId" name="eventId">
+            <input type="hidden" id="pipelineId" name="pipelineId">
             <div class="modal-body">
                 <div class="form-row mb-2">
                     <label for="event_title" class="form-label col-md-3">Title</label>

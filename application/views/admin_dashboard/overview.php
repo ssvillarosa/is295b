@@ -123,9 +123,9 @@
     }
     
     function viewEventDetails(plObj){
-        console.log(plObj);
         $('#event_dialog').fadeIn();
         $('#event_dialog #eventId').val(plObj.id);
+        $('#event_dialog #pipelineId').val(plObj.pipeline_id);
         $('#event_dialog #event_title').val(plObj.title);
         $('#event_dialog #public').prop("checked", plObj.is_public === "1" ? true:false );
         $('#event_dialog #event_description').val(plObj.description);
