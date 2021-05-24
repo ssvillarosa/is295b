@@ -388,6 +388,104 @@ class Activity extends CI_Controller {
     }
     
     /**
+    * Update event.
+    */
+    public function updateEvent(){
+        checkUserLogin();
+        $event_id = $this->input->post("eventId");
+        $title = $this->input->post("event_title");
+        $isPublic = $this->input->post("public") ? 1 : 0;
+        $event_time = $this->input->post("event_time");
+        $description = $this->input->post("event_description");
+        if(!$event_id || !$title || !$event_time || !$description){
+            echo "Error occured";
+            return;
+        }
+        $old_event = $this->EventModel->getEventById($event_id);
+        $event_details = "Previous Event Details: ";
+        $event_details .= "\n Title: ".$old_event->title;
+        $event_details .= $old_event->is_public? "(Public)" : "";
+        $event_details .= "\n Date/Time: ".date_format(date_create($old_event->event_time),"M j, Y g:i:s a");
+        $event_details .= "\n Description: ".$old_event->description;
+        $event_details .= "\n\nUpdated Event Details: ";
+        $event_details .= "\n Title: ".$title;
+        $event_details .= $isPublic? "(Public)" : "";
+        $event_details .= "\n Date/Time: ".date_format(date_create($event_time),"M j, Y g:i:s a");
+        $event_details .= "\n Description: ".$description;
+        // Update activity.
+        date_default_timezone_set('Asia/Manila');
+        $timestamp = date('Y-m-d H:i:s');
+        $activity = (object)[
+            'timestamp' => $timestamp,
+            'pipeline_id' => $old_event->pipeline_id,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_TYPE_SCHEDULE_EVENTS,
+            'activity' => $event_details,
+        ];
+        $activityId = $this->ActivityModel->addActivity($activity);
+        if($activityId === ERROR_CODE){
+            echo "Error occured";
+            return;
+        }
+        // Update event.
+        $event = (object)[
+            'title' => $title,
+            'event_time' => $event_time,
+            'description' => $description,
+            'is_public' => $isPublic,
+        ];
+        $result = $this->EventModel->updateEvent($event, $event_id);
+        if($result === ERROR_CODE){
+            echo "Error occured";
+            return;
+        }
+        echo "Success";
+    }
+    
+    /**
+    * Update event.
+    */
+    public function deleteEvent(){
+        checkUserLogin();
+        $event_id = $this->input->post("eventId");
+        if(!$event_id){
+            echo "Error occured";
+            return;
+        }
+        $old_event = $this->EventModel->getEventById($event_id);
+        $event_details = "Deleted Event Details: ";
+        $event_details .= "\n Title: ".$old_event->title;
+        $event_details .= $old_event->is_public? "(Public)" : "";
+        $event_details .= "\n Date/Time: ".date_format(date_create($old_event->event_time),"M j, Y g:i:s a");
+        $event_details .= "\n Description: ".$old_event->description;
+        // Update activity.
+        date_default_timezone_set('Asia/Manila');
+        $timestamp = date('Y-m-d H:i:s');
+        $activity = (object)[
+            'timestamp' => $timestamp,
+            'pipeline_id' => $old_event->pipeline_id,
+            'updated_by' => $this->session->userdata(SESS_USER_ID),
+            'activity_type' => ACTIVITY_TYPE_SCHEDULE_EVENTS,
+            'activity' => $event_details,
+        ];
+        $activityId = $this->ActivityModel->addActivity($activity);
+        if($activityId === ERROR_CODE){
+            echo "Error occured";
+            return;
+        }
+        // Update event.
+        $event = (object)[
+            'is_deleted' => IS_DELETED_TRUE,
+        ];
+        $result = $this->EventModel->updateEvent($event, $event_id);
+        if($result === ERROR_CODE){
+            echo "Error occured";
+            return;
+        }
+        echo "Success";
+    }
+    
+    /**
     * Uploads a file attachment.
     * 
     * @param    string              $timestamp      String represenstation of current time stamp.

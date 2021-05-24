@@ -121,6 +121,21 @@
             $(this).next(".table-responsive").next(".table_footer").slideToggle();
         });
     }
+    
+    function viewEventDetails(plObj){
+        console.log(plObj);
+        $('#event_dialog').fadeIn();
+        $('#event_dialog #eventId').val(plObj.id);
+        $('#event_dialog #event_title').val(plObj.title);
+        $('#event_dialog #public').prop("checked", plObj.is_public === "1" ? true:false );
+        $('#event_dialog #event_description').val(plObj.description);
+        var today = new Date(plObj.event_time);
+        var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1))
+                .slice(-2) + '-' + ("0" + (today.getDate())).slice(-2);
+        var time = today.getHours() + ":" + today.getMinutes();
+        var dateTime = date + 'T' + time;
+        $('#event_dialog #event_time').val(dateTime);
+    }
 </script>
 <div id="admin-dashboard-page" class="admin-dashboard-page">
     <div class="container">

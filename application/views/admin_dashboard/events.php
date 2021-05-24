@@ -1,10 +1,3 @@
-<script>    
-    // Redirect to details view.
-    function viewPipelineDetails(id){
-        window.location.href = '<?php echo site_url('activity/activityListByPipeline') ?>?pipelineId='+id;
-    }
-</script>
-
 <div class="col-md-9">
     <?php if(isset($error_message)): ?>
         <div class="alert alert-danger" role="alert">
@@ -30,18 +23,18 @@
             <tbody>
                 <?php foreach ($events as $event): ?>
                     <tr id="event-<?php echo $event->id; ?>" class="event-row-item">
-                        <td class="text-left" onclick="viewPipelineDetails(<?php echo $event->pipeline_id; ?>)">
+                        <td class="text-left" onclick='viewEventDetails(<?php echo json_encode($event) ?>)'>
                             <?php echo $event->event_time; ?>
                         </td>
-                        <td class="text-left" onclick="viewPipelineDetails(<?php echo $event->pipeline_id; ?>)">
+                        <td class="text-left" onclick='viewEventDetails(<?php echo json_encode($event) ?>)'>
                             <?php echo $event->title; ?>
                         </td>
-                        <td class="text-left" onclick="viewPipelineDetails(<?php echo $event->pipeline_id; ?>)">
+                        <td class="text-left" onclick='viewEventDetails(<?php echo json_encode($event) ?>)'>
                             <?php echo strlen($event->description) > 75 ? 
                                 substr($event->description,0,75)."..." : 
                                 $event->description; ?>
                         </td>
-                        <td class="text-center" onclick="viewPipelineDetails(<?php echo $event->pipeline_id; ?>)">
+                        <td class="text-center" onclick='viewEventDetails(<?php echo json_encode($event) ?>)'>
                             <?php echo $event->created_by_user_name; ?>
                         </td>
                     </tr>
@@ -69,3 +62,5 @@
         </div>
     </div>
 </div>
+
+<?php $this->view('admin_dashboard/eventsDialog'); ?>

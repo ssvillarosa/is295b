@@ -25,7 +25,7 @@
         <?php echo form_open('pipeline/delete','id="form_delete_pipeline"'); ?>     
             <input type="hidden" value="<?php echo $pipeline->id; ?>" id="delPipelineIds" name="delPipelineIds">
             <div class="modal-body">
-                <strong class="modal-text">Are you sure you want to delete?</strong>
+                <strong class="modal-text">Are you sure you want to remove this candidate to job order?</strong>
             </div>
             <div class="modal-footer p-2">
               <button type="button" class="btn btn-secondary m2mj-dialog-close">Close</button>
