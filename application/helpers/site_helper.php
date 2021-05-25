@@ -357,6 +357,26 @@ if(!function_exists('getRowsPerPage')){
     }
 }
 
+if(!function_exists('getJobOrderListFilter')){
+    /**
+    * Returns the value of job order list filter.
+    * 
+    * @return   int value
+    */
+    function getJobOrderListFilter($ctx,$module){        
+        // Default filter is false
+        $assignedToMe = $ctx->input->cookie($module)?
+                $ctx->input->cookie($module) : "false";
+        // If user changes filter, store it into cookie
+        if($ctx->input->get('assignedToMe')){
+            set_cookie($module, $ctx->input->get('assignedToMe'),
+                    COOKIE_EXPIRATION);
+            $assignedToMe = $ctx->input->get('assignedToMe');
+        }
+        return $assignedToMe === "true" ? true: false;
+    }
+}
+
 if(!function_exists('getOrderBy')){
     /**
     * Returns the value of order by.
