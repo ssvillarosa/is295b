@@ -3,6 +3,15 @@
     function viewJobOrder(id){
         window.location.href = '<?php echo site_url('job_order/view') ?>?id='+id;
     }
+    $(document).ready(function(){
+        $("#display_assigned_to_me").change(function(){
+            if($(this).is(':checked')){
+                window.location.href = '<?php echo site_url('job_order/jobOrderList') ?>?assignedToMe=true';
+                return;
+            }
+            window.location.href = '<?php echo site_url('job_order/jobOrderList') ?>?assignedToMe=false';
+        });
+    });
 </script>
 <div id="job_order-page" class="job_order-page">
     <div class="container">
@@ -13,12 +22,19 @@
                         <?php echo $error_message; ?>
                     </div>
                 <?php endif; ?>
-                <div class="table_toolbar">
-                    <a href="<?php echo site_url('job_order/add') ?>" class="btn btn-primary">New</a>
-                    <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
-                        <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
-                    <?php endif; ?>
-                    <a href="<?php echo site_url('job_order/search') ?>" class="btn btn-success">Search</a>
+                <div class="table_toolbar d-flex justify-content-between">
+                    <div>
+                        <a href="<?php echo site_url('job_order/add') ?>" class="btn btn-primary">New</a>
+                        <?php if($this->session->userdata(SESS_USER_ROLE)==USER_ROLE_ADMIN): ?>
+                            <button onclick="showDeleteDialog()" class="btn btn-secondary">Delete</button>
+                        <?php endif; ?>
+                        <a href="<?php echo site_url('job_order/search') ?>" class="btn btn-success">Search</a>
+                    </div>
+                    <div>
+                        <input class="form-check-input" type="checkbox" name="display_assigned_to_me" id="display_assigned_to_me"
+                               <?php echo $assignedToMe ? "checked":"" ?>>
+                        <label class="form-check-label" for="display_assigned_to_me">Display only assigned to me</label>
+                    </div>
                 </div>
                 <div class="table-responsive job_order-table">
                     <table class="table table-hover" id="job_order_table">

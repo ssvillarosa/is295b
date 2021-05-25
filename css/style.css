@@ -505,6 +505,12 @@ body {
         padding: 20px;
         border-radius: 5px;
     }
+    
+    /* Job order list*/
+    #job_order-page .table_toolbar{
+        align-items: center;
+        color: white;
+    }
         
     /* Job order details page */
     .pill-button{

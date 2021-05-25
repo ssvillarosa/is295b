@@ -36,11 +36,32 @@ class Job_order extends CI_Controller {
         $currentPage = $this->input->get('currentPage') 
                 ? $this->input->get('currentPage') : 1;
         $data = setPaginationData($totalCount,$rowsPerPage,$currentPage);
-        $result = $this->JobOrderModel->getJobOrders($rowsPerPage,$data['offset']);        
-        if($result === ERROR_CODE){
-            $data["error_message"] = "Error occured.";        
+        $data['assignedToMe'] = getJobOrderListFilter($this,COOKIE_JOB_ORDER_ASSIGNED_TO_ME);
+        if(!$data['assignedToMe']){            
+            $result = $this->JobOrderModel->getJobOrders($rowsPerPage,
+                    $data['offset'],'id','desc');         
+            if($result === ERROR_CODE){
+                $data["error_message"] = "Error occured.";        
+            }
+            $data['job_orders'] = $result;
+        }else{
+            // Get job orders only by logged in user.
+            $userId = $this->session->userdata(SESS_USER_ID);
+            $res = $this->JobOrderModel->getJobOrderByUserId($userId);        
+            if($res === ERROR_CODE){
+                $data["error_message"] = "Error occured.";        
+            }
+            $joIds = [];
+            foreach ($res as $jo){
+                array_push($joIds, $jo->id);
+            }
+            $result = $this->JobOrderModel->getJobOrdersByIds($joIds,
+                    $rowsPerPage,$data['offset'],'id','desc');        
+            if($result === ERROR_CODE){
+                $data["error_message"] = "Error occured.";        
+            }
+            $data['job_orders'] = $result;
         }
-        $data['job_orders'] = $result;
         $data['current_uri'] = 'job_order/jobOrderList';
         renderPage($this,$data,'job_order/jobOrderList');
     }

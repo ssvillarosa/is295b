@@ -165,6 +165,7 @@ define('COOKIE_COMPANY_SEARCH_ROWS_PER_PAGE','company_search_rows_per_page');
 define('COOKIE_SKILL_ROWS_PER_PAGE','skill_rows_per_page');
 define('COOKIE_SKILL_SEARCH_ROWS_PER_PAGE','skill_search_rows_per_page');
 define('COOKIE_JOB_ORDER_ROWS_PER_PAGE','job_order_rows_per_page');
+define('COOKIE_JOB_ORDER_ASSIGNED_TO_ME','job_order_assigned_to_me');
 define('COOKIE_JOB_ORDER_SEARCH_ROWS_PER_PAGE','job_order_search_rows_per_page');
 define('COOKIE_JOB_ORDER_AJAX_ROWS_PER_PAGE','job_order_ajax_rows_per_page');
 define('COOKIE_APPLICANT_ROWS_PER_PAGE','applicant_rows_per_page');
