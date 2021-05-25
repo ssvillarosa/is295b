@@ -55,12 +55,16 @@ class Job_order extends CI_Controller {
             foreach ($res as $jo){
                 array_push($joIds, $jo->id);
             }
-            $result = $this->JobOrderModel->getJobOrdersByIds($joIds,
-                    $rowsPerPage,$data['offset'],'id','desc');        
-            if($result === ERROR_CODE){
-                $data["error_message"] = "Error occured.";        
+            if(count($joIds)){
+                $result = $this->JobOrderModel->getJobOrdersByIds($joIds,
+                        $rowsPerPage,$data['offset'],'id','desc');        
+                if($result === ERROR_CODE){
+                    $data["error_message"] = "Error occured.";        
+                }
+                $data['job_orders'] = $result;
+            }else{
+                $data['job_orders'] = [];
             }
-            $data['job_orders'] = $result;
         }
         $data['current_uri'] = 'job_order/jobOrderList';
         renderPage($this,$data,'job_order/jobOrderList');
