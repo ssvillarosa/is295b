@@ -29,9 +29,9 @@
                         <?php createSelectionFilter('Status',
                                 array(
                                     ''=>'Select Status',
-                                    JOB_ORDER_STATUS_OPEN =>JOB_ORDER_STATUS_OPEN_TEXT,
-                                    JOB_ORDER_STATUS_ON_HOLD =>JOB_ORDER_STATUS_ON_HOLD_TEXT,
-                                    JOB_ORDER_STATUS_CLOSED => JOB_ORDER_STATUS_CLOSED_TEXT,
+                                    JOB_ORDER_STATUS_OPEN_TEXT =>JOB_ORDER_STATUS_OPEN_TEXT,
+                                    JOB_ORDER_STATUS_ON_HOLD_TEXT =>JOB_ORDER_STATUS_ON_HOLD_TEXT,
+                                    JOB_ORDER_STATUS_CLOSED_TEXT => JOB_ORDER_STATUS_CLOSED_TEXT,
                                     )); ?>
                         <?php createSelectionFilter('Employment Type',
                                 array(
